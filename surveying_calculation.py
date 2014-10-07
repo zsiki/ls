@@ -37,7 +37,7 @@ class SurveyingCalculation(object):
         try:
             wcb = math.atan2(p2.e - p1.e, p2.n - p1.n)
             while wcb < 0:
-                wcb = wcb + PI2
+                wcb = wcb + 2.0 * math.pi
         except TypeError:
             wcb = None
         return Angle(wcb)

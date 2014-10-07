@@ -8,8 +8,6 @@
 
 import math
 RO = 180 * 60 * 60 / math.pi
-PI = 4 * math.atan(1)
-PI2 = 2 * PI
 
 class Angle(object):
     """
