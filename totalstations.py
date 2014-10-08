@@ -78,8 +78,7 @@ class LeicaGsi(TotalStation):
             :param ch: character to trim
             :return left trimmed string
         """
-        while s[0] == ch:
-            s = s[1:]
+        s = re.sub('^' + ch + '+', '', s)
         if len(s) == 0:
             s = ch
         return s
@@ -159,10 +158,10 @@ class LeicaGsi(TotalStation):
                 pass
             elif item_code == '42':
                 # station number TODO
-                pass
+                res['station_id'] = self.trim_left(val[7:], '0')
             elif item_code == '43':
                 # station height TODO
-                pass
+                res['ih'] = self.convert(float(self.trim_left(val[7:], '0')), 0)
             elif item_code == '71':
                 # code (first remark)
                 res['code'] = self.trim_left(val[7:], '0')
@@ -196,7 +195,7 @@ if __name__ == "__main__":
     """
         unit test
     """
-    ts = LeicaGsi('proba.gsi', ' ')
+    ts = LeicaGsi('file03.gsi', ' ')
     ts.open()
     while True:
         r = ts.parse_next()
