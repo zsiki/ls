@@ -57,6 +57,18 @@ class TotalStation(object):
             return None
         return self.separator.split(buf.strip('\n'))
 
+    def trim_left(self, s, ch):
+        """
+            strip left part of a string
+            :param s: string to legt trim
+            :param ch: character to trim
+            :return left trimmed string
+        """
+        s = re.sub('^' + ch + '+', '', s)
+        if len(s) == 0:
+            s = ch
+        return s
+
     def parse(self):
         """
             parse one line of input, implemented in chold classes
@@ -70,18 +82,6 @@ class LeicaGsi(TotalStation):
     
     def __init__(self, fname, separator=' '):
         super(LeicaGsi, self).__init__(fname, separator)
-
-    def trim_left(self, s, ch):
-        """
-            strip left part of a string
-            :param s: string to legt trim
-            :param ch: character to trim
-            :return left trimmed string
-        """
-        s = re.sub('^' + ch + '+', '', s)
-        if len(s) == 0:
-            s = ch
-        return s
 
     def convert(self, val, unit):
         """
@@ -105,7 +105,7 @@ class LeicaGsi(TotalStation):
             res = Angle(val / 10000.0, 'DEG').get_angle('RAD')
         elif unit == 4:
             # DMS
-            res = Angle(val / 10000.0, 'PDEG').get_angle('RAD')
+            res = Angle(val / 100000.0, 'PDEG').get_angle('RAD')
         elif unit == 5:
             # mil
             res = val / 6400.0 * math.pi * 2
@@ -157,10 +157,10 @@ class LeicaGsi(TotalStation):
                 # new station TODO
                 pass
             elif item_code == '42':
-                # station number TODO
+                # station number
                 res['station_id'] = self.trim_left(val[7:], '0')
             elif item_code == '43':
-                # station height TODO
+                # station height
                 res['ih'] = self.convert(float(self.trim_left(val[7:], '0')), 0)
             elif item_code == '71':
                 # code (first remark)
@@ -191,15 +191,95 @@ class LeicaGsi(TotalStation):
                 res['ih'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
         return res
 
+class JobAre(TotalStation):
+    """
+        Class to import JOB/ARE data from file
+    """
+
+    def __init__(self, fname, separator='='):
+        super(JobAre, self).__init__(fname, separator)
+        self.angle_unit = 'PDEG'
+        self.distance_unit = 'm'
+
+    def parse_next(self):
+        """
+            parse single line from input
+        """
+        if self.fp is None:
+            return None
+        res = {}
+        buf = self.get_line()
+        if buf is None:
+            return None
+        if len(buf) < 2:
+            return {}
+        item_code = buf[0].strip()
+        if item_code == '2':
+            # station point id
+            res['station_id'] = buf[1].strip()
+        elif item_code == '3':
+            # instrument height
+            res['ih'] = float(buf[1].strip())
+        elif item_code == '4':
+            # point code
+            res['code'] = buf[1].strip()
+        elif item_code == '5' or item_code == '62':
+            # target point id
+            res['point_id'] = buf[1].strip()
+        elif item_code == '6':
+            # target height
+            res['th'] = float(buf[1].strip())
+        elif item_code == '7' or item_code == '21':
+            # horizontal angle
+            res['hz'] = Angle(float(buf[1]), self.angle_unit).get_angle('RAD')
+        elif item_code == '8':
+            # zenit angle
+            res['v'] = Angle(float(buf[1]), self.angle_unit).get_angle('RAD')
+        elif item_code == '9':
+            # slope distance
+            res['sd'] = float(buf[1].strip())
+        elif item_code == '10':
+            # vertical distance
+            res['vd'] = float(buf[1].strip())
+        elif item_code == '11':
+            # horizontal distance
+            res['hd'] = float(buf[1].strip())
+        elif item_code == '37':
+            # northing
+            res['n'] = float(buf[1].strip())
+        elif item_code == '38':
+            # easting
+            res['e'] = float(buf[1].strip())
+        elif item_code == '39':
+            # elevation
+            res['z'] = float(buf[1].strip())
+        return res
+
 if __name__ == "__main__":
     """
         unit test
     """
-    ts = LeicaGsi('file03.gsi', ' ')
+    ts = LeicaGsi('test.gsi', ' ')
     ts.open()
     while True:
         r = ts.parse_next()
         if r is None:
             break
-        print r
+        if len(r) > 0:
+            print r
     ts.close()
+    #ts = JobAre('test.job', '=')
+    ts = JobAre('test.are', '=')
+    ts.open()
+    r = {}
+    while True:
+        r1 = ts.parse_next()
+        if r1 is None:
+            break
+        if len(r1) == 0:
+            continue
+        if list(r1)[0] in ['point_id', 'station_id']:
+            print r
+            r = {}
+        r.update(r1)
+    print r
