@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-    Basic classes for Land Surveying Plug-in for QGIS
+    Total station file loader classes for Land Surveying Plug-in for QGIS
     GPL v2.0 license
     Copyright (C) 2014-  DgiKom Kft. http://digikom.hu
     .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
