@@ -6,6 +6,7 @@
     .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 
+import re
 import math
 RO = 180 * 60 * 60 / math.pi
 
@@ -184,21 +185,6 @@ class Point(object):
         self.pc = pc
         self.pt = pt
 
-class Station(object):
-    """
-        Station data from observations
-    """
-
-    def __init__(self, p, o=None, ih=None):
-        """
-            :param p: station id & coordinates (Point)
-            :param o: orientation angle (Angle)
-            :param ih: instrument height (float)
-        """
-        self.p = p
-        self.o = o
-        self.ih = ih
-
 class Distance(object):
     """
         Distance observation
@@ -220,13 +206,19 @@ class PolarObservation(object):
     def __init__(self, tp, hz=None, v=None, d=None, th=None, pc=None):
         """
             initialize new Polar observation object
-            :param tp: target point id (string)
-            :param hz: horizontal angle (Angle)
+            stations are marked in name 'station_<id>',
+            instrument height is stored in th field
+            :param tp: target point id/station point id (string)
+            :param hz: horizontal angle/orientation angle (Angle)
             :param v: zenith angle (Angle)
-            :param d: distance (Distance)
-            :param th: target height (float)
+            :param d: slope distance (Distance)
+            :param th: target height/instrument height (float)
             :param pc: point code (string)
         """
+        if re.match('^station_', tp):
+            # remove distance and zenith
+            v = None
+            d = None
         self.target = tp
         self.hz = hz
         self.v = v
@@ -235,11 +227,11 @@ class PolarObservation(object):
         self.pc = pc
 
     def horiz_dist(self):
-        if self.mode == 'HD':
-            return self.d
-        elif self.mode == 'SD':
-            return self.d * sin(self.hz.get_angle())
-        elif self.mode == 'VD':
+        if self.d.mode == 'HD':
+            return self.d.d
+        elif self.d.mode == 'SD':
+            return self.d.d * math.sin(self.v.get_angle())
+        elif self.d.mode == 'VD':
             return 0.0
         return None
 
@@ -259,3 +251,7 @@ if __name__ == "__main__":
     print Angle(a.get_angle('GON'), 'GON').get_angle('DMS')
     print Angle(a.get_angle('NMEA'), 'NMEA').get_angle('DMS')
     print Angle(a.get_angle('PDEG'), 'PDEG').get_angle('PDEG')
+    p = [Point('1', 1000, 2000, 50), Point('2', 1500, 2000, 60)]
+    o = [PolarObservation('station_1', None, None, None, 1.54),
+         PolarObservation('2', Angle(60.9345, 'GON'), Angle(89.855615, 'DEG'), Distance(501.105, 'SD'), 1.80)]
+    print o[1].horiz_dist()
