@@ -53,14 +53,14 @@ class SurveyingCalculation(object):
         if obs1.target != obs2.target:
             return None
         try:
-            b1 = s1.o.get_angle() + obs1.hz.get_angle()
+            b1 = s1.o.hz.get_angle() + obs1.hz.get_angle()
             sb1 = math.sin(b1)
             cb1 = math.cos(b1)
-            b2 = s2.o.get_angle() + obs2.hz.get_angle()
+            b2 = s2.o.hz.get_angle() + obs2.hz.get_angle()
             sb2 = math.sin(b2)
             cb2 = math.cos(b2)
             det = sb1 * cb2 - sb2 * cb1
-            t1 = (s2.p.e - s1.p.e) * cb2 - (s2.p.n - s1.p.n) * sb2 / det
+            t1 = ((s2.p.e - s1.p.e) * cb2 - (s2.p.n - s1.p.n) * sb2) / det
             e = s1.p.e + t1 * sb1
             n = s1.p.n + t1 * cb1
             if obs1.pc is None:
@@ -86,8 +86,10 @@ if __name__ == "__main__":
     print d.d
     b = sc.bearing(p1, p2)
     print b.get_angle('DMS');
-    s1 = Station(p1, Angle(0))
-    s2 = Station(p2, Angle(0))
+    s1o = PolarObservation('station_1', Angle(0))
+    s2o = PolarObservation('station_2', Angle(0))
+    s1 = Station(p1, s1o)
+    s2 = Station(p2, s1o)
     o1 = PolarObservation("p", Angle(25, "DEG"))
     o2 = PolarObservation("p", Angle(310, "DEG"))
     p3 = sc.intersection(s1, o1, s2, o2)
