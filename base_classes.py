@@ -235,6 +235,23 @@ class PolarObservation(object):
             return 0.0
         return None
 
+class Station(object):
+    """
+        station data
+    """
+    def __init__(self, p, o):
+        """
+            :param p point data (Point)
+            :param o observation data (PolarObservation)
+            orientation angle in hz field, instrument height in th field
+        """
+        #if 'station_' + p.id != o.target:
+            #self.p = None
+            #self.o = None
+            #return
+        self.p = p
+        self.o = o
+
 if __name__ == "__main__":
     """
         unit test
