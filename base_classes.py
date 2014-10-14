@@ -85,7 +85,13 @@ class Angle(object):
     def __dms2rad(self, dms):
         try:
             items = [float(item) for item in dms.split('-')]
-            a = math.radians(items[0] + items[1] / 60.0 + items[2] / 3600.0)
+            div = 1.0
+            a = 0.0
+            for i, val in enumerate(items):
+                a += val / div
+                div *= 60.0
+            a = math.radians(a)
+            #a = math.radians(items[0] + items[1] / 60.0 + items[2] / 3600.0)
         except (ValueError, TypeError):
             a = None
         return a
@@ -272,3 +278,5 @@ if __name__ == "__main__":
     o = [PolarObservation('station_1', None, None, None, 1.54),
          PolarObservation('2', Angle(60.9345, 'GON'), Angle(89.855615, 'DEG'), Distance(501.105, 'SD'), 1.80)]
     print o[1].horiz_dist()
+    print Angle('16-20', 'DMS').get_angle('DMS')
+    print Angle('16', 'DMS').get_angle('DMS')
