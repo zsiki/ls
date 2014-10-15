@@ -226,30 +226,30 @@ class SurveyingCalculation(object):
             circle2.e = circle2.n
             circle2.n = w
             swap = 1
-            
-#    set t [expr {($r1 * $r1 - $x01 * $x01 - $r2 * $r2 + $x02 * $x02 + \
-#        $y02 * $y02 - $y01 * $y01) / 2.0}]
-#    set dx [expr {double($x02 - $x01)}]
-#    set dy [expr {double($y02 - $y01)}]
-#    if {[expr {abs($dx)}] > 0.001} {
-#        set a [expr {1.0 + $dy * $dy / $dx / $dx}]
-#        set b [expr {2.0 * ($x01 * $dy / $dx - $y01 - $t * $dy / $dx / $dx)}]
-#        set c [expr {$t * $t / $dx / $dx - 2 * $x01 * $t / $dx - $r1 * $r1 + \
-#            $x01 * $x01 + $y01 * $y01}]
-#        set d [expr {$b * $b - 4 * $a * $c}]
-#        if {$d < 0} {
-#            return ""
-#        }
-#        set yp1 [expr {(-$b + sqrt($d)) / 2.0 / $a}]
-#        set yp2 [expr {(-$b - sqrt($d)) / 2.0 / $a}]
-#        set xp1 [expr {($t - $dy * $yp1) / $dx}]
-#        set xp2 [expr {($t - $dy * $yp2) / $dx}]
-#        if {$swap == 0} {
-#            return [list $xp1 $yp1 $xp2 $yp2]
-#        } else {
-#            return [list $yp1 $xp1 $yp2 $xp2]
-#        }
-#    }
+
+        t = ( circle1.r ** 2 - circle1.e ** 2 - circle2.r ** 2+ \
+              circle2.e ** 2 + circle2.n ** 2 - circle1.n ** 2 ) / 2.0
+        de = circle2.e - circle1.e
+        dn = circle2.n - circle1.n
+
+        if math.fabs(de) > 0.001:
+            a = 1.0 + dn * dn / de / de
+            b = 2.0 * (circle1.e * dn / de - circle1.n - t * dn / de / de )
+            c = t * t / de / de - 2 * circle1.e * t / de - circle1.e ** 2 + \
+                circle1.e ** 2 + circle1.n ** 2
+            d = b * b - 4 * a * c
+            if d < 0:
+                return None
+
+            np1 = (-b + math.sqrt(d)) / 2.0 / a
+            np2 = (-b - math.sqrt(d)) / 2.0 / a
+            ep1 = (t - dn * np1) / de
+            ep2 = (t - dn * np2) / de
+            if swap == 0:
+                return array( Point("",ep1,np1), Point("",ep2,np2) )
+            else:
+                return array( Point("",np1,ep1), Point("",np2,ep2) )
+
         return None
 
     def resection(self, st, p1, p2, p3, obs1, obs2, obs3):
@@ -274,9 +274,9 @@ class SurveyingCalculation(object):
 
             circ1 = self.__circle2P( p1, p2, angle1 )
             circ2 = self.__circle2P( p2, p3, angle2 )
-            pint = self.__intersecCC( circ1, circ2 )
+            points = self.__intersecCC( circ1, circ2 )
     
-            return Point(st.p.id, pint.e, pint.n, None, st.p.pc)
+            #return Point(st.p.id, pint.e, pint.n, None, st.p.pc)
         except (ValueError, TypeError):
             return None
 
