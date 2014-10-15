@@ -317,3 +317,4 @@ if __name__ == "__main__":
     o103res = PolarObservation( "103", Angle("96-23-12", "DMS") )
     p1res = sc.resection( s1res, p101res, p102res, p103res, o101res, o102res, o103res )
     print p1res.id, p1res.e, p1res.n
+    # so657871.95 247973.24
