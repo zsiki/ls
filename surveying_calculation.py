@@ -173,14 +173,14 @@ class SurveyingCalculation(object):
             # midpoints
             midp12 = Point( "", (p1.e + p2.e) / 2.0,  (p1.n + p2.n) / 2.0 )
             midp23 = Point( "", (p2.e + p3.e) / 2.0,  (p2.n + p3.n) / 2.0 )
-            d12 = self.bearing( p1, p2 ) + math.pi / 2.0
-            d23 = self.bearing( p2, p3 ) + math.pi / 2.0
+            d12 = self.bearing( p1, p2 ).get_angle() + math.pi / 2.0
+            d23 = self.bearing( p2, p3 ).get_angle() + math.pi / 2.0
 
             pcenter = self.__intersecLL( midp12, midp23, d12, d23 )
             
-            if pcenter != None:
-                r = self.distance( pcenter, p1 )
-                return Circle( pcenter.e, pcenter.n, r)
+            if pcenter is not None:
+                r = self.distance( pcenter, p1 ).d
+                return self.__Circle( pcenter.e, pcenter.n, r)
 
             return None
         except (ValueError, TypeError):
@@ -197,11 +197,11 @@ class SurveyingCalculation(object):
             e.g infinit radius, two points are the same
         """
         try:
-            t2 = self.distance( p1, p2 ) / 2.0
+            t2 = self.distance( p1, p2 ).d / 2.0
             d = t2 / math.tan( alpha / 2.0 )
             dab = self.bearing( p1, p2 )
-            e3 = p1.e + t2 * math.sin(dab) + d * math.cos(dab)
-            n3 = p1.n + t2 * math.cos(dab) - d * math.sin(dab)
+            e3 = p1.e + t2 * math.sin(dab.get_angle()) + d * math.cos(dab.get_angle())
+            n3 = p1.n + t2 * math.cos(dab.get_angle()) - d * math.sin(dab.get_angle())
             p3 = Point( "", e3, n3 )
             return self.__circle3P( p1, p2, p3 )
         except (ValueError, TypeError):
