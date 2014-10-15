@@ -113,13 +113,85 @@ class SurveyingCalculation(object):
             return Point(obs1.target, e, n, None, pc)
         except (ValueError, TypeError):
             return None
+
+    def __intersecLL(self, pa, pb, dap,dbp):
+        """
+            Calculate intersection of two lines solving
+                xa + t1 * sin dap = xb + t2 * sin dbp
+                ya + t1 * cos dap = yb + t2 * cos dbp
+            :param pa first point
+            :param pb  second point
+            :param dap direction (bearing) from first point to new point
+            :param dbp direction (bearing) from second point to new point
+            :return xp yp as a list or an empty list if lines are near paralel
+        """
         
-    def circle2P(self, p1, p2, alpha):
+        try:
+            sdap = math.sin(dap)
+            cdap = math.cos(dap)
+            sdbp = math.sin(dbp)
+            cdbp = math.cos(dbp)
+            det = sdap*cdbp - sdbp*cdap
+            
+            if det==0:  # paralel lines
+                return None;
+            t1 = ((pb.e - pa.e) * cdbp - (pb.n - pa.n) * sdbp) / det
+        
+            e = pa.e + t1 * sdap
+            n = pa.n + t1 * cdap
+            return Point("",e,n)
+        except (ValueError, TypeError):
+            return None
+
+
+    class __Circle(object):
+        """
+            circle: center easting, center northing, radius
+        """
+        def __init__(self, e, n, r):
+            """
+                :param e center easting (float)
+                :param n center northing (float)
+                :param r radius (float)
+            """
+            self.e = e
+            self.n = n
+            self.r = r
+
+    def __circle3P(self, p1, p2, p3):
+        """
+            Calculate circle parameters defined by three points
+            center is the intersection of orthogonals at the midpoints
+            @param p1: first point
+            @param p2: second point
+            @param p3: third point
+            @return center x y and radius as a list or empty list in case of error
+            e.g infinit radius, two points are the same
+        """
+
+        try:
+            # midpoints
+            midp12 = Point( "", (p1.e + p2.e) / 2.0,  (p1.n + p2.n) / 2.0 )
+            midp23 = Point( "", (p2.e + p3.e) / 2.0,  (p2.n + p3.n) / 2.0 )
+            d12 = self.bearing( p1, p2 ) + math.pi / 2.0
+            d23 = self.bearing( p2, p3 ) + math.pi / 2.0
+
+            pcenter = self.__intersecLL( midp12, midp23, d12, d23 )
+            
+            if pcenter != None:
+                r = self.distance( pcenter, p1 )
+                return Circle( pcenter.e, pcenter.n, r)
+
+            return None
+        except (ValueError, TypeError):
+            return None
+
+    def __circle2P(self, p1, p2, alpha):
         """
             Calculate circle parameters defined by two points and included angle
-            :param p1 first point (Point)
-            :param p2 second point (Point)
-            :param alpha included angle (radian) (Angle)
+            :param p1: first point (Point)
+            :param p2: second point (Point)
+            :param alpha: included angle (radian) (Angle)
 
             Returns center x y and radius as a list or empty list in case of error
             e.g infinit radius, two points are the same
@@ -128,14 +200,59 @@ class SurveyingCalculation(object):
             t2 = self.distance( p1, p2 ) / 2.0
             d = t2 / math.tan( alpha / 2.0 )
             dab = self.bearing( p1, p2 )
-            x3 = p1.n + t2 * math.sin(dab) + d * math.cos(dab)
-            y3 = p1.e + t2 * math.cos(dab) - d * math.sin(dab)
+            e3 = p1.e + t2 * math.sin(dab) + d * math.cos(dab)
+            n3 = p1.n + t2 * math.cos(dab) - d * math.sin(dab)
+            p3 = Point( "", e3, n3 )
+            return self.__circle3P( p1, p2, p3 )
         except (ValueError, TypeError):
             return None
-#        return __circle3P(p1.y,p1.x,p2.y,p2.x,y3,x3)
+
+    def __intersecCC(self, circle1, circle2):
+        """
+            Calculate intersection of two circles solving 
+                (x - x01)^2 + (y - y01)^2 = r1^2
+                (x - x02)^2 + (y - y02)^2 = r2^2
+            :param circle1: center coordinates and radius of first circle (Circle)
+            :param circle2: center coordinates and radius of first circle (Circle)
+
+            :return two, one or none intersection as a list
+        """
+        swap = 0
+        if math.fabs( circle2.e - circle1.e ) < 0.001:
+            w = circle1.e
+            circle1.e = circle1.n
+            circle1.n = w
+            w = circle2.e
+            circle2.e = circle2.n
+            circle2.n = w
+            swap = 1
+            
+#    set t [expr {($r1 * $r1 - $x01 * $x01 - $r2 * $r2 + $x02 * $x02 + \
+#        $y02 * $y02 - $y01 * $y01) / 2.0}]
+#    set dx [expr {double($x02 - $x01)}]
+#    set dy [expr {double($y02 - $y01)}]
+#    if {[expr {abs($dx)}] > 0.001} {
+#        set a [expr {1.0 + $dy * $dy / $dx / $dx}]
+#        set b [expr {2.0 * ($x01 * $dy / $dx - $y01 - $t * $dy / $dx / $dx)}]
+#        set c [expr {$t * $t / $dx / $dx - 2 * $x01 * $t / $dx - $r1 * $r1 + \
+#            $x01 * $x01 + $y01 * $y01}]
+#        set d [expr {$b * $b - 4 * $a * $c}]
+#        if {$d < 0} {
+#            return ""
+#        }
+#        set yp1 [expr {(-$b + sqrt($d)) / 2.0 / $a}]
+#        set yp2 [expr {(-$b - sqrt($d)) / 2.0 / $a}]
+#        set xp1 [expr {($t - $dy * $yp1) / $dx}]
+#        set xp2 [expr {($t - $dy * $yp2) / $dx}]
+#        if {$swap == 0} {
+#            return [list $xp1 $yp1 $xp2 $yp2]
+#        } else {
+#            return [list $yp1 $xp1 $yp2 $xp2]
+#        }
+#    }
         return None
-        
-    def resection(self, st, obs1, obs2, obs3):
+
+    def resection(self, st, p1, p2, p3, obs1, obs2, obs3):
         """
             Calculate resection
             :param st: station (Station)
@@ -143,18 +260,25 @@ class SurveyingCalculation(object):
             :param obs2: observation from station 2 (PolarObservation)
             :param obs3: observation from station 3 (PolarObservation)
         """
-        if obs1 == obs2 or obs1 == obs3 or obs2 == obs3:
+        if p1 == p2 or p1 == p3 or p2 == p3:
+            return
+        if obs1.target == obs2.target or obs1.target == obs3.target or obs2.target == obs3.target:
             return
         if obs1.hz is None or obs2.hz is None or obs3.hz is None:
             return
-        angle1 = obs2.hz - obs1.hz
-        angle2 = obs3.hz - obs2.hz
+        # TODO this has to be considered
+        
+        try:
+            angle1 = obs2.hz.get_angle() - obs1.hz.get_angle()
+            angle2 = obs3.hz.get_angle() - obs2.hz.get_angle()
 
-        circ1 = __circle2P( obs1.tp, obs2.tp, angle1)
-        circ2 = __circle2P( obs2.tp, obs3.tp, angle2)
-        #res = __intersecCC( circ1, circ2 )
+            circ1 = self.__circle2P( p1, p2, angle1 )
+            circ2 = self.__circle2P( p2, p3, angle2 )
+            pint = self.__intersecCC( circ1, circ2 )
     
-        return None
+            return Point(st.p.id, pint.e, pint.n, None, st.p.pc)
+        except (ValueError, TypeError):
+            return None
 
 if __name__ == "__main__":
     """
@@ -162,7 +286,7 @@ if __name__ == "__main__":
     """
     sc = SurveyingCalculation()
     #p1 = Point("1", 100, 200, 10)
-    p1 = Point("1", 100, 200)
+    p1 = Point("1", 100, 200, 20)
     p2 = Point("2", 150, 250, 30)
     d = sc.distance(p1, p2)
     print d.d
@@ -170,6 +294,8 @@ if __name__ == "__main__":
     print d.d
     b = sc.bearing(p1, p2)
     print b.get_angle('DMS');
+    
+    # intersection test
     s1o = PolarObservation('station_1', Angle(0))
     s2o = PolarObservation('station_2', Angle(0))
     s1 = Station(p1, s1o)
@@ -177,4 +303,17 @@ if __name__ == "__main__":
     o1 = PolarObservation("p", Angle(25, "DEG"))
     o2 = PolarObservation("p", Angle(310, "DEG"))
     p3 = sc.intersection(s1, o1, s2, o2)
-    print p3.e, p3.n
+    print p3.id, p3.e, p3.n
+    
+    # resection test
+    p1res = Point("3")
+    o1res = PolarObservation( "station_3", Angle(0) )
+    s1res = Station( p1res, o1res )
+    p101res = Point( "101", 658031.813, 247985.580 )
+    p102res = Point( "102", 657638.800, 247759.380 )
+    p103res = Point( "103", 658077.700, 247431.381 )
+    o101res = PolarObservation( "101", Angle("22-45-56", "DMS") )
+    o102res = PolarObservation( "102", Angle("164-38-59", "DMS") )
+    o103res = PolarObservation( "103", Angle("96-23-12", "DMS") )
+    p1res = sc.resection( s1res, p101res, p102res, p103res, o101res, o102res, o103res )
+    print p1res.id, p1res.e, p1res.n
