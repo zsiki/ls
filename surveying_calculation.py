@@ -165,7 +165,7 @@ class SurveyingCalculation(object):
             @param p1: first point
             @param p2: second point
             @param p3: third point
-            @return center x y and radius as a list or empty list in case of error
+            @return center x y and radius (Circle) or None in case of error
             e.g infinit radius, two points are the same
         """
 
@@ -193,7 +193,7 @@ class SurveyingCalculation(object):
             :param p2: second point (Point)
             :param alpha: included angle (radian) (Angle)
 
-            Returns center x y and radius as a list or empty list in case of error
+            @return center x y and radius (Circle) or None in case of error
             e.g infinit radius, two points are the same
         """
         try:
@@ -217,48 +217,55 @@ class SurveyingCalculation(object):
 
             :return two, one or none intersection as a list
         """
-        swap = 0
-        if math.fabs( circle2.e - circle1.e ) < 0.001:
-            w = circle1.e
-            circle1.e = circle1.n
-            circle1.n = w
-            w = circle2.e
-            circle2.e = circle2.n
-            circle2.n = w
-            swap = 1
+        try:
+            swap = 0
+            if math.fabs( circle2.e - circle1.e ) < 0.001:
+                w = circle1.e
+                circle1.e = circle1.n
+                circle1.n = w
+                w = circle2.e
+                circle2.e = circle2.n
+                circle2.n = w
+                swap = 1
 
-        t = ( circle1.r ** 2 - circle1.e ** 2 - circle2.r ** 2+ \
-              circle2.e ** 2 + circle2.n ** 2 - circle1.n ** 2 ) / 2.0
-        de = circle2.e - circle1.e
-        dn = circle2.n - circle1.n
+            t = ( circle1.r ** 2 - circle1.e ** 2 - circle2.r ** 2 + \
+                  circle2.e ** 2 + circle2.n ** 2 - circle1.n ** 2 ) / 2.0
+            de = circle2.e - circle1.e
+            dn = circle2.n - circle1.n
 
-        if math.fabs(de) > 0.001:
-            a = 1.0 + dn * dn / de / de
-            b = 2.0 * (circle1.e * dn / de - circle1.n - t * dn / de / de )
-            c = t * t / de / de - 2 * circle1.e * t / de - circle1.e ** 2 + \
-                circle1.e ** 2 + circle1.n ** 2
-            d = b * b - 4 * a * c
-            if d < 0:
-                return None
+            if math.fabs(de) > 0.001:
+                a = 1.0 + dn * dn / de / de
+                b = 2.0 * (circle1.e * dn / de - circle1.n - t * dn / de / de )
+                c = t * t / de / de - 2 * circle1.e * t / de - circle1.r ** 2 + \
+                    circle1.e ** 2 + circle1.n ** 2
+                d = b * b - 4 * a * c
+                if d < 0:
+                    return None
 
-            np1 = (-b + math.sqrt(d)) / 2.0 / a
-            np2 = (-b - math.sqrt(d)) / 2.0 / a
-            ep1 = (t - dn * np1) / de
-            ep2 = (t - dn * np2) / de
-            if swap == 0:
-                return array( Point("",ep1,np1), Point("",ep2,np2) )
-            else:
-                return array( Point("",np1,ep1), Point("",np2,ep2) )
+                np1 = (-b + math.sqrt(d)) / 2.0 / a
+                np2 = (-b - math.sqrt(d)) / 2.0 / a
+                ep1 = (t - dn * np1) / de
+                ep2 = (t - dn * np2) / de
+                if swap == 0:
+                    return [ Point("",ep1,np1), Point("",ep2,np2) ]
+                else:
+                    return [ Point("",np1,ep1), Point("",np2,ep2) ]
 
-        return None
+            return None
+        except (ValueError, TypeError):
+            return None
 
     def resection(self, st, p1, p2, p3, obs1, obs2, obs3):
         """
             Calculate resection
             :param st: station (Station)
-            :param obs1: observation from station 1 (PolarObservation)
-            :param obs2: observation from station 2 (PolarObservation)
-            :param obs3: observation from station 3 (PolarObservation)
+            :param p1: first control point (Point)
+            :param p2: second control point (Point)
+            :param p3: third control point (Point)
+            :param obs1: observation from st to p1 (PolarObservation)
+            :param obs2: observation from st to p2 (PolarObservation)
+            :param obs3: observation from st to p3 (PolarObservation)
+            :return coordinates of the resection point (st) if it can be calculated; otherwise None
         """
         if p1 == p2 or p1 == p3 or p2 == p3:
             return
@@ -276,7 +283,14 @@ class SurveyingCalculation(object):
             circ2 = self.__circle2P( p2, p3, angle2 )
             points = self.__intersecCC( circ1, circ2 )
     
-            #return Point(st.p.id, pint.e, pint.n, None, st.p.pc)
+            if len(points) == 2:
+                #    select the right one from the two intersection points
+                if math.fabs(p2.e - points[0].e) < 0.1 and math.fabs(p2.n - points[0].n) < 0.1:
+                    return Point(st.p.id, points[1].e, points[1].n, None, st.p.pc)
+                else :
+                    return Point(st.p.id, points[0].e, points[0].n, None, st.p.pc)
+            return None
+
         except (ValueError, TypeError):
             return None
 
