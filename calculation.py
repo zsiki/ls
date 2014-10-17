@@ -15,25 +15,27 @@ class Calculation(object):
     def __init__(self):
         pass
 
-    def distance(self, p1, p2):
+    @staticmethod
+    def distance2d(p1, p2):
         try:
             d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2)
         except (TypeError, ValueError):
             return None
         return Distance(d, 'HD')
 
-    def distance3d(self, p1, p2):
+    @staticmethod
+    def distance3d(p1, p2):
         try:
             d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2 + (p2.z - p1.z) ** 2)
         except (ValueError, TypeError):
             return None
         return Distance(d, 'SD')
 
-    def bearing(self, p1, p2):
+    @staticmethod
+    def bearing(p1, p2):
         """
             Calculate whole circle bearing
         """
-        # TODO exception handling
         try:
             wcb = math.atan2(p2.e - p1.e, p2.n - p1.n)
             while wcb < 0:
@@ -43,49 +45,8 @@ class Calculation(object):
         return Angle(wcb)
 
 
-    def zenithangle(self, st, obs):
-        """
-            Calculate zenith angle between a station and an observation point
-            :param st station (Station)
-            :param obs: observation from the station (PolarObservation)
-            :return zenith angle in radian
-        """
-#        try:
-#            d = self.distance( st.p, obs.tp )
-#            dz = (obs.tp.z + obs.th) - (st.p.z + st.ih)
-#            if math.abs(dz) > 0.0:
-#                z = math.atan( d / dz)
-#                if dz < 0.0:
-#                    z = math.pi + z
-#            else:
-#                z = math.pi / 2.0   # 90 degree zenith
-#        except (ValueError, TypeError):
-#            return None
-#        return Angle(z)
-
-    def zenithangle(self, p1, p2, ih=0, th=0):
-        """
-            Calculate zenith angle between two points
-            :param p1 coordinates of station
-            :param p2 coordinates of reference point
-            :param ih instrument height (optional, default 0)
-            :param th target height (optional, default 0)
-            :return zenith angle in radian
-        """
-        try:
-            d = self.distance( p1, p2 )
-            dz = (p2.z + th) - (p1.z + ih)
-            if math.abs(dz) > 0.0:
-                z = math.atan( d / dz)
-                if dz < 0.0:
-                    z = math.pi + z
-            else:
-                z = math.pi / 2.0   # 90 degree zenith
-        except (ValueError, TypeError):
-            return None
-        return Angle(z)
-    
-    def intersection(self, s1, obs1, s2, obs2):
+    @staticmethod
+    def intersection(s1, obs1, s2, obs2):
         """
             Calculate intersection
             :param s1: station 1 (Station)
@@ -97,7 +58,7 @@ class Calculation(object):
             return None
         b1 = s1.o.hz.get_angle() + obs1.hz.get_angle()
         b2 = s2.o.hz.get_angle() + obs2.hz.get_angle()
-        pp = self.intersecLL(s1.p, s2.p, b1, b2)
+        pp = Calculation.intersecLL(s1.p, s2.p, b1, b2)
         if obs1.pc is None:
             pc = obs2.pc
         else:
@@ -106,7 +67,8 @@ class Calculation(object):
         pp.pc = pc
         return pp
 
-    def intersecLL(self, pa, pb, dap, dbp):
+    @staticmethod
+    def intersecLL(pa, pb, dap, dbp):
         """
             Calculate intersection of two lines solving
                 xa + t1 * sin dap = xb + t2 * sin dbp
@@ -125,9 +87,6 @@ class Calculation(object):
             cdbp = math.cos(dbp)
             det = sdap*cdbp - sdbp*cdap
             
-            # try is enough siki
-            #if det==0:  # paralel lines
-            #    return None;
             t1 = ((pb.e - pa.e) * cdbp - (pb.n - pa.n) * sdbp) / det
         
             e = pa.e + t1 * sdap
@@ -136,7 +95,8 @@ class Calculation(object):
         except (ValueError, TypeError):
             return None
 
-    def __intersecCC(self, circle1, circle2):
+    @staticmethod
+    def __intersecCC(circle1, circle2):
         """
             Calculate intersection of two circles solving 
                 (x - x01)^2 + (y - y01)^2 = r1^2
@@ -184,7 +144,8 @@ class Calculation(object):
         except (ValueError, TypeError):
             return None
 
-    def resection(self, st, p1, p2, p3, obs1, obs2, obs3):
+    @staticmethod
+    def resection(st, p1, p2, p3, obs1, obs2, obs3):
         """
             Calculate resection
             :param st: station (Station)
@@ -196,46 +157,39 @@ class Calculation(object):
             :param obs3: observation from st to p3 (PolarObservation)
             :return coordinates of the resection point (st) if it can be calculated; otherwise None
         """
-        if p1 == p2 or p1 == p3 or p2 == p3:
-            return
-        if obs1.target == obs2.target or obs1.target == obs3.target or obs2.target == obs3.target:
-            return
-        if obs1.hz is None or obs2.hz is None or obs3.hz is None:
-            return
-        # TODO this has to be considered
-        
-        try:
-            angle1 = obs2.hz.get_angle() - obs1.hz.get_angle()
-            angle2 = obs3.hz.get_angle() - obs2.hz.get_angle()
+        #try:
+        angle1 = Angle(obs2.hz.get_angle() - obs1.hz.get_angle())
+        angle2 = Angle(obs3.hz.get_angle() - obs2.hz.get_angle())
 
-            circ1 = Circle( p1, p2, angle1 )
-            circ2 = Circle( p2, p3, angle2 )
-            points = self.__intersecCC( circ1, circ2 )
-    
-            if len(points) == 2:
-                #    select the right one from the two intersection points
-                if math.fabs(p2.e - points[0].e) < 0.1 and math.fabs(p2.n - points[0].n) < 0.1:
-                    return Point(st.p.id, points[1].e, points[1].n, None, st.p.pc)
-                else :
-                    return Point(st.p.id, points[0].e, points[0].n, None, st.p.pc)
-            return None
+        circ1 = Circle(p1, p2, angle1)
+        print circ1.p.e, circ1.p.n, circ1.r
+        circ2 = Circle(p2, p3, angle2)
+        print circ2.p.e, circ2.p.n, circ2.r
+        points = Calculation.__intersecCC(circ1, circ2)
 
-        except (ValueError, TypeError):
-            return None
+        if len(points) == 2:
+            #    select the right one from the two intersection points
+            if math.fabs(p2.e - points[0].e) < 0.1 and math.fabs(p2.n - points[0].n) < 0.1:
+                return Point(st.p.id, points[1].e, points[1].n, None, st.p.pc)
+            else :
+                return Point(st.p.id, points[0].e, points[0].n, None, st.p.pc)
+        return None
+
+        #except (ValueError, TypeError):
+        #    return None
 
 if __name__ == "__main__":
     """
         unit test
     """
-    sc = Calculation()
     #p1 = Point("1", 100, 200, 10)
     p1 = Point("1", 100, 200, 20)
     p2 = Point("2", 150, 250, 30)
-    d = sc.distance(p1, p2)
+    d = Calculation.distance2d(p1, p2)
     print d.d
-    d = sc.distance3d(p1, p2)
+    d = Calculation.distance3d(p1, p2)
     print d.d
-    b = sc.bearing(p1, p2)
+    b = Calculation.bearing(p1, p2)
     print b.get_angle('DMS');
     
     # intersection test
@@ -245,7 +199,7 @@ if __name__ == "__main__":
     s2 = Station(p2, s1o)
     o1 = PolarObservation("p", Angle(25, "DEG"))
     o2 = PolarObservation("p", Angle(310, "DEG"))
-    p3 = sc.intersection(s1, o1, s2, o2)
+    p3 = Calculation.intersection(s1, o1, s2, o2)
     print p3.id, p3.e, p3.n
     
     # resection test
@@ -258,6 +212,6 @@ if __name__ == "__main__":
     o101res = PolarObservation( "101", Angle("22-45-56", "DMS") )
     o102res = PolarObservation( "102", Angle("164-38-59", "DMS") )
     o103res = PolarObservation( "103", Angle("96-23-12", "DMS") )
-    p1res = sc.resection( s1res, p101res, p102res, p103res, o101res, o102res, o103res )
+    p1res = Calculation.resection( s1res, p101res, p102res, p103res, o101res, o102res, o103res )
     print p1res.id, p1res.e, p1res.n
     # so657871.95 247973.24
