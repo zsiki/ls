@@ -114,7 +114,7 @@ class SurveyingCalculation(object):
         except (ValueError, TypeError):
             return None
 
-    def __intersecLL(self, pa, pb, dap,dbp):
+    def intersecLL(self, pa, pb, dap,dbp):
         """
             Calculate intersection of two lines solving
                 xa + t1 * sin dap = xb + t2 * sin dbp
@@ -140,70 +140,6 @@ class SurveyingCalculation(object):
             e = pa.e + t1 * sdap
             n = pa.n + t1 * cdap
             return Point("",e,n)
-        except (ValueError, TypeError):
-            return None
-
-
-    class __Circle(object):
-        """
-            circle: center easting, center northing, radius
-        """
-        def __init__(self, e, n, r):
-            """
-                :param e center easting (float)
-                :param n center northing (float)
-                :param r radius (float)
-            """
-            self.e = e
-            self.n = n
-            self.r = r
-
-    def __circle3P(self, p1, p2, p3):
-        """
-            Calculate circle parameters defined by three points
-            center is the intersection of orthogonals at the midpoints
-            @param p1: first point
-            @param p2: second point
-            @param p3: third point
-            @return center x y and radius (Circle) or None in case of error
-            e.g infinit radius, two points are the same
-        """
-
-        try:
-            # midpoints
-            midp12 = Point( "", (p1.e + p2.e) / 2.0,  (p1.n + p2.n) / 2.0 )
-            midp23 = Point( "", (p2.e + p3.e) / 2.0,  (p2.n + p3.n) / 2.0 )
-            d12 = self.bearing( p1, p2 ).get_angle() + math.pi / 2.0
-            d23 = self.bearing( p2, p3 ).get_angle() + math.pi / 2.0
-
-            pcenter = self.__intersecLL( midp12, midp23, d12, d23 )
-            
-            if pcenter is not None:
-                r = self.distance( pcenter, p1 ).d
-                return self.__Circle( pcenter.e, pcenter.n, r)
-
-            return None
-        except (ValueError, TypeError):
-            return None
-
-    def __circle2P(self, p1, p2, alpha):
-        """
-            Calculate circle parameters defined by two points and included angle
-            :param p1: first point (Point)
-            :param p2: second point (Point)
-            :param alpha: included angle (radian) (Angle)
-
-            @return center x y and radius (Circle) or None in case of error
-            e.g infinit radius, two points are the same
-        """
-        try:
-            t2 = self.distance( p1, p2 ).d / 2.0
-            d = t2 / math.tan( alpha / 2.0 )
-            dab = self.bearing( p1, p2 )
-            e3 = p1.e + t2 * math.sin(dab.get_angle()) + d * math.cos(dab.get_angle())
-            n3 = p1.n + t2 * math.cos(dab.get_angle()) - d * math.sin(dab.get_angle())
-            p3 = Point( "", e3, n3 )
-            return self.__circle3P( p1, p2, p3 )
         except (ValueError, TypeError):
             return None
 
