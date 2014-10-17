@@ -178,10 +178,10 @@ class GamaInterface(object):
             # error running GNU gama TODO
             return None
         doc = minidom.parse(tmp_name + 'out.xml')
-		# get orientations
-		oris = doc.getElementByTagName('orientation')
-		for ori in oris:
-			
+        # get orientations
+        #oris = doc.getElementByTagName('orientation')
+        #for ori in oris:
+        #    pass
         # TODO remove input xml and output xml
 
 if __name__ == "__main__":
