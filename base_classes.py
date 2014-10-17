@@ -8,7 +8,7 @@
 
 import re
 import math
-from  surveying_calculation import *
+from  calculation import *
 
 RO = 180 * 60 * 60 / math.pi
 
@@ -285,7 +285,7 @@ class Circle(object):
             :param p3: included angle (radian) (Angle)
 
         """
-        sc = SurveyingCalculation()
+        sc = Calculation()
         if isinstance(p1, Point) and isinstance(p2, float):
             self.p = p1
             self.r = p2
@@ -307,7 +307,7 @@ class Circle(object):
 
     def __center(self, p1, p2, p3):
         # midpoints
-        sc = SurveyingCalculation()
+        sc = Calculation()
         midp12 = Point("@", (p1.e + p2.e) / 2.0,  (p1.n + p2.n) / 2.0)
         midp23 = Point("@", (p2.e + p3.e) / 2.0,  (p2.n + p3.n) / 2.0)
         d12 = sc.bearing(p1, p2).get_angle() + math.pi / 2.0
