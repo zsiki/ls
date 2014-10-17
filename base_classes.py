@@ -293,14 +293,14 @@ class Circle(object):
             self.p = self.__center(p1, p2, p3)
             self.r = sc.distance(self.p, p1).d
         elif isinstance(p1, Point) and isinstance(p2, Point) and isinstance(p3,  Angle):
-            t2 = self.distance( p1, p2 ).d / 2.0
-            d = t2 / math.tan( alpha.get_angle() / 2.0 )
-            dab = sc.bearing( p1, p2 )
+            t2 = sc.distance(p1, p2).d / 2.0
+            d = t2 / math.tan(p3.get_angle() / 2.0)
+            dab = sc.bearing(p1, p2)
             e3 = p1.e + t2 * math.sin(dab.get_angle()) + d * math.cos(dab.get_angle())
             n3 = p1.n + t2 * math.cos(dab.get_angle()) - d * math.sin(dab.get_angle())
             p4 = Point( "@", e3, n3 )
             self.p = self.__center(p1, p2, p4)
-            self.r = distance(self.p, p1).d
+            self.r = sc.distance(self.p, p1).d
         else:
             self.p = None
             self.r = None
@@ -339,4 +339,6 @@ if __name__ == "__main__":
     c = Circle(Point('3', 100, 200), 100.0)
     print c.p.e, c.p.n, c.r
     c = Circle(Point('4', 100, 100), Point('5', 0, 100), Point('6', 100, 50))
+    print c.p.e, c.p.n, c.r
+    c = Circle(Point('4', 100, 100), Point('5', 0, 100), Angle(60, 'DEG'))
     print c.p.e, c.p.n, c.r
