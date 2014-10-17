@@ -336,7 +336,7 @@ if __name__ == "__main__":
     print o[1].horiz_dist()
     print Angle('16-20', 'DMS').get_angle('DMS')
     print Angle('16', 'DMS').get_angle('DMS')
-    #c = Circle(Point('3', 100, 200), 100.0)
-    #print c.p.e, c.p.n, c.r.d
+    c = Circle(Point('3', 100, 200), 100.0)
+    print c.p.e, c.p.n, c.r
     c = Circle(Point('4', 100, 100), Point('5', 0, 100), Point('6', 100, 50))
     print c.p.e, c.p.n, c.r
