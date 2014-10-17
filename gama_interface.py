@@ -167,7 +167,7 @@ class GamaInterface(object):
         doc.writexml(open('temp.xml', 'w'))
         doc.unlink()
         # TODO Popen???
-        status = call(["./gama-local", "temp.xml"])
+        status = call(["./gama-local", "temp.xml", "--text", "temp.txt"])
         if status != 0:
             # error running GNU gama TODO
             pass
