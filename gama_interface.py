@@ -7,9 +7,11 @@
 """
 
 import re
-from base_classes import *
 from xml.dom import minidom, Node
 from subprocess import call
+import tempfile
+
+from base_classes import *
 
 class GamaInterface(object):
     """
@@ -163,14 +165,23 @@ class GamaInterface(object):
                     # unknown dimension
                     return None
         #print doc.toprettyxml(indent="  ")
-        # TODO generate temp file name
-        doc.writexml(open('temp.xml', 'w'))
+        # generate temp file name
+        f =  tempfile.NamedTemporaryFile('w')
+        tmp_name = f.name
+        f.close()
+        doc.writexml(open(tmp_name + '.xml', 'w'))
         doc.unlink()
-        # TODO Popen???
-        status = call(["./gama-local", "temp.xml", "--text", "temp.txt"])
+        # run gama-local
+        status = call(["./gama-local", tmp_name + '.xml', '--text',
+            tmp_name + '.txt', '--xml', tmp_name + 'out.xml'])
         if status != 0:
             # error running GNU gama TODO
-            pass
+            return None
+        doc = minidom.parse(tmp_name + 'out.xml')
+		# get orientations
+		oris = doc.getElementByTagName('orientation')
+		for ori in oris:
+			
         # TODO remove input xml and output xml
 
 if __name__ == "__main__":
