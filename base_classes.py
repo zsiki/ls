@@ -8,6 +8,8 @@
 
 import re
 import math
+from  surveying_calculation import *
+
 RO = 180 * 60 * 60 / math.pi
 
 class Angle(object):
@@ -178,6 +180,7 @@ class Point(object):
     def __init__(self, id, e=None, n=None, z=None, pc=None, pt=None):
         """
             initialize new Point object
+            :param id: point name (string), use '@' for temporary points
             :param e: easting coordinate (float)
             :param n: northing coordinate (float)
             :param z: elevation (float)
@@ -258,6 +261,59 @@ class Station(object):
         self.p = p
         self.o = o
 
+class Circle(object):
+    """
+        circle object
+    """
+    def __init__(self, p1, p2, p3=None):
+        """
+            Multiple initialize signatures
+            1. Center and radius given
+            :param p1 center point (Point)
+            :param p2 radius (float)
+            :param p3 None
+
+            2. Calculate circle parameters from three points
+            center is the intersection of orthogonals at the midpoints
+            :param p1: first point (Point)
+            :param p2: second point (Point)
+            :param p3: third point (Point)
+
+            3 Calculate circle parameters defined by two points and included angle
+            :param p1: first point (Point)
+            :param p2: second point (Point)
+            :param p3: included angle (radian) (Angle)
+
+        """
+        sc = SurveyingCalculation()
+        if isinstance(p1, Point) and isinstance(p2, float):
+            self.p = p1
+            self.r = p2
+        elif isinstance(p1, Point) and isinstance(p2, Point) and isinstance(p3, Point):
+            self.p = self.__center(p1, p2, p3)
+            self.r = sc.distance(self.p, p1).d
+        elif isinstance(p1, Point) and isinstance(p2, Point) and isinstance(p3,  Angle):
+            t2 = self.distance( p1, p2 ).d / 2.0
+            d = t2 / math.tan( alpha.get_angle() / 2.0 )
+            dab = sc.bearing( p1, p2 )
+            e3 = p1.e + t2 * math.sin(dab.get_angle()) + d * math.cos(dab.get_angle())
+            n3 = p1.n + t2 * math.cos(dab.get_angle()) - d * math.sin(dab.get_angle())
+            p4 = Point( "@", e3, n3 )
+            self.p = self.__center(p1, p2, p4)
+            self.r = distance(self.p, p1).d
+        else:
+            self.p = None
+            self.r = None
+
+    def __center(self, p1, p2, p3):
+        # midpoints
+        sc = SurveyingCalculation()
+        midp12 = Point("@", (p1.e + p2.e) / 2.0,  (p1.n + p2.n) / 2.0)
+        midp23 = Point("@", (p2.e + p3.e) / 2.0,  (p2.n + p3.n) / 2.0)
+        d12 = sc.bearing(p1, p2).get_angle() + math.pi / 2.0
+        d23 = sc.bearing(p2, p3).get_angle() + math.pi / 2.0
+        return sc.intersecLL( midp12, midp23, d12, d23 )
+
 if __name__ == "__main__":
     """
         unit test
@@ -280,3 +336,7 @@ if __name__ == "__main__":
     print o[1].horiz_dist()
     print Angle('16-20', 'DMS').get_angle('DMS')
     print Angle('16', 'DMS').get_angle('DMS')
+    #c = Circle(Point('3', 100, 200), 100.0)
+    #print c.p.e, c.p.n, c.r.d
+    c = Circle(Point('4', 100, 100), Point('5', 0, 100), Point('6', 100, 50))
+    print c.p.e, c.p.n, c.r
