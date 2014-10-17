@@ -95,26 +95,18 @@ class SurveyingCalculation(object):
         """
         if obs1.target != obs2.target:
             return None
-        try:
-            b1 = s1.o.hz.get_angle() + obs1.hz.get_angle()
-            sb1 = math.sin(b1)
-            cb1 = math.cos(b1)
-            b2 = s2.o.hz.get_angle() + obs2.hz.get_angle()
-            sb2 = math.sin(b2)
-            cb2 = math.cos(b2)
-            det = sb1 * cb2 - sb2 * cb1
-            t1 = ((s2.p.e - s1.p.e) * cb2 - (s2.p.n - s1.p.n) * sb2) / det
-            e = s1.p.e + t1 * sb1
-            n = s1.p.n + t1 * cb1
-            if obs1.pc is None:
-                pc = obs2.pc
-            else:
-                pc = obs1.pc
-            return Point(obs1.target, e, n, None, pc)
-        except (ValueError, TypeError):
-            return None
+        b1 = s1.o.hz.get_angle() + obs1.hz.get_angle()
+        b2 = s2.o.hz.get_angle() + obs2.hz.get_angle()
+        pp = self.intersecLL(s1.p, s2.p, b1, b2)
+        if obs1.pc is None:
+            pc = obs2.pc
+        else:
+            pc = obs1.pc
+        pp.id = obs1.target
+        pp.pc = pc
+        return pp
 
-    def intersecLL(self, pa, pb, dap,dbp):
+    def intersecLL(self, pa, pb, dap, dbp):
         """
             Calculate intersection of two lines solving
                 xa + t1 * sin dap = xb + t2 * sin dbp
@@ -133,13 +125,14 @@ class SurveyingCalculation(object):
             cdbp = math.cos(dbp)
             det = sdap*cdbp - sdbp*cdap
             
-            if det==0:  # paralel lines
-                return None;
+            # try is enough siki
+            #if det==0:  # paralel lines
+            #    return None;
             t1 = ((pb.e - pa.e) * cdbp - (pb.n - pa.n) * sdbp) / det
         
             e = pa.e + t1 * sdap
             n = pa.n + t1 * cdap
-            return Point("",e,n)
+            return Point("@",e,n)
         except (ValueError, TypeError):
             return None
 
@@ -155,25 +148,25 @@ class SurveyingCalculation(object):
         """
         try:
             swap = 0
-            if math.fabs( circle2.e - circle1.e ) < 0.001:
-                w = circle1.e
-                circle1.e = circle1.n
-                circle1.n = w
-                w = circle2.e
-                circle2.e = circle2.n
-                circle2.n = w
+            if math.fabs( circle2.p.e - circle1.p.e ) < 0.001:
+                w = circle1.p.e
+                circle1.p.e = circle1.p.n
+                circle1.p.n = w
+                w = circle2.p.e
+                circle2.p.e = circle2.p.n
+                circle2.p.n = w
                 swap = 1
 
-            t = ( circle1.r ** 2 - circle1.e ** 2 - circle2.r ** 2 + \
-                  circle2.e ** 2 + circle2.n ** 2 - circle1.n ** 2 ) / 2.0
-            de = circle2.e - circle1.e
-            dn = circle2.n - circle1.n
+            t = ( circle1.r ** 2 - circle1.p.e ** 2 - circle2.r ** 2 + \
+                  circle2.p.e ** 2 + circle2.p.n ** 2 - circle1.p.n ** 2 ) / 2.0
+            de = circle2.p.e - circle1.p.e
+            dn = circle2.p.n - circle1.p.n
 
             if math.fabs(de) > 0.001:
                 a = 1.0 + dn * dn / de / de
-                b = 2.0 * (circle1.e * dn / de - circle1.n - t * dn / de / de )
-                c = t * t / de / de - 2 * circle1.e * t / de - circle1.r ** 2 + \
-                    circle1.e ** 2 + circle1.n ** 2
+                b = 2.0 * (circle1.p.e * dn / de - circle1.p.n - t * dn / de / de )
+                c = t * t / de / de - 2 * circle1.p.e * t / de - circle1.r ** 2 + \
+                    circle1.p.e ** 2 + circle1.p.n ** 2
                 d = b * b - 4 * a * c
                 if d < 0:
                     return None
@@ -183,9 +176,9 @@ class SurveyingCalculation(object):
                 ep1 = (t - dn * np1) / de
                 ep2 = (t - dn * np2) / de
                 if swap == 0:
-                    return [ Point("",ep1,np1), Point("",ep2,np2) ]
+                    return [ Point("@",ep1,np1), Point("@",ep2,np2) ]
                 else:
-                    return [ Point("",np1,ep1), Point("",np2,ep2) ]
+                    return [ Point("@",np1,ep1), Point("@",np2,ep2) ]
 
             return None
         except (ValueError, TypeError):
@@ -215,8 +208,8 @@ class SurveyingCalculation(object):
             angle1 = obs2.hz.get_angle() - obs1.hz.get_angle()
             angle2 = obs3.hz.get_angle() - obs2.hz.get_angle()
 
-            circ1 = self.__circle2P( p1, p2, angle1 )
-            circ2 = self.__circle2P( p2, p3, angle2 )
+            circ1 = Circle( p1, p2, angle1 )
+            circ2 = Circle( p2, p3, angle2 )
             points = self.__intersecCC( circ1, circ2 )
     
             if len(points) == 2:
