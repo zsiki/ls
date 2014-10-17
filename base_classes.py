@@ -285,34 +285,32 @@ class Circle(object):
             :param p3: included angle (radian) (Angle)
 
         """
-        sc = Calculation()
         if isinstance(p1, Point) and isinstance(p2, float):
             self.p = p1
             self.r = p2
         elif isinstance(p1, Point) and isinstance(p2, Point) and isinstance(p3, Point):
             self.p = self.__center(p1, p2, p3)
-            self.r = sc.distance(self.p, p1).d
+            self.r = Calculation.distance2d(self.p, p1).d
         elif isinstance(p1, Point) and isinstance(p2, Point) and isinstance(p3,  Angle):
-            t2 = sc.distance(p1, p2).d / 2.0
+            t2 = Calculation.distance2d(p1, p2).d / 2.0
             d = t2 / math.tan(p3.get_angle() / 2.0)
-            dab = sc.bearing(p1, p2)
+            dab = Calculation.bearing(p1, p2)
             e3 = p1.e + t2 * math.sin(dab.get_angle()) + d * math.cos(dab.get_angle())
             n3 = p1.n + t2 * math.cos(dab.get_angle()) - d * math.sin(dab.get_angle())
             p4 = Point( "@", e3, n3 )
             self.p = self.__center(p1, p2, p4)
-            self.r = sc.distance(self.p, p1).d
+            self.r = Calculation.distance2d(self.p, p1).d
         else:
             self.p = None
             self.r = None
 
     def __center(self, p1, p2, p3):
         # midpoints
-        sc = Calculation()
         midp12 = Point("@", (p1.e + p2.e) / 2.0,  (p1.n + p2.n) / 2.0)
         midp23 = Point("@", (p2.e + p3.e) / 2.0,  (p2.n + p3.n) / 2.0)
-        d12 = sc.bearing(p1, p2).get_angle() + math.pi / 2.0
-        d23 = sc.bearing(p2, p3).get_angle() + math.pi / 2.0
-        return sc.intersecLL( midp12, midp23, d12, d23 )
+        d12 = Calculation.bearing(p1, p2).get_angle() + math.pi / 2.0
+        d23 = Calculation.bearing(p2, p3).get_angle() + math.pi / 2.0
+        return Calculation.intersecLL( midp12, midp23, d12, d23 )
 
 if __name__ == "__main__":
     """
