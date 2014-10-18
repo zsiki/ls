@@ -9,44 +9,11 @@
 import math
 from base_classes import *
 
-
 class Calculation(object):
     """ container class for all calculations """
 
     def __init__(self):
         pass
-
-    @staticmethod
-    def distance2d(p1, p2):
-        from base_classes import Distance
-        try:
-            d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2)
-        except (TypeError, ValueError):
-            return None
-        return Distance(d, 'HD')
-
-    @staticmethod
-    def distance3d(p1, p2):
-        try:
-            d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2 + (p2.z - p1.z) ** 2)
-        except (ValueError, TypeError):
-            return None
-        return Distance(d, 'SD')
-
-    @staticmethod
-    def bearing(p1, p2):
-        """
-            Calculate whole circle bearing
-        """
-        from base_classes import Angle
-        try:
-            wcb = math.atan2(p2.e - p1.e, p2.n - p1.n)
-            while wcb < 0:
-                wcb = wcb + 2.0 * math.pi
-        except TypeError:
-            return None
-        return Angle(wcb)
-
 
     @staticmethod
     def intersection(s1, obs1, s2, obs2):
@@ -189,11 +156,11 @@ if __name__ == "__main__":
     #p1 = Point("1", 100, 200, 10)
     p1 = Point("1", 100, 200, 20)
     p2 = Point("2", 150, 250, 30)
-    d = Calculation.distance2d(p1, p2)
+    d = distance2d(p1, p2)
     print d.d
-    d = Calculation.distance3d(p1, p2)
+    d = distance3d(p1, p2)
     print d.d
-    b = Calculation.bearing(p1, p2)
+    b = bearing(p1, p2)
     print b.get_angle('DMS');
     
     # intersection test
