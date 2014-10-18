@@ -9,6 +9,7 @@
 import math
 from base_classes import *
 
+
 class Calculation(object):
     """ container class for all calculations """
 
@@ -17,6 +18,7 @@ class Calculation(object):
 
     @staticmethod
     def distance2d(p1, p2):
+        from base_classes import Distance
         try:
             d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2)
         except (TypeError, ValueError):
@@ -36,6 +38,7 @@ class Calculation(object):
         """
             Calculate whole circle bearing
         """
+        from base_classes import Angle
         try:
             wcb = math.atan2(p2.e - p1.e, p2.n - p1.n)
             while wcb < 0:
@@ -79,6 +82,7 @@ class Calculation(object):
             :param dbp direction (bearing) from second point to new point
             :return xp yp as a list or an empty list if lines are near paralel
         """
+        from base_classes import Point
         
         try:
             sdap = math.sin(dap)
@@ -160,7 +164,7 @@ class Calculation(object):
         #try:
         angle1 = Angle(obs2.hz.get_angle() - obs1.hz.get_angle())
         angle2 = Angle(obs3.hz.get_angle() - obs2.hz.get_angle())
-
+        
         circ1 = Circle(p1, p2, angle1)
         print circ1.p.e, circ1.p.n, circ1.r
         circ2 = Circle(p2, p3, angle2)
