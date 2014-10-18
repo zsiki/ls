@@ -290,16 +290,16 @@ class Circle(object):
             self.r = p2
         elif isinstance(p1, Point) and isinstance(p2, Point) and isinstance(p3, Point):
             self.p = self.__center(p1, p2, p3)
-            self.r = Calculation.distance2d(self.p, p1).d
+            self.r = distance2d(self.p, p1).d
         elif isinstance(p1, Point) and isinstance(p2, Point) and isinstance(p3,  Angle):
-            t2 = Calculation.distance2d(p1, p2).d / 2.0
+            t2 = distance2d(p1, p2).d / 2.0
             d = t2 / math.tan(p3.get_angle() / 2.0)
-            dab = Calculation.bearing(p1, p2)
+            dab = bearing(p1, p2)
             e3 = p1.e + t2 * math.sin(dab.get_angle()) + d * math.cos(dab.get_angle())
             n3 = p1.n + t2 * math.cos(dab.get_angle()) - d * math.sin(dab.get_angle())
             p4 = Point( "@", e3, n3 )
             self.p = self.__center(p1, p2, p4)
-            self.r = Calculation.distance2d(self.p, p1).d
+            self.r = distance2d(self.p, p1).d
         else:
             self.p = None
             self.r = None
@@ -308,9 +308,38 @@ class Circle(object):
         # midpoints
         midp12 = Point("@", (p1.e + p2.e) / 2.0,  (p1.n + p2.n) / 2.0)
         midp23 = Point("@", (p2.e + p3.e) / 2.0,  (p2.n + p3.n) / 2.0)
-        d12 = Calculation.bearing(p1, p2).get_angle() + math.pi / 2.0
-        d23 = Calculation.bearing(p2, p3).get_angle() + math.pi / 2.0
+        d12 = bearing(p1, p2).get_angle() + math.pi / 2.0
+        d23 = bearing(p2, p3).get_angle() + math.pi / 2.0
         return Calculation.intersecLL( midp12, midp23, d12, d23 )
+
+
+def distance2d(p1, p2):
+    from base_classes import Distance
+    try:
+        d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2)
+    except (TypeError, ValueError):
+        return None
+    return Distance(d, 'HD')
+
+def distance3d(p1, p2):
+    try:
+        d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2 + (p2.z - p1.z) ** 2)
+    except (ValueError, TypeError):
+        return None
+    return Distance(d, 'SD')
+
+def bearing(p1, p2):
+    """
+        Calculate whole circle bearing
+    """
+    from base_classes import Angle
+    try:
+        wcb = math.atan2(p2.e - p1.e, p2.n - p1.n)
+        while wcb < 0:
+            wcb = wcb + 2.0 * math.pi
+    except TypeError:
+        return None
+    return Angle(wcb)
 
 if __name__ == "__main__":
     """
