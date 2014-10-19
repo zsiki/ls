@@ -314,7 +314,6 @@ class Circle(object):
 
 
 def distance2d(p1, p2):
-    from base_classes import Distance
     try:
         d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2)
     except (TypeError, ValueError):
@@ -332,7 +331,6 @@ def bearing(p1, p2):
     """
         Calculate whole circle bearing
     """
-    from base_classes import Angle
     try:
         wcb = math.atan2(p2.e - p1.e, p2.n - p1.n)
         while wcb < 0:
