@@ -20,13 +20,18 @@
  *                                                                         *
  ***************************************************************************/
 """
+# generic python modules
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox
+from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox, QFileDialog
 # Initialize Qt resources from file resources.py
 import resources_rc
 # Import the code for the dialog
-from surveying_calculation_dialog import SurveyingCalculationDialog
 import os.path
+import re
+
+# plugin specific python modeles
+from surveying_calculation_dialog import SurveyingCalculationDialog
+from totalstations import *
 
 
 class SurveyingCalculation:
@@ -166,14 +171,16 @@ class SurveyingCalculation:
         #self.menu = self.tr(u'&SurveyingCalculation')
         self.menu = QMenu()
         self.menu.setTitle(QCoreApplication.translate(self.tr(u'SurveyingCalculation'), self.tr(u'&SurveyingCalculation')))
+        self.sc_load = QAction(QCoreApplication.translate('SurveyingCalculation', "Load filedbook"), self.iface.mainWindow())
         self.sc_help = QAction(QCoreApplication.translate('SurveyingCalculation', "Help"), self.iface.mainWindow())
         self.sc_about = QAction(QCoreApplication.translate('SurveyingCalculation', "About"), self.iface.mainWindow())
-        self.menu.addActions([self.sc_help, self.sc_about])
+        self.menu.addActions([self.sc_load, self.sc_help, self.sc_about])
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
         lastAction = actions[len(actions) - 1]
         menu_bar.insertMenu(lastAction, self.menu)
 
+        self.sc_load.triggered.connect(self.load_fieldbook)
         self.sc_about.triggered.connect(self.about)
         self.sc_help.triggered.connect(self.help)
 
@@ -183,11 +190,14 @@ class SurveyingCalculation:
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
-        for action in self.actions:
-            self.iface.removePluginMenu(
-                self.tr(u'&SurveyingCalculation'),
-                action)
-            self.iface.removeToolBarIcon(action)
+        # TODO can we remove next?
+        #for action in self.actions:
+        #    self.iface.removePluginMenu(
+        #        self.tr(u'&SurveyingCalculation'),
+        #        action)
+        #    self.iface.removeToolBarIcon(action)
+        del self.menu
+        del self.toolbar
 
     def run(self):
         """Run method that performs all the real work"""
@@ -201,6 +211,49 @@ class SurveyingCalculation:
             # substitute with your code.
             pass
     
+    def load_fieldbook(self):
+        """
+            Load an electric fieldbook form file (GSI, JOB/ARE, ...)
+        """
+        fname = QFileDialog.getOpenFileName(self.iface.mainWindow(),
+            QCoreApplication.translate('SurveyingCalculation', 'Electric fieldbook'),
+            filter= QCoreApplication.translate('SurveyingCalculation', 'Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia SDR (*.sdr)'))
+        if fname:
+            # file selected
+            # ask for table name
+            ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
+                QCoreApplication.translate('SurveyingCalculation', 'QGIS fieldbook'),
+                os.path.split(fname),
+                QCoreApplication.translate('SurveyingCalculation', 'DBF file (*.dbf'))
+            if not ofname:
+                return
+            # create new empty table
+            of = QFile(ofname)
+            if of.exists():
+                # overwrite question
+                # TODO
+                pass
+            # TODO fields !
+            writer = QgsVectorFileWriter(ofname, 'UTF-8', fields, QGIS.NoGeometry, None)
+            if re.search('\.gsi$', fname):
+                fb = LeicaGsi(fname)
+            elif re.search('\.job', fname) or re.search('\.are$', fname):
+                fb = JobAre(fname)
+            elif re.search('\.sdr$', fname):
+                fb = Sdr(fname)
+            else:
+                QMessageBox.warning(self.iface.mainWindow(),
+                    QCoreApplication.translate('SurveyingCalculation', 'File warning'),
+                    QCoreApplication.translate('SurveyingCalculation', 'Unknown fieldbook type'),
+                    QCoreApplication.translate('SurveyingCalculation', 'OK'))
+                return
+            while True:
+                r = fb.parse_next()
+                if r is None:
+                    break
+                # TODO add row to fieldbook table
+        return
+
     def about(self):
         """
             About box of the plugin
