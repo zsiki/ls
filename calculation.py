@@ -16,6 +16,44 @@ class Calculation(object):
         pass
 
     @staticmethod
+    def orientation(st, ref_list):
+        """
+            Orientation calculation for a station
+            reference angles are added to geo data set with    code 100/102 
+            the station gets the average of reference angles with code 101/103
+            :param st: station (Station)
+            :param ref_list list of [Point, PolarObservation] lists
+            :return average orient angle in radians or
+                -2 if no reference direction at all or
+                -1 in case of error
+        """
+        sz = 0
+        cz = 0
+        sd = 0
+        for ref in ref_list:
+            pt = ref[0]
+            obs = ref[1]
+            b = bearing(st.p, pt).get_angle()
+            z = b - obs.hz.get_angle()
+            if z<0:
+                z = z + math.pi * 2
+            d = distance2d(st.p, pt).d
+            sd = sd + d
+            sz = sz + math.sin(z) * d
+            cz = cz + math.cos(z) * d
+ 
+        if sd==0:
+            return None
+        
+        sz = sz / sd
+        cz = cz / sd
+        za = math.atan2(sz, cz)                    ;# average orient angle
+        while za<0:
+            za = za + math.pi * 2
+        
+        return Angle(za)
+
+    @staticmethod
     def intersection(s1, obs1, s2, obs2):
         """
             Calculate intersection
@@ -186,3 +224,46 @@ if __name__ == "__main__":
     p1res = Calculation.resection( s1res, p101res, p102res, p103res, o101res, o102res, o103res )
     print p1res.id, p1res.e, p1res.n
     # so657871.95 247973.24
+    
+    #orientation
+    p101ori = Point( "101", 5693.45, 328.81 )
+    p102ori = Point( "102", 6002.13, 1001.13 )
+    p103ori = Point( "103", 5511.25, -253.16 )
+    p104ori = Point( "104", 5033.45, -396.15 )
+    p201ori = Point( "201", -4396.15, -561.13 )
+    p202ori = Point( "202", -4000.55, 496.14 )
+    p203ori = Point( "203", -5115.33, 366.11 )
+    p204ori = Point( "204", -3863.96, -268.15 )
+    p301ori = Point( "301", 4512.35, -496.29 )
+    p302ori = Point( "302", 4073.16, -986.32 )
+    p303ori = Point( "303", 3952.25, 818.66 )
+    p401ori = Point( "401", -3516.22, 156.25 )
+    p402ori = Point( "402", -3986.35, 460.18 )
+    p403ori = Point( "403", -4019.28, 510.54 )
+    o101ori = PolarObservation( "station_101", Angle(0) )
+    s101ori = Station( p101ori, o101ori )
+    o102ori = PolarObservation( "102", Angle("268-14-13", "DMS") )
+    o103ori = PolarObservation( "103", Angle("80-57-34", "DMS") )
+    o104ori = PolarObservation( "104", Angle("105-53-19", "DMS") )
+    z101ori = Calculation.orientation(s101ori, [[p102ori,o102ori], [p103ori,o103ori], [p104ori,o104ori]])
+    print z101ori.get_angle('DMS');
+    o201ori = PolarObservation( "station_201", Angle(0) )
+    s201ori = Station( p201ori, o201ori )
+    o202ori = PolarObservation( "202", Angle("316-40-57", "DMS") )
+    o203ori = PolarObservation( "203", Angle("258-22-09", "DMS") )
+    o204ori = PolarObservation( "204", Angle("357-19-49", "DMS") )
+    z201ori = Calculation.orientation(s201ori, [[p202ori,o202ori], [p203ori,o203ori], [p204ori,o204ori]])
+    print z201ori.get_angle('DMS');
+    o301ori = PolarObservation( "station_301", Angle(0) )
+    s301ori = Station( p301ori, o301ori )
+    o302ori = PolarObservation( "302", Angle("166-10-30", "DMS") )
+    o303ori = PolarObservation( "303", Angle("281-13-55", "DMS") )
+    z301ori = Calculation.orientation(s301ori, [[p302ori,o302ori], [p303ori,o303ori]])
+    print z301ori.get_angle('DMS');
+    o401ori = PolarObservation( "station_401", Angle(0) )
+    s401ori = Station( p401ori, o401ori )
+    o402ori = PolarObservation( "402", Angle("101-37-23", "DMS") )
+    o403ori = PolarObservation( "403", Angle("103-53-37", "DMS") )
+    z401ori = Calculation.orientation(s401ori, [[p402ori,o402ori], [p403ori,o403ori]])
+    print z401ori.get_angle('DMS');
+    
