@@ -21,7 +21,7 @@
  ***************************************************************************/
 """
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon
+from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox
 # Initialize Qt resources from file resources.py
 import resources_rc
 # Import the code for the dialog
@@ -62,11 +62,6 @@ class SurveyingCalculation:
         self.dlg = SurveyingCalculationDialog()
 
         # Declare instance attributes
-        self.actions = []
-        self.menu = self.tr(u'&SurveyingCalculation')
-        # TODO: We are going to let the user set this up in a future iteration
-        self.toolbar = self.iface.addToolBar(u'SurveyingCalculation')
-        self.toolbar.setObjectName(u'SurveyingCalculation')
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -161,12 +156,30 @@ class SurveyingCalculation:
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
         icon_path = ':/plugins/SurveyingCalculation/icon.png'
-        self.add_action(
-            icon_path,
-            text=self.tr(u'Surveying Calculation'),
-            callback=self.run,
-            parent=self.iface.mainWindow())
+        #self.add_action(
+        #    icon_path,
+        #    text=self.tr(u'Surveying Calculation'),
+        #    callback=self.run,
+        #    parent=self.iface.mainWindow())
+        # build menu
+        self.actions = []
+        #self.menu = self.tr(u'&SurveyingCalculation')
+        self.menu = QMenu()
+        self.menu.setTitle(QCoreApplication.translate(self.tr(u'SurveyingCalculation'), self.tr(u'&SurveyingCalculation')))
+        self.sc_help = QAction(QCoreApplication.translate('SurveyingCalculation', "Help"), self.iface.mainWindow())
+        self.sc_about = QAction(QCoreApplication.translate('SurveyingCalculation', "About"), self.iface.mainWindow())
+        self.menu.addActions([self.sc_help, self.sc_about])
+        menu_bar = self.iface.mainWindow().menuBar()
+        actions = menu_bar.actions()
+        lastAction = actions[len(actions) - 1]
+        menu_bar.insertMenu(lastAction, self.menu)
 
+        self.sc_about.triggered.connect(self.about)
+        self.sc_help.triggered.connect(self.help)
+
+        # TODO: We are going to let the user set this up in a future iteration
+        self.toolbar = self.iface.addToolBar(u'SurveyingCalculation')
+        self.toolbar.setObjectName(u'SurveyingCalculation')
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -175,7 +188,6 @@ class SurveyingCalculation:
                 self.tr(u'&SurveyingCalculation'),
                 action)
             self.iface.removeToolBarIcon(action)
-
 
     def run(self):
         """Run method that performs all the real work"""
@@ -188,3 +200,15 @@ class SurveyingCalculation:
             # Do something useful here - delete the line containing pass and
             # substitute with your code.
             pass
+    
+    def about(self):
+        """
+            About box of the plugin
+        """
+        QMessageBox.information(self.iface.mainWindow(),
+            QCoreApplication.translate('SurveyingCalculation', 'About'),    
+            QCoreApplication.translate('SurveyingCalculation', 'Surveying Calculation Plugin\n\n (c) DigiKom Kft 2014 http://digikom.hu mail (at) digikom.hu\nVersion 0.1a'))
+
+    def help(self):
+        # TODO
+        pass
