@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
     Basic classes for Land Surveying Plug-in for QGIS
     GPL v2.0 license
