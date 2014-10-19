@@ -154,7 +154,7 @@ class LeicaGsi(TotalStation):
                 # vertical distance
                 res['vd'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
             elif item_code == '41':
-                # new station TODO
+                # new station
                 pass
             elif item_code == '42':
                 # station number
@@ -175,14 +175,14 @@ class LeicaGsi(TotalStation):
                 # elevation
                 res['z'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
             elif item_code == '84':
-                # station easting TODO
-                pass
+                # station easting
+                res['station_e'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
             elif item_code == '85':
-                # station northing TODO
-                pass
+                # station northing
+                res['station_n'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
             elif item_code == '86':
-                # station elevation TODO
-                pass
+                # station elevation
+                res['station_z'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
             elif item_code == '87':
                 # reflector height
                 res['th'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
@@ -195,6 +195,7 @@ class JobAre(TotalStation):
     """
         Class to import JOB/ARE data from file
     """
+    # TODO change parse_next to return a whole record
 
     def __init__(self, fname, separator='='):
         super(JobAre, self).__init__(fname, separator)
@@ -254,6 +255,22 @@ class JobAre(TotalStation):
             # elevation
             res['z'] = float(buf[1].strip())
         return res
+
+class Sdr(TotalStation):
+    """
+        Class to import Sokkia field books
+    """
+
+    def __init__(self, fname, separator='='):
+        super(Sdr, self).__init__(fname, separator)
+        self.angle_unit = 'PDEG'
+        self.distance_unit = 'm'
+        self.coord_order = 'EN'
+        self.angle_dir = 'CW'
+
+    def parse_next(self):
+        # TODO
+        pass
 
 if __name__ == "__main__":
     """
