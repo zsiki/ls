@@ -224,7 +224,7 @@ class SurveyingCalculation:
             ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
                 QCoreApplication.translate('SurveyingCalculation', 'QGIS fieldbook'),
                 os.path.split(fname),
-                QCoreApplication.translate('SurveyingCalculation', 'DBF file (*.dbf'))
+                QCoreApplication.translate('SurveyingCalculation', 'DBF file (*.dbf)')
             if not ofname:
                 return
             # create new empty table
