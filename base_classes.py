@@ -311,7 +311,7 @@ class Circle(object):
         midp23 = Point("@", (p2.e + p3.e) / 2.0,  (p2.n + p3.n) / 2.0)
         d12 = bearing(p1, p2).get_angle() + math.pi / 2.0
         d23 = bearing(p2, p3).get_angle() + math.pi / 2.0
-        return Calculation.intersecLL( midp12, midp23, d12, d23 )
+        return intersecLL( midp12, midp23, d12, d23 )
 
 
 def distance2d(p1, p2):
@@ -339,6 +339,80 @@ def bearing(p1, p2):
     except TypeError:
         return None
     return Angle(wcb)
+
+def intersecLL(pa, pb, dap, dbp):
+    """
+        Calculate intersection of two lines solving
+            xa + t1 * sin dap = xb + t2 * sin dbp
+            ya + t1 * cos dap = yb + t2 * cos dbp
+        :param pa first point
+        :param pb  second point
+        :param dap direction (bearing) from first point to new point
+        :param dbp direction (bearing) from second point to new point
+        :return xp yp as a list or an empty list if lines are near paralel
+    """
+    try:
+        sdap = math.sin(dap)
+        cdap = math.cos(dap)
+        sdbp = math.sin(dbp)
+        cdbp = math.cos(dbp)
+        det = sdap*cdbp - sdbp*cdap
+            
+        t1 = ((pb.e - pa.e) * cdbp - (pb.n - pa.n) * sdbp) / det
+        
+        e = pa.e + t1 * sdap
+        n = pa.n + t1 * cdap
+        return Point("@",e,n)
+    except (ValueError, TypeError):
+        return None
+
+def intersecCC(circle1, circle2):
+    """
+        Calculate intersection of two circles solving 
+            (x - x01)^2 + (y - y01)^2 = r1^2
+            (x - x02)^2 + (y - y02)^2 = r2^2
+        :param circle1: center coordinates and radius of first circle (Circle)
+        :param circle2: center coordinates and radius of first circle (Circle)
+
+        :return two, one or none intersection as a list
+    """
+    try:
+        swap = 0
+        if math.fabs( circle2.p.e - circle1.p.e ) < 0.001:
+            w = circle1.p.e
+            circle1.p.e = circle1.p.n
+            circle1.p.n = w
+            w = circle2.p.e
+            circle2.p.e = circle2.p.n
+            circle2.p.n = w
+            swap = 1
+
+        t = ( circle1.r ** 2 - circle1.p.e ** 2 - circle2.r ** 2 + \
+              circle2.p.e ** 2 + circle2.p.n ** 2 - circle1.p.n ** 2 ) / 2.0
+        de = circle2.p.e - circle1.p.e
+        dn = circle2.p.n - circle1.p.n
+
+        if math.fabs(de) > 0.001:
+            a = 1.0 + dn * dn / de / de
+            b = 2.0 * (circle1.p.e * dn / de - circle1.p.n - t * dn / de / de )
+            c = t * t / de / de - 2 * circle1.p.e * t / de - circle1.r ** 2 + \
+                circle1.p.e ** 2 + circle1.p.n ** 2
+            d = b * b - 4 * a * c
+            if d < 0:
+                return None
+
+            np1 = (-b + math.sqrt(d)) / 2.0 / a
+            np2 = (-b - math.sqrt(d)) / 2.0 / a
+            ep1 = (t - dn * np1) / de
+            ep2 = (t - dn * np2) / de
+            if swap == 0:
+                return [ Point("@",ep1,np1), Point("@",ep2,np2) ]
+            else:
+                return [ Point("@",np1,ep1), Point("@",np2,ep2) ]
+
+        return None
+    except (ValueError, TypeError):
+        return None
 
 if __name__ == "__main__":
     """
