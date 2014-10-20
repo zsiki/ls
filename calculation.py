@@ -20,13 +20,10 @@ class Calculation(object):
     def orientation(st, ref_list):
         """
             Orientation calculation for a station
-            reference angles are added to geo data set with    code 100/102 
-            the station gets the average of reference angles with code 101/103
             :param st: station (Station)
             :param ref_list list of [Point, PolarObservation] lists
             :return average orient angle in radians or
-                -2 if no reference direction at all or
-                -1 in case of error
+                None if no reference direction at all or in case of error
         """
         sz = 0
         cz = 0
@@ -53,6 +50,13 @@ class Calculation(object):
             za = za + math.pi * 2
         
         return Angle(za)
+
+    @staticmethod
+    def polarpoint(st, obs):
+        b = st.o.hz.get_angle() + obs.hz.get_angle()
+        e = st.p.e + obs.horiz_dist() * math.sin(b)
+        n = st.p.n + obs.horiz_dist() * math.cos(b)
+        return Point("@",e,n)
 
     @staticmethod
     def intersection(s1, obs1, s2, obs2):
@@ -164,30 +168,51 @@ if __name__ == "__main__":
     p401ori = Point( "401", -3516.22, 156.25 )
     p402ori = Point( "402", -3986.35, 460.18 )
     p403ori = Point( "403", -4019.28, 510.54 )
-    o101ori = PolarObservation( "station_101", Angle(0) )
+    o101ori = PolarObservation("station_101")
     s101ori = Station( p101ori, o101ori )
     o102ori = PolarObservation( "102", Angle("268-14-13", "DMS") )
     o103ori = PolarObservation( "103", Angle("80-57-34", "DMS") )
     o104ori = PolarObservation( "104", Angle("105-53-19", "DMS") )
     z101ori = Calculation.orientation(s101ori, [[p102ori,o102ori], [p103ori,o103ori], [p104ori,o104ori]])
     print z101ori.get_angle('DMS');
-    o201ori = PolarObservation( "station_201", Angle(0) )
+    o201ori = PolarObservation("station_201")
     s201ori = Station( p201ori, o201ori )
     o202ori = PolarObservation( "202", Angle("316-40-57", "DMS") )
     o203ori = PolarObservation( "203", Angle("258-22-09", "DMS") )
     o204ori = PolarObservation( "204", Angle("357-19-49", "DMS") )
     z201ori = Calculation.orientation(s201ori, [[p202ori,o202ori], [p203ori,o203ori], [p204ori,o204ori]])
     print z201ori.get_angle('DMS');
-    o301ori = PolarObservation( "station_301", Angle(0) )
+    o301ori = PolarObservation("station_301")
     s301ori = Station( p301ori, o301ori )
     o302ori = PolarObservation( "302", Angle("166-10-30", "DMS") )
     o303ori = PolarObservation( "303", Angle("281-13-55", "DMS") )
     z301ori = Calculation.orientation(s301ori, [[p302ori,o302ori], [p303ori,o303ori]])
     print z301ori.get_angle('DMS');
-    o401ori = PolarObservation( "station_401", Angle(0) )
+    o401ori = PolarObservation("station_401")
     s401ori = Station( p401ori, o401ori )
     o402ori = PolarObservation( "402", Angle("101-37-23", "DMS") )
     o403ori = PolarObservation( "403", Angle("103-53-37", "DMS") )
     z401ori = Calculation.orientation(s401ori, [[p402ori,o402ori], [p403ori,o403ori]])
     print z401ori.get_angle('DMS');
-    
+
+    # polar points
+    p101pol = Point("101", 13456.25, 12569.75)
+    p201pol = Point("201", 13102.13, 11990.13)
+    p202pol = Point("202", 13569.11, 12788.66)
+    p203pol = Point("203", 13861.23, 12001.54)
+    o101pol = PolarObservation("station_101")
+    s101pol = Station( p101pol, o101pol )
+    o201pol = PolarObservation("201", Angle("112-15-15", "DMS"))
+    o202pol = PolarObservation("202", Angle("288-06-30", "DMS"))
+    o203pol = PolarObservation("203", Angle("45-21-12", "DMS"))
+    o9pol = PolarObservation("9", Angle("145-10-16", "DMS"), None, Distance(206.17,"HD") )
+    o10pol = PolarObservation("10", Angle("201-30-47", "DMS"), None, Distance(219.38,"HD") )
+    z101pol = Calculation.orientation(s101pol, [[p201pol,o201pol], [p202pol,o202pol], [p203pol,o203pol]])
+    print z101pol.get_angle('DMS');
+    s101pol.o.hz = z101pol
+    p9pol = Calculation.polarpoint(s101pol, o9pol)
+    p10pol = Calculation.polarpoint(s101pol, o10pol)
+    print p9pol.id, p9pol.e, p9pol.n
+    print p10pol.id, p10pol.e, p10pol.n
+
+   
