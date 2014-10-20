@@ -9,7 +9,6 @@
 
 import re
 import math
-from  calculation import *
 
 RO = 180 * 60 * 60 / math.pi
 
@@ -17,7 +16,7 @@ class Angle(object):
     """
         Angle class, value stored in radian internally
     """
-    def __init__(self, value=None, unit='RAD'):
+    def __init__(self, value, unit='RAD'):
         """
             Create 
             :param value: angle value
@@ -255,10 +254,6 @@ class Station(object):
             :param o observation data (PolarObservation)
             orientation angle in hz field, instrument height in th field
         """
-        #if 'station_' + p.id != o.target:
-            #self.p = None
-            #self.o = None
-            #return
         self.p = p
         self.o = o
 
@@ -430,12 +425,12 @@ if __name__ == "__main__":
     print Angle(a.get_angle('GON'), 'GON').get_angle('DMS')
     print Angle(a.get_angle('NMEA'), 'NMEA').get_angle('DMS')
     print Angle(a.get_angle('PDEG'), 'PDEG').get_angle('PDEG')
+    print Angle('16-20', 'DMS').get_angle('DMS')
+    print Angle('16', 'DMS').get_angle('DMS')
     p = [Point('1', 1000, 2000, 50), Point('2', 1500, 2000, 60)]
     o = [PolarObservation('station_1', None, None, None, 1.54),
          PolarObservation('2', Angle(60.9345, 'GON'), Angle(89.855615, 'DEG'), Distance(501.105, 'SD'), 1.80)]
     print o[1].horiz_dist()
-    print Angle('16-20', 'DMS').get_angle('DMS')
-    print Angle('16', 'DMS').get_angle('DMS')
     c = Circle(Point('3', 100, 200), 100.0)
     print c.p.e, c.p.n, c.r
     c = Circle(Point('4', 100, 100), Point('5', 0, 100), Point('6', 100, 50))
