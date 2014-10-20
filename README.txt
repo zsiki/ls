@@ -1,3 +1,5 @@
+Surveying Calculation plugin for QGIS
+
 Plugin Builder Results
 
 Your plugin SurveyingCalculation was created in:
