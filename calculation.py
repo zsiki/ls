@@ -214,5 +214,3 @@ if __name__ == "__main__":
     p10pol = Calculation.polarpoint(s101pol, o10pol)
     print p9pol.id, p9pol.e, p9pol.n
     print p10pol.id, p10pol.e, p10pol.n
-
-   
