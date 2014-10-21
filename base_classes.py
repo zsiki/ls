@@ -20,14 +20,14 @@ class Angle(object):
         """
             Create 
             :param value: angle value
-            :param unit: angle unit (RAD/DMS/DEG/GON/NMEA/PDEG)
+            :param unit: angle unit (RAD/DMS/DEG/GON/NMEA/PDEG/SEC)
         """
         self.set_angle(value, unit)
 
     def get_angle(self, out='RAD'):
         """
             Get angle value in diffferent units
-            :param out: output unit (RAD/DMS/DEG/GON/NMEA)
+            :param out: output unit (RAD/DMS/DEG/GON/NMEA/PDEG/SEC)
             :returns float or string 
         """
         if out == 'RAD':
@@ -43,6 +43,8 @@ class Angle(object):
         elif out == 'PDEG':
             # pseudo decimal DMS ddd.mmss
             output = self.__rad2pdeg()
+        elif out == 'SEC':
+            output = self.__rad2sec()
         else:
             output = None
         return output
@@ -66,6 +68,8 @@ class Angle(object):
             self.value = self.__dm2rad(value)
         elif unit == 'PDEG':
             self.value = self.__pdeg2rad(value)
+        elif unit == 'SEC':
+            self.value = self.__sec2rad(value)
         else:
             # unknown unit
             self.value = None
@@ -116,6 +120,13 @@ class Angle(object):
             m = math.floor(angle)
             s = (angle - m) * 100
             a = math.radians(d + m / 60.0 + s / 3600.0)
+        except (ValueError, TypeError):
+            a = None
+        return a
+
+    def __sec2rad(self, angle):
+        try:
+            a = angle / RO
         except (ValueError, TypeError):
             a = None
         return a
@@ -236,6 +247,8 @@ class PolarObservation(object):
         self.pc = pc
 
     def horiz_dist(self):
+        if self.d is None:
+            return None
         if self.d.mode == 'HD':
             return self.d.d
         elif self.d.mode == 'SD':
