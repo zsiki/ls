@@ -53,10 +53,16 @@ class Calculation(object):
 
     @staticmethod
     def polarpoint(st, obs):
+        """
+            Calculate coordinates of a point measured by an independent radial measurement
+            :param st: station (Station)
+            :param obs: observation from station to the unknown point (PolarObservation)
+            :return the polar point with new coordinates (Point)
+        """
         b = st.o.hz.get_angle() + obs.hz.get_angle()
         e = st.p.e + obs.horiz_dist() * math.sin(b)
         n = st.p.n + obs.horiz_dist() * math.cos(b)
-        return Point("@",e,n)
+        return Point(obs.target, e, n)
 
     @staticmethod
     def intersection(s1, obs1, s2, obs2):

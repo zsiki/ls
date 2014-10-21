@@ -310,6 +310,9 @@ class Circle(object):
 
 
 def distance2d(p1, p2):
+    """
+        Calculate horizontal distance between two points
+    """
     try:
         d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2)
     except (TypeError, ValueError):
@@ -317,6 +320,9 @@ def distance2d(p1, p2):
     return Distance(d, 'HD')
 
 def distance3d(p1, p2):
+    """
+        Calculate 3D distance between two points
+    """
     try:
         d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2 + (p2.z - p1.z) ** 2)
     except (ValueError, TypeError):
@@ -374,13 +380,8 @@ def intersecCC(circle1, circle2):
     try:
         swap = 0
         if math.fabs( circle2.p.e - circle1.p.e ) < 0.001:
-            w = circle1.p.e
-            circle1.p.e = circle1.p.n
-            circle1.p.n = w
-            w = circle2.p.e
-            circle2.p.e = circle2.p.n
-            circle2.p.n = w
-            swap = 1
+            circle1.p.e, circle1.p.n = circle1.p.n, circle1.p.e
+            circle2.p.e, circle2.p.n = circle2.p.n, circle2.p.e
 
         t = ( circle1.r ** 2 - circle1.p.e ** 2 - circle2.r ** 2 + \
               circle2.p.e ** 2 + circle2.p.n ** 2 - circle1.p.n ** 2 ) / 2.0
