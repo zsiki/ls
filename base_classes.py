@@ -11,6 +11,7 @@ import re
 import math
 
 RO = 180 * 60 * 60 / math.pi
+PISEC = 180 * 60 * 60
 
 class Angle(object):
     """
