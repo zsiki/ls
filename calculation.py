@@ -92,7 +92,6 @@ class Calculation(object):
         pp.pc = pc
         return pp
 
-
     @staticmethod
     def resection(st, p1, p2, p3, obs1, obs2, obs3):
         """
@@ -239,10 +238,46 @@ class Calculation(object):
             if obsnext is not None and obsnext.d is not None:
                 t[i+1] = Distance(obsnext.horiz_dist(),"HD")
 
-
         if forceFree is True:
             beta[n-1] = None
 
+        # calculate sum of betas if we have both orientation
+        if beta[0] is not None and beta[n-1]is not None:
+            sumbeta = 0 # in seconds
+            for i in range(0,n):
+                sumbeta = sumbeta + beta[i].get_angle("SEC")
+            # calculate angle error
+            dbeta = (n-1) * PISEC - sumbeta
+            while dbeta > PISEC:
+                dbeta = dbeta - 2*PISEC
+            while dbeta < -PISEC:
+                dbeta = dbeta + 2*PISEC
+        else:
+            sumbeta = 0
+            dbeta = 0
+
+        # angle corrections
+        w = 0
+        vbeta = []
+        for i in range(0,n):
+            vbeta[i] = math.round(dbeta / n)
+            w = w + vbeta[i]
+
+        # forced rounding
+        i = 0
+        dbeta = math.round(dbeta)
+        while w < dbeta:
+            vbeta[i] = vbeta[i] + 1 
+            i = i + 1
+            w = w + 1
+            if i >= n:
+                i = 0
+        while w > dbeta:
+            vbeta[i] = vbeta[i] - 1
+            i = i + 1
+            w = w - 1
+            if i >= n:
+                i = 0
 
         # TODO continue calculation!!!
 
