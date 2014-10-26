@@ -21,21 +21,33 @@
  ***************************************************************************/
 """
 # generic python modules
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, QFile
 from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox, QFileDialog
+from qgis.core import *
 # Initialize Qt resources from file resources.py
 import resources_rc
-# Import the code for the dialog
 import os.path
 import re
+from shutil import copyfile
 
-# plugin specific python modeles
+# plugin specific python modules
 from surveying_calculation_dialog import SurveyingCalculationDialog
 from totalstations import *
 
-
 class SurveyingCalculation:
     """QGIS Plugin Implementation."""
+
+    # TODO not used
+    # standard fieldbook field names
+    std_fb_fields = (('id', QVariant.Int), ('point_id', QVariant.String),
+        ('hz', QVariant.Double), ('v', QVariant.Double), 
+        ('sd', QVariant.Double), ('th', QVariant.Double), 
+        ('pc', QVariant.String))
+    # standard coordinate field names
+    std_co_fields = (('point_id', QVariant.String), ('n', QVariant.Double),
+        ('e', QVariant.Double), ('z', QVariant.Double),
+        ('pc', QVariant.String))
+    # TODO end not used
 
     def __init__(self, iface):
         """Constructor.
@@ -71,69 +83,46 @@ class SurveyingCalculation:
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
-
         We implement this ourselves since we do not inherit QObject.
-
         :param message: String for translation.
         :type message: str, QString
-
         :returns: Translated version of message.
         :rtype: QString
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('SurveyingCalculation', message)
 
-
-    def add_action(
-        self,
-        icon_path,
-        text,
-        callback,
-        enabled_flag=True,
-        add_to_menu=True,
-        add_to_toolbar=True,
-        status_tip=None,
-        whats_this=None,
-        parent=None):
+    def add_action(self, icon_path, text, callback, enabled_flag=True,
+        add_to_menu=True, add_to_toolbar=True, status_tip=None,
+        whats_this=None, parent=None):
         """Add a toolbar icon to the InaSAFE toolbar.
-
         :param icon_path: Path to the icon for this action. Can be a resource
             path (e.g. ':/plugins/foo/bar.png') or a normal file system path.
         :type icon_path: str
-
         :param text: Text that should be shown in menu items for this action.
         :type text: str
-
         :param callback: Function to be called when the action is triggered.
         :type callback: function
-
         :param enabled_flag: A flag indicating if the action should be enabled
             by default. Defaults to True.
         :type enabled_flag: bool
-
         :param add_to_menu: Flag indicating whether the action should also
             be added to the menu. Defaults to True.
         :type add_to_menu: bool
-
         :param add_to_toolbar: Flag indicating whether the action should also
             be added to the toolbar. Defaults to True.
         :type add_to_toolbar: bool
-
         :param status_tip: Optional text to show in a popup when mouse pointer
             hovers over the action.
         :type status_tip: str
-
         :param parent: Parent widget for the new action. Defaults None.
         :type parent: QWidget
-
         :param whats_this: Optional text to show in the status bar when the
             mouse pointer hovers over the action.
-
         :returns: The action that was created. Note that the action is also
             added to self.actions list.
         :rtype: QAction
         """
-
         icon = QIcon(icon_path)
         action = QAction(icon, text, parent)
         action.triggered.connect(callback)
@@ -152,9 +141,7 @@ class SurveyingCalculation:
             self.iface.addPluginToMenu(
                 self.menu,
                 action)
-
         self.actions.append(action)
-
         return action
 
     def initGui(self):
@@ -170,10 +157,10 @@ class SurveyingCalculation:
         self.actions = []
         #self.menu = self.tr(u'&SurveyingCalculation')
         self.menu = QMenu()
-        self.menu.setTitle(QCoreApplication.translate(self.tr(u'SurveyingCalculation'), self.tr(u'&SurveyingCalculation')))
-        self.sc_load = QAction(QCoreApplication.translate('SurveyingCalculation', "Load filedbook"), self.iface.mainWindow())
-        self.sc_help = QAction(QCoreApplication.translate('SurveyingCalculation', "Help"), self.iface.mainWindow())
-        self.sc_about = QAction(QCoreApplication.translate('SurveyingCalculation', "About"), self.iface.mainWindow())
+        self.menu.setTitle(self.tr(u'&SurveyingCalculation'))
+        self.sc_load = QAction(self.tr("Load fieldbook"), self.iface.mainWindow())
+        self.sc_help = QAction(self.tr("Help"), self.iface.mainWindow())
+        self.sc_about = QAction(self.tr("About"), self.iface.mainWindow())
         self.menu.addActions([self.sc_load, self.sc_help, self.sc_about])
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
@@ -216,25 +203,30 @@ class SurveyingCalculation:
             Load an electric fieldbook form file (GSI, JOB/ARE, ...)
         """
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(),
-            QCoreApplication.translate('SurveyingCalculation', 'Electric fieldbook'),
-            filter= QCoreApplication.translate('SurveyingCalculation', 'Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia SDR (*.sdr)'))
+            self.tr('Electric fieldbook'),
+            filter= self.tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia SDR (*.sdr)'))
         if fname:
             # file selected
             # ask for table name
             ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
-                QCoreApplication.translate('SurveyingCalculation', 'QGIS fieldbook'),
-                os.path.split(fname),
-                QCoreApplication.translate('SurveyingCalculation', 'DBF file (*.dbf)'))
+                self.tr('QGIS fieldbook'),
+                os.path.split(fname)[0],
+                filter=self.tr('DBF file (*.dbf)'))
             if not ofname:
                 return
-            # create new empty table
-            of = QFile(ofname)
-            if of.exists():
+            if QFile(ofname).exists():
                 # overwrite question
-                # TODO
-                pass
-            # TODO fields !
-            writer = QgsVectorFileWriter(ofname, 'UTF-8', fields, QGIS.NoGeometry, None)
+                ret = QMessageBox.warning(self.iface.mainWindow(),
+                    self.tr("SurveyingCalculation"),
+                    self.tr("Do you want to overwrite existing table?"),
+                    QMessageBox.Yes | QMessageBox.Default,
+                    QMessageBox.Cancel | QMessageBox.Escape)
+                if ret == QMessageBox.Cancel:
+                    return
+            # make a copy of dbf template
+            copyfile(os.path.join(self.plugin_dir, 'template', 'fb_template.dbf'), ofname)
+            fb_dbf = QgsVectorLayer(ofname, os.path.basename(ofname), "ogr")
+            QgsMapLayerRegistry.instance().addMapLayer(fb_dbf)
             if re.search('\.gsi$', fname):
                 fb = LeicaGsi(fname)
             elif re.search('\.job', fname) or re.search('\.are$', fname):
@@ -243,15 +235,32 @@ class SurveyingCalculation:
                 fb = Sdr(fname)
             else:
                 QMessageBox.warning(self.iface.mainWindow(),
-                    QCoreApplication.translate('SurveyingCalculation', 'File warning'),
-                    QCoreApplication.translate('SurveyingCalculation', 'Unknown fieldbook type'),
-                    QCoreApplication.translate('SurveyingCalculation', 'OK'))
+                    self.tr('File warning'),
+                    self.tr('Unknown fieldbook type'),
+                    self.tr('OK'))
                 return
+            i = 1    # ordinal number for fieldbook records
+            fb_dbf.startEditing()
+            fb.open()
             while True:
+                # get next observation/station data from fieldbook
                 r = fb.parse_next()
                 if r is None:
-                    break
+                    break    # end of file
                 # TODO add row to fieldbook table
+                record = QgsFeature()
+                # add & initialize attributes
+                record.setFields(fb_dbf.pendingFields(), True)
+                j = fb_dbf.dataProvider().fieldNameIndex('id')
+                if j != -1:
+                    record.setAttribute(j, i)
+                for key in r:
+                    j = fb_dbf.dataProvider().fieldNameIndex(key)
+                    if j != -1:
+                        record.setAttribute(j, r[key])
+                fb_dbf.dataProvider().addFeatures([record])
+                i += 1
+            fb_dbf.commitChanges()
         return
 
     def about(self):
@@ -259,8 +268,8 @@ class SurveyingCalculation:
             About box of the plugin
         """
         QMessageBox.information(self.iface.mainWindow(),
-            QCoreApplication.translate('SurveyingCalculation', 'About'),    
-            QCoreApplication.translate('SurveyingCalculation', 'Surveying Calculation Plugin\n\n (c) DigiKom Kft 2014 http://digikom.hu mail (at) digikom.hu\nVersion 0.1a'))
+            self.tr('About'),    
+            self.tr('Surveying Calculation Plugin\n\n (c) DigiKom Kft 2014 http://digikom.hu mail (at) digikom.hu\nVersion 0.1a'))
 
     def help(self):
         # TODO
