@@ -37,18 +37,6 @@ from totalstations import *
 class SurveyingCalculation:
     """QGIS Plugin Implementation."""
 
-    # TODO not used
-    # standard fieldbook field names
-    std_fb_fields = (('id', QVariant.Int), ('point_id', QVariant.String),
-        ('hz', QVariant.Double), ('v', QVariant.Double), 
-        ('sd', QVariant.Double), ('th', QVariant.Double), 
-        ('pc', QVariant.String))
-    # standard coordinate field names
-    std_co_fields = (('point_id', QVariant.String), ('n', QVariant.Double),
-        ('e', QVariant.Double), ('z', QVariant.Double),
-        ('pc', QVariant.String))
-    # TODO end not used
-
     def __init__(self, iface):
         """Constructor.
 
@@ -247,7 +235,7 @@ class SurveyingCalculation:
                 r = fb.parse_next()
                 if r is None:
                     break    # end of file
-                # TODO add row to fieldbook table
+                # add row to fieldbook table
                 record = QgsFeature()
                 # add & initialize attributes
                 record.setFields(fb_dbf.pendingFields(), True)
