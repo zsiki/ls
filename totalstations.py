@@ -100,13 +100,13 @@ class LeicaGsi(TotalStation):
             res = val / 1000.0 * 0.3048
         elif unit == 2:
             # gon
-            res = Angle(val / 100000.0, 'GON').get_angle('RAD')
+            res = Angle(val / 100000.0, 'GON').get_angle('GON')
         elif unit == 3:
             # DEG
-            res = Angle(val / 10000.0, 'DEG').get_angle('RAD')
+            res = Angle(val / 10000.0, 'DEG').get_angle('GON')
         elif unit == 4:
             # DMS
-            res = Angle(val / 100000.0, 'PDEG').get_angle('RAD')
+            res = Angle(val / 100000.0, 'PDEG').get_angle('GON')
         elif unit == 5:
             # mil
             res = val / 6400.0 * math.pi * 2
@@ -159,7 +159,7 @@ class LeicaGsi(TotalStation):
                 pass
             elif item_code == '42':
                 # station number
-                res['station_id'] = self.trim_left(val[7:], '0')
+                res['point_id'] = 'station_' + self.trim_left(val[7:], '0')
             elif item_code == '43':
                 # station height
                 res['ih'] = self.convert(float(self.trim_left(val[7:], '0')), 0)
@@ -202,6 +202,7 @@ class JobAre(TotalStation):
         super(JobAre, self).__init__(fname, separator)
         self.angle_unit = 'PDEG'
         self.distance_unit = 'm'
+        self.res = {}
 
     def parse_next(self):
         """
@@ -209,53 +210,65 @@ class JobAre(TotalStation):
         """
         if self.fp is None:
             return None
-        res = {}
-        buf = self.get_line()
-        if buf is None:
-            return None
-        if len(buf) < 2:
-            return {}
-        item_code = buf[0].strip()
-        if item_code == '2':
-            # station point id
-            res['station_id'] = buf[1].strip()
-        elif item_code == '3':
-            # instrument height
-            res['ih'] = float(buf[1].strip())
-        elif item_code == '4':
-            # point code
-            res['code'] = buf[1].strip()
-        elif item_code == '5' or item_code == '62':
-            # target point id
-            res['point_id'] = buf[1].strip()
-        elif item_code == '6':
-            # target height
-            res['th'] = float(buf[1].strip())
-        elif item_code == '7' or item_code == '21':
-            # horizontal angle
-            res['hz'] = Angle(float(buf[1]), self.angle_unit).get_angle('RAD')
-        elif item_code == '8':
-            # zenit angle
-            res['v'] = Angle(float(buf[1]), self.angle_unit).get_angle('RAD')
-        elif item_code == '9':
-            # slope distance
-            res['sd'] = float(buf[1].strip())
-        elif item_code == '10':
-            # vertical distance
-            res['vd'] = float(buf[1].strip())
-        elif item_code == '11':
-            # horizontal distance
-            res['hd'] = float(buf[1].strip())
-        elif item_code == '37':
-            # northing
-            res['n'] = float(buf[1].strip())
-        elif item_code == '38':
-            # easting
-            res['e'] = float(buf[1].strip())
-        elif item_code == '39':
-            # elevation
-            res['z'] = float(buf[1].strip())
-        return res
+        while True:
+            buf = self.get_line()
+            if buf is None:
+                ret = self.res
+                self.res = {}
+                if len(ret) > 0:
+                    return ret
+                else:
+                    return None
+            if len(buf) < 2:
+                continue
+            item_code = buf[0].strip()
+            if item_code == '2':
+                ret = self.res
+                self.res = {}
+                # station point id
+                self.res['point_id'] = 'station_' + buf[1].strip()
+                if len(ret):
+                    return ret
+            elif item_code == '3':
+                # instrument height
+                self.res['ih'] = float(buf[1].strip())
+            elif item_code == '4':
+                # point code
+                self.res['code'] = buf[1].strip()
+            elif item_code == '5' or item_code == '62':
+                ret = self.res
+                self.res = {}
+                # target point id
+                self.res['point_id'] = buf[1].strip()
+                if len(ret):
+                    return ret
+            elif item_code == '6':
+                # target height
+                self.res['th'] = float(buf[1].strip())
+            elif item_code == '7' or item_code == '21':
+                # horizontal angle
+                self.res['hz'] = Angle(float(buf[1]), self.angle_unit).get_angle('GON')
+            elif item_code == '8':
+                # zenit angle
+                self.res['v'] = Angle(float(buf[1]), self.angle_unit).get_angle('GON')
+            elif item_code == '9':
+                # slope distance
+                self.res['sd'] = float(buf[1].strip())
+            elif item_code == '10':
+                # vertical distance
+                self.res['vd'] = float(buf[1].strip())
+            elif item_code == '11':
+                # horizontal distance
+                self.res['hd'] = float(buf[1].strip())
+            elif item_code == '37':
+                # northing
+                self.res['n'] = float(buf[1].strip())
+            elif item_code == '38':
+                # easting
+                self.res['e'] = float(buf[1].strip())
+            elif item_code == '39':
+                # elevation
+                self.res['z'] = float(buf[1].strip())
 
 class Sdr(TotalStation):
     """
@@ -277,7 +290,7 @@ if __name__ == "__main__":
     """
         unit test
     """
-    ts = LeicaGsi('test.gsi', ' ')
+    ts = LeicaGsi('samples/kz120125_kzp.gsi', ' ')
     ts.open()
     while True:
         r = ts.parse_next()
@@ -287,17 +300,10 @@ if __name__ == "__main__":
             print r
     ts.close()
     #ts = JobAre('test.job', '=')
-    ts = JobAre('test.are', '=')
-    ts.open()
-    r = {}
-    while True:
-        r1 = ts.parse_next()
-        if r1 is None:
-            break
-        if len(r1) == 0:
-            continue
-        if list(r1)[0] in ['point_id', 'station_id']:
-            print r
-            r = {}
-        r.update(r1)
-    print r
+    #ts.open()
+    #while True:
+    #    r = ts.parse_next()
+    #    if r is None:
+    #        break
+    #    if len(r) > 0:
+    #        print r
