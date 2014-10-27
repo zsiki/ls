@@ -169,13 +169,13 @@ class Calculation(object):
             # no coordinate for endpoint            
             #TODO messagebox for free traverse accepted 
             free = True # free traverse
-            
+
         #collect measurements in traverse
         beta = [None]*n
         t = [None]*n
         t1 = [None]*n
         t2 = [None]*n
-        
+
         for i in range(0,n):
             st = trav_obs[i][0]
             obsprev = trav_obs[i][1]
@@ -185,8 +185,11 @@ class Calculation(object):
                 if beta[0] is None:
                     # no orientation on start
                     #TODO messagebox
-                    print "No orientation on start - inserted traverse"
-                    pass
+                    if free is True:
+                        print "No orientation on start and no coordinates on end"
+                        return None
+                    else:
+                        print "No orientation on start - inserted traverse"
                 
             if i==n-1:
                 beta[i] = st.o.hz
@@ -194,7 +197,6 @@ class Calculation(object):
                     # no orientation on end
                     #TODO messagebox
                     print "No orientation on end"
-                    pass
             
             if i!=0 and i!=n-1 and (obsprev is None or obsnext is None or obsprev.hz is None or obsnext.hz is None):
                 # no angle at angle point
@@ -227,7 +229,7 @@ class Calculation(object):
                     # save distance for output
                     t1[i] = Distance(obsprev.horiz_dist(), "HD")
                     t2[i] = t[i]
-                    t[i]  = Distance((t[i].horiz_dist() + obsprev.horiz_dist()) / 2.0, "HD")
+                    t[i]  = Distance((t[i].d + obsprev.horiz_dist()) / 2.0, "HD")
                 else:
                     t[i] = Distance(obsprev.horiz_dist(),"HD")
             elif i>1 and t[i-1] is None:
@@ -258,14 +260,14 @@ class Calculation(object):
 
         # angle corrections
         w = 0   # in seconds
-        vbeta = []  # in seconds
+        vbeta = [None]*n  # in seconds
         for i in range(0,n):
-            vbeta[i] = math.round(dbeta / n)
+            vbeta[i] = round(dbeta / n)
             w = w + vbeta[i]
 
         # forced rounding
         i = 0
-        dbeta = math.round(dbeta)
+        dbeta = round(dbeta)
         while w < dbeta:
             vbeta[i] = vbeta[i] + 1 
             i = i + 1
@@ -280,12 +282,12 @@ class Calculation(object):
                 i = 0
 
         #    calculate bearings and de & dn for sides
-        delta = [0] # in seconds
-        sumde = 0
-        sumdn = 0
-        sumt = 0
-        de = []
-        dn = []
+        delta = [0.0]*n # in seconds
+        sumde = 0.0
+        sumdn = 0.0
+        sumt = 0.0
+        de = [0.0]*n
+        dn = [0.0]*n
         for i in range(1,n):
 
             j = i - 1
@@ -298,15 +300,15 @@ class Calculation(object):
                     sumde = 0
                     sumdn = 0
                     for k in range(1,n):
-                        de[k] = t[k] * math.sin(d / RO)
-                        dn[k] = t[k] * math.cos(d / RO)
+                        de[k] = t[k].d * math.sin(d / RO)
+                        dn[k] = t[k].d * math.cos(d / RO)
                         sumde = sumde + de[k]
                         sumdn = sumdn + dn[k]
                         if k < n-1:
-                            d = d + beta[k] - PISEC
+                            d = d + beta[k].get_angle("SEC") - PISEC
                     
-                    d = Bearing( Point("@",endp.p.e, endp.p.n), Point("@",startp.p.e,startp.p.n)).get_angle("SEC") - \
-                            Bearing (Point("@",sumde,sumdn),Point("@",0, 0)).get_angle("SEC")
+                    d = bearing( Point("@",endp.p.e, endp.p.n), Point("@",startp.p.e,startp.p.n)).get_angle("SEC") - \
+                            bearing (Point("@",sumde,sumdn),Point("@",0, 0)).get_angle("SEC")
                     sumde = 0
                     sumdn = 0
             else:
@@ -317,11 +319,11 @@ class Calculation(object):
             while d > PISEC*2:
                 d = d - PISEC*2
             delta[i] = d
-            de[i] = t[i] * math.sin(d / RO)
-            dn[i] = t[i] * math.cos(d / RO)
+            de[i] = t[i].d * math.sin(d / RO)
+            dn[i] = t[i].d * math.cos(d / RO)
             sumde = sumde + de[i]
             sumdn = sumdn + dn[i]
-            sumt = sumt + t[i]
+            sumt = sumt + t[i].d
             
         #    calculate de & dn error
         if free is True:
@@ -334,27 +336,33 @@ class Calculation(object):
             ddist = math.hypot(dde, ddn)    # linear error
 
         #    calculate final coords
+        ve = [0]*n
+        vn = [0]*n
+        ee = [0]*n
+        nn = [0]*n
         we = dde / sumt
         wn = ddn / sumt
+        ee[0] = startp.p.e
+        nn[0] = startp.p.n
         for i in range(1,n):
-            ve[i] = t[i] * we
-            vn[i] = t[i] * wn
-            e[i] = e[i-1] + de[i] + ve[i]
-            n[i] = n[i-1] + dn[i] + vn[i]
+            ve[i] = t[i].d * we
+            vn[i] = t[i].d * wn
+            ee[i] = ee[i-1] + de[i] + ve[i]
+            nn[i] = nn[i-1] + dn[i] + vn[i]
         
-        plist = []  # list of calculated points
         if free is True:
             last = n
         else:
             last = n-1
+        plist = []  # list of calculated points
         for i in range(1,last):
             
             if trav_obs[i][0] is not None and trav_obs[i][0].p is not None:
-                plist[i] = trav_obs[i][0].p
+                plist.append( trav_obs[i][0].p )
             else:
-                plist[i] = Point("@")
-            plist[i].e = e[i]
-            plist[i].n = n[i]
+                plist.append( Point( stationpn_to_pn(trav_obs[i][0].o.target) ) )
+            plist[-1].e = ee[i]
+            plist[-1].n = nn[i]
 
         return plist
     
@@ -459,7 +467,7 @@ if __name__ == "__main__":
     print p10pol.id, p10pol.e, p10pol.n
     
     #traverse1
-    # open traverse
+    # closed at one end and known bearings at one end (free traverse)
     p5241otra = Point("5241",646414.44,211712.77)
     p5245otra = Point("5245",646938.71,212635.92)
     p5246otra = Point("5246",646380.61,212793.97)
@@ -485,7 +493,54 @@ if __name__ == "__main__":
     s114otra = Station( None, PolarObservation("station_114") )
     o114_113otra = PolarObservation("113", Angle("104-23-11","DMS")) 
     o114_115otra = PolarObservation("115", Angle("305-54-29","DMS"), None, Distance(234.23,"HD")) 
-    #Calculation.traverse( [ [s5247otra,None,o5247_111otra], [s111otra,o111_5247otra,o111_112otra],
-    #                       [s112otra,o112_111otra,o112_113otra],[s113otra,o113_112otra,o113_114otra],
-    #                       [s114otra,o114_113otra,o114_115otra] ] )
+    s115otra = Station( None, PolarObservation("115") )
+    plist = Calculation.traverse( [ [s5247otra,None,o5247_111otra], [s111otra,o111_5247otra,o111_112otra],
+                           [s112otra,o112_111otra,o112_113otra],[s113otra,o113_112otra,o113_114otra],
+                           [s114otra,o114_113otra,o114_115otra],[s115otra,None,None] ] )
+    for pt in plist:
+        print pt.id, pt.e, pt.n
+
+    #traverse2
+    # closed at both ends and known bearings at both ends
+    pKtra = Point("K",599767.21,148946.70)
+    pVtra = Point("V",599733.75,149831.76)
+    p1015tra = Point("1015",598642.17,148436.26)
+    p1016tra = Point("1016",600136.60,148588.85)
+    p1017tra = Point("1017",600264.30,149325.79)
+    p1018tra = Point("1018",598258.90,149496.78)
+    p1019tra = Point("1019",600092.33,150676.80)
+
+    oKtra = PolarObservation("station_K")
+    sKtra = Station( pKtra, oKtra )
+    oK_1017tra = PolarObservation( "1017", Angle("61-28-18", "DMS") )
+    oK_1016tra = PolarObservation( "1016", Angle("142-53-28", "DMS") )
+    oK_1015tra = PolarObservation( "1015", Angle("254-23-32", "DMS") )
+    oK_1tra = PolarObservation( "1", Angle("17-14-18", "DMS"), None, Distance(139.82,"HD") )
+    sKtra.o.hz = Calculation.orientation(sKtra, [[p1017tra,oK_1017tra], [p1016tra,oK_1016tra], [p1015tra,oK_1015tra]])
+    print sKtra.o.hz.get_angle('DMS');  #351-12-05
     
+    s1tra = Station( None, PolarObservation("station_1") )
+    o1_Ktra = PolarObservation("K", Angle("79-28-20","DMS"), None, Distance(139.85,"HD")) 
+    o1_2tra = PolarObservation("2", Angle("236-13-46","DMS"), None, Distance(269.32,"HD")) 
+    o1_501tra = PolarObservation("501", Angle("204-58-10","DMS"), None, Distance(59.12,"HD")) 
+    s2tra = Station( None, PolarObservation("station_2") )
+    o2_3tra = PolarObservation("3", Angle("82-18-45","DMS"), None, Distance(169.40,"HD")) 
+    o2_1tra = PolarObservation("1", Angle("217-58-34","DMS"), None, Distance(269.36,"HD")) 
+    s3tra = Station( None, PolarObservation("station_3") )
+    o3_2tra = PolarObservation("2", Angle("262-18-44","DMS"), None, Distance(169.45,"HD")) 
+    o3_Vtra = PolarObservation("V", Angle("41-18-10","DMS"), None, Distance(345.90,"HD")) 
+    o3_502tra = PolarObservation("502", Angle("344-28-25","DMS"), None, Distance(55.46,"HD")) 
+
+    oVtra = PolarObservation("station_V")
+    sVtra = Station( pVtra, oVtra )
+    oV_3tra = PolarObservation( "3", Angle("257-44-08", "DMS"), None, Distance(345.94,"HD") )
+    oV_1018tra = PolarObservation( "1018", Angle("346-24-11", "DMS") )
+    oV_1019tra = PolarObservation( "1019", Angle("112-12-06", "DMS") )
+    oV_1017tra = PolarObservation( "1017", Angle("222-50-58", "DMS") )
+    sVtra.o.hz = Calculation.orientation(sVtra, [[p1018tra,oV_1018tra], [p1019tra,oV_1019tra], [p1017tra,oV_1017tra]])
+    print sVtra.o.hz.get_angle('DMS');  #270-47-45
+
+    plist = Calculation.traverse( [ [sKtra,None,oK_1tra], [s1tra,o1_Ktra,o1_2tra], [s2tra,o2_1tra,o2_3tra],
+                                   [s3tra,o3_2tra,o3_Vtra], [sVtra,oV_3tra,None] ] )
+    for pt in plist:
+        print pt.id, pt.e, pt.n
