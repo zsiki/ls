@@ -171,10 +171,10 @@ class Calculation(object):
             free = True # free traverse
             
         #collect measurements in traverse
-        beta = [None] * 10
-        t = [None] * 10
-        t1 = [None] * 10
-        t2 = [None] * 10
+        beta = [None]*n
+        t = [None]*n
+        t1 = [None]*n
+        t2 = [None]*n
         
         for i in range(0,n):
             st = trav_obs[i][0]
@@ -247,7 +247,7 @@ class Calculation(object):
             for i in range(0,n):
                 sumbeta = sumbeta + beta[i].get_angle("SEC")
             # calculate angle error
-            dbeta = (n-1) * PISEC - sumbeta
+            dbeta = (n-1) * PISEC - sumbeta # in seconds
             while dbeta > PISEC:
                 dbeta = dbeta - 2*PISEC
             while dbeta < -PISEC:
@@ -257,8 +257,8 @@ class Calculation(object):
             dbeta = 0
 
         # angle corrections
-        w = 0
-        vbeta = []
+        w = 0   # in seconds
+        vbeta = []  # in seconds
         for i in range(0,n):
             vbeta[i] = math.round(dbeta / n)
             w = w + vbeta[i]
@@ -279,9 +279,83 @@ class Calculation(object):
             if i >= n:
                 i = 0
 
-        # TODO continue calculation!!!
+        #    calculate bearings and de & dn for sides
+        delta = [0] # in seconds
+        sumde = 0
+        sumdn = 0
+        sumt = 0
+        de = []
+        dn = []
+        for i in range(1,n):
 
+            j = i - 1
+            if j==0:
+                if beta[j] is not None:
+                    d = delta[j] + beta[j].get_angle("SEC") + vbeta[j]
+                else:
+                    # find orientation for first side "beillesztett"
+                    d = 0
+                    sumde = 0
+                    sumdn = 0
+                    for k in range(1,n):
+                        de[k] = t[k] * math.sin(d / RO)
+                        dn[k] = t[k] * math.cos(d / RO)
+                        sumde = sumde + de[k]
+                        sumdn = sumdn + dn[k]
+                        if k < n-1:
+                            d = d + beta[k] - PISEC
+                    
+                    d = Bearing( Point("@",endp.p.e, endp.p.n), Point("@",startp.p.e,startp.p.n)).get_angle("SEC") - \
+                            Bearing (Point("@",sumde,sumdn),Point("@",0, 0)).get_angle("SEC")
+                    sumde = 0
+                    sumdn = 0
+            else:
+                d = delta[j] + beta[j].get_angle("SEC") + vbeta[j] - PISEC
+            
+            while d < 0:
+                d = d + PISEC*2
+            while d > PISEC*2:
+                d = d - PISEC*2
+            delta[i] = d
+            de[i] = t[i] * math.sin(d / RO)
+            dn[i] = t[i] * math.cos(d / RO)
+            sumde = sumde + de[i]
+            sumdn = sumdn + dn[i]
+            sumt = sumt + t[i]
+            
+        #    calculate de & dn error
+        if free is True:
+            dde = 0 # free traverse
+            ddn = 0
+            ddist = 0
+        else:
+            dde = endp.p.e - startp.p.e - sumde
+            ddn = endp.p.n - startp.p.n - sumdn
+            ddist = math.hypot(dde, ddn)    # linear error
+
+        #    calculate final coords
+        we = dde / sumt
+        wn = ddn / sumt
+        for i in range(1,n):
+            ve[i] = t[i] * we
+            vn[i] = t[i] * wn
+            e[i] = e[i-1] + de[i] + ve[i]
+            n[i] = n[i-1] + dn[i] + vn[i]
+        
         plist = []  # list of calculated points
+        if free is True:
+            last = n
+        else:
+            last = n-1
+        for i in range(1,last):
+            
+            if trav_obs[i][0] is not None and trav_obs[i][0].p is not None:
+                plist[i] = trav_obs[i][0].p
+            else:
+                plist[i] = Point("@")
+            plist[i].e = e[i]
+            plist[i].n = n[i]
+
         return plist
     
 if __name__ == "__main__":
