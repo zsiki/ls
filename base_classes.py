@@ -423,6 +423,21 @@ def intersecCC(circle1, circle2):
         return None
     except (ValueError, TypeError):
         return None
+    
+def pn_to_stationpn(pn):
+    if isinstance(pn, basestring):
+        return "station_" + pn
+    else:
+        return None
+
+def stationpn_to_pn(stpn):
+    if isinstance(stpn, basestring):
+        if stpn.startswith("station_"):
+            return stpn[8:]
+        else:
+            return stpn
+    else:
+        return None
 
 if __name__ == "__main__":
     """
