@@ -458,6 +458,34 @@ if __name__ == "__main__":
     print p9pol.id, p9pol.e, p9pol.n
     print p10pol.id, p10pol.e, p10pol.n
     
-    #traverse
-    Calculation.traverse( [] )
+    #traverse1
+    # open traverse
+    p5241otra = Point("5241",646414.44,211712.77)
+    p5245otra = Point("5245",646938.71,212635.92)
+    p5246otra = Point("5246",646380.61,212793.97)
+    p5247otra = Point("5247",646381.14,212476.49)
+    o5247otra = PolarObservation("station_5247")
+    s5247otra = Station( p5247otra, o5247otra )
+    o5241otra = PolarObservation( "5241", Angle("245-23-41", "DMS") )
+    o5245otra = PolarObservation( "5245", Angle("141-56-11", "DMS") )
+    o5246otra = PolarObservation( "5246", Angle("67-47-14", "DMS") )
+    s5247otra.o.hz = Calculation.orientation(s5247otra, [[p5241otra,o5241otra], [p5245otra,o5245otra], [p5246otra,o5246otra]])
+    print s5247otra.o.hz.get_angle('DMS');  #292-06-34
+    
+    o5247_111otra = PolarObservation("111", Angle("241-26-57","DMS"), None, Distance(123.42,"HD")) 
+    s111otra = Station( None, PolarObservation("station_111") )
+    o111_5247otra = PolarObservation("5247", Angle("225-39-00","DMS")) 
+    o111_112otra = PolarObservation("112", Angle("92-38-43","DMS"), None, Distance(142.81,"HD")) 
+    s112otra = Station( None, PolarObservation("station_112") )
+    o112_111otra = PolarObservation("111", Angle("227-16-34","DMS")) 
+    o112_113otra = PolarObservation("113", Angle("69-16-28","DMS"), None, Distance(253.25,"HD")) 
+    s113otra = Station( None, PolarObservation("station_113") )
+    o113_112otra = PolarObservation("112", Angle("102-56-44","DMS")) 
+    o113_114otra = PolarObservation("114", Angle("205-46-21","DMS"), None, Distance(214.53,"HD")) 
+    s114otra = Station( None, PolarObservation("station_114") )
+    o114_113otra = PolarObservation("113", Angle("104-23-11","DMS")) 
+    o114_115otra = PolarObservation("115", Angle("305-54-29","DMS"), None, Distance(234.23,"HD")) 
+    #Calculation.traverse( [ [s5247otra,None,o5247_111otra], [s111otra,o111_5247otra,o111_112otra],
+    #                       [s112otra,o112_111otra,o112_113otra],[s113otra,o113_112otra,o113_114otra],
+    #                       [s114otra,o114_113otra,o114_115otra] ] )
     
