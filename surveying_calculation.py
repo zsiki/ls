@@ -146,22 +146,25 @@ class SurveyingCalculation:
         #self.menu = self.tr(u'&SurveyingCalculation')
         self.menu = QMenu()
         self.menu.setTitle(self.tr(u'&SurveyingCalculation'))
-        self.sc_load = QAction(self.tr("Load fieldbook"), self.iface.mainWindow())
+        self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')),self.tr("Load fieldbook ..."), self.iface.mainWindow())
+        self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','calculations.png')),self.tr("Calculations ..."), self.iface.mainWindow())
         self.sc_help = QAction(self.tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(self.tr("About"), self.iface.mainWindow())
-        self.menu.addActions([self.sc_load, self.sc_help, self.sc_about])
+        self.menu.addActions([self.sc_load, self.sc_calc, self.sc_help, self.sc_about])
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
         lastAction = actions[len(actions) - 1]
         menu_bar.insertMenu(lastAction, self.menu)
 
         self.sc_load.triggered.connect(self.load_fieldbook)
+        self.sc_calc.triggered.connect(self.calculations)
         self.sc_about.triggered.connect(self.about)
         self.sc_help.triggered.connect(self.help)
 
         # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'SurveyingCalculation')
         self.toolbar.setObjectName(u'SurveyingCalculation')
+        self.toolbar.addActions([self.sc_load, self.sc_calc, self.sc_help])
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -250,6 +253,10 @@ class SurveyingCalculation:
                 i += 1
             fb_dbf.commitChanges()
         return
+    
+    def calculations(self):
+        # TODO
+        pass
 
     def about(self):
         """
