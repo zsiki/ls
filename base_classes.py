@@ -31,7 +31,9 @@ class Angle(object):
             :param out: output unit (RAD/DMS/DEG/GON/NMEA/PDEG/SEC)
             :returns float or string 
         """
-        if out == 'RAD':
+        if self.value is None:
+            output = None
+        elif out == 'RAD':
             output = self.value
         elif out == 'DMS':
             output = self.__dms()
@@ -57,7 +59,7 @@ class Angle(object):
             :param unit: unit for the new value
             :return: none
         """
-        if unit == 'RAD':
+        if unit == 'RAD' or value is None:
             self.value = value
         elif unit == 'DMS':
             self.value = self.__dms2rad(value)
@@ -74,6 +76,12 @@ class Angle(object):
         else:
             # unknown unit
             self.value = None
+        # move angle to 0 - 2*PI interval
+        if self.value is not None:
+            while self.value >= 2.0 * math.pi:
+                self.value -= 2.0 * math.pi
+            while self.value < 0.0:
+                self.value += 2.0 * math.pi
 
     def __deg2rad(self, angle):
         try:
@@ -90,7 +98,7 @@ class Angle(object):
         return a
 
     def __dms2rad(self, dms):
-        try:
+        if re.search('^[0-9]{1,3}(-[0-9]{1,2}){0,2}$', dms):
             items = [float(item) for item in dms.split('-')]
             div = 1.0
             a = 0.0
@@ -98,8 +106,7 @@ class Angle(object):
                 a += val / div
                 div *= 60.0
             a = math.radians(a)
-            #a = math.radians(items[0] + items[1] / 60.0 + items[2] / 3600.0)
-        except (ValueError, TypeError):
+        else:
             a = None
         return a
 
@@ -428,7 +435,7 @@ if __name__ == "__main__":
     """
         unit test
     """
-    a = Angle('359-59-59', 'DMS')
+    a = Angle('310-59-59', 'DMS')
     print a.get_angle('RAD')
     print a.get_angle('DMS')
     print a.get_angle('DEG')
@@ -448,7 +455,7 @@ if __name__ == "__main__":
     print o[1].horiz_dist()
     c = Circle(Point('3', 100, 200), 100.0)
     print c.p.e, c.p.n, c.r
-    c = Circle(Point('4', 100, 100), Point('5', 0, 100), Point('6', 100, 50))
+    c = Circle(Point('4', 100, 100), Point('5', 10, 10), Point('6', 50, 50))
     print c.p.e, c.p.n, c.r
     c = Circle(Point('4', 100, 100), Point('5', 0, 100), Angle(60, 'DEG'))
     print c.p.e, c.p.n, c.r
