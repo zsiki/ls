@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-    Utility module for Land Surveying Plug-in for QGIS
+.. module:: surveying_util.py
+    :platform: Linux/Windows
+    :synopsis: Utility module for Land Surveying Plug-in for QGIS
     GPL v2.0 license
     Copyright (C) 2014-  DgiKom Kft. http://digikom.hu
     .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 from qgis.core import *
 import re
-import local
+from base_classes import *
 
 def get_namelist(pattern):
     """
@@ -19,8 +21,8 @@ def get_namelist(pattern):
     w = []
     layermap = QgsMapLayerRegistry.instance().mapLayers()
     for name, layer in layermap.iteritems():
-        if layer.type() == QGis.Point and re.search(pattern, name):
-            w.append(name)
+        if layer.type() == QGis.Point and re.search(pattern, layer.name()):
+            w.append(layer.name())
     if len(w):
         return w
     return None
@@ -39,11 +41,26 @@ def get_fblist():
     """
     return get_namelist('^fb_')
 
+def get_layer_by_name(name):
+    """
+        Look for a layer object by name
+        :parameter name: name of the layer
+        :return layer object 
+    """
+    layermap = QgsMapLayerRegistry.instance().mapLayers()
+    for n, layer in layermap.iteritems():
+        if layer.name() == name:
+            if layer.isValid():
+                return layer
+            else:
+                return None
+    return None
+
 def get_fieldlist(vlayer):
     """
         Create a list of fields
         :parameter vlayer: vector layer
-        :return list od fields
+        :return list of fields
     """
     vprovider = vlayer.dataProvider()
     # feat = QgsFeature()
@@ -63,6 +80,22 @@ def get_fieldnames(vlayer):
     for name, field in fieldmap.iteritems():
         if not field.name() in fieldlist:
             fieldlist.append(unicode(field.name()))
-    return sorted(fieldlist, cmp=locale.strcoll)
+    return sorted(fieldlist)
 
-
+def get_coord(p):
+    """
+        Get the coordinates of a point 
+        :parameter p: point number
+        :return Point object with coordinates
+    """
+    coord_lists = get_coordlist()
+    if coord_lists is None:
+        return None
+    for coord_list in coord_lists:
+        lay = get_layer_by_name(coord_list)
+        if lay is None:
+            continue
+        for feat in lay.getFeatures():
+            if feat['point_id'] ==  p:
+                return Point(p, feat['e'], feat['n'], feat['z'], feat['pc'], feat['pt'])
+    return None
