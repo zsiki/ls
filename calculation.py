@@ -365,6 +365,198 @@ class Calculation(object):
             plist[-1].n = nn[i]
 
         return plist
+
+    def __GaussElimination(self, a, b, size):
+        """
+            Solve a linear equation system
+                a * x = b
+                a & b are changed!
+            :param a name of matrix of the equation system
+            :param b name of vector of pure term of equations
+            :param size size of the matrix
+            :return x will be in vector b, the inverse will be in matrix a
+        """
+        for i in range(0,size):
+            q = 1.0 / a[i,i]
+            for k in range(0,size):
+                if i != k:
+                    a[i,k] = q * a[i,k]
+                else:
+                    a[i,k] = q
+        
+            b[i] = q * b[i]
+            for j in range(0,size):
+                if j != i:
+                    t = a[j,i]
+                    for k in range(0,size):
+                        if i != k :
+                            a[j,k] =a[j,k] - t * a[i,k]
+                        else:
+                            a[j,k] = -t * q
+                    b[j] = b[j] - t * b[i]
+    
+    def __helmert4tr(self, plist):
+        """
+            Calculate parameters of orthogonal transformation. Four parameters
+            scale, rotation and offset.
+            E = E0 + c * e - d * n
+            N = N0 + d * e + c * n
+            :param plist a list of common points used in the transormation plist[i]==[srci,desti]
+            :return the list of parameters {E0 N0 c d}
+        """
+        es = 0.0    # sum of source coordinates
+        ns = 0.0
+        Es = 0.0    # sum of destination coordinates
+        Ns = 0.0
+        for p in plist:
+            es = es + p[0].e
+            ns = ns + p[0].n
+            Es = Es + p[1].e
+            Ns = Ns + p[1].n
+
+        ew = es / float(len(plist))
+        Nw = ns / float(len(plist))
+        Ew = Es / float(len(plist))
+        Nw = Ns / float(len(plist))
+
+        s1 = 0.0    # sum of ei*Ei+ni*Ni
+        s2 = 0.0    # sum of ei*Ni-ni*Ei
+        s3 = 0.0    # sum of ei*ei+ni*ni
+   
+        for p in plist:
+            e = p[0].e - ew
+            n = p[0].n - nw
+            E = p[1].e - Ew
+            N = p[1].n - Nw
+            s1 = s1 + e * E + n * N
+            s2 = s2 + e * N - n * E
+            s3 = s3 + e * e + n * n
+
+        c = s1 / s3
+        d = s2 / s3
+        E0 = (Es - c * es + d * ns) / float(len(plist))
+        N0 = (Ns - c * ns - d * es) / float(len(plist))
+        return [E0, N0, c, d]
+
+    def __helmert3tr():
+        """
+            Calculate parameters of orthogonal transformation. Three parameters
+            E = E0 + cos(alpha) * e - sin(alpha) * n
+            N = N0 + sin(alpha) * e + cos(alpha) * n
+            :param plist a list of common points used in the transormation plist[i]==[srci,desti]
+            :return the list of parameters {E0 N0 alpha}
+        """
+        # approximate values from Helmert4
+        appr = __helmert4tr(plist)
+        E0 = appr[0]
+        N0 = appr[1]
+        alpha = math.atan2(appr[3], appr[2])
+
+        # calculate sums
+        s1 = 0.0    # -ei*sin(alpha) - ni*cos(alpha)
+        s2 = 0.0    #  ei*cos(alpha) - ni*sin(alpha)
+        s3 = 0.0    # (-ei*sin(alpha) - ni*cos(alpha))^2 + \
+                    # ( ei*cos(alpha) - ni*sin(alpha))^2
+        s4 = 0.0    # Ei - Eei
+        s5 = 0.0    # Ni - Nei
+        s6 = 0.0    # (-ei*sin(alpha) - ni*cos(alpha)) * (Ei-Eei) +
+                    # ( ei*cos(alpha) - ni*sin(alpha)) * (Ni-Nei)
+    
+        for p in plist:
+            e = p[0].e
+            n = p[0].n
+            E = p[1].e
+            N = p[1].n
+            w1 = -e * math.sin(alpha) - n * math.cos(alpha)
+            w2 = e * math.cos(alpha) - n * math.sin(alpha)
+            s1 = s1 + w1
+            s2 = s2 + w2
+            s3 = s3 + w1 * w1 + w2 * w2
+        
+            w3 = E - (E0 + e * math.cos(alpha) - n * math.sin(alpha))
+            w4 = N - (N0 + e * math.sin(alpha) + n * math.cos(alpha))
+            s4 = s4 + w3
+            s5 = s5 + w4
+            s6 = s6 + w1 * w3 + w2 * w4
+
+        # set matrix of normal equation
+        ata[0,0] = len(plist)
+        ata[0,1] = 0.0
+        ata[0,2] = s1
+        ata[1,0] = 0.0
+        ata[1,1] = len(plist)
+        ata[1,2] = s2
+        ata[2,0] = s1
+        ata[2,1] = s2
+        ata[2,2] = s3
+        # set A*l
+        al[0] = s4
+        al[1] = s5
+        al[2] = s6
+        # solve the normal equation
+        self.__GaussElimination(ata, al, 3)
+
+        return [ E0 + al[0], N0 + al[1], alpha + al[2] ]
+
+    def __affinetr():
+        """
+            Calculate parameters of affine transformation. Six parameters
+            E = E0 + a * e + b * n
+            N = N0 + c * e + d * n
+            :param plist a list of common points used in the transormation plist[i]==[srci,desti]
+            :return the list of parameters {E0 N0 a b c d}
+        """
+        # calculate weight point in point list
+        es = 0.0    # sum of source coordinates
+        ns = 0.0
+        Es = 0.0    # sum of destination coordinates
+        Ns = 0.0
+        for p in plist:
+            es = es + p[0].e
+            ns = ns + p[0].n
+            Es = Es + p[1].e
+            Ns = Ns + p[1].n
+    
+        ew = es / float(len(plist))
+        nw = ns / float(len(plist))
+        Ew = Es / float(len(plist))
+        Nw = Ns / float(len(plist))
+
+        s1 = 0.0    # sum of ei*ei
+        s2 = 0.0    # sum of ni*ni
+        s3 = 0.0    # sum of ei*ni
+        s4 = 0.0    # sum of ei*Ei
+        s5 = 0.0    # sum of ni*Ei
+        s6 = 0.0    # sum of ei*Ni
+        s7 = 0.0    # sum of ni*Ni
+        for p in plist:
+            e = p[0].e - ew
+            n = p[0].n - nw
+            E = p[1].e - Ew
+            N = p[1].n - Nw
+            s1 = s1 + e * e
+            s2 = s2 + n * n
+            s3 = s3 + e * n
+            s4 = s4 + e * E
+            s5 = s5 + n * E
+            s6 = s6 + e * N
+            s7 = s7 + n * N
+
+        w = float(s1 * s2 - s3 * s3)
+        a = -(s5 * s3 - s4 * s2) / w
+        b = -(s4 * s3 - s1 * s5) / w
+        c = -(s7 * s3 - s6 * s2) / w
+        d = -(s6 * s3 - s7 * s1) / w
+        E0 = (Es - a * es - b * ns) / float(len(plist))
+        N0 = (Ns - c * es - d * ns) / float(len(plist))
+        return [E0, N0, a, b, c, d]
+
+    def __polynomialtr():
+        pass
+    
+    @staticmethod
+    def transformation():
+        pass
     
 if __name__ == "__main__":
     """
