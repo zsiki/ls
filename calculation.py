@@ -557,7 +557,7 @@ class Calculation(object):
     @staticmethod
     def transformation():
         pass
-    
+
 if __name__ == "__main__":
     """
         unit test
