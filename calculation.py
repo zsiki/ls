@@ -22,7 +22,7 @@ class Calculation(object):
             Orientation calculation for a station
             :param st: station (Station)
             :param ref_list list of [Point, PolarObservation] lists
-            :return average orient angle in radians or
+            :return average orientation angle (Angle)
                 None if no reference direction at all or in case of error
         """
         sz = 0
