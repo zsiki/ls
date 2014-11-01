@@ -74,6 +74,12 @@ class Angle(object):
         else:
             # unknown unit
             self.value = None
+        
+        if self.value is not None:
+            while self.value < 0.0:
+                self.value = self.value + math.pi*2
+            while self.value > math.pi*2:
+                self.value = self.value - math.pi*2
 
     def __deg2rad(self, angle):
         try:
@@ -443,7 +449,7 @@ if __name__ == "__main__":
     """
         unit test
     """
-    a = Angle('359-59-59', 'DMS')
+    a = Angle("359-59-59", 'DMS')
     print a.get_angle('RAD')
     print a.get_angle('DMS')
     print a.get_angle('DEG')
@@ -466,4 +472,6 @@ if __name__ == "__main__":
     c = Circle(Point('4', 100, 100), Point('5', 0, 100), Point('6', 100, 50))
     print c.p.e, c.p.n, c.r
     c = Circle(Point('4', 100, 100), Point('5', 0, 100), Angle(60, 'DEG'))
-    print c.p.e, c.p.n, c.r
+    print c.p.e, c.p.n, c.r    
+    print "%.3f" % PolarObservation("a",Angle("180","DMS"),Angle("180-0-0","DMS"),Distance(100,"SD")).horiz_dist()
+    
