@@ -99,3 +99,58 @@ def get_coord(p):
             if feat['point_id'] ==  p:
                 return Point(p, feat['e'], feat['n'], feat['z'], feat['pc'], feat['pt'])
     return None
+
+def get_known(dimension=2):
+    """
+        Get list of known points
+        :param dimension: 1/2/3 point dimension
+        :returns list of point ids
+    """
+    plist = []
+    coord_lists = get_coordlist()
+    if coord_lists is None:
+        return None
+    for coord_list in coord_lists:
+        lay = get_layer_by_name(coord_list)
+        if lay is None:
+            continue
+        for feat in lay.getFeatures():
+            if (dimension == 1 and feat['z'] != NULL) or \
+               (dimension == 2 and feat['e'] != NULL and feat['n'] != NULL) or \
+               (dimension == 3 and feat['e'] != NULL and feat['n'] != NULL and feat['z'] != NULL):
+                if not feat['point_id'] in plist:
+                    plist.append(feat['point_id'])
+    if len(plist):
+        return sorted(plist)
+    return None
+    
+def get_unknown(dimension=2):
+    """
+        Get list of unknown points
+        :param dimension: 1/2/3 point dimension
+        :returns list of point ids
+    """
+    plist = []
+    fb_list = get_fblist()
+    if fb_list is None:
+        return None
+    for fb in fb_list:
+        lay = get_layer_by_name(fb)
+        if lay is None:
+            continue
+        for feat in lay.getFeatures():
+            if re.match('station_', feat['point_id']):
+                pid = feat['point_id'][8:]
+            else:
+                pid = feat['point_id']
+            p = get_coord(pid)
+            if (p is None) or \
+               (dimension == 1 and p.z == NULL) or \
+               (dimension == 2 and p.e == NULL and p.n == NULL) or \
+               (dimension == 3 and p.e == NULL and p.n == NULL and p.z == NULL):
+                if not pid in plist:
+                    plist.append(pid)
+    if len(plist):
+        return sorted(plist)
+    return None
+
