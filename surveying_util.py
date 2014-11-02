@@ -154,3 +154,25 @@ def get_unknown(dimension=2):
         return sorted(plist)
     return None
 
+def get_stations():
+    """
+        Get list of stations from fieldbooks
+        :returns list of station point ids
+    """
+    slist = []
+    fb_list = get_fblist()
+    if fb_list is None:
+        return None
+    for fb in fb_list:
+        lay = get_layer_by_name(fb)
+        if lay is None:
+            continue
+        for feat in lay.getFeatures():
+            if re.match('station_', feat['point_id']):
+                pid = feat['point_id'][8:]
+                if not pid in slist:
+                    slist.append(pid)
+    if len(slist):
+        return sorted(slist)
+    return None
+
