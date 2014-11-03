@@ -438,7 +438,7 @@ class Calculation(object):
         N0 = (Ns - c * ns - d * es) / float(len(plist))
         return [E0, N0, c, d]
 
-    def __helmert3tr():
+    def __helmert3tr(self, plist):
         """
             Calculate parameters of orthogonal transformation. Three parameters
             E = E0 + cos(alpha) * e - sin(alpha) * n
@@ -498,7 +498,7 @@ class Calculation(object):
 
         return [ E0 + al[0], N0 + al[1], alpha + al[2] ]
 
-    def __affinetr():
+    def __affinetr(self, plist):
         """
             Calculate parameters of affine transformation. Six parameters
             E = E0 + a * e + b * n
@@ -551,8 +551,86 @@ class Calculation(object):
         N0 = (Ns - c * es - d * ns) / float(len(plist))
         return [E0, N0, a, b, c, d]
 
-    def __polynomialtr():
-        pass
+    def __polynomialtr(self, plist, degree = 3):
+        """
+            Calculate parameters of polynomial (rubber sheet) transformation.
+            X = X0 + a1 * x + a2 * y + a3 * xy + a4 * x^2 + a5 * y^2 + ...
+            Y = Y0 + b1 * x + b2 * y + b3 * xy + b4 * x^2 + b5 * y^2 + ...
+            :param source geo data set name to transform
+            :param destination geo data set name to trnasform to
+            :param plist list of pont names to use in calculation
+            :param degree
+            :return the list of parameters X0 Y0 a1 b1 a2 b2 a3 b3 ...
+                    and the weight point coordinates in source and target system
+        """
+        # set up A matrix (a1 for x, a2 for y)
+        n = len(plist)     # number of points
+        m = (degree + 1) * (degree + 2) / 2    # number of unknowns
+        # calculate average x and y to reduce rounding errors
+        s1 = 0.0
+        s2 = 0.0
+        S1 = 0.0
+        S2 = 0.0
+        for p in plist:
+            e = p[0].e
+            n = p[0].n
+            s1 = s1 + e
+            s2 = s2 + n
+            E = p[1].e
+            N = p[1].n
+            S1 = S1 + E
+            S2 = S2 + N
+        avge = s1 / n
+        avgn = s2 / n
+        avgE = S1 / n
+        avgN = S2 / n
+        i = 0
+        for p in plist:
+            e = p[0].e - avge
+            n = p[0].n - avgn
+            E = p[1].e - avgE
+            N = p[1].n - avgN
+            l = 0
+            for j in range(0,degree+1):
+                for k in range(0,degree+1):
+                    if j + k <= degree:
+                        a1[i,l] = math.pow(x,k) * math.pow(y,j)
+                        a2[i,l] = math.pow(x,k) * math.pow(y,j)
+                        l = l + 1
+            l1[i] = E
+            l2[i] = N
+            i = i + 1
+            
+        # set matrix of normal equation
+        # N1 = a1T*a1, N2 = a2T * a2, n1 = a1T * l1, n2 = a2T * l2
+        for i in range(0,m):
+            for j in range(i,m):
+                s1 = 0.0
+                s2 = 0.0
+                for k in range(0,n):
+                    s1 = s1 + a1[k,i] * a1[k,j]
+                    s2 = s2 + a2[k,i] * a2[k,j]
+                N1[i,j] = s1
+                N1[j,i] = s1
+                N2[i,j] = s2
+                N2[j,i] = s2
+        for i in range(0,m):
+            s1 = 0.0
+            s2 = 0.0
+            for k in range(0,n):
+                s1 = s1 + a1[k,i] * l1[k]
+                s2 = s2 + a2[k,i] * l2[k]
+            n1[i] = s1
+            n2[i] = s2
+
+        # solve the normal equation
+        self.__GaussElimination(N1, n1, m)
+        self.__GaussElimination(N2, n2, m)
+        res = []
+        for i in range(0,m):
+            res.append(n1[i], n2[i])
+        res.append(avge, avgn, avgE, avgN)
+        return res
     
     @staticmethod
     def transformation():
