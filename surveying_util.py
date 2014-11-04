@@ -84,6 +84,7 @@ def get_fieldnames(vlayer):
 
 def get_coord(p):
     """
+		DEPRICATED SEE QPoint class!!!!!!
         Get the coordinates of a point 
         :parameter p: point number
         :return Point object with coordinates
@@ -157,7 +158,7 @@ def get_unknown(dimension=2):
 def get_stations():
     """
         Get list of stations from fieldbooks
-        :returns list of station point ids
+        :returns list of station [[point_id fieldbook_name id] ...]
     """
     slist = []
     fb_list = get_fblist()
@@ -170,9 +171,82 @@ def get_stations():
         for feat in lay.getFeatures():
             if re.match('station_', feat['point_id']):
                 pid = feat['point_id'][8:]
-                if not pid in slist:
-                    slist.append(pid)
+                id = feat['id']
+                act = [pid, fb, id]
+                if not act in slist:
+                    slist.append(act)
     if len(slist):
         return sorted(slist)
     return None
 
+class QPoint(Point):
+    """
+        Extended point class to store table position
+    """
+
+    def __init__(self, p, coo=None):
+        """
+            :parameter p: Point object (Point)
+            :parameter coo: name of the table where point is/to be store (String)
+                it is None if a new point to add
+        """
+        self.p = p
+        self.coo = None
+
+    def get_coord(self):
+        """
+            Get the coordinates of the point from coord table and
+            update coordinate fields
+        """
+        coord_lists = get_coordlist()
+        if coord_lists is None:
+            self.p.e = None
+            self.p.n = None
+            self.p.z = None
+            self.p.pc = None
+            self.p.pt = None
+            self.coo = None
+            return
+        for coord_list in coord_lists:
+            lay = get_layer_by_name(coord_list)
+            if lay is None:
+                continue
+            for feat in lay.getFeatures():
+                if feat['point_id'] ==  self.p.id:
+                    self.p.e = feat['e']
+                    self.p.n = feat['n']
+                    self.p.z = feat['z']
+                    self.p.pc = feat['pc']
+                    self.p.pt = feat['pt']
+                    self.coo = coord_list
+                    return
+        # not found
+        self.p.e = None
+        self.p.n = None
+        self.p.z = None
+        self.p.pc = None
+        self.p.pt = None
+        self.coo = None
+        return
+
+    def set_coord(self):
+        """
+            Update coordinates in coord table, insert new point if 
+            coo is None
+        """
+        if coo is None:
+            # new point to add to the first table
+            cl = get_coorslist()
+            if cl is None:
+                return False
+            self.coo = cl[0]
+        lay = get_layer_by_name(self.coo)
+        if lay is None:
+            return False
+        for feat in lay.getFeatures():
+            if feat['point_id'] ==  self.p.id:
+                # TODO add event handler?
+                # TODO start editing
+                # TODO set feature geometry and other data
+                # TODO stop editing
+                return True
