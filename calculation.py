@@ -733,6 +733,11 @@ if __name__ == "__main__":
     o403ori = PolarObservation( "403", Angle("103-53-37", "DMS") )
     z401ori = Calculation.orientation(s401ori, [[p402ori,o402ori], [p403ori,o403ori]])
     print z401ori.get_angle('DMS'); #201-15-38
+    o401ori = PolarObservation("station_401")
+    s401ori = Station( p401ori, o401ori )
+    o402ori = PolarObservation( "402", Angle("101-37-23", "DMS") )
+    z401ori = Calculation.orientation(s401ori, [[p402ori,o402ori]])
+    print z401ori.get_angle('DMS'); #201-15-32
     o501ori = PolarObservation("station_501")
     s501ori = Station( p501ori, o501ori )
     o502ori = PolarObservation( "502", Angle("170-50-59", "DMS") )
@@ -755,12 +760,30 @@ if __name__ == "__main__":
     o9pol = PolarObservation("9", Angle("145-10-16", "DMS"), None, Distance(206.17,"HD") )
     o10pol = PolarObservation("10", Angle("201-30-47", "DMS"), None, Distance(219.38,"HD") )
     z101pol = Calculation.orientation(s101pol, [[p201pol,o201pol], [p202pol,o202pol], [p203pol,o203pol]])
-    print z101pol.get_angle('DMS');
+    print z101pol.get_angle('DMS'); #99-10-05
     s101pol.o.hz = z101pol
     p9pol = Calculation.polarpoint(s101pol, o9pol)
     p10pol = Calculation.polarpoint(s101pol, o10pol)
-    print p9pol.id, p9pol.e, p9pol.n
-    print p10pol.id, p10pol.e, p10pol.n
+    print p9pol.id, p9pol.e, p9pol.n #9 13270.4140703 12480.4691167
+    print p10pol.id, p10pol.e, p10pol.n #10 13267.5784511 12681.6903012
+    pA1pol = Point("A1", 153.867, 456.430)
+    pT1pol = Point("T1", -237.865, -297.772)
+    pT2pol = Point("T2", -1549.927, 669.6126)
+    pT3pol = Point("T3", 1203.064, -220.0314)
+    oA1pol = PolarObservation("station_A1")
+    sA1pol = Station( pA1pol, oA1pol )
+    oT1pol = PolarObservation("T1", Angle("73-02-35", "DMS"))
+    oT2pol = PolarObservation("T2", Angle("142-43-39", "DMS"))
+    oT3pol = PolarObservation("T3", Angle("348-24-26", "DMS"))
+    oP1pol = PolarObservation("P1", Angle("112-43-47", "DMS"), None, Distance(673.699,"HD") )
+    oP2pol = PolarObservation("P2", Angle("84-0-44", "DMS"), None, Distance(788.105,"HD") )
+    zA1pol = Calculation.orientation(sA1pol, [[pT1pol,oT1pol], [pT2pol,oT2pol], [pT3pol,oT3pol]])
+    print zA1pol.get_angle('DMS'); #134-24-16
+    sA1pol.o.hz = zA1pol
+    pP1pol = Calculation.polarpoint(sA1pol, oP1pol)
+    pP2pol = Calculation.polarpoint(sA1pol, oP2pol)
+    print pP1pol.id, pP1pol.e, pP1pol.n #P1 -466.890538454 194.646843449
+    print pP2pol.id, pP2pol.e, pP2pol.n #P2 -335.841452527 -161.060989852
     
     #traverse1
     # closed at one end and known bearings at one end (free traverse)
