@@ -644,21 +644,53 @@ if __name__ == "__main__":
     p1 = Point("1", 100, 200, 20)
     p2 = Point("2", 150, 250, 30)
     d = distance2d(p1, p2)
-    print d.d
+    print d.d #70.7106781187
     d = distance3d(p1, p2)
-    print d.d
+    print d.d #71.4142842854
     b = bearing(p1, p2)
-    print b.get_angle('DMS');
+    print b.get_angle('DMS'); #45-00-00
+    b = bearing(p2, p1)
+    print b.get_angle('DMS'); #225-00-00
+    b = bearing(p1, p1)
+    print b.get_angle('DMS'); #0-00-00
     
     # intersection test
     s1o = PolarObservation('station_1', Angle(0))
     s2o = PolarObservation('station_2', Angle(0))
     s1 = Station(p1, s1o)
-    s2 = Station(p2, s1o)
+    s2 = Station(p2, s2o)
     o1 = PolarObservation("p", Angle(25, "DEG"))
     o2 = PolarObservation("p", Angle(310, "DEG"))
     p3 = Calculation.intersection(s1, o1, s2, o2)
-    print p3.id, p3.e, p3.n
+    print p3.id, p3.e, p3.n #p 130.820076296 266.093866906
+    A1 = Point("A1", -150, -120)
+    A2 = Point("A2", 130, 75)
+    sA1o = PolarObservation('station_A1', Angle("76-13-23", "DMS"))
+    sA2o = PolarObservation('station_A2', Angle("324-10-58", "DMS"))
+    sA1 = Station(A1, sA1o)
+    sA2 = Station(A2, sA2o)
+    oA1 = PolarObservation("p3", Angle("308-46-36", "DMS"))
+    oA2 = PolarObservation("p3", Angle("345-49-02", "DMS"))
+    P3 = Calculation.intersection(sA1, oA1, sA2, oA2)
+    print P3.id, P3.e, P3.n #p3 -5.89789481532 189.031873417
+    sA1o = PolarObservation('station_A1', Angle("0", "DMS"))
+    sA2o = PolarObservation('station_A2', Angle("0", "DMS"))
+    sA1 = Station(A1, sA1o)
+    sA2 = Station(A2, sA2o)
+    oA1 = PolarObservation("p4", Angle("315", "DMS"))
+    oA2 = PolarObservation("p4", Angle("45", "DMS"))
+    P4 = Calculation.intersection(sA1, oA1, sA2, oA2)
+    print P4.id, P4.e, P4.n #p4 -170.5 -162.5
+    A3 = Point("A3", 0, 0)
+    A4 = Point("A4", 100, 100)
+    sA3o = PolarObservation('station_A3', Angle("0", "DMS"))
+    sA4o = PolarObservation('station_A4', Angle("0", "DMS"))
+    sA3 = Station(A3, sA3o)
+    sA4 = Station(A4, sA4o)
+    oA3 = PolarObservation("p5", Angle("45", "DMS"))
+    oA4 = PolarObservation("p5", Angle("315", "DMS"))
+    P5 = Calculation.intersection(sA3, oA3, sA4, oA4)
+    print P5.id, P5.e, P5.n #p5 100.0 100.0
     
     # resection test
     p1res = Point("3")
