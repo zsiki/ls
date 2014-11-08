@@ -84,6 +84,8 @@ class Calculation(object):
         b2 = s2.o.hz.get_angle() + obs2.hz.get_angle()
         # Calculate an intersection point of two lines. If the two lines are parallels the function returns None object
         pp = intersecLL(s1.p, s2.p, b1, b2)
+        if pp is None:
+            return None
         if obs1.pc is None:
             pc = obs2.pc
         else:
