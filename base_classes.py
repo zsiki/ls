@@ -310,8 +310,14 @@ class Circle(object):
             self.r = distance2d(self.p, p1).d
         elif isinstance(p1, Point) and isinstance(p2, Point) and isinstance(p3,  Angle):
             t2 = distance2d(p1, p2).d / 2.0
-            d = t2 / math.tan(p3.get_angle() / 2.0)
+            try:
+                d = t2 / math.tan(p3.get_angle() / 2.0)
+            except (ZeroDivisionError):
+                self.p = None
+                self.r = None
+                return
             dab = bearing(p1, p2)
+
             e3 = p1.e + t2 * math.sin(dab.get_angle()) + d * math.cos(dab.get_angle())
             n3 = p1.n + t2 * math.cos(dab.get_angle()) - d * math.sin(dab.get_angle())
             p4 = Point( "@", e3, n3 )
