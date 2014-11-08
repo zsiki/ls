@@ -733,6 +733,17 @@ if __name__ == "__main__":
     o103res = PolarObservation( "103", Angle("70-43-22", "DMS") )
     P6res = Calculation.resection( sP6res, p101res, p102res, p103res, o101res, o102res, o103res )
     print P6res.id, P6res.e, P6res.n #P6 -29.6181632685,142.657625507
+    P7res = Point("P7")
+    oP7res = PolarObservation( "station_P7", Angle(0) )
+    sP7res = Station( P7res, oP7res )
+    p101res = Point( "101", -50, 80 )
+    p102res = Point( "102", 0, 80 )
+    p103res = Point( "103", 50, 80 )
+    o101res = PolarObservation( "101", Angle("225", "DMS") )
+    o102res = PolarObservation( "102", Angle("45", "DMS") )
+    o103res = PolarObservation( "103", Angle("45", "DMS") )
+    P7res = Calculation.resection( sP7res, p101res, p102res, p103res, o101res, o102res, o103res )
+    print P7res #
     
     #orientation
     p101ori = Point( "101", 5693.45, 328.81 )
