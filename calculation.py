@@ -703,8 +703,34 @@ if __name__ == "__main__":
     o102res = PolarObservation( "102", Angle("164-38-59", "DMS") )
     o103res = PolarObservation( "103", Angle("96-23-12", "DMS") )
     p1res = Calculation.resection( s1res, p101res, p102res, p103res, o101res, o102res, o103res )
-    print p1res.id, p1res.e, p1res.n
-    # so657871.95 247973.24
+    print p1res.id, p1res.e, p1res.n #3 657871.949432 247973.241416
+    P4res = Point("P4")
+    oP4res = PolarObservation( "station_P4", Angle(0) )
+    sP4res = Station( P4res, oP4res )
+    o101res = PolarObservation( "101", Angle("202-45-56", "DMS") )
+    o102res = PolarObservation( "102", Angle("344-38-59", "DMS") )
+    o103res = PolarObservation( "103", Angle("276-23-12", "DMS") )
+    P4res = Calculation.resection( sP4res, p101res, p102res, p103res, o101res, o102res, o103res )
+    print P4res.id, P4res.e, P4res.n #P4 657871.949432 247973.241416
+    P5res = Point("P5")
+    oP5res = PolarObservation( "station_P5", Angle(0) )
+    sP5res = Station( P5res, oP5res )
+    o101res = PolarObservation( "101", Angle("88-41-35.8669", "DMS") )
+    o102res = PolarObservation( "102", Angle("40-11-52.9394", "DMS") )
+    o103res = PolarObservation( "103", Angle("155-23-15.1567", "DMS") )
+    P5res = Calculation.resection( sP5res, p101res, p102res, p103res, o101res, o102res, o103res )
+    print P5res #None
+    P6res = Point("P6")
+    oP6res = PolarObservation( "station_P6", Angle(0) )
+    sP6res = Station( P6res, oP6res )
+    p101res = Point( "101", -50, 80 )
+    p102res = Point( "102", 0, 80 )
+    p103res = Point( "103", 50, 80 )
+    o101res = PolarObservation( "101", Angle("140-32-24", "DMS") )
+    o102res = PolarObservation( "102", Angle("97-13-15", "DMS") )
+    o103res = PolarObservation( "103", Angle("70-43-22", "DMS") )
+    P6res = Calculation.resection( sP6res, p101res, p102res, p103res, o101res, o102res, o103res )
+    print P6res.id, P6res.e, P6res.n #P6 -29.6181632685,142.657625507
     
     #orientation
     p101ori = Point( "101", 5693.45, 328.81 )
