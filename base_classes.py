@@ -385,7 +385,7 @@ def intersecLL(pa, pb, dap, dbp):
         e = pa.e + t1 * sdap
         n = pa.n + t1 * cdap
         return Point("@",e,n)
-    except (ValueError, TypeError):
+    except (ValueError, TypeError, ZeroDivisionError):
         return None
 
 def intersecCC(circle1, circle2):
@@ -399,36 +399,31 @@ def intersecCC(circle1, circle2):
         :return two, one or none intersection as a list
     """
     try:
-        swap = 0
+        swap = False
         if math.fabs( circle2.p.e - circle1.p.e ) < 0.001:
             circle1.p.e, circle1.p.n = circle1.p.n, circle1.p.e
             circle2.p.e, circle2.p.n = circle2.p.n, circle2.p.e
+            swap = True
 
         t = ( circle1.r ** 2 - circle1.p.e ** 2 - circle2.r ** 2 + \
               circle2.p.e ** 2 + circle2.p.n ** 2 - circle1.p.n ** 2 ) / 2.0
         de = circle2.p.e - circle1.p.e
         dn = circle2.p.n - circle1.p.n
 
-        if math.fabs(de) > 0.001:
-            a = 1.0 + dn * dn / de / de
-            b = 2.0 * (circle1.p.e * dn / de - circle1.p.n - t * dn / de / de )
-            c = t * t / de / de - 2 * circle1.p.e * t / de - circle1.r ** 2 + \
-                circle1.p.e ** 2 + circle1.p.n ** 2
-            d = b * b - 4 * a * c
-            if d < 0:
-                return None
-
-            np1 = (-b + math.sqrt(d)) / 2.0 / a
-            np2 = (-b - math.sqrt(d)) / 2.0 / a
-            ep1 = (t - dn * np1) / de
-            ep2 = (t - dn * np2) / de
-            if swap == 0:
-                return [ Point("@",ep1,np1), Point("@",ep2,np2) ]
-            else:
-                return [ Point("@",np1,ep1), Point("@",np2,ep2) ]
-
-        return None
-    except (ValueError, TypeError):
+        a = 1.0 + dn * dn / de / de
+        b = 2.0 * (circle1.p.e * dn / de - circle1.p.n - t * dn / de / de )
+        c = t * t / de / de - 2 * circle1.p.e * t / de - circle1.r ** 2 + \
+            circle1.p.e ** 2 + circle1.p.n ** 2
+        d = b * b - 4 * a * c
+        np1 = (-b + math.sqrt(d)) / 2.0 / a
+        np2 = (-b - math.sqrt(d)) / 2.0 / a
+        ep1 = (t - dn * np1) / de
+        ep2 = (t - dn * np2) / de
+        if swap:
+            return [ Point("@",ep1,np1), Point("@",ep2,np2) ]
+        else:
+            return [ Point("@",np1,ep1), Point("@",np2,ep2) ]
+    except (ValueError, TypeError, ZeroDivisionError):
         return None
     
 def pn_to_stationpn(pn):
