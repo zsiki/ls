@@ -640,7 +640,7 @@ class Calculation(object):
 
 if __name__ == "__main__":
     """
-        unit test
+        modul test
     """
     #p1 = Point("1", 100, 200, 10)
     p1 = Point("1", 100, 200, 20)
