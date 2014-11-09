@@ -432,6 +432,31 @@ def intersecCC(circle1, circle2):
     except (ValueError, TypeError, ZeroDivisionError):
         return None
     
+def compare (a, b):
+    """
+        compare to objects for equality
+        :param a: first instance
+        :param b: second instance
+    """
+    try:
+        if a == b:
+            # simple numeric, string variables
+            return True
+        elif a.__class__ == b.__class__:
+            # similar classes
+            if a.__dict__ == b.__dict__:
+                return True
+        elif isinstance(a, dict):
+            # dictionary and any class
+            if a == b.__dict__:
+                return True
+        elif isinstance(b, dict):
+            if a.__dict__ == b:
+                return True
+    except (AttributeError):
+        pass
+    return False
+
 def pn_to_stationpn(pn):
     if isinstance(pn, basestring):
         return "station_" + pn
@@ -451,20 +476,28 @@ if __name__ == "__main__":
     """
         unit test
     """
-    a = Angle("359-59-59", 'DMS')
-    print a.get_angle('RAD')
-    print a.get_angle('DMS')
-    print a.get_angle('DEG')
-    print a.get_angle('GON')
-    print a.get_angle('NMEA')
-    print Angle(a.get_angle('RAD'), 'RAD').get_angle('DMS')
-    print Angle(a.get_angle('DMS'), 'DMS').get_angle('DMS')
-    print Angle(a.get_angle('DEG'), 'DEG').get_angle('DMS')
-    print Angle(a.get_angle('GON'), 'GON').get_angle('DMS')
-    print Angle(a.get_angle('NMEA'), 'NMEA').get_angle('DMS')
-    print Angle(a.get_angle('PDEG'), 'PDEG').get_angle('PDEG')
-    print Angle('16-20', 'DMS').get_angle('DMS')
-    print Angle('16', 'DMS').get_angle('DMS')
+    print "Test for Angle class"
+    adms = '359-59-59'
+    a = Angle(adms, 'DMS')
+    if not compare(a.get_angle('DMS'), adms):
+        print "DMS test failed"
+    if not compare(Angle(a.get_angle('RAD'), 'RAD').get_angle('DMS'), adms):
+        print "RAD test failed"
+    if not compare(Angle(a.get_angle('DMS'), 'DMS').get_angle('DMS'), adms):
+        print "DMS 2 test failed"
+    if not compare(Angle(a.get_angle('DEG'), 'DEG').get_angle('DMS'), adms):
+        print "DEG test failed"
+    if not compare(Angle(a.get_angle('GON'), 'GON').get_angle('DMS'), adms):
+        print "GON test failed"
+    if not compare(Angle(a.get_angle('NMEA'), 'NMEA').get_angle('DMS'), adms):
+        print "NMEA test failed"
+    if not compare(Angle(a.get_angle('PDEG'), 'PDEG').get_angle('DMS'), adms):
+        print "PDEG test failed"
+    if not compare(Angle('16-20', 'DMS').get_angle('DMS'), '16-20-00'):
+        print "Short DMS test failed"
+    if not compare(Angle('16', 'DMS').get_angle('DMS'), '16-00-00'):
+        print "Short DMS 2 test failed"
+    # new test style to continue from here
     p = [Point('1', 1000, 2000, 50), Point('2', 1500, 2000, 60)]
     o = [PolarObservation('station_1', None, None, None, 1.54),
          PolarObservation('2', Angle(60.9345, 'GON'), Angle(89.855615, 'DEG'), Distance(501.105, 'SD'), 1.80)]
