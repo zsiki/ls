@@ -694,6 +694,16 @@ if __name__ == "__main__":
     oA4 = PolarObservation("p5", Angle("225", "DMS"))
     P5 = Calculation.intersection(sA3, oA3, sA4, oA4)
     print P5.id, P5.e, P5.n #p5 100.0 100.0
+    A3 = Point("A3", 0, 0)
+    A4 = Point("A4", 100, 100)
+    sA3o = PolarObservation('station_A3', Angle("0", "DMS"))
+    sA4o = PolarObservation('station_A4', Angle("0", "DMS"))
+    sA3 = Station(A3, sA3o)
+    sA4 = Station(A4, sA4o)
+    oA3 = PolarObservation("p5", Angle("45", "DMS"))
+    oA4 = PolarObservation("p5", Angle("45", "DMS"))
+    P5 = Calculation.intersection(sA3, oA3, sA4, oA4)
+    print P5 #None 
     
     # resection test
     p1res = Point("3")
