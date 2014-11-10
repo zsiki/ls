@@ -114,12 +114,13 @@ class Calculation(object):
         
             # Create a circle on points p1 and p2 and angle1.
             circ1 = Circle(p1, p2, angle1)
-            print circ1.p.e, circ1.p.n, circ1.r
             # Create a circle on points p2 and p3 and angle2.
             circ2 = Circle(p2, p3, angle2)
-            print circ2.p.e, circ2.p.n, circ2.r
             # Calculate the intersection of two circles.
-            points = intersecCC(circ1, circ2)
+            try:
+                points = intersecCC(circ1, circ2)
+            except(AttributeError):
+                return None
 
             # IntersectCC functions can return with zero or two intersection points.
             # If the number of intersection point is zero the resection method return None object.
@@ -690,7 +691,7 @@ if __name__ == "__main__":
     sA3 = Station(A3, sA3o)
     sA4 = Station(A4, sA4o)
     oA3 = PolarObservation("p5", Angle("45", "DMS"))
-    oA4 = PolarObservation("p5", Angle("315", "DMS"))
+    oA4 = PolarObservation("p5", Angle("225", "DMS"))
     P5 = Calculation.intersection(sA3, oA3, sA4, oA4)
     print P5.id, P5.e, P5.n #p5 100.0 100.0
     
