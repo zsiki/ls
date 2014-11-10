@@ -72,7 +72,7 @@ class TotalStation(object):
 
     def parse(self):
         """
-            parse one line of input, implemented in chold classes
+            parse one line/logical unit of input, implemented in derives classes
         """
         pass
 

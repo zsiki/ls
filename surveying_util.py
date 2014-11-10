@@ -84,7 +84,7 @@ def get_fieldnames(vlayer):
 
 def get_coord(p):
     """
-		DEPRICATED SEE QPoint class!!!!!!
+        DEPRICATED SEE QPoint class!!!!!!
         Get the coordinates of a point 
         :parameter p: point number
         :return Point object with coordinates
@@ -186,12 +186,16 @@ class QPoint(Point):
 
     def __init__(self, p, coo=None):
         """
-            :parameter p: Point object (Point)
+            :parameter p: Point object (Point) or a point_id (String)
             :parameter coo: name of the table where point is/to be store (String)
                 it is None if a new point to add
         """
-        self.p = p
-        self.coo = None
+        if isinstance(p, Point):
+            super(QPoint, self).__init__(p.id, p.e, p.n. p.z, p.pc. p.pt)
+            self.p = p
+        else:
+            super(QPoint, self).__init__(p)
+        self.coo = coo
 
     def get_coord(self):
         """
@@ -200,11 +204,11 @@ class QPoint(Point):
         """
         coord_lists = get_coordlist()
         if coord_lists is None:
-            self.p.e = None
-            self.p.n = None
-            self.p.z = None
-            self.p.pc = None
-            self.p.pt = None
+            self.e = None
+            self.n = None
+            self.z = None
+            self.pc = None
+            self.pt = None
             self.coo = None
             return
         for coord_list in coord_lists:
@@ -212,20 +216,19 @@ class QPoint(Point):
             if lay is None:
                 continue
             for feat in lay.getFeatures():
-                if feat['point_id'] ==  self.p.id:
-                    self.p.e = feat['e']
-                    self.p.n = feat['n']
-                    self.p.z = feat['z']
-                    self.p.pc = feat['pc']
-                    self.p.pt = feat['pt']
+                if feat['point_id'] ==  self.id:
+                    self.e = feat['e']
+                    self.n = feat['n']
+                    self.z = feat['z']
+                    self.pc = feat['pc']
+                    self.pt = feat['pt']
                     self.coo = coord_list
                     return
-        # not found
-        self.p.e = None
-        self.p.n = None
-        self.p.z = None
-        self.p.pc = None
-        self.p.pt = None
+        self.e = None
+        self.n = None
+        self.z = None
+        self.pc = None
+        self.pt = None
         self.coo = None
         return
 
@@ -234,19 +237,39 @@ class QPoint(Point):
             Update coordinates in coord table, insert new point if 
             coo is None
         """
-        if coo is None:
+        if self.coo is None:
             # new point to add to the first table
-            cl = get_coorslist()
+            cl = get_coordlist()
             if cl is None:
                 return False
+
             self.coo = cl[0]
         lay = get_layer_by_name(self.coo)
         if lay is None:
             return False
         for feat in lay.getFeatures():
-            if feat['point_id'] ==  self.p.id:
+            if feat['point_id'] ==  self.id:
                 # TODO add event handler?
-                # TODO start editing
-                # TODO set feature geometry and other data
-                # TODO stop editing
+                # set feature geometry and attributes
+                fid = feat.id()
+                attrs = {feat.fieldNameIndex('point_id') : self.id,
+                    feat.fieldNameIndex('e') : self.e,
+                    feat.fieldNameIndex('n') : self.n,
+                    feat.fieldNameIndex('z') : self.z,
+                    feat.fieldNameIndex('pc') : self.pc,
+                    feat.fieldNameIndex('pt') : self.pt}
+                lay.dataProvider().changeAttributeValues({ fid : attrs })
+                # feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(self.e, self.n)))
+                lay.dataProvider().changeGeometryValues({ fid : QgsGeometry.fromPoint(QgsPoint(self.e, self.n)) })
                 return True
+        # add new point
+        feat = QgsFeature()
+        feat.addAttribute(feat.fieldNameIndex('point_id'), self.id)
+        feat.addAttribute(feat.fieldNameIndex('e'), self.e)
+        feat.addAttribute(feat.fieldNameIndex('n'), self.n)
+        feat.addAttribute(feat.fieldNameIndex('z'), self.z)
+        feat.addAttribute(feat.fieldNameIndex('pc'), self.pc)
+        feat.addAttribute(feat.fieldNameIndex('pt'), self.pt)
+        feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(self.e, self.n)))
+        lay.dataProvider().addFeatures([feat])
+    

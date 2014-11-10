@@ -173,6 +173,7 @@ class GamaInterface(object):
         doc.writexml(open(tmp_name + '.xml', 'w'))
         doc.unlink()
         # run gama-local
+		# TODO windows (.exe)
         status = call(["./gama-local", tmp_name + '.xml', '--text',
             tmp_name + '.txt', '--xml', tmp_name + 'out.xml'])
         if status != 0:
