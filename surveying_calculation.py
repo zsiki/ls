@@ -21,7 +21,7 @@
  ***************************************************************************/
 """
 # generic python modules
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, QFile
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, QFile, pyqtRemoveInputHook
 from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox, QFileDialog
 from qgis.core import *
 # Initialize Qt resources from file resources.py
@@ -29,6 +29,10 @@ import resources_rc
 import os.path
 import re
 from shutil import copyfile
+# debugging
+import pdb
+from surveying_util import *
+from calculation import *
 
 # plugin specific python modules
 from surveying_calculation_dialog import SurveyingCalculationDialog
@@ -218,11 +222,12 @@ class SurveyingCalculation:
             copyfile(os.path.join(self.plugin_dir, 'template', 'fb_template.dbf'), ofname)
             fb_dbf = QgsVectorLayer(ofname, os.path.basename(ofname), "ogr")
             QgsMapLayerRegistry.instance().addMapLayer(fb_dbf)
-            if re.search('\.gsi$', fname):
+            if re.search('\.gsi$', fname, re.IGNORECASE):
                 fb = LeicaGsi(fname)
-            elif re.search('\.job', fname) or re.search('\.are$', fname):
+            elif re.search('\.job$', fname, re.IGNORECASE) or \
+                re.search('\.are$', fname, re.IGNORECASE):
                 fb = JobAre(fname)
-            elif re.search('\.sdr$', fname):
+            elif re.search('\.sdr$', fname, re.IGNORECASE):
                 fb = Sdr(fname)
             else:
                 QMessageBox.warning(self.iface.mainWindow(),
@@ -230,8 +235,8 @@ class SurveyingCalculation:
                     self.tr('Unknown fieldbook type'),
                     self.tr('OK'))
                 return
-            i = 1    # ordinal number for fieldbook records
-            fb_dbf.startEditing()
+            i = 10    # ordinal number for fieldbook records
+            #fb_dbf.startEditing()
             fb.open()
             while True:
                 # get next observation/station data from fieldbook
@@ -250,13 +255,15 @@ class SurveyingCalculation:
                     if j != -1:
                         record.setAttribute(j, r[key])
                 fb_dbf.dataProvider().addFeatures([record])
-                i += 1
-            fb_dbf.commitChanges()
+                i += 10
+            #fb_dbf.commitChanges()
         return
     
     def calculations(self):
         # TODO
         pass
+        #pyqtRemoveInputHook()
+        #pdb.set_trace()
 
     def about(self):
         """
