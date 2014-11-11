@@ -22,7 +22,7 @@
 """
 # generic python modules
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, QFile, pyqtRemoveInputHook
-from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox, QFileDialog
+from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox, QFileDialog, QDialog
 from qgis.core import *
 # Initialize Qt resources from file resources.py
 import resources_rc
@@ -33,7 +33,7 @@ from shutil import copyfile
 import pdb
 
 # plugin specific python modules
-from surveying_calculation_dialog import SurveyingCalculationDialog
+from surveying_calculation_dialog import Ui_SurveyingCalculationDialogBase
 from simple_calc import Ui_SimpleCalcDialog
 from totalstations import *
 from surveying_util import *
@@ -69,8 +69,9 @@ class SurveyingCalculation:
                 QCoreApplication.installTranslator(self.translator)
 
         # Create the dialogs (after translation) and keep references
-        self.dlg = SurveyingCalculationDialog()
-        self.simple_dlg = Ui_SimpleCalcDialog()
+        #self.dlg = Ui_SurveyingCalculationDialogBase()
+        self.simple_dlg = QDialog()
+        Ui_SimpleCalcDialog().setupUi(self.simple_dlg)
 
         # Declare instance attributes
 
