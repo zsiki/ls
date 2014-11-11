@@ -19,7 +19,7 @@
   <property name="locale">
    <locale language="English" country="UnitedKingdom"/>
   </property>
-  <widget class="QGroupBox" name="groupBox_2">
+  <widget class="QGroupBox" name="Endpoints_GroupBox">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -31,7 +31,7 @@
    <property name="title">
     <string>Endpoints</string>
    </property>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="StartPoint_ComboBox">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -41,7 +41,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_7">
+   <widget class="QLabel" name="StartPoint_Label">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -51,10 +51,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>Start point</string>
+     <string>Start Point</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QLabel" name="EndPoint_Label">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -64,10 +64,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>End point</string>
+     <string>End Point</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_2">
+   <widget class="QComboBox" name="EndPoint_ComboBox">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -78,7 +78,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_3">
+  <widget class="QGroupBox" name="Points_GroupBox">
    <property name="geometry">
     <rect>
      <x>370</x>
@@ -90,7 +90,7 @@
    <property name="title">
     <string>Points</string>
    </property>
-   <widget class="QListView" name="listView">
+   <widget class="QListView" name="TargetPoints_ListView">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -100,7 +100,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="Add_PushButton">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -113,7 +113,7 @@
      <string>Add &gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="Remove_PushButton">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -126,7 +126,7 @@
      <string>&lt; Remove</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_9">
+   <widget class="QLabel" name="TargetPoints_Label">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -139,7 +139,7 @@
      <string>Target (Measured) Points</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_10">
+   <widget class="QLabel" name="OrderPoints_Label">
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -152,7 +152,7 @@
      <string>Order of Traverse Points</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="Calculate_PushButton">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -165,7 +165,7 @@
      <string>Calculate</string>
     </property>
    </widget>
-   <widget class="QListView" name="listView_2">
+   <widget class="QListView" name="OrderPoints_ListView">
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -175,7 +175,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="Up_PushButton">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -188,7 +188,7 @@
      <string>Up</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_8">
+   <widget class="QPushButton" name="Down_PushButton">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -202,7 +202,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="Calculate_GroupBox">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -220,7 +220,7 @@
    <property name="checkable">
     <bool>false</bool>
    </property>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="Calculate_Label">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -233,7 +233,7 @@
      <string>Select type of Traverse Calculate</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_6">
+   <widget class="QRadioButton" name="ClosedTrav_RadioButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -243,10 +243,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>Closed traverse</string>
+     <string>Closed Traverse</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_7">
+   <widget class="QRadioButton" name="LoopTrav_RadioButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -256,10 +256,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>Loop traverse</string>
+     <string>Loop Traverse</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_8">
+   <widget class="QRadioButton" name="OpenTrav_RadioButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -269,10 +269,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>Open traverse</string>
+     <string>Open Traverse</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="BeillesztettTrav_RadioButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -282,11 +282,11 @@
      </rect>
     </property>
     <property name="text">
-     <string>Beillesztett traverse</string>
+     <string>Beillesztett Traverse</string>
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="QPushButton" name="Reset_PushButton">
    <property name="geometry">
     <rect>
      <x>570</x>
@@ -299,7 +299,7 @@
     <string>Reset</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_7">
+  <widget class="QPushButton" name="Close_PushButton">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -312,7 +312,7 @@
     <string>Close</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox_4">
+  <widget class="QGroupBox" name="Result_GroupBox">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -324,7 +324,7 @@
    <property name="title">
     <string>Result of Calculations</string>
    </property>
-   <widget class="QTextBrowser" name="textBrowser">
+   <widget class="QTextBrowser" name="Result_TextBrowser">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -335,7 +335,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="Help_PushButton">
    <property name="geometry">
     <rect>
      <x>20</x>
