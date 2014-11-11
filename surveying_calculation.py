@@ -33,8 +33,10 @@ from shutil import copyfile
 import pdb
 
 # plugin specific python modules
-from surveying_calculation_dialog import Ui_SurveyingCalculationDialogBase
+#from surveying_calculation_dialog import Ui_SurveyingCalculationDialogBase
 from simple_calc import Ui_SimpleCalcDialog
+from network_calc import Ui_NetworkCalcDialog
+from traverse_calc import Ui_TraverseCalcDialog
 from totalstations import *
 from surveying_util import *
 from calculation import *
@@ -72,6 +74,10 @@ class SurveyingCalculation:
         #self.dlg = Ui_SurveyingCalculationDialogBase()
         self.simple_dlg = QDialog()
         Ui_SimpleCalcDialog().setupUi(self.simple_dlg)
+        self.traverse_dlg = QDialog()
+        Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)
+        self.network_dlg = QDialog()
+        Ui_NetworkCalcDialog().setupUi(self.network_dlg)
 
         # Declare instance attributes
 
@@ -155,9 +161,12 @@ class SurveyingCalculation:
         self.menu.setTitle(self.tr(u'&SurveyingCalculation'))
         self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')),self.tr("Load fieldbook ..."), self.iface.mainWindow())
         self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','simple_calc.png')),self.tr("Single point calculations ..."), self.iface.mainWindow())
+        self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')),self.tr("Traverse calculations ..."), self.iface.mainWindow())
+        self.sc_netw = QAction(QIcon(os.path.join(self.plugin_dir,'icons','network_calc.png')),self.tr("Network adjustment ..."), self.iface.mainWindow())
         self.sc_help = QAction(self.tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(self.tr("About"), self.iface.mainWindow())
-        self.menu.addActions([self.sc_load, self.sc_calc, self.sc_help, self.sc_about])
+        self.menu.addActions([self.sc_load, self.sc_calc, self.sc_trav,
+            self.sc_netw, self.sc_help, self.sc_about])
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
         lastAction = actions[len(actions) - 1]
@@ -165,13 +174,16 @@ class SurveyingCalculation:
 
         self.sc_load.triggered.connect(self.load_fieldbook)
         self.sc_calc.triggered.connect(self.calculations)
+        self.sc_trav.triggered.connect(self.traverses)
+        self.sc_netw.triggered.connect(self.networks)
         self.sc_about.triggered.connect(self.about)
         self.sc_help.triggered.connect(self.help)
 
         # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'SurveyingCalculation')
         self.toolbar.setObjectName(u'SurveyingCalculation')
-        self.toolbar.addActions([self.sc_load, self.sc_calc, self.sc_help])
+        self.toolbar.addActions([self.sc_load, self.sc_calc, self.sc_trav,
+            self.sc_netw, self.sc_help])
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -184,17 +196,17 @@ class SurveyingCalculation:
         del self.menu
         del self.toolbar
 
-    def run(self):
-        """Run method that performs all the real work"""
-        # show the dialog
-        self.dlg.show()
-        # Run the dialog event loop
-        result = self.dlg.exec_()
-        # See if OK was pressed
-        if result:
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            pass
+    #def run(self):
+    #    """Run method that performs all the real work"""
+    #    # show the dialog
+    #    self.dlg.show()
+    #    # Run the dialog event loop
+    #    result = self.dlg.exec_()
+    #    # See if OK was pressed
+    #    if result:
+    #        # Do something useful here - delete the line containing pass and
+    #        # substitute with your code.
+    #        pass
     
     def load_fieldbook(self):
         """
@@ -277,6 +289,24 @@ class SurveyingCalculation:
         # TODO
         #pyqtRemoveInputHook()
         #pdb.set_trace()
+
+    def traverses(self):
+        """
+            Various traverse claculations
+        """
+        # show the dialog
+        self.traverse_dlg.show()
+        # Run the dialog event loop
+        result = self.traverse_dlg.exec_()
+
+    def networks(self):
+        """
+            Various network adjustments (1D/2D/3D)
+        """
+        # show the dialog
+        self.network_dlg.show()
+        # Run the dialog event loop
+        result = self.network_dlg.exec_()
 
     def about(self):
         """
