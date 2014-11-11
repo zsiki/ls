@@ -1,0 +1,143 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'simple_calc.ui'
+#
+# Created: Tue Nov 11 14:06:47 2014
+#      by: PyQt4 UI code generator 4.8.6
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+class Ui_SimpleCalcDialog(object):
+    def setupUi(self, SimpleCalcDialog):
+        SimpleCalcDialog.setObjectName(_fromUtf8("SimpleCalcDialog"))
+        SimpleCalcDialog.resize(744, 408)
+        SimpleCalcDialog.setWindowTitle(QtGui.QApplication.translate("SimpleCalcDialog", "Simple Point Calculations", None, QtGui.QApplication.UnicodeUTF8))
+        self.ResetButton = QtGui.QPushButton(SimpleCalcDialog)
+        self.ResetButton.setGeometry(QtCore.QRect(540, 370, 91, 23))
+        self.ResetButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Reset", None, QtGui.QApplication.UnicodeUTF8))
+        self.ResetButton.setObjectName(_fromUtf8("ResetButton"))
+        self.CloseButton = QtGui.QPushButton(SimpleCalcDialog)
+        self.CloseButton.setGeometry(QtCore.QRect(650, 370, 75, 23))
+        self.CloseButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Close", None, QtGui.QApplication.UnicodeUTF8))
+        self.CloseButton.setObjectName(_fromUtf8("CloseButton"))
+        self.HelpButton = QtGui.QPushButton(SimpleCalcDialog)
+        self.HelpButton.setGeometry(QtCore.QRect(10, 370, 75, 23))
+        self.HelpButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.HelpButton.setObjectName(_fromUtf8("HelpButton"))
+        self.groupBox = QtGui.QGroupBox(SimpleCalcDialog)
+        self.groupBox.setGeometry(QtCore.QRect(0, 0, 141, 211))
+        self.groupBox.setTitle(QtGui.QApplication.translate("SimpleCalcDialog", "Calculate", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox.setFlat(False)
+        self.groupBox.setCheckable(False)
+        self.groupBox.setObjectName(_fromUtf8("groupBox"))
+        self.OrientRadio = QtGui.QRadioButton(self.groupBox)
+        self.OrientRadio.setGeometry(QtCore.QRect(10, 50, 151, 17))
+        self.OrientRadio.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Orientation", None, QtGui.QApplication.UnicodeUTF8))
+        self.OrientRadio.setObjectName(_fromUtf8("OrientRadio"))
+        self.label = QtGui.QLabel(self.groupBox)
+        self.label.setGeometry(QtCore.QRect(10, 20, 131, 16))
+        self.label.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Type of Calculation", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.RadialRadio = QtGui.QRadioButton(self.groupBox)
+        self.RadialRadio.setGeometry(QtCore.QRect(10, 80, 161, 17))
+        self.RadialRadio.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Radial Survey", None, QtGui.QApplication.UnicodeUTF8))
+        self.RadialRadio.setObjectName(_fromUtf8("RadialRadio"))
+        self.IntersectRadio = QtGui.QRadioButton(self.groupBox)
+        self.IntersectRadio.setGeometry(QtCore.QRect(10, 110, 151, 17))
+        self.IntersectRadio.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Intersection", None, QtGui.QApplication.UnicodeUTF8))
+        self.IntersectRadio.setObjectName(_fromUtf8("IntersectRadio"))
+        self.ResectionRadio = QtGui.QRadioButton(self.groupBox)
+        self.ResectionRadio.setGeometry(QtCore.QRect(10, 140, 141, 17))
+        self.ResectionRadio.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Resection", None, QtGui.QApplication.UnicodeUTF8))
+        self.ResectionRadio.setObjectName(_fromUtf8("ResectionRadio"))
+        self.FreeRadio = QtGui.QRadioButton(self.groupBox)
+        self.FreeRadio.setGeometry(QtCore.QRect(10, 170, 141, 17))
+        self.FreeRadio.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Free Station", None, QtGui.QApplication.UnicodeUTF8))
+        self.FreeRadio.setObjectName(_fromUtf8("FreeRadio"))
+        self.groupBox_3 = QtGui.QGroupBox(SimpleCalcDialog)
+        self.groupBox_3.setGeometry(QtCore.QRect(300, 0, 441, 211))
+        self.groupBox_3.setTitle(QtGui.QApplication.translate("SimpleCalcDialog", "Points", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
+        self.pushButton = QtGui.QPushButton(self.groupBox_3)
+        self.pushButton.setGeometry(QtCore.QRect(140, 50, 81, 23))
+        self.pushButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Add >", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.pushButton_2 = QtGui.QPushButton(self.groupBox_3)
+        self.pushButton_2.setGeometry(QtCore.QRect(140, 80, 81, 23))
+        self.pushButton_2.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Add all", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.TargetList = QtGui.QListView(self.groupBox_3)
+        self.TargetList.setGeometry(QtCore.QRect(230, 40, 121, 161))
+        self.TargetList.setObjectName(_fromUtf8("TargetList"))
+        self.pushButton_3 = QtGui.QPushButton(self.groupBox_3)
+        self.pushButton_3.setGeometry(QtCore.QRect(140, 140, 81, 23))
+        self.pushButton_3.setText(QtGui.QApplication.translate("SimpleCalcDialog", "< Remove", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
+        self.pushButton_4 = QtGui.QPushButton(self.groupBox_3)
+        self.pushButton_4.setGeometry(QtCore.QRect(140, 170, 81, 23))
+        self.pushButton_4.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Remove all", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
+        self.label_9 = QtGui.QLabel(self.groupBox_3)
+        self.label_9.setGeometry(QtCore.QRect(10, 20, 171, 16))
+        self.label_9.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Target (Measured) Points", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_9.setObjectName(_fromUtf8("label_9"))
+        self.label_10 = QtGui.QLabel(self.groupBox_3)
+        self.label_10.setGeometry(QtCore.QRect(230, 20, 151, 16))
+        self.label_10.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Calculated Points", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_10.setObjectName(_fromUtf8("label_10"))
+        self.CalcButton = QtGui.QPushButton(self.groupBox_3)
+        self.CalcButton.setGeometry(QtCore.QRect(360, 180, 75, 23))
+        self.CalcButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Calculate", None, QtGui.QApplication.UnicodeUTF8))
+        self.CalcButton.setObjectName(_fromUtf8("CalcButton"))
+        self.SourceList = QtGui.QListView(self.groupBox_3)
+        self.SourceList.setGeometry(QtCore.QRect(10, 40, 121, 161))
+        self.SourceList.setObjectName(_fromUtf8("SourceList"))
+        self.groupBox_4 = QtGui.QGroupBox(SimpleCalcDialog)
+        self.groupBox_4.setGeometry(QtCore.QRect(0, 210, 741, 141))
+        self.groupBox_4.setTitle(QtGui.QApplication.translate("SimpleCalcDialog", "Result of Calculations", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_4.setObjectName(_fromUtf8("groupBox_4"))
+        self.textBrowser = QtGui.QTextBrowser(self.groupBox_4)
+        self.textBrowser.setGeometry(QtCore.QRect(10, 20, 721, 111))
+        self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
+        self.groupBox_2 = QtGui.QGroupBox(SimpleCalcDialog)
+        self.groupBox_2.setGeometry(QtCore.QRect(150, 0, 141, 211))
+        self.groupBox_2.setTitle(QtGui.QApplication.translate("SimpleCalcDialog", "Station", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
+        self.Station1Combo = QtGui.QComboBox(self.groupBox_2)
+        self.Station1Combo.setGeometry(QtCore.QRect(10, 50, 121, 22))
+        self.Station1Combo.setObjectName(_fromUtf8("Station1Combo"))
+        self.label_7 = QtGui.QLabel(self.groupBox_2)
+        self.label_7.setGeometry(QtCore.QRect(10, 20, 71, 16))
+        self.label_7.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Station (1)", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setObjectName(_fromUtf8("label_7"))
+        self.label_8 = QtGui.QLabel(self.groupBox_2)
+        self.label_8.setGeometry(QtCore.QRect(10, 90, 71, 16))
+        self.label_8.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Station (2)", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_8.setObjectName(_fromUtf8("label_8"))
+        self.Station2Combo = QtGui.QComboBox(self.groupBox_2)
+        self.Station2Combo.setGeometry(QtCore.QRect(10, 120, 121, 22))
+        self.Station2Combo.setObjectName(_fromUtf8("Station2Combo"))
+
+        self.retranslateUi(SimpleCalcDialog)
+        QtCore.QMetaObject.connectSlotsByName(SimpleCalcDialog)
+
+    def retranslateUi(self, SimpleCalcDialog):
+        pass
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    SimpleCalcDialog = QtGui.QDialog()
+    ui = Ui_SimpleCalcDialog()
+    ui.setupUi(SimpleCalcDialog)
+    SimpleCalcDialog.show()
+    sys.exit(app.exec_())
+
