@@ -31,12 +31,13 @@ import re
 from shutil import copyfile
 # debugging
 import pdb
-from surveying_util import *
-from calculation import *
 
 # plugin specific python modules
 from surveying_calculation_dialog import SurveyingCalculationDialog
+from simple_calc import Ui_SimpleCalcDialog
 from totalstations import *
+from surveying_util import *
+from calculation import *
 
 class SurveyingCalculation:
     """QGIS Plugin Implementation."""
@@ -67,8 +68,9 @@ class SurveyingCalculation:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-        # Create the dialog (after translation) and keep reference
+        # Create the dialogs (after translation) and keep references
         self.dlg = SurveyingCalculationDialog()
+        self.simple_dlg = Ui_SimpleCalcDialog()
 
         # Declare instance attributes
 
@@ -151,7 +153,7 @@ class SurveyingCalculation:
         self.menu = QMenu()
         self.menu.setTitle(self.tr(u'&SurveyingCalculation'))
         self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')),self.tr("Load fieldbook ..."), self.iface.mainWindow())
-        self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','calculations.png')),self.tr("Calculations ..."), self.iface.mainWindow())
+        self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','simple_calc.png')),self.tr("Single point calculations ..."), self.iface.mainWindow())
         self.sc_help = QAction(self.tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(self.tr("About"), self.iface.mainWindow())
         self.menu.addActions([self.sc_load, self.sc_calc, self.sc_help, self.sc_about])
@@ -209,15 +211,18 @@ class SurveyingCalculation:
                 filter=self.tr('DBF file (*.dbf)'))
             if not ofname:
                 return
-            if QFile(ofname).exists():
-                # overwrite question
-                ret = QMessageBox.warning(self.iface.mainWindow(),
-                    self.tr("SurveyingCalculation"),
-                    self.tr("Do you want to overwrite existing table?"),
-                    QMessageBox.Yes | QMessageBox.Default,
-                    QMessageBox.Cancel | QMessageBox.Escape)
-                if ret == QMessageBox.Cancel:
-                    return
+            if not re.match('fb_', os.path.basename(ofname)):
+                ofname = os.path.join(os.path.dirname(ofname),
+                    'fb_' + os.path.basename(ofname))
+            #if QFile(ofname).exists():
+            #    # overwrite question
+            #    ret = QMessageBox.warning(self.iface.mainWindow(),
+            #        self.tr("SurveyingCalculation"),
+            #        self.tr("Do you want to overwrite existing table?"),
+            #        QMessageBox.Yes | QMessageBox.Default,
+            #        QMessageBox.Cancel | QMessageBox.Escape)
+            #    if ret == QMessageBox.Cancel:
+            #        return
             # make a copy of dbf template
             copyfile(os.path.join(self.plugin_dir, 'template', 'fb_template.dbf'), ofname)
             fb_dbf = QgsVectorLayer(ofname, os.path.basename(ofname), "ogr")
@@ -260,8 +265,15 @@ class SurveyingCalculation:
         return
     
     def calculations(self):
+        """
+            Single point calculation (orientation, intersection,
+            resection, freestation)
+        """
+        # show the dialog
+        self.simple_dlg.show()
+        # Run the dialog event loop
+        result = self.simple_dlg.exec_()
         # TODO
-        pass
         #pyqtRemoveInputHook()
         #pdb.set_trace()
 
