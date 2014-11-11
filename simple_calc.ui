@@ -6,83 +6,154 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>764</width>
-    <height>420</height>
+    <width>744</width>
+    <height>408</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string notr="true">Simple Calculations</string>
+   <string>Simple Point Calculations</string>
   </property>
-  <property name="accessibleName">
-   <string/>
-  </property>
-  <property name="locale">
-   <locale language="English" country="UnitedKingdom"/>
-  </property>
-  <widget class="QGroupBox" name="groupBox_2">
+  <widget class="QPushButton" name="ResetButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>10</y>
+     <x>540</x>
+     <y>370</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reset</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="CloseButton">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>370</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="HelpButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>370</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Help</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
      <width>141</width>
      <height>211</height>
     </rect>
    </property>
    <property name="title">
-    <string>Station</string>
+    <string>Calculate</string>
    </property>
-   <widget class="QComboBox" name="comboBox">
+   <property name="flat">
+    <bool>false</bool>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <widget class="QRadioButton" name="OrientRadio">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>50</y>
-      <width>121</width>
-      <height>22</height>
+      <width>151</width>
+      <height>17</height>
      </rect>
     </property>
+    <property name="text">
+     <string>Orientation</string>
+    </property>
    </widget>
-   <widget class="QLabel" name="label_7">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>71</width>
+      <width>131</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Station (1)</string>
+     <string>Type of Calculation</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QRadioButton" name="RadialRadio">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
-      <width>71</width>
-      <height>16</height>
+      <y>80</y>
+      <width>161</width>
+      <height>17</height>
      </rect>
     </property>
     <property name="text">
-     <string>Station (2)</string>
+     <string>Radial Survey</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_2">
+   <widget class="QRadioButton" name="IntersectRadio">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>120</y>
-      <width>121</width>
-      <height>22</height>
+      <y>110</y>
+      <width>151</width>
+      <height>17</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>Intersection</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="ResectionRadio">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>140</y>
+      <width>141</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Resection</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="FreeRadio">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>141</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Free Station</string>
     </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>10</y>
+     <x>300</x>
+     <y>0</y>
      <width>441</width>
      <height>211</height>
     </rect>
@@ -116,7 +187,7 @@
      <string>Add all</string>
     </property>
    </widget>
-   <widget class="QListView" name="listView_2">
+   <widget class="QListView" name="TargetList">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -178,7 +249,7 @@
      <string>Calculated Points</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="CalcButton">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -191,7 +262,7 @@
      <string>Calculate</string>
     </property>
    </widget>
-   <widget class="QListView" name="listView">
+   <widget class="QListView" name="SourceList">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -202,134 +273,11 @@
     </property>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>141</width>
-     <height>211</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Calculate</string>
-   </property>
-   <property name="flat">
-    <bool>false</bool>
-   </property>
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-   <widget class="QRadioButton" name="radioButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>50</y>
-      <width>151</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Orientation</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>131</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Type of Calculation</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>80</y>
-      <width>161</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Radial Survey</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>110</y>
-      <width>151</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Intersection</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_4">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>140</y>
-      <width>141</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Resection</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_10">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>170</y>
-      <width>141</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Free Station</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QPushButton" name="pushButton_6">
-   <property name="geometry">
-    <rect>
-     <x>550</x>
-     <y>380</y>
-     <width>91</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Reset</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_7">
-   <property name="geometry">
-    <rect>
-     <x>660</x>
-     <y>380</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Close</string>
-   </property>
-  </widget>
   <widget class="QGroupBox" name="groupBox_4">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>230</y>
+     <x>0</x>
+     <y>210</y>
      <width>741</width>
      <height>141</height>
     </rect>
@@ -348,18 +296,64 @@
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_8">
+  <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>380</y>
-     <width>75</width>
-     <height>23</height>
+     <x>150</x>
+     <y>0</y>
+     <width>141</width>
+     <height>211</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Help</string>
+   <property name="title">
+    <string>Station</string>
    </property>
+   <widget class="QComboBox" name="Station1Combo">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>121</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Station (1)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Station (2)</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Station2Combo">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>121</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
