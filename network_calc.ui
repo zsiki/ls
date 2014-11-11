@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string notr="true">Network adjustment</string>
+   <string notr="true">Network Adjustment</string>
   </property>
   <property name="accessibleName">
    <string/>
@@ -19,7 +19,7 @@
   <property name="locale">
    <locale language="English" country="UnitedKingdom"/>
   </property>
-  <widget class="QGroupBox" name="groupBox_3">
+  <widget class="QGroupBox" name="Points_GroupBox">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -31,7 +31,7 @@
    <property name="title">
     <string>Points</string>
    </property>
-   <widget class="QListView" name="listView">
+   <widget class="QListView" name="Points_ListView">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -41,7 +41,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="AddFix_PushButton">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -54,7 +54,7 @@
      <string>Add &gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="AddAdj_PushButton">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -67,7 +67,7 @@
      <string>Add &gt;</string>
     </property>
    </widget>
-   <widget class="QListView" name="listView_2">
+   <widget class="QListView" name="FixPoints_ListView">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -77,7 +77,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="RemoveFix_PushButton">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -90,7 +90,7 @@
      <string>&lt; Remove</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_9">
+   <widget class="QLabel" name="ListPoints_Label">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -103,7 +103,7 @@
      <string>List of Points</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_10">
+   <widget class="QLabel" name="FixPoints_Label">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -116,7 +116,7 @@
      <string>Fix Points</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="Calculate_PushButton">
     <property name="geometry">
      <rect>
       <x>410</x>
@@ -129,7 +129,7 @@
      <string>Calculate</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_9">
+   <widget class="QPushButton" name="RemoveAdj_PushButton">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -142,7 +142,7 @@
      <string>&lt; Remove</string>
     </property>
    </widget>
-   <widget class="QListView" name="listView_3">
+   <widget class="QListView" name="AdjPoints_ListView">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -152,7 +152,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="AdjPoints_Label">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -166,7 +166,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="QPushButton" name="Reset_PushButton">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -179,7 +179,7 @@
     <string>Reset</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_7">
+  <widget class="QPushButton" name="Close_PushButton">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -192,7 +192,7 @@
     <string>Close</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox_4">
+  <widget class="QGroupBox" name="Result_GroupBox">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -204,7 +204,7 @@
    <property name="title">
     <string>Result of Calculations</string>
    </property>
-   <widget class="QTextBrowser" name="textBrowser">
+   <widget class="QTextBrowser" name="Result_TextBrowser">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -215,7 +215,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_8">
+  <widget class="QPushButton" name="Help_PushButton">
    <property name="geometry">
     <rect>
      <x>20</x>
