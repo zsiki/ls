@@ -16,7 +16,7 @@ import time
 
 RO = 180 * 60 * 60 / math.pi
 PISEC = 180 * 60 * 60
-FOOT2M 0.3048
+FOOT2M = 0.3048
 
 class Angle(object):
     """
