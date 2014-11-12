@@ -564,12 +564,31 @@ if __name__ == "__main__":
     p = [Point('1', 1000, 2000, 50), Point('2', 1500, 2000, 60)]
     o = [PolarObservation('1', 'station', None, None, None, 1.54),
          PolarObservation('2', None, Angle(60.9345, 'GON'), Angle(89.855615, 'DEG'), Distance(501.105, 'SD'), 1.80)]
+    if not compare(o[1].horiz_dist(), 501.1034089):
+        print "Horizontal distance test failed"
     print o[1].horiz_dist()
     c = Circle(Point('3', 100, 200), 100.0)
+    if not compare(c.p.e, 100):
+        print "Circle from center and radius test failed by e"
+    if not compare(c.p.n, 200):
+        print "Circle from center and radius test failed by n"
+    if not compare(c.r, 100.0):
+        print "Circle from center and radius test failed by r"
+    c = Circle(Point('4', 0, 50), Point('5', 50, 100), Point('6', 100, 50))
+    if not compare(c.p.e, 50.0):
+        print "Circle from 3 points test failed by e"
+    if not compare(c.p.n, 50.0):
+        print "Circle from 3 points test failed by n"
+    if not compare(c.r, 50.0):
+        print "Circle from 3 points test failed by r"
     print c.p.e, c.p.n, c.r
-    c = Circle(Point('4', 100, 100), Point('5', 10, 10), Point('6', 50, 50))
-    print c.p.e, c.p.n, c.r
+    c = Circle(Point('4', 50, 50), Point('5', 100, 100), Point('6', 200, 200))
     c = Circle(Point('4', 100, 100), Point('5', 0, 100), Angle(60, 'DEG'))
-    print c.p.e, c.p.n, c.r    
-    print "%.3f" % PolarObservation("a", None, Angle("180","DMS"),Angle("180-0-0","DMS"),Distance(100,"SD")).horiz_dist()
+    if not compare(c.p.e, 50.0):
+        print "Circle from 2 points and angle test failed by e"
+    if not compare(c.p.n, 128.867513459):
+        print "Circle from 2 points and angle test failed by n"
+    if not compare(c.r, 57.735026919):
+        print "Circle from 2 points and angle test failed by r"
+    print c.p.e, c.p.n, c.r
     
