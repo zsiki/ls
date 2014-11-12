@@ -273,6 +273,7 @@ class SurveyingCalculation:
                     if j != -1:
                         record.setAttribute(j, r[key])
                 fb_dbf.dataProvider().addFeatures([record])
+				# TODO store coordinates too
                 i += 10
             #fb_dbf.commitChanges()
         return

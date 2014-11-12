@@ -235,23 +235,27 @@ class PolarObservation(object):
         Polar observation classs
     """
 
-    def __init__(self, tp, hz=None, v=None, d=None, th=None, pc=None):
+    def __init__(self, tp, station=None, hz=None, v=None, d=None, th=None, pc=None):
         """
-            initialize new Polar observation object
-            stations are marked in name 'station_<id>',
-            instrument height is stored in th field
+            Initialize new Polar observation object.
+			There are two types of PolarObservation, station record and
+			observation record. In station record
+            instrument height is stored in th field,
+			orientation angle stored in hz, v and d must be None
             :param tp: target point id/station point id (string)
+			:param station: if not None, this is a station record
             :param hz: horizontal angle/orientation angle (Angle)
             :param v: zenith angle (Angle)
             :param d: slope distance (Distance)
             :param th: target height/instrument height (float)
             :param pc: point code (string)
         """
-        if re.match('^station_', tp):
+        if station is not None:
             # remove distance and zenith
             v = None
             d = None
-        self.target = tp
+        self.point_id = tp
+		self.station = station
         self.hz = hz
         self.v = v
         self.d = d

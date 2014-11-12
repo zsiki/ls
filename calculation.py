@@ -65,7 +65,7 @@ class Calculation(object):
         # Calculate the coordinates of the new point.
         e = st.p.e + obs.horiz_dist() * math.sin(b)
         n = st.p.n + obs.horiz_dist() * math.cos(b)
-        return Point(obs.target, e, n)
+        return Point(obs.point_id, e, n)
 
     @staticmethod
     def intersection(s1, obs1, s2, obs2):
@@ -77,7 +77,7 @@ class Calculation(object):
             :param obs2: observation from station 2 (PolarObservation)
         """
         # If the two observation are the same.
-        if obs1.target != obs2.target:
+        if obs1.point_id != obs2.point_id:
             return None
         # Calculate the two bearing angles of two observations.
         b1 = s1.o.hz.get_angle() + obs1.hz.get_angle()
@@ -90,7 +90,7 @@ class Calculation(object):
             pc = obs2.pc
         else:
             pc = obs1.pc
-        pp.id = obs1.target
+        pp.id = obs1.point_id
         pp.pc = pc
         return pp
 
@@ -363,7 +363,7 @@ class Calculation(object):
             if trav_obs[i][0] is not None and trav_obs[i][0].p is not None:
                 plist.append( trav_obs[i][0].p )
             else:
-                plist.append( Point( stationpn_to_pn(trav_obs[i][0].o.target) ) )
+                plist.append( Point( stationpn_to_pn(trav_obs[i][0].o.point_id) ) )
             plist[-1].e = ee[i]
             plist[-1].n = nn[i]
 
@@ -658,8 +658,8 @@ if __name__ == "__main__":
     print b.get_angle('DMS'); #0-00-00
     
     # intersection test
-    s1o = PolarObservation('station_1', Angle(0))
-    s2o = PolarObservation('station_2', Angle(0))
+    s1o = PolarObservation('1', 'station', Angle(0))
+    s2o = PolarObservation('2', 'station', Angle(0))
     s1 = Station(p1, s1o)
     s2 = Station(p2, s2o)
     o1 = PolarObservation("p", Angle(25, "DEG"))
@@ -668,16 +668,16 @@ if __name__ == "__main__":
     print p3.id, p3.e, p3.n #p 130.820076296 266.093866906
     A1 = Point("A1", -150, -120)
     A2 = Point("A2", 130, 75)
-    sA1o = PolarObservation('station_A1', Angle("76-13-23", "DMS"))
-    sA2o = PolarObservation('station_A2', Angle("324-10-58", "DMS"))
+    sA1o = PolarObservation('A1', 'station', Angle("76-13-23", "DMS"))
+    sA2o = PolarObservation('A2', 'station', Angle("324-10-58", "DMS"))
     sA1 = Station(A1, sA1o)
     sA2 = Station(A2, sA2o)
     oA1 = PolarObservation("p3", Angle("308-46-36", "DMS"))
     oA2 = PolarObservation("p3", Angle("345-49-02", "DMS"))
     P3 = Calculation.intersection(sA1, oA1, sA2, oA2)
     print P3.id, P3.e, P3.n #p3 -5.89789481532 189.031873417
-    sA1o = PolarObservation('station_A1', Angle("0", "DMS"))
-    sA2o = PolarObservation('station_A2', Angle("0", "DMS"))
+    sA1o = PolarObservation('A1', 'station', Angle("0", "DMS"))
+    sA2o = PolarObservation('A2', 'station', Angle("0", "DMS"))
     sA1 = Station(A1, sA1o)
     sA2 = Station(A2, sA2o)
     oA1 = PolarObservation("p4", Angle("315", "DMS"))
@@ -686,8 +686,8 @@ if __name__ == "__main__":
     print P4.id, P4.e, P4.n #p4 -170.5 -162.5
     A3 = Point("A3", 0, 0)
     A4 = Point("A4", 100, 100)
-    sA3o = PolarObservation('station_A3', Angle("0", "DMS"))
-    sA4o = PolarObservation('station_A4', Angle("0", "DMS"))
+    sA3o = PolarObservation('A3', 'station', Angle("0", "DMS"))
+    sA4o = PolarObservation('A4', 'station', Angle("0", "DMS"))
     sA3 = Station(A3, sA3o)
     sA4 = Station(A4, sA4o)
     oA3 = PolarObservation("p5", Angle("45", "DMS"))
@@ -696,8 +696,8 @@ if __name__ == "__main__":
     print P5.id, P5.e, P5.n #p5 100.0 100.0
     A3 = Point("A3", 0, 0)
     A4 = Point("A4", 100, 100)
-    sA3o = PolarObservation('station_A3', Angle("0", "DMS"))
-    sA4o = PolarObservation('station_A4', Angle("0", "DMS"))
+    sA3o = PolarObservation('A3', 'station', Angle("0", "DMS"))
+    sA4o = PolarObservation('A4', 'station', Angle("0", "DMS"))
     sA3 = Station(A3, sA3o)
     sA4 = Station(A4, sA4o)
     oA3 = PolarObservation("p5", Angle("45", "DMS"))
@@ -707,7 +707,7 @@ if __name__ == "__main__":
     
     # resection test
     p1res = Point("3")
-    o1res = PolarObservation( "station_3", Angle(0) )
+    o1res = PolarObservation('3', "station", Angle(0) )
     s1res = Station( p1res, o1res )
     p101res = Point( "101", 658031.813, 247985.580 )
     p102res = Point( "102", 657638.800, 247759.380 )
@@ -718,7 +718,7 @@ if __name__ == "__main__":
     p1res = Calculation.resection( s1res, p101res, p102res, p103res, o101res, o102res, o103res )
     print p1res.id, p1res.e, p1res.n #3 657871.949432 247973.241416
     P4res = Point("P4")
-    oP4res = PolarObservation( "station_P4", Angle(0) )
+    oP4res = PolarObservation('P4', "station", Angle(0) )
     sP4res = Station( P4res, oP4res )
     o101res = PolarObservation( "101", Angle("202-45-56", "DMS") )
     o102res = PolarObservation( "102", Angle("344-38-59", "DMS") )
@@ -726,7 +726,7 @@ if __name__ == "__main__":
     P4res = Calculation.resection( sP4res, p101res, p102res, p103res, o101res, o102res, o103res )
     print P4res.id, P4res.e, P4res.n #P4 657871.949432 247973.241416
     P5res = Point("P5")
-    oP5res = PolarObservation( "station_P5", Angle(0) )
+    oP5res = PolarObservation('P5', "station", Angle(0) )
     sP5res = Station( P5res, oP5res )
     o101res = PolarObservation( "101", Angle("88-41-35.8669", "DMS") )
     o102res = PolarObservation( "102", Angle("40-11-52.9394", "DMS") )
@@ -734,7 +734,7 @@ if __name__ == "__main__":
     P5res = Calculation.resection( sP5res, p101res, p102res, p103res, o101res, o102res, o103res )
     print P5res #None
     P6res = Point("P6")
-    oP6res = PolarObservation( "station_P6", Angle(0) )
+    oP6res = PolarObservation('P6', "station", Angle(0) )
     sP6res = Station( P6res, oP6res )
     p101res = Point( "101", -50, 80 )
     p102res = Point( "102", 0, 80 )
@@ -745,7 +745,7 @@ if __name__ == "__main__":
     P6res = Calculation.resection( sP6res, p101res, p102res, p103res, o101res, o102res, o103res )
     print P6res.id, P6res.e, P6res.n #P6 -29.6181632685,142.657625507
     P7res = Point("P7")
-    oP7res = PolarObservation( "station_P7", Angle(0) )
+    oP7res = PolarObservation('P7', "station", Angle(0) )
     sP7res = Station( P7res, oP7res )
     p101res = Point( "101", -50, 80 )
     p102res = Point( "102", 0, 80 )
@@ -778,14 +778,14 @@ if __name__ == "__main__":
     p503ori = Point( "503", 887.64, -1068.99 )
     p504ori = Point( "504", -999.53, -896.77 )
     p505ori = Point( "505", -1150.22, 150.86 )
-    o101ori = PolarObservation("station_101")
+    o101ori = PolarObservation('101', "station")
     s101ori = Station( p101ori, o101ori )
     o102ori = PolarObservation( "102", Angle("268-14-13", "DMS") )
     o103ori = PolarObservation( "103", Angle("80-57-34", "DMS") )
     o104ori = PolarObservation( "104", Angle("105-53-19", "DMS") )
     z101ori = Calculation.orientation(s101ori, [[p102ori,o102ori], [p103ori,o103ori], [p104ori,o104ori]])
     print z101ori.get_angle('DMS'); #116-25-30
-    o201ori = PolarObservation("station_201")
+    o201ori = PolarObservation('201', "station")
     s201ori = Station( p201ori, o201ori )
     o202ori = PolarObservation( "202", Angle("316-40-57", "DMS") )
     o203ori = PolarObservation( "203", Angle("258-22-09", "DMS") )
@@ -794,7 +794,7 @@ if __name__ == "__main__":
     o206ori = PolarObservation( "206", Angle("197-44-22", "DMS") )
     z201ori = Calculation.orientation(s201ori, [[p202ori,o202ori], [p203ori,o203ori], [p204ori,o204ori], [p205ori,o205ori], [p206ori,o206ori]])
     print z201ori.get_angle('DMS'); #63-50-00
-    o201ori = PolarObservation("station_201")
+    o201ori = PolarObservation('201', "station")
     s201ori = Station( p201ori, o201ori )
     o202ori = PolarObservation( "202", Angle(351.86944, "GON") )
     o203ori = PolarObservation( "203", Angle(287.07685, "GON") )
@@ -803,24 +803,24 @@ if __name__ == "__main__":
     o206ori = PolarObservation( "206", Angle(219.71049, "GON") )
     z201ori = Calculation.orientation(s201ori, [[p202ori,o202ori], [p203ori,o203ori], [p204ori,o204ori], [p205ori,o205ori], [p206ori,o206ori]])
     print z201ori.get_angle('DMS'); #63-50-00
-    o301ori = PolarObservation("station_301")
+    o301ori = PolarObservation('301', "station")
     s301ori = Station( p301ori, o301ori )
     o302ori = PolarObservation( "302", Angle("166-10-30", "DMS") )
     o303ori = PolarObservation( "303", Angle("281-13-55", "DMS") )
     z301ori = Calculation.orientation(s301ori, [[p302ori,o302ori], [p303ori,o303ori]])
     print z301ori.get_angle('DMS'); #55-41-44
-    o401ori = PolarObservation("station_401")
+    o401ori = PolarObservation('401', "station")
     s401ori = Station( p401ori, o401ori )
     o402ori = PolarObservation( "402", Angle("101-37-23", "DMS") )
     o403ori = PolarObservation( "403", Angle("103-53-37", "DMS") )
     z401ori = Calculation.orientation(s401ori, [[p402ori,o402ori], [p403ori,o403ori]])
     print z401ori.get_angle('DMS'); #201-15-38
-    o401ori = PolarObservation("station_401")
+    o401ori = PolarObservation('401', "station")
     s401ori = Station( p401ori, o401ori )
     o402ori = PolarObservation( "402", Angle("101-37-23", "DMS") )
     z401ori = Calculation.orientation(s401ori, [[p402ori,o402ori]])
     print z401ori.get_angle('DMS'); #201-15-32
-    o501ori = PolarObservation("station_501")
+    o501ori = PolarObservation('501', "station")
     s501ori = Station( p501ori, o501ori )
     o502ori = PolarObservation( "502", Angle("170-50-59", "DMS") )
     o503ori = PolarObservation( "503", Angle("258-46-56", "DMS") )
@@ -834,7 +834,7 @@ if __name__ == "__main__":
     p201pol = Point("201", 13102.13, 11990.13)
     p202pol = Point("202", 13569.11, 12788.66)
     p203pol = Point("203", 13861.23, 12001.54)
-    o101pol = PolarObservation("station_101")
+    o101pol = PolarObservation('101', "station")
     s101pol = Station( p101pol, o101pol )
     o201pol = PolarObservation("201", Angle("112-15-15", "DMS"))
     o202pol = PolarObservation("202", Angle("288-06-30", "DMS"))
@@ -852,7 +852,7 @@ if __name__ == "__main__":
     pT1pol = Point("T1", -237.865, -297.772)
     pT2pol = Point("T2", -1549.927, 669.6126)
     pT3pol = Point("T3", 1203.064, -220.0314)
-    oA1pol = PolarObservation("station_A1")
+    oA1pol = PolarObservation('A1', "station")
     sA1pol = Station( pA1pol, oA1pol )
     oT1pol = PolarObservation("T1", Angle("73-02-35", "DMS"))
     oT2pol = PolarObservation("T2", Angle("142-43-39", "DMS"))
@@ -873,7 +873,7 @@ if __name__ == "__main__":
     p5245otra = Point("5245",646938.71,212635.92)
     p5246otra = Point("5246",646380.61,212793.97)
     p5247otra = Point("5247",646381.14,212476.49)
-    o5247otra = PolarObservation("station_5247")
+    o5247otra = PolarObservation('5247', "station")
     s5247otra = Station( p5247otra, o5247otra )
     o5241otra = PolarObservation( "5241", Angle("245-23-41", "DMS") )
     o5245otra = PolarObservation( "5245", Angle("141-56-11", "DMS") )
@@ -882,16 +882,16 @@ if __name__ == "__main__":
     print s5247otra.o.hz.get_angle('DMS');  #292-06-34
     
     o5247_111otra = PolarObservation("111", Angle("241-26-57","DMS"), None, Distance(123.42,"HD")) 
-    s111otra = Station( None, PolarObservation("station_111") )
+    s111otra = Station( None, PolarObservation('111', "station") )
     o111_5247otra = PolarObservation("5247", Angle("225-39-00","DMS")) 
     o111_112otra = PolarObservation("112", Angle("92-38-43","DMS"), None, Distance(142.81,"HD")) 
-    s112otra = Station( None, PolarObservation("station_112") )
+    s112otra = Station( None, PolarObservation('112', "station") )
     o112_111otra = PolarObservation("111", Angle("227-16-34","DMS")) 
     o112_113otra = PolarObservation("113", Angle("69-16-28","DMS"), None, Distance(253.25,"HD")) 
-    s113otra = Station( None, PolarObservation("station_113") )
+    s113otra = Station( None, PolarObservation('113', "station") )
     o113_112otra = PolarObservation("112", Angle("102-56-44","DMS")) 
     o113_114otra = PolarObservation("114", Angle("205-46-21","DMS"), None, Distance(214.53,"HD")) 
-    s114otra = Station( None, PolarObservation("station_114") )
+    s114otra = Station( None, PolarObservation('114', "station") )
     o114_113otra = PolarObservation("113", Angle("104-23-11","DMS")) 
     o114_115otra = PolarObservation("115", Angle("305-54-29","DMS"), None, Distance(234.23,"HD")) 
     s115otra = Station( None, PolarObservation("115") )
@@ -911,7 +911,7 @@ if __name__ == "__main__":
     p1018tra = Point("1018",598258.90,149496.78)
     p1019tra = Point("1019",600092.33,150676.80)
 
-    oKtra = PolarObservation("station_K")
+    oKtra = PolarObservation('K', "station")
     sKtra = Station( pKtra, oKtra )
     oK_1017tra = PolarObservation( "1017", Angle("61-28-18", "DMS") )
     oK_1016tra = PolarObservation( "1016", Angle("142-53-28", "DMS") )
@@ -920,19 +920,19 @@ if __name__ == "__main__":
     sKtra.o.hz = Calculation.orientation(sKtra, [[p1017tra,oK_1017tra], [p1016tra,oK_1016tra], [p1015tra,oK_1015tra]])
     print sKtra.o.hz.get_angle('DMS');  #351-12-05
     
-    s1tra = Station( None, PolarObservation("station_1") )
+    s1tra = Station( None, PolarObservation('1', "station") )
     o1_Ktra = PolarObservation("K", Angle("79-28-20","DMS"), None, Distance(139.85,"HD")) 
     o1_2tra = PolarObservation("2", Angle("236-13-46","DMS"), None, Distance(269.32,"HD")) 
     o1_501tra = PolarObservation("501", Angle("204-58-10","DMS"), None, Distance(59.12,"HD")) 
-    s2tra = Station( None, PolarObservation("station_2") )
+    s2tra = Station( None, PolarObservation('2', "station") )
     o2_3tra = PolarObservation("3", Angle("82-18-45","DMS"), None, Distance(169.40,"HD")) 
     o2_1tra = PolarObservation("1", Angle("217-58-34","DMS"), None, Distance(269.36,"HD")) 
-    s3tra = Station( None, PolarObservation("station_3") )
+    s3tra = Station( None, PolarObservation('3', "station") )
     o3_2tra = PolarObservation("2", Angle("262-18-44","DMS"), None, Distance(169.45,"HD")) 
     o3_Vtra = PolarObservation("V", Angle("41-18-10","DMS"), None, Distance(345.90,"HD")) 
     o3_502tra = PolarObservation("502", Angle("344-28-25","DMS"), None, Distance(55.46,"HD")) 
 
-    oVtra = PolarObservation("station_V")
+    oVtra = PolarObservation('V', "station")
     sVtra = Station( pVtra, oVtra )
     oV_3tra = PolarObservation( "3", Angle("257-44-08", "DMS"), None, Distance(345.94,"HD") )
     oV_1018tra = PolarObservation( "1018", Angle("346-24-11", "DMS") )

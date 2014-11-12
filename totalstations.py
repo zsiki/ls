@@ -127,7 +127,7 @@ class LeicaGsi(TotalStation):
         """
         if self.fp is None:
             return None
-        res = {}
+        res = {'station': None}
         buf = self.get_line()
         if buf is None:
             return None
@@ -159,7 +159,8 @@ class LeicaGsi(TotalStation):
                 pass
             elif item_code == '42':
                 # station number
-                res['point_id'] = 'station_' + self.trim_left(val[7:], '0')
+                res['point_id'] = self.trim_left(val[7:], '0')
+                res['station'] = 'station'
             elif item_code == '43':
                 # station height
                 res['ih'] = self.convert(float(self.trim_left(val[7:], '0')), 0)
@@ -202,7 +203,7 @@ class JobAre(TotalStation):
         super(JobAre, self).__init__(fname, separator)
         self.angle_unit = 'PDEG'
         self.distance_unit = 'm'
-        self.res = {}
+        self.res = {'station': None}
 
     def parse_next(self):
         """
@@ -226,7 +227,8 @@ class JobAre(TotalStation):
                 ret = self.res
                 self.res = {}
                 # station point id
-                self.res['point_id'] = 'station_' + buf[1].strip()
+                self.res['point_id'] = buf[1].strip()
+                self.res['station'] = 'station'
                 if len(ret):
                     return ret
             elif item_code == '3':
