@@ -56,7 +56,9 @@ class TotalStation(object):
         if buf == '':
             # end of file
             return None
-        return self.separator.split(buf.strip('\n'))
+        if self.separator is not None:
+            return self.separator.split(buf.strip('\n'))
+        return buf.strip('\n')
 
     def trim_left(self, s, ch):
         """
@@ -70,7 +72,7 @@ class TotalStation(object):
             s = ch
         return s
 
-    def parse(self):
+    def parse_next(self):
         """
             parse one line/logical unit of input, implemented in derives classes
         """
@@ -93,11 +95,11 @@ class LeicaGsi(TotalStation):
         """
         res = None
         if unit == 0:
-            # meter, 3 decomals
+            # meter, 3 decimals
             res = val / 1000.0
         elif unit == 1:
             # feet, 3 decimals
-            res = val / 1000.0 * 0.3048
+            res = val / 1000.0 * FOOT2M
         elif unit == 2:
             # gon
             res = Angle(val / 100000.0, 'GON').get_angle('GON')
@@ -207,7 +209,7 @@ class JobAre(TotalStation):
 
     def parse_next(self):
         """
-            parse single line from input
+            parse an observation/station from input
         """
         if self.fp is None:
             return None
@@ -277,16 +279,96 @@ class Sdr(TotalStation):
         Class to import Sokkia field books
     """
 
-    def __init__(self, fname, separator='='):
+    def __init__(self, fname, separator=None):
         super(Sdr, self).__init__(fname, separator)
-        self.angle_unit = 'PDEG'
-        self.distance_unit = 'm'
-        self.coord_order = 'EN'
-        self.angle_dir = 'CW'
+        self.angle_unit = 'DEG'     # 1-DEG, 2-GON, 3-MIL
+        self.distance_unit = 1  # 1-meter, 2-feet
+        self.coord_order = 2    # 1-North, East, 2-East, North
+        self.angle_dir = 1      # 1-Clockwise, 2-Counter clockwise
+
+    def dist(self, value):
+        """
+            return distance in meters
+        """
+        if self.distance_unit == 2:
+            return value * FOOT2M
+        return value
+    
+    def angle(self, value):
+        return Angle(value, self.angle_unit).get_angle('GON')
 
     def parse_next(self):
-        # TODO
-        pass
+        """
+            Load next observation, station
+        """
+        th = None
+        res = {}
+        while True:
+            buf = self.get_line()
+            if buf is None:
+                ret = self.res
+                self.res = {}
+                if len(ret) > 0:
+                    return ret
+                else:
+                    return None
+            line_code = buf[0:2]
+            if line_code == '00':
+                # header
+                if buf[4:8] != 'SDR33':
+                    return None
+                w = int(buf[40:41])
+                if w == 1:
+                    self.angle_unit = 'DEG'
+                elif w == 2:
+                    self.angle_unit = 'GON'
+                elif w == 3:
+                    self.angle_unit = 'MIL'
+                self.distance_unit = int(buf[41:42])
+                self.coord_order = int(buf[44:45])
+                self.angle_dir = int(buf[45:46])
+            elif line_code == '01':
+                # instrument record
+                pass
+            elif line_code == '02':
+                # station record
+                res['point_id'] = buf[4:20].strip()
+                res['th'] = self.dist(float(buf[68:84].strip()))
+                res['pc'] = buf[84:90].strip()
+                res['station_e'] = self.dist(float(buf[20:36].strip()))
+                res['station_n'] = self.dist(float(buf[36:52].strip()))
+                if self.coord_order == 1:
+                    res['station_e'], res['station_n'] = res['station_n'], res['station_e']
+                res['station_z'] = self.dist(float(buf[52:66].strip()))
+                return res
+            elif line_code == '03':
+                # target height
+                res['th'] =  self.dist(buf[4:20].strip())
+            elif line_code == '07':
+                # orientation
+                pass
+            elif line_Code == '08':
+                # coordinate
+                res['point_id'] = buf[4:20].strip()
+                res['station_e'] = self.dist(float(buf[20:36].strip()))
+                res['station_n'] = self.dist(float(buf[36:52].strip()))
+                if self.coord_order == 1:
+                    res['station_e'], res['station_n'] = res['station_n'], res['station_e']
+                res['station_z'] = self.dist(float(buf[52:68].strip()))
+                res['pc'] = buf[38:54].strip()
+                return res
+            elif line_code == '09':
+                # observation
+                if buf[2:3] == 'F1':
+                    # face left only
+                    res['point_id'] = buf[20:36].strip()
+                    res['sd'] = self.dist(float(buf[36:52].strip()))
+                    res['v'] = self.angle(float(buf[52:68].strip()))
+                    res['hz'] = self.angle(float(buf[68:84].strip()))
+                    res['pc'] = buf[84:100].strip()
+                    if th is not None:
+                        res['th'] = th
+                    return res
 
 if __name__ == "__main__":
     """
