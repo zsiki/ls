@@ -136,7 +136,7 @@ class GamaInterface(object):
             if o.station is not None and len(o.station) > 0:
                 # station record
                 sta = doc.createElement('obs')
-                sta.setAttribute('from', o.point_id))
+                sta.setAttribute('from', o.point_id)
                 points_observations.appendChild(sta)
                 ih = o.th
             else:
@@ -173,7 +173,7 @@ class GamaInterface(object):
         doc.writexml(open(tmp_name + '.xml', 'w'))
         doc.unlink()
         # run gama-local
-		# TODO windows (.exe)
+        # TODO windows (.exe)
         status = call(["./gama-local", tmp_name + '.xml', '--text',
             tmp_name + '.txt', '--xml', tmp_name + 'out.xml'])
         if status != 0:
@@ -197,44 +197,44 @@ if __name__ == "__main__":
     gi.add_point(Point('4', 78.1562, 395.49))
     gi.add_point(Point('5', -60.35, 387.99))
     gi.add_observation(PolarObservation('1', 'station'))
-    gi.add_observation(PolarObservation('2', Angle('42-56-02', 'DMS'),
+    gi.add_observation(PolarObservation('2', None, Angle('42-56-02', 'DMS'),
         Angle('87-35-39', 'DMS'), Distance(211.886, 'SD')))
-    gi.add_observation(PolarObservation('3', Angle('347-24-35', 'DMS'),
+    gi.add_observation(PolarObservation('3', None, Angle('347-24-35', 'DMS'),
         Angle('88-54-24', 'DMS'), Distance(455.774, 'SD')))
-    gi.add_observation(PolarObservation('4', Angle('324-06-32', 'DMS'),
+    gi.add_observation(PolarObservation('4', None, Angle('324-06-32', 'DMS'),
         Angle('90-00-36', 'DMS'), Distance(403.150, 'SD')))
-    gi.add_observation(PolarObservation('5', Angle('304-05-19', 'DMS'),
+    gi.add_observation(PolarObservation('5', None, Angle('304-05-19', 'DMS'),
         Angle('89-58-23', 'DMS'), Distance(392.665, 'SD')))
     gi.add_observation(PolarObservation('2', 'station'))
-    gi.add_observation(PolarObservation('1', Angle('304-20-43', 'DMS'),
+    gi.add_observation(PolarObservation('1', None, Angle('304-20-43', 'DMS'),
         Angle('92-27-19', 'DMS'), Distance(211.894, 'SD')))
-    gi.add_observation(PolarObservation('5', Angle('359-18-19', 'DMS'),
+    gi.add_observation(PolarObservation('5', None, Angle('359-18-19', 'DMS'),
         Angle('91-03-52', 'DMS'), Distance(473.977, 'SD')))
-    gi.add_observation(PolarObservation('4', Angle('15-41-16', 'DMS'),
+    gi.add_observation(PolarObservation('4', None, Angle('15-41-16', 'DMS'),
         Angle('91-14-36', 'DMS'), Distance(417.565, 'SD')))
-    gi.add_observation(PolarObservation('3', Angle('41-22-11', 'DMS'),
+    gi.add_observation(PolarObservation('3', None, Angle('41-22-11', 'DMS'),
         Angle('90-02-29', 'DMS'), Distance(378.506, 'SD')))
     gi.add_observation(PolarObservation('5', 'station'))
-    gi.add_observation(PolarObservation('4', Angle('324-16-52', 'DMS'),
+    gi.add_observation(PolarObservation('4', None, Angle('324-16-52', 'DMS'),
         Angle('90-06-46', 'DMS'), Distance(138.703, 'SD')))
-    gi.add_observation(PolarObservation('3', Angle('329-36-15', 'DMS'),
+    gi.add_observation(PolarObservation('3', None, Angle('329-36-15', 'DMS'),
         Angle('88-27-29', 'DMS'), Distance(318.672, 'SD')))
-    gi.add_observation(PolarObservation('2', Angle('22-20-43', 'DMS'),
+    gi.add_observation(PolarObservation('2', None, Angle('22-20-43', 'DMS'),
         Angle('88-55-56', 'DMS'), Distance(473.959, 'SD')))
-    gi.add_observation(PolarObservation('1', Angle('48-32-26', 'DMS'),
+    gi.add_observation(PolarObservation('1', None, Angle('48-32-26', 'DMS'),
         Angle('90-01-16', 'DMS'), Distance(392.662, 'SD')))
     gi.add_observation(PolarObservation('4', 'station'))
-    gi.add_observation(PolarObservation('2', Angle('346-38-25', 'DMS'),
+    gi.add_observation(PolarObservation('2', None, Angle('346-38-25', 'DMS'),
         Angle('88-45-44', 'DMS'), Distance(417.543, 'SD')))
-    gi.add_observation(PolarObservation('1', Angle('16-28-34', 'DMS'),
+    gi.add_observation(PolarObservation('1', None, Angle('16-28-34', 'DMS'),
         Angle('89-59-40', 'DMS'), Distance(403.146, 'SD')))
-    gi.add_observation(PolarObservation('5', Angle('92-11-53', 'DMS'),
+    gi.add_observation(PolarObservation('5', None, Angle('92-11-53', 'DMS'),
         Angle('89-57-38', 'DMS'), Distance(138.704, 'SD')))
     gi.add_observation(PolarObservation('3', 'station'))
-    gi.add_observation(PolarObservation('5', Angle('59-45-52', 'DMS'),
+    gi.add_observation(PolarObservation('5', None, Angle('59-45-52', 'DMS'),
         Angle('91-33-41', 'DMS'), Distance(318.673, 'SD')))
-    gi.add_observation(PolarObservation('1', Angle('2-01-09', 'DMS'),
+    gi.add_observation(PolarObservation('1', None, Angle('2-01-09', 'DMS'),
         Angle('91-05-51', 'DMS'), Distance(455.772, 'SD')))
-    gi.add_observation(PolarObservation('2', Angle('334-33-23', 'DMS'),
+    gi.add_observation(PolarObservation('2', None, Angle('334-33-23', 'DMS'),
         Angle('89-57-40', 'DMS'), Distance(378.487, 'SD')))
     gi.adjust()
