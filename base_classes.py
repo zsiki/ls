@@ -238,12 +238,12 @@ class PolarObservation(object):
     def __init__(self, tp, station=None, hz=None, v=None, d=None, th=None, pc=None):
         """
             Initialize new Polar observation object.
-			There are two types of PolarObservation, station record and
-			observation record. In station record
+            There are two types of PolarObservation, station record and
+            observation record. In station record
             instrument height is stored in th field,
-			orientation angle stored in hz, v and d must be None
+            orientation angle stored in hz, v and d must be None
             :param tp: target point id/station point id (string)
-			:param station: if not None, this is a station record
+            :param station: if not None, this is a station record
             :param hz: horizontal angle/orientation angle (Angle)
             :param v: zenith angle (Angle)
             :param d: slope distance (Distance)
@@ -255,7 +255,7 @@ class PolarObservation(object):
             v = None
             d = None
         self.point_id = tp
-		self.station = station
+        self.station = station
         self.hz = hz
         self.v = v
         self.d = d
@@ -561,8 +561,8 @@ if __name__ == "__main__":
         print "Short DMS 2 test failed"
     # new test style to continue from here
     p = [Point('1', 1000, 2000, 50), Point('2', 1500, 2000, 60)]
-    o = [PolarObservation('station_1', None, None, None, 1.54),
-         PolarObservation('2', Angle(60.9345, 'GON'), Angle(89.855615, 'DEG'), Distance(501.105, 'SD'), 1.80)]
+    o = [PolarObservation('1', 'station', None, None, None, 1.54),
+         PolarObservation('2', None, Angle(60.9345, 'GON'), Angle(89.855615, 'DEG'), Distance(501.105, 'SD'), 1.80)]
     print o[1].horiz_dist()
     c = Circle(Point('3', 100, 200), 100.0)
     print c.p.e, c.p.n, c.r
@@ -570,5 +570,5 @@ if __name__ == "__main__":
     print c.p.e, c.p.n, c.r
     c = Circle(Point('4', 100, 100), Point('5', 0, 100), Angle(60, 'DEG'))
     print c.p.e, c.p.n, c.r    
-    print "%.3f" % PolarObservation("a",Angle("180","DMS"),Angle("180-0-0","DMS"),Distance(100,"SD")).horiz_dist()
+    print "%.3f" % PolarObservation("a", None, Angle("180","DMS"),Angle("180-0-0","DMS"),Distance(100,"SD")).horiz_dist()
     
