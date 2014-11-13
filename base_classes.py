@@ -506,7 +506,7 @@ def compare (a, b, tol=0.01):
         :param b: second instance
     """
     if a is None and b is None:
-        return False
+        return True
     if type(a) != type(b):
         return False
     if type(a) is str or type(a) is int or type(a) is bool:
@@ -515,6 +515,7 @@ def compare (a, b, tol=0.01):
     if type(a) is float:
         return math.fabs(a - b) < tol
     for i in a.__dict__.keys():
+        print i + ' ' + str(a.__dict__[i]) + ' ' + str(b.__dict__[i])
         if not compare(a.__dict__[i], b.__dict__[i], tol):
             return False
     return True
