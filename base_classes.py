@@ -499,7 +499,7 @@ def intersecCC(circle1, circle2):
     except (ValueError, TypeError, ZeroDivisionError):
         return None
     
-def compare (a, b, tol=0.01):
+def compare (a, b, tol=0.001):
     """
         compare to objects for equality
         :param a: first instance
@@ -523,6 +523,9 @@ if __name__ == "__main__":
     """
         unit test
     """
+    a = Point('1', 100, 200)
+    if not compare(a, a):
+        print "Compare function test failed"
     print "Test for Angle class"
     adms = '359-59-59'
     a = Angle(adms, 'DMS')
@@ -550,9 +553,8 @@ if __name__ == "__main__":
          PolarObservation('2', None, Angle(60.9345, 'GON'), Angle(89.855615, 'DEG'), Distance(501.105, 'SD'), 1.80)]
     if not compare(o[1].horiz_dist(), 501.103):
         print "Horizontal distance test failed"
-    print o[1].horiz_dist()
     c = Circle(Point('3', 100, 200), 100.0)
-    if not compare(c.p, Point('3', 100, 200)):
+    if not compare(c.p.e, 100):
         print "Circle from center and radius test failed by e"
     if not compare(c.p.n, 200):
         print "Circle from center and radius test failed by n"
@@ -565,7 +567,6 @@ if __name__ == "__main__":
         print "Circle from 3 points test failed by n"
     if not compare(c.r, 50.0):
         print "Circle from 3 points test failed by r"
-    print c.p.e, c.p.n, c.r
     c = Circle(Point('4', 50, 50), Point('5', 100, 100), Point('6', 200, 200))
     c = Circle(Point('4', 100, 100), Point('5', 0, 100), Angle(60, 'DEG'))
     if not compare(c.p.e, 50.0):
@@ -574,5 +575,4 @@ if __name__ == "__main__":
         print "Circle from 2 points and angle test failed by n"
     if not compare(c.r, 57.735026919):
         print "Circle from 2 points and angle test failed by r"
-    print c.p.e, c.p.n, c.r
     
