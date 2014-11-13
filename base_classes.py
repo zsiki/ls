@@ -26,7 +26,8 @@ class Angle(object):
         """
             Create 
             :param value: angle value
-            :param unit: angle unit (RAD/DMS/DEG/GON/NMEA/PDEG/SEC)
+            :param unit: angle unit (RAD/DMS/DEG/GON/NMEA/PDEG/SEC/MIL)
+            TODO MIL!
         """
         self.set_angle(value, unit)
 
@@ -316,7 +317,10 @@ class Circle(object):
             self.r = p2
         elif isinstance(p1, Point) and isinstance(p2, Point) and isinstance(p3, Point):
             self.p = self.__center(p1, p2, p3)
-            self.r = distance2d(self.p, p1).d
+            if self.p is not None:
+                self.r = distance2d(self.p, p1).d
+            else:
+                self.r = None
         elif isinstance(p1, Point) and isinstance(p2, Point) and isinstance(p3,  Angle):
             t2 = distance2d(p1, p2).d / 2.0
             try:
@@ -329,7 +333,7 @@ class Circle(object):
 
             e3 = p1.e + t2 * math.sin(dab.get_angle()) + d * math.cos(dab.get_angle())
             n3 = p1.n + t2 * math.cos(dab.get_angle()) - d * math.sin(dab.get_angle())
-            p4 = Point( "@", e3, n3 )
+            p4 = Point("@", e3, n3)
             self.p = self.__center(p1, p2, p4)
             self.r = distance2d(self.p, p1).d
         else:
@@ -453,7 +457,7 @@ def intersecLL(pa, pb, dap, dbp):
         
         e = pa.e + t1 * sdap
         n = pa.n + t1 * cdap
-        return Point("@",e,n)
+        return Point("@", e, n)
     except (ValueError, TypeError, ZeroDivisionError):
         return None
 
@@ -495,45 +499,25 @@ def intersecCC(circle1, circle2):
     except (ValueError, TypeError, ZeroDivisionError):
         return None
     
-def compare (a, b):
+def compare (a, b, tol=0.01):
     """
         compare to objects for equality
         :param a: first instance
         :param b: second instance
     """
-    try:
-        if a == b:
-            # simple numeric, string variables
-            return True
-        elif a.__class__ == b.__class__:
-            # similar classes
-            if a.__dict__ == b.__dict__:
-                return True
-        elif isinstance(a, dict):
-            # dictionary and any class
-            if a == b.__dict__:
-                return True
-        elif isinstance(b, dict):
-            if a.__dict__ == b:
-                return True
-    except (AttributeError):
-        pass
-    return False
-
-def pn_to_stationpn(pn):
-    if isinstance(pn, basestring):
-        return "station_" + pn
-    else:
-        return None
-
-def stationpn_to_pn(stpn):
-    if isinstance(stpn, basestring):
-        if stpn.startswith("station_"):
-            return stpn[8:]
-        else:
-            return stpn
-    else:
-        return None
+    if a is None and b is None:
+        return False
+    if type(a) != type(b):
+        return False
+    if type(a) is str or type(a) is int or type(a) is bool:
+        # simple numeric, string variables
+        return a == b
+    if type(a) is float:
+        return math.fabs(a - b) < tol
+    for i in a.__dict__.keys():
+        if not compare(a.__dict__[i], b.__dict__[i], tol):
+            return False
+    return True
 
 if __name__ == "__main__":
     """
@@ -564,11 +548,11 @@ if __name__ == "__main__":
     p = [Point('1', 1000, 2000, 50), Point('2', 1500, 2000, 60)]
     o = [PolarObservation('1', 'station', None, None, None, 1.54),
          PolarObservation('2', None, Angle(60.9345, 'GON'), Angle(89.855615, 'DEG'), Distance(501.105, 'SD'), 1.80)]
-    if not compare(o[1].horiz_dist(), 501.1034089):
+    if not compare(o[1].horiz_dist(), 501.103):
         print "Horizontal distance test failed"
     print o[1].horiz_dist()
     c = Circle(Point('3', 100, 200), 100.0)
-    if not compare(c.p.e, 100):
+    if not compare(c.p, Point('3', 100, 200)):
         print "Circle from center and radius test failed by e"
     if not compare(c.p.n, 200):
         print "Circle from center and radius test failed by n"
