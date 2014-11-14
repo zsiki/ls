@@ -27,7 +27,6 @@ class Angle(object):
             Create 
             :param value: angle value
             :param unit: angle unit (RAD/DMS/DEG/GON/NMEA/PDEG/SEC/MIL)
-            TODO MIL!
         """
         self.set_angle(value, unit)
 
@@ -54,6 +53,8 @@ class Angle(object):
             output = self.__rad2pdeg()
         elif out == 'SEC':
             output = self.__rad2sec()
+        elif out == 'MIL':
+            output = self.__rad2mil()
         else:
             output = None
         return output
@@ -79,6 +80,8 @@ class Angle(object):
             self.value = self.__pdeg2rad(value)
         elif unit == 'SEC':
             self.value = self.__sec2rad(value)
+        elif unit == 'MIL':
+            self.value = self.__mil2rad(value)
         else:
             # unknown unit
             self.value = None
@@ -145,6 +148,13 @@ class Angle(object):
             a = None
         return a
 
+    def __mil2rad(self, angle):
+        try:
+            a = angle / 6400.0 * 2.0 * math.pi
+        except (ValueError, TypeError):
+            a = None
+        return a
+
     def __rad2gon(self):
         try:
             a = self.value / math.pi * 200.0
@@ -196,6 +206,14 @@ class Angle(object):
         except (ValueError, TypeError):
             pdeg = None
         return pdeg
+
+    def __rad2mil(self):
+        try:
+            w = self.value / math.pi / 2.0 * 6400.0
+        except (ValueError, TypeError):
+            w = None
+        return w
+
 
 class Point(object):
     """
