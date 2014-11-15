@@ -21,7 +21,7 @@
  ***************************************************************************/
 """
 # generic python modules
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, QFile, pyqtRemoveInputHook
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, QFile
 from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox, QFileDialog, QDialog
 from qgis.core import *
 # Initialize Qt resources from file resources.py
@@ -30,6 +30,7 @@ import os.path
 import re
 from shutil import copyfile
 # debugging
+from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
 # plugin specific python modules
@@ -214,7 +215,7 @@ class SurveyingCalculation:
         """
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(),
             self.tr('Electric fieldbook'),
-            filter= self.tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia SDR (*.sdr)'))
+            filter= self.tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd)'))
         if fname:
             # file selected
             # ask for table name
@@ -245,7 +246,7 @@ class SurveyingCalculation:
             elif re.search('\.job$', fname, re.IGNORECASE) or \
                 re.search('\.are$', fname, re.IGNORECASE):
                 fb = JobAre(fname)
-            elif re.search('\.sdr$', fname, re.IGNORECASE):
+            elif re.search('\.crd$', fname, re.IGNORECASE):
                 fb = Sdr(fname)
             else:
                 QMessageBox.warning(self.iface.mainWindow(),
@@ -261,19 +262,25 @@ class SurveyingCalculation:
                 r = fb.parse_next()
                 if r is None:
                     break    # end of file
-                # add row to fieldbook table
-                record = QgsFeature()
-                # add & initialize attributes
-                record.setFields(fb_dbf.pendingFields(), True)
-                j = fb_dbf.dataProvider().fieldNameIndex('id')
-                if j != -1:
-                    record.setAttribute(j, i)
-                for key in r:
-                    j = fb_dbf.dataProvider().fieldNameIndex(key)
+                if 'station' in r:
+                    # add row to fieldbook table
+                    record = QgsFeature()
+                    # add & initialize attributes
+                    record.setFields(fb_dbf.pendingFields(), True)
+                    j = fb_dbf.dataProvider().fieldNameIndex('id')
                     if j != -1:
-                        record.setAttribute(j, r[key])
-                fb_dbf.dataProvider().addFeatures([record])
-				# TODO store coordinates too
+                        record.setAttribute(j, i)
+                    for key in r:
+                        j = fb_dbf.dataProvider().fieldNameIndex(key)
+                        if j != -1:
+                            record.setAttribute(j, r[key])
+                    fb_dbf.dataProvider().addFeatures([record])
+                if 'station_e' in r:
+                    #pyqtRemoveInputHook()
+                    #pdb.set_trace()
+                    # store coordinates too
+                    p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
+                    QPoint(p).store_coord()
                 i += 10
             #fb_dbf.commitChanges()
         return
@@ -287,9 +294,6 @@ class SurveyingCalculation:
         self.simple_dlg.show()
         # Run the dialog event loop
         result = self.simple_dlg.exec_()
-        # TODO
-        #pyqtRemoveInputHook()
-        #pdb.set_trace()
 
     def traverses(self):
         """

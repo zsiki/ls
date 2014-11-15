@@ -11,6 +11,9 @@
 from qgis.core import *
 import re
 from base_classes import *
+# debugging
+from PyQt4.QtCore import pyqtRemoveInputHook
+import pdb
 
 def get_namelist(pattern):
     """
@@ -190,11 +193,7 @@ class QPoint(Point):
             :parameter coo: name of the table where point is/to be store (String)
                 it is None if a new point to add
         """
-        if isinstance(p, Point):
-            super(QPoint, self).__init__(p.id, p.e, p.n. p.z, p.pc. p.pt)
-            self.p = p
-        else:
-            super(QPoint, self).__init__(p)
+        super(QPoint, self).__init__(p.id, p.e, p.n, p.z, p.pc, p.pt)
         self.coo = coo
 
     def get_coord(self):
@@ -232,7 +231,7 @@ class QPoint(Point):
         self.coo = None
         return
 
-    def set_coord(self):
+    def store_coord(self):
         """
             Update coordinates in coord table, insert new point if 
             coo is None
@@ -264,12 +263,27 @@ class QPoint(Point):
                 return True
         # add new point
         feat = QgsFeature()
-        feat.addAttribute(feat.fieldNameIndex('point_id'), self.id)
-        feat.addAttribute(feat.fieldNameIndex('e'), self.e)
-        feat.addAttribute(feat.fieldNameIndex('n'), self.n)
-        feat.addAttribute(feat.fieldNameIndex('z'), self.z)
-        feat.addAttribute(feat.fieldNameIndex('pc'), self.pc)
-        feat.addAttribute(feat.fieldNameIndex('pt'), self.pt)
+        #feat.setFields(lay.pendingFields(), True)
+        feat.setFields(lay.dataProvider().fields(), True)
+        pyqtRemoveInputHook()
+        pdb.set_trace()
+        feat.setAttribute(feat.fieldNameIndex('point_id'), self.id)
+        feat.setAttribute(feat.fieldNameIndex('e'), self.e)
+        feat.setAttribute(feat.fieldNameIndex('n'), self.n)
+        feat.setAttribute(feat.fieldNameIndex('z'), self.z)
+        feat.setAttribute(feat.fieldNameIndex('pc'), self.pc)
+        feat.setAttribute(feat.fieldNameIndex('pt'), self.pt)
         feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(self.e, self.n)))
         lay.dataProvider().addFeatures([feat])
     
+    def set_coord(self, p):
+        """
+            Set the coordinates
+            :param p: Point
+        """
+        self.point_id = p.id
+        self.e = p.e
+        self.n = p.n
+        self.z = p.z
+        self.pc = p.pc
+        self.pt = p.pt
