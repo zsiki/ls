@@ -14,6 +14,8 @@ import os
 from PyQt4 import QtGui, uic
 from qgis.core import *
 from base_classes import *
+from calculation import *
+from surveying_util import *
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'simple_calc.ui'))
