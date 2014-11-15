@@ -35,6 +35,7 @@ import pdb
 # plugin specific python modules
 #from surveying_calculation_dialog import Ui_SurveyingCalculationDialogBase
 from simple_calc import Ui_SimpleCalcDialog
+from simple_calc_dialog import *
 from network_calc import Ui_NetworkCalcDialog
 from traverse_calc import Ui_TraverseCalcDialog
 from totalstations import *
@@ -72,8 +73,9 @@ class SurveyingCalculation:
 
         # Create the dialogs (after translation) and keep references
         #self.dlg = Ui_SurveyingCalculationDialogBase()
-        self.simple_dlg = QDialog()
-        Ui_SimpleCalcDialog().setupUi(self.simple_dlg)
+#        self.simple_dlg = QDialog()
+#        Ui_SimpleCalcDialog().setupUi(self.simple_dlg)
+        self.simple_dlg = SimpleCalculationDialog()
         self.traverse_dlg = QDialog()
         Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)
         self.network_dlg = QDialog()
