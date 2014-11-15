@@ -231,8 +231,8 @@ class Point(object):
             :param pt: point type (string, e.g. controll/detail)
         """
         self.id = id
-        self.n = n
         self.e = e
+        self.n = n
         self.z = z
         self.pc = pc
         self.pt = pt
