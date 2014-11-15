@@ -73,8 +73,6 @@ class SurveyingCalculation:
 
         # Create the dialogs (after translation) and keep references
         #self.dlg = Ui_SurveyingCalculationDialogBase()
-#        self.simple_dlg = QDialog()
-#        Ui_SimpleCalcDialog().setupUi(self.simple_dlg)
         self.simple_dlg = SimpleCalculationDialog()
         self.traverse_dlg = QDialog()
         Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)
