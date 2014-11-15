@@ -279,8 +279,9 @@ class SurveyingCalculation:
                     #pyqtRemoveInputHook()
                     #pdb.set_trace()
                     # store coordinates too
-                    p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
-                    QPoint(p).store_coord()
+                    #p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
+                    #QPoint(p).store_coord()
+                    pass
                 i += 10
             #fb_dbf.commitChanges()
         return
