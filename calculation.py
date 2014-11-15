@@ -407,7 +407,7 @@ class Calculation(object):
                             a[j,k] = -t * q
                     b[j] = b[j] - t * b[i]
     
-    def __helmert4tr(self, plist):
+    def __similaritytr(self, plist):
         """
             Calculate parameters of orthogonal transformation. Four parameters
             scale, rotation and offset.
@@ -450,7 +450,7 @@ class Calculation(object):
         N0 = (Ns - c * ns - d * es) / float(len(plist))
         return [E0, N0, c, d]
 
-    def __helmert3tr(self, plist):
+    def ____similarity3tr(self, plist):
         """
             Calculate parameters of orthogonal transformation. Three parameters
             E = E0 + cos(alpha) * e - sin(alpha) * n
@@ -568,9 +568,7 @@ class Calculation(object):
             Calculate parameters of polynomial (rubber sheet) transformation.
             X = X0 + a1 * x + a2 * y + a3 * xy + a4 * x^2 + a5 * y^2 + ...
             Y = Y0 + b1 * x + b2 * y + b3 * xy + b4 * x^2 + b5 * y^2 + ...
-            :param source geo data set name to transform
-            :param destination geo data set name to trnasform to
-            :param plist list of pont names to use in calculation
+            :param plist a list of common points used in the transormation plist[i]==[srci,desti]
             :param degree
             :return the list of parameters X0 Y0 a1 b1 a2 b2 a3 b3 ...
                     and the weight point coordinates in source and target system
