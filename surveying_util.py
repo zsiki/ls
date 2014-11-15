@@ -172,8 +172,8 @@ def get_stations():
         if lay is None:
             continue
         for feat in lay.getFeatures():
-            if re.match('station_', feat['point_id']):
-                pid = feat['point_id'][8:]
+            if feat['station'] == "station":
+                pid = feat['point_id']
                 id = feat['id']
                 act = [pid, fb, id]
                 if not act in slist:
