@@ -285,6 +285,8 @@ class SurveyingCalculation:
         """
         # show the dialog
         self.simple_dlg.show()
+        # initialize the dialog
+        self.simple_dlg.initDialog()
         # Run the dialog event loop
         result = self.simple_dlg.exec_()
         # TODO

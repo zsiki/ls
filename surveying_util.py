@@ -11,6 +11,7 @@
 from qgis.core import *
 import re
 from base_classes import *
+from PyQt4 import QtCore
 
 def get_namelist(pattern):
     """
@@ -169,7 +170,7 @@ def get_stations():
         if lay is None:
             continue
         for feat in lay.getFeatures():
-            if feat['station'].toString()=="station":
+            if feat['station'] == "station":
                 pid = feat['point_id']
                 id = feat['id']
                 act = [pid, fb, id]
