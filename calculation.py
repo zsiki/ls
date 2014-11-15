@@ -60,12 +60,21 @@ class Calculation(object):
             :param obs: observation from station to the unknown point (PolarObservation)
             :return the polar point with new coordinates (Point)
         """
-        # Calculate the bearing angle between the station and new point.
-        b = st.o.hz.get_angle() + obs.hz.get_angle()
-        # Calculate the coordinates of the new point.
-        e = st.p.e + obs.horiz_dist() * math.sin(b)
-        n = st.p.n + obs.horiz_dist() * math.cos(b)
-        return Point(obs.point_id, e, n)
+        try:
+            # Calculate the bearing angle between the station and new point.
+            b = st.o.hz.get_angle() + obs.hz.get_angle()
+            # Calculate the coordinates of the new point.
+            e = st.p.e + obs.horiz_dist() * math.sin(b)
+            n = st.p.n + obs.horiz_dist() * math.cos(b)
+            if st.p.z is not None and st.o.th is not None and obs.v is not None:
+                z = st.p.z + st.o.th + obs.d.d * math.cos(obs.v.get_angle())
+                if obs.th is not None:
+                    z = z - obs.th 
+            else:
+                z = None
+            return Point(obs.point_id, e, n, z)
+        except (ValueError, TypeError, AttributeError):
+            return None
 
     @staticmethod
     def intersection(s1, obs1, s2, obs2):
@@ -363,7 +372,7 @@ class Calculation(object):
             if trav_obs[i][0] is not None and trav_obs[i][0].p is not None:
                 plist.append( trav_obs[i][0].p )
             else:
-                plist.append( Point( stationpn_to_pn(trav_obs[i][0].o.point_id) ) )
+                plist.append( Point( trav_obs[i][0].o.point_id) )
             plist[-1].e = ee[i]
             plist[-1].n = nn[i]
 
@@ -945,3 +954,12 @@ if __name__ == "__main__":
                                    [s3tra,o3_2tra,o3_Vtra], [sVtra,oV_3tra,None] ] )
     for pt in plist:
         print pt.id, pt.e, pt.n
+        
+    # test for polarpoint 3d
+    ppp = Point("1",10,20,30)
+    ooo = PolarObservation("1","station",Angle("0","DMS"),None,None,1.0)
+    sss = Station(ppp,ooo)
+    oo2 = PolarObservation("2",None,Angle("90","DMS"), Angle("45","DMS"), Distance(20,"SD"), 3.5)
+    pp2 = Calculation.polarpoint(sss,oo2)
+    print pp2.id, pp2.e, pp2.n, pp2.z
+    
