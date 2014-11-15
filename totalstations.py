@@ -21,7 +21,10 @@ class TotalStation(object):
             :param separator: field separator in input (string/regexp???)
         """
         self.fname = fname
-        self.separator = re.compile(separator)
+        if separator is not None:
+            self.separator = re.compile(separator)
+        else:
+            self.separator = None
         self.fp = None
 
     def open(self):
@@ -199,8 +202,6 @@ class JobAre(TotalStation):
     """
         Class to import JOB/ARE data from file
     """
-    # TODO change parse_next to return a whole record
-
     def __init__(self, fname, separator='='):
         super(JobAre, self).__init__(fname, separator)
         self.angle_unit = 'PDEG'
@@ -282,14 +283,17 @@ class Sdr(TotalStation):
     def __init__(self, fname, separator=None):
         super(Sdr, self).__init__(fname, separator)
         self.angle_unit = 'DEG'     # 1-DEG, 2-GON, 3-MIL
-        self.distance_unit = 1  # 1-meter, 2-feet
-        self.coord_order = 2    # 1-North, East, 2-East, North
-        self.angle_dir = 1      # 1-Clockwise, 2-Counter clockwise
+        self.distance_unit = 1        # 1-meter, 2-feet
+        self.coord_order = 2        # 1-North, East, 2-East, North
+        self.angle_dir = 1            # 1-Clockwise, 2-Counter clockwise
+        self.pn_length = 4            # point id length (default srd20)
+        self.th = None                # default target height
 
     def dist(self, value):
         """
             return distance in meters
         """
+
         if self.distance_unit == 2:
             return value * FOOT2M
         return value
@@ -297,25 +301,33 @@ class Sdr(TotalStation):
     def angle(self, value):
         return Angle(value, self.angle_unit).get_angle('GON')
 
+    def pn(self, pbuf):
+        """
+            get point id from input buffer
+            :param buf: input buffer
+        """
+        p = pbuf[0:self.pn_length].strip()
+        while p[0] == '0' and len(p) > 0:
+            p = p[1:]
+        return p
+
     def parse_next(self):
         """
             Load next observation, station
         """
-        th = None
         res = {}
         while True:
             buf = self.get_line()
             if buf is None:
-                ret = self.res
-                self.res = {}
-                if len(ret) > 0:
-                    return ret
-                else:
-                    return None
+                return None
             line_code = buf[0:2]
             if line_code == '00':
                 # header
-                if buf[4:8] != 'SDR33':
+                if buf[4:9] == 'SDR33':
+                    pn_length = 16
+                elif buf[4:9] == 'SDR20':
+                    pn_length = 4
+                else:
                     return None
                 w = int(buf[40:41])
                 if w == 1:
@@ -327,55 +339,80 @@ class Sdr(TotalStation):
                 self.distance_unit = int(buf[41:42])
                 self.coord_order = int(buf[44:45])
                 self.angle_dir = int(buf[45:46])
-            elif line_code == '01':
-                # instrument record
-                pass
             elif line_code == '02':
                 # station record
-                res['point_id'] = buf[4:20].strip()
-                res['th'] = self.dist(float(buf[68:84].strip()))
-                res['pc'] = buf[84:90].strip()
-                res['station_e'] = self.dist(float(buf[20:36].strip()))
-                res['station_n'] = self.dist(float(buf[36:52].strip()))
+                res['point_id'] = self.pn(buf[4:])
+                if self.pn_length == 16:
+                    res['station_e'] = self.dist(float(buf[20:36].strip()))
+                    res['station_n'] = self.dist(float(buf[36:52].strip()))
+                    res['station_z'] = self.dist(float(buf[52:68].strip()))
+                    res['th'] = self.dist(float(buf[68:84].strip()))
+                    res['pc'] = buf[84:90].strip()
+                else:
+                    res['station_e'] = self.dist(float(buf[8:18].strip()))
+                    res['station_n'] = self.dist(float(buf[18:28].strip()))
+                    res['station_z'] = self.dist(float(buf[28:38].strip()))
+                    res['th'] = self.dist(float(buf[38:48].strip()))
+                    res['pc'] = buf[48:64].strip()
                 if self.coord_order == 1:
-                    res['station_e'], res['station_n'] = res['station_n'], res['station_e']
-                res['station_z'] = self.dist(float(buf[52:66].strip()))
+                    res['station_e'], res['station_n'] = \
+                        res['station_n'], res['station_e']
+                res['station'] = 'station'
                 return res
             elif line_code == '03':
                 # target height
-                res['th'] =  self.dist(buf[4:20].strip())
+                self.th =  float(self.dist(buf[4:].strip()))
             elif line_code == '07':
                 # orientation
+                # TODO
                 pass
-            elif line_Code == '08':
+            elif line_code == '08':
                 # coordinate
-                res['point_id'] = buf[4:20].strip()
-                res['station_e'] = self.dist(float(buf[20:36].strip()))
-                res['station_n'] = self.dist(float(buf[36:52].strip()))
+                res['point_id'] = self.pn(buf[4:])
+                if self.pn_length == 16:
+                    res['station_e'] = self.dist(float(buf[20:36].strip()))
+                    res['station_n'] = self.dist(float(buf[36:52].strip()))
+                    res['station_z'] = self.dist(float(buf[52:68].strip()))
+                    res['pc'] = buf[68:84].strip()
+                else:
+                    res['station_e'] = self.dist(float(buf[8:18].strip()))
+                    res['station_n'] = self.dist(float(buf[18:28].strip()))
+                    res['station_z'] = self.dist(float(buf[28:38].strip()))
+                    res['pc'] = buf[38:54].strip()
                 if self.coord_order == 1:
-                    res['station_e'], res['station_n'] = res['station_n'], res['station_e']
-                res['station_z'] = self.dist(float(buf[52:68].strip()))
-                res['pc'] = buf[38:54].strip()
+                    res['station_e'], res['station_n'] = \
+                        res['station_n'], res['station_e']
                 return res
             elif line_code == '09':
                 # observation
-                if buf[2:3] == 'F1':
+                if buf[2:4] == 'F1' or buf[2:4] == 'MD':
                     # face left only
-                    res['point_id'] = buf[20:36].strip()
-                    res['sd'] = self.dist(float(buf[36:52].strip()))
-                    res['v'] = self.angle(float(buf[52:68].strip()))
-                    res['hz'] = self.angle(float(buf[68:84].strip()))
-                    res['pc'] = buf[84:100].strip()
-                    if th is not None:
-                        res['th'] = th
+                    if self.pn_length == 16:
+                        res['point_id'] = self.pn(buf[20:])
+                        res['sd'] = self.dist(float(buf[36:52].strip()))
+                        res['v'] = self.angle(float(buf[52:68].strip()))
+                        res['hz'] = self.angle(float(buf[68:84].strip()))
+                        res['pc'] = buf[84:100].strip()
+                    else:
+                        res['point_id'] = self.pn(buf[8:])
+                        res['sd'] = self.dist(float(buf[12:22].strip()))
+                        res['v'] = self.angle(float(buf[22:32].strip()))
+                        res['hz'] = self.angle(float(buf[32:42].strip()))
+                        res['pc'] = buf[42:58].strip()
+                    if self.th is not None:
+                        res['th'] = self.th
+                    res['station'] = None
                     return res
 
 if __name__ == "__main__":
     """
         unit test
     """
-    ts = LeicaGsi('samples/kz120125_kzp.gsi', ' ')
-    ts.open()
+    #ts = LeicaGsi('samples/kz120125_kzp.gsi', ' ')
+    #ts = JobAre('test.job', '=')
+    ts = Sdr('samples/PAJE04.crd', None)
+    if ts.open() != 0:
+        print "Open error"
     while True:
         r = ts.parse_next()
         if r is None:
@@ -383,7 +420,6 @@ if __name__ == "__main__":
         if len(r) > 0:
             print r
     ts.close()
-    #ts = JobAre('test.job', '=')
     #ts.open()
     #while True:
     #    r = ts.parse_next()
