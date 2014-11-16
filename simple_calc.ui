@@ -52,7 +52,7 @@
     <string>Help</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="RadioGroup">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -62,7 +62,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Calculate</string>
+    <string>Calculation</string>
    </property>
    <property name="flat">
     <bool>false</bool>
@@ -74,33 +74,23 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
+      <y>30</y>
       <width>151</width>
       <height>17</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>Calculate orientation angle  on stations</string>
+    </property>
     <property name="text">
      <string>Orientation</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>131</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Type of Calculation</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="RadialRadio">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>60</y>
       <width>161</width>
       <height>17</height>
      </rect>
@@ -113,7 +103,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>110</y>
+      <y>90</y>
       <width>151</width>
       <height>17</height>
      </rect>
@@ -126,7 +116,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>140</y>
+      <y>120</y>
       <width>141</width>
       <height>17</height>
      </rect>
@@ -139,7 +129,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>170</y>
+      <y>150</y>
       <width>141</width>
       <height>17</height>
      </rect>
@@ -148,8 +138,18 @@
      <string>Free Station</string>
     </property>
    </widget>
+   <zorder>OrientRadio</zorder>
+   <zorder>RadialRadio</zorder>
+   <zorder>IntersectRadio</zorder>
+   <zorder>ResectionRadio</zorder>
+   <zorder>FreeRadio</zorder>
+   <zorder>ResultGroup</zorder>
+   <zorder>ResultGroup</zorder>
+   <zorder>ResultGroup</zorder>
+   <zorder>ResultGroup</zorder>
+   <zorder>ResultGroup</zorder>
   </widget>
-  <widget class="QGroupBox" name="groupBox_3">
+  <widget class="QGroupBox" name="PointsGroup">
    <property name="geometry">
     <rect>
      <x>300</x>
@@ -161,7 +161,7 @@
    <property name="title">
     <string>Points</string>
    </property>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="AddButton">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -174,7 +174,7 @@
      <string>Add &gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="AddAllButton">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -193,15 +193,15 @@
       <x>230</x>
       <y>40</y>
       <width>121</width>
-      <height>161</height>
+      <height>131</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="RemoveButton">
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>140</y>
+      <y>110</y>
       <width>81</width>
       <height>23</height>
      </rect>
@@ -210,11 +210,11 @@
      <string>&lt; Remove</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="RemoveAllButton">
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>170</y>
+      <y>140</y>
       <width>81</width>
       <height>23</height>
      </rect>
@@ -228,12 +228,12 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>171</width>
+      <width>121</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Target (Measured) Points</string>
+     <string>Target Points</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_10">
@@ -241,25 +241,12 @@
      <rect>
       <x>230</x>
       <y>20</y>
-      <width>151</width>
+      <width>121</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Calculated Points</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="CalcButton">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>180</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Calculate</string>
+     <string>Used Points</string>
     </property>
    </widget>
    <widget class="QListView" name="SourceList">
@@ -268,35 +255,47 @@
       <x>10</x>
       <y>40</y>
       <width>121</width>
-      <height>161</height>
+      <height>131</height>
      </rect>
     </property>
    </widget>
+   <zorder>AddButton</zorder>
+   <zorder>AddAllButton</zorder>
+   <zorder>TargetList</zorder>
+   <zorder>RemoveButton</zorder>
+   <zorder>RemoveAllButton</zorder>
+   <zorder>label_9</zorder>
+   <zorder>label_10</zorder>
+   <zorder>SourceList</zorder>
+   <zorder>ResultGroup</zorder>
   </widget>
-  <widget class="QGroupBox" name="groupBox_4">
+  <widget class="QGroupBox" name="ResultGroup">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>210</y>
+     <y>180</y>
      <width>741</width>
-     <height>141</height>
+     <height>201</height>
     </rect>
    </property>
    <property name="title">
     <string>Result of Calculations</string>
    </property>
-   <widget class="QTextBrowser" name="textBrowser">
+   <widget class="QTextBrowser" name="TextBrowser">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>20</y>
       <width>721</width>
-      <height>111</height>
+      <height>161</height>
      </rect>
     </property>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_2">
+  <widget class="QGroupBox" name="StationGroup">
    <property name="geometry">
     <rect>
      <x>150</x>
@@ -354,6 +353,19 @@
      </rect>
     </property>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="CalcButton">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>370</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Calculate</string>
+   </property>
   </widget>
  </widget>
  <resources/>
