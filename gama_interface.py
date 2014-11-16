@@ -8,6 +8,7 @@
 """
 
 import re
+import os.path
 from xml.dom import minidom, Node
 from subprocess import call
 import tempfile
@@ -26,6 +27,14 @@ class GamaInterface(object):
         self.stdev_dist1 = stdev_dist1
         self.points = []
         self.observations = []
+        # get operating system dependent file name of gama_local
+        plugin_dir = os.path.dirname(os.path.abspath(__file__))
+        gama_prog = os.path.join(plugin_dir, 'gama-local')
+        if not os.path.exists(gama_prog):
+            gama_prog += '.exe'
+            if not os.path.exists(gama_prog):
+                gama_prog = None
+        self.gama_prog = gama_prog
 
     def add_point(self, point, state='ADJ'):
         """
@@ -173,8 +182,7 @@ class GamaInterface(object):
         doc.writexml(open(tmp_name + '.xml', 'w'))
         doc.unlink()
         # run gama-local
-        # TODO windows (.exe)
-        status = call(["./gama-local", tmp_name + '.xml', '--text',
+        status = call([self.gama_prog, tmp_name + '.xml', '--text',
             tmp_name + '.txt', '--xml', tmp_name + 'out.xml'])
         if status != 0:
             # error running GNU gama TODO
