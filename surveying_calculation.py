@@ -36,7 +36,7 @@ import pdb
 # plugin specific python modules
 #from surveying_calculation_dialog import Ui_SurveyingCalculationDialogBase
 from simple_calc import Ui_SimpleCalcDialog
-from simple_calc_dialog import *
+#from simple_calc_dialog import *
 from network_calc import Ui_NetworkCalcDialog
 from traverse_calc import Ui_TraverseCalcDialog
 from totalstations import *
@@ -74,7 +74,9 @@ class SurveyingCalculation:
 
         # Create the dialogs (after translation) and keep references
         #self.dlg = Ui_SurveyingCalculationDialogBase()
-        self.simple_dlg = SimpleCalculationDialog()
+        #self.simple_dlg = SimpleCalculationDialog()
+        self.simple_dlg = QDialog()
+        Ui_SimpleCalcDialog().setupUi(self.simple_dlg)
         self.traverse_dlg = QDialog()
         Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)
         self.network_dlg = QDialog()
@@ -160,19 +162,21 @@ class SurveyingCalculation:
         #self.menu = self.tr(u'&SurveyingCalculation')
         self.menu = QMenu()
         self.menu.setTitle(self.tr(u'&SurveyingCalculation'))
+        self.sc_coord = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_coord.png')),self.tr("New coordinate list ..."), self.iface.mainWindow())
         self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')),self.tr("Load fieldbook ..."), self.iface.mainWindow())
         self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','simple_calc.png')),self.tr("Single point calculations ..."), self.iface.mainWindow())
         self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')),self.tr("Traverse calculations ..."), self.iface.mainWindow())
         self.sc_netw = QAction(QIcon(os.path.join(self.plugin_dir,'icons','network_calc.png')),self.tr("Network adjustment ..."), self.iface.mainWindow())
         self.sc_help = QAction(self.tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(self.tr("About"), self.iface.mainWindow())
-        self.menu.addActions([self.sc_load, self.sc_calc, self.sc_trav,
-            self.sc_netw, self.sc_help, self.sc_about])
+        self.menu.addActions([self.sc_coord, self.sc_load, self.sc_calc,
+            self.sc_trav, self.sc_netw, self.sc_help, self.sc_about])
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
         lastAction = actions[len(actions) - 1]
         menu_bar.insertMenu(lastAction, self.menu)
 
+        self.sc_coord.triggered.connect(self.create_coordlist)
         self.sc_load.triggered.connect(self.load_fieldbook)
         self.sc_calc.triggered.connect(self.calculations)
         self.sc_trav.triggered.connect(self.traverses)
@@ -180,7 +184,7 @@ class SurveyingCalculation:
         self.sc_about.triggered.connect(self.about)
         self.sc_help.triggered.connect(self.help)
 
-        # TODO: We are going to let the user set this up in a future iteration
+        # add icons to toolbar
         self.toolbar = self.iface.addToolBar(u'SurveyingCalculation')
         self.toolbar.setObjectName(u'SurveyingCalculation')
         self.toolbar.addActions([self.sc_load, self.sc_calc, self.sc_trav,
@@ -209,6 +213,26 @@ class SurveyingCalculation:
     #        # substitute with your code.
     #        pass
     
+    def create_coordlist(self):
+        """
+            Create a new coordinate list from template
+            :param name: name of new coordinate list, must start with coord_
+        """
+        ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
+            self.tr('QGIS co-ordinate list'),
+            filter=self.tr('Shape file (*.shp)'))
+        if not ofname:
+            return
+        if not re.match('coord_', os.path.basename(ofname)):
+            ofname = os.path.join(os.path.dirname(ofname),
+                'coord_' + os.path.basename(ofname))
+        ofbase = os.path.splitext(ofname)[0]
+        tempbase = os.path.join(self.plugin_dir, 'template', 'coord_template')
+        for ext in ['.shp', '.shx', '.dbf']:
+            copyfile(tempbase+ext, ofbase+ext)
+        coord = QgsVectorLayer(ofname, os.path.basename(ofname), "ogr")
+        QgsMapLayerRegistry.instance().addMapLayer(coord)
+
     def load_fieldbook(self):
         """
             Load an electric fieldbook form file (GSI, JOB/ARE, ...)
@@ -276,11 +300,12 @@ class SurveyingCalculation:
                             record.setAttribute(j, r[key])
                     fb_dbf.dataProvider().addFeatures([record])
                 if 'station_e' in r:
-                    #pyqtRemoveInputHook()
-                    #pdb.set_trace()
+                    pyqtRemoveInputHook()
+                    pdb.set_trace()
                     # store coordinates too
-                    #p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
-                    #QPoint(p).store_coord()
+                    p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
+                    qp = QPoint(p)
+                    qp.store_coord()
                     pass
                 i += 10
             #fb_dbf.commitChanges()
@@ -294,7 +319,7 @@ class SurveyingCalculation:
         # show the dialog
         self.simple_dlg.show()
         # initialize the dialog
-        self.simple_dlg.initDialog()
+        #self.simple_dlg.initDialog()
         # Run the dialog event loop
         result = self.simple_dlg.exec_()
 
