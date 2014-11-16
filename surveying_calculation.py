@@ -34,9 +34,12 @@ from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
 # plugin specific python modules
-from simple_calc import Ui_SimpleCalcDialog
-from network_calc import Ui_NetworkCalcDialog
-from traverse_calc import Ui_TraverseCalcDialog
+#from simple_calc import Ui_SimpleCalcDialog
+from simple_dialog import SimpleDialog
+#from traverse_calc import Ui_TraverseCalcDialog
+from traverse_dialog import TraverseDialog
+#from network_calc import Ui_NetworkCalcDialog
+from network_dialog import NetworkDialog
 from totalstations import *
 from surveying_util import *
 from calculation import *
@@ -70,12 +73,15 @@ class SurveyingCalculation:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-        self.simple_dlg = QDialog()
-        Ui_SimpleCalcDialog().setupUi(self.simple_dlg)
-        self.traverse_dlg = QDialog()
-        Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)
-        self.network_dlg = QDialog()
-        Ui_NetworkCalcDialog().setupUi(self.network_dlg)
+        #self.simple_dlg = QDialog()
+        #Ui_SimpleCalcDialog().setupUi(self.simple_dlg)
+        self.simple_dlg = SimpleDialog()
+        #self.traverse_dlg = QDialog()
+        #Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)
+        self.traverse_dlg = TraverseDialog()
+        #self.network_dlg = QDialog()
+        #Ui_NetworkCalcDialog().setupUi(self.network_dlg)
+        self.network_dlg = NetworkDialog()
 
         # Declare instance attributes
 
@@ -180,13 +186,14 @@ class SurveyingCalculation:
             self.sc_netw, self.sc_help])
 
     def unload(self):
-        """Removes the plugin menu item and icon from QGIS GUI."""
-        # TODO can we remove next?
-        #for action in self.actions:
-        #    self.iface.removePluginMenu(
-        #        self.tr(u'&SurveyingCalculation'),
-        #        action)
-        #    self.iface.removeToolBarIcon(action)
+        """
+            Removes the plugin menu item and icon from QGIS GUI.
+        """
+        for action in self.actions:
+            self.iface.removePluginMenu(
+                self.tr(u'&SurveyingCalculation'),
+                action)
+            self.iface.removeToolBarIcon(action)
         del self.menu
         del self.toolbar
 
@@ -269,13 +276,12 @@ class SurveyingCalculation:
                             record.setAttribute(j, r[key])
                     fb_dbf.dataProvider().addFeatures([record])
                 if 'station_e' in r:
-                    pyqtRemoveInputHook()
-                    pdb.set_trace()
+                    #pyqtRemoveInputHook()
+                    #pdb.set_trace()
                     # store coordinates too
                     p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
                     qp = QPoint(p)
                     qp.store_coord()
-                    pass
                 i += 10
             #fb_dbf.commitChanges()
         return
