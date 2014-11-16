@@ -8,9 +8,7 @@
 """
 
 import math
-
 from base_classes import *
-
 
 class Calculation(object):
     """ container class for all calculations """
