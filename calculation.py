@@ -8,7 +8,9 @@
 """
 
 import math
+
 from base_classes import *
+
 
 class Calculation(object):
     """ container class for all calculations """
@@ -427,7 +429,7 @@ class Calculation(object):
             Ns = Ns + p[1].n
 
         ew = es / float(len(plist))
-        Nw = ns / float(len(plist))
+        nw = ns / float(len(plist))
         Ew = Es / float(len(plist))
         Nw = Ns / float(len(plist))
 
@@ -459,7 +461,7 @@ class Calculation(object):
             :return the list of parameters {E0 N0 alpha}
         """
         # approximate values from Helmert4
-        appr = __helmert4tr(plist)
+        appr = self.__similaritytr(plist)
         E0 = appr[0]
         N0 = appr[1]
         alpha = math.atan2(appr[3], appr[2])
@@ -492,6 +494,7 @@ class Calculation(object):
             s6 = s6 + w1 * w3 + w2 * w4
 
         # set matrix of normal equation
+        ata = []
         ata[0,0] = len(plist)
         ata[0,1] = 0.0
         ata[0,2] = s1
@@ -502,6 +505,7 @@ class Calculation(object):
         ata[2,1] = s2
         ata[2,2] = s3
         # set A*l
+        al = []
         al[0] = s4
         al[1] = s5
         al[2] = s6
@@ -595,6 +599,10 @@ class Calculation(object):
         avgE = S1 / n
         avgN = S2 / n
         i = 0
+        a1 = []
+        a2 = []
+        l1 = []
+        l2 = []
         for p in plist:
             e = p[0].e - avge
             n = p[0].n - avgn
@@ -604,8 +612,8 @@ class Calculation(object):
             for j in range(0,degree+1):
                 for k in range(0,degree+1):
                     if j + k <= degree:
-                        a1[i,l] = math.pow(x,k) * math.pow(y,j)
-                        a2[i,l] = math.pow(x,k) * math.pow(y,j)
+                        a1[i,l] = math.pow(e,k) * math.pow(n,j)
+                        a2[i,l] = math.pow(e,k) * math.pow(n,j)
                         l = l + 1
             l1[i] = E
             l2[i] = N
@@ -613,6 +621,10 @@ class Calculation(object):
             
         # set matrix of normal equation
         # N1 = a1T*a1, N2 = a2T * a2, n1 = a1T * l1, n2 = a2T * l2
+        N1 = []
+        N2 = []
+        n1 = []
+        n2 = []
         for i in range(0,m):
             for j in range(i,m):
                 s1 = 0.0
