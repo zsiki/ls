@@ -34,9 +34,7 @@ from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
 # plugin specific python modules
-#from surveying_calculation_dialog import Ui_SurveyingCalculationDialogBase
 from simple_calc import Ui_SimpleCalcDialog
-#from simple_calc_dialog import *
 from network_calc import Ui_NetworkCalcDialog
 from traverse_calc import Ui_TraverseCalcDialog
 from totalstations import *
@@ -72,9 +70,6 @@ class SurveyingCalculation:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-        # Create the dialogs (after translation) and keep references
-        #self.dlg = Ui_SurveyingCalculationDialogBase()
-        #self.simple_dlg = SimpleCalculationDialog()
         self.simple_dlg = QDialog()
         Ui_SimpleCalcDialog().setupUi(self.simple_dlg)
         self.traverse_dlg = QDialog()
@@ -152,14 +147,8 @@ class SurveyingCalculation:
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
         icon_path = ':/plugins/SurveyingCalculation/icon.png'
-        #self.add_action(
-        #    icon_path,
-        #    text=self.tr(u'Surveying Calculation'),
-        #    callback=self.run,
-        #    parent=self.iface.mainWindow())
         # build menu
         self.actions = []
-        #self.menu = self.tr(u'&SurveyingCalculation')
         self.menu = QMenu()
         self.menu.setTitle(self.tr(u'&SurveyingCalculation'))
         self.sc_coord = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_coord.png')),self.tr("New coordinate list ..."), self.iface.mainWindow())
@@ -201,22 +190,11 @@ class SurveyingCalculation:
         del self.menu
         del self.toolbar
 
-    #def run(self):
-    #    """Run method that performs all the real work"""
-    #    # show the dialog
-    #    self.dlg.show()
-    #    # Run the dialog event loop
-    #    result = self.dlg.exec_()
-    #    # See if OK was pressed
-    #    if result:
-    #        # Do something useful here - delete the line containing pass and
-    #        # substitute with your code.
-    #        pass
-    
     def create_coordlist(self):
         """
-            Create a new coordinate list from template
-            :param name: name of new coordinate list, must start with coord_
+            Create a new coordinate list from template and add to
+            layer list
+            layer/file name changed to start with 'coord_'
         """
         ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
             self.tr('QGIS co-ordinate list'),
@@ -252,15 +230,6 @@ class SurveyingCalculation:
             if not re.match('fb_', os.path.basename(ofname)):
                 ofname = os.path.join(os.path.dirname(ofname),
                     'fb_' + os.path.basename(ofname))
-            #if QFile(ofname).exists():
-            #    # overwrite question
-            #    ret = QMessageBox.warning(self.iface.mainWindow(),
-            #        self.tr("SurveyingCalculation"),
-            #        self.tr("Do you want to overwrite existing table?"),
-            #        QMessageBox.Yes | QMessageBox.Default,
-            #        QMessageBox.Cancel | QMessageBox.Escape)
-            #    if ret == QMessageBox.Cancel:
-            #        return
             # make a copy of dbf template
             copyfile(os.path.join(self.plugin_dir, 'template', 'fb_template.dbf'), ofname)
             fb_dbf = QgsVectorLayer(ofname, os.path.basename(ofname), "ogr")
@@ -318,8 +287,6 @@ class SurveyingCalculation:
         """
         # show the dialog
         self.simple_dlg.show()
-        # initialize the dialog
-        #self.simple_dlg.initDialog()
         # Run the dialog event loop
         result = self.simple_dlg.exec_()
 
