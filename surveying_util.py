@@ -250,6 +250,8 @@ class QPoint(Point):
             if feat['point_id'] ==  self.id:
                 # TODO add event handler?
                 # set feature geometry and attributes
+                #pyqtRemoveInputHook()
+                #pdb.set_trace()
                 fid = feat.id()
                 attrs = {feat.fieldNameIndex('point_id') : self.id,
                     feat.fieldNameIndex('e') : self.e,
@@ -264,7 +266,9 @@ class QPoint(Point):
         # add new point
         feat = QgsFeature()
         #feat.setFields(lay.pendingFields(), True)
-        feat.setFields(lay.dataProvider().fields(), True)
+        #feat.setFields(lay.dataProvider().fields(), True)
+        fields = lay.dataProvider().fields()
+        feat.setFields(fields, True)
         #pyqtRemoveInputHook()
         #pdb.set_trace()
         feat.setAttribute(feat.fieldNameIndex('point_id'), self.id)
