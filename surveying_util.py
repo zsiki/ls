@@ -158,7 +158,7 @@ def get_unknown(dimension=2):
         return sorted(plist)
     return None
 
-def get_stations():
+def get_stations(known=False):
     """
         Get list of stations from fieldbooks
         :returns list of station [[point_id fieldbook_name id] ...]
@@ -167,6 +167,8 @@ def get_stations():
     fb_list = get_fblist()
     if fb_list is None:
         return None
+    if known:
+        known_list = get_known()
     for fb in fb_list:
         lay = get_layer_by_name(fb)
         if lay is None:
@@ -174,6 +176,9 @@ def get_stations():
         for feat in lay.getFeatures():
             if feat['station'] == "station":
                 pid = feat['point_id']
+                if known and not pid in known_list:
+                    # skip unknown points
+                    continue
                 id = feat['id']
                 act = [pid, fb, id]
                 if not act in slist:
