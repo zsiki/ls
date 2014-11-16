@@ -662,19 +662,23 @@ if __name__ == "__main__":
     """
         modul test
     """
-    #p1 = Point("1", 100, 200, 10)
     p1 = Point("1", 100, 200, 20)
     p2 = Point("2", 150, 250, 30)
     d = distance2d(p1, p2)
-    print d.d #70.7106781187
+    if not compare(d.d, 70.7107):
+        print "Distance2d test failed"
     d = distance3d(p1, p2)
-    print d.d #71.4142842854
+    if not compare(d.d, 71.4143):
+        print "Distance3d test failed"
     b = bearing(p1, p2)
-    print b.get_angle('DMS'); #45-00-00
+    if not compare(b.get_angle('DMS'), '45-00-00'):
+        print "Bearing p1-p2 test failed"
     b = bearing(p2, p1)
-    print b.get_angle('DMS'); #225-00-00
+    if not compare(b.get_angle('DMS'), '225-00-00'):
+        print "Bearing p2-p1 test failed"
     b = bearing(p1, p1)
-    print b.get_angle('DMS'); #0-00-00
+    if not compare(b.get_angle('DMS'), '0-00-00'):
+        print "Bearing p1-p1 test failed"
     
     # intersection test
     s1o = PolarObservation('1', 'station', Angle(0))
@@ -684,7 +688,8 @@ if __name__ == "__main__":
     o1 = PolarObservation("p", None, Angle(25, "DEG"))
     o2 = PolarObservation("p", None, Angle(310, "DEG"))
     p3 = Calculation.intersection(s1, o1, s2, o2)
-    print p3.id, p3.e, p3.n #p 130.820076296 266.093866906
+    if not compare(p3, Point('p', 130.8201, 266.0939)):
+        print "Simple-1 intersection test failed"
     A1 = Point("A1", -150, -120)
     A2 = Point("A2", 130, 75)
     sA1o = PolarObservation('A1', 'station', Angle("76-13-23", "DMS"))
@@ -694,15 +699,17 @@ if __name__ == "__main__":
     oA1 = PolarObservation("p3", None, Angle("308-46-36", "DMS"))
     oA2 = PolarObservation("p3", None, Angle("345-49-02", "DMS"))
     P3 = Calculation.intersection(sA1, oA1, sA2, oA2)
-    print P3.id, P3.e, P3.n #p3 -5.89789481532 189.031873417
+    if not compare(P3, Point('p3', -5.8979, 189.0319)):
+        print "Simple-2 intersection test failed"
     sA1o = PolarObservation('A1', 'station', Angle("0", "DMS"))
     sA2o = PolarObservation('A2', 'station', Angle("0", "DMS"))
     sA1 = Station(A1, sA1o)
     sA2 = Station(A2, sA2o)
-    oA1 = PolarObservation("p4", None, Angle("315", "DMS"))
+    oA1 = PolarObservation("p4", None, Angle("225", "DMS"))
     oA2 = PolarObservation("p4", None, Angle("45", "DMS"))
     P4 = Calculation.intersection(sA1, oA1, sA2, oA2)
-    print P4.id, P4.e, P4.n #p4 -170.5 -162.5
+    print "Result for impossible intersection:"
+    print P4.id, P4.e, P4.n
     A3 = Point("A3", 0, 0)
     A4 = Point("A4", 100, 100)
     sA3o = PolarObservation('A3', 'station', Angle("0", "DMS"))
@@ -712,6 +719,7 @@ if __name__ == "__main__":
     oA3 = PolarObservation("p5", None, Angle("45", "DMS"))
     oA4 = PolarObservation("p5", None, Angle("225", "DMS"))
     P5 = Calculation.intersection(sA3, oA3, sA4, oA4)
+    print "Result for observe each other:"
     print P5.id, P5.e, P5.n #p5 100.0 100.0
     A3 = Point("A3", 0, 0)
     A4 = Point("A4", 100, 100)
@@ -722,7 +730,8 @@ if __name__ == "__main__":
     oA3 = PolarObservation("p5", None, Angle("45", "DMS"))
     oA4 = PolarObservation("p5", None, Angle("45", "DMS"))
     P5 = Calculation.intersection(sA3, oA3, sA4, oA4)
-    print P5 #None 
+    if not compare(P5, None):
+        print "Intersection test for parallel observation failed"
     
     # resection test
     p1res = Point("3")
@@ -735,7 +744,8 @@ if __name__ == "__main__":
     o102res = PolarObservation( "102", None, Angle("164-38-59", "DMS") )
     o103res = PolarObservation( "103", None, Angle("96-23-12", "DMS") )
     p1res = Calculation.resection( s1res, p101res, p102res, p103res, o101res, o102res, o103res )
-    print p1res.id, p1res.e, p1res.n #3 657871.949432 247973.241416
+    if not compare( p1res, Point( "3", 657871.9494, 247973.2414 ) ):
+        print "Simple-1 resection test failed"
     P4res = Point("P4")
     oP4res = PolarObservation('P4', "station", Angle(0) )
     sP4res = Station( P4res, oP4res )
@@ -743,7 +753,8 @@ if __name__ == "__main__":
     o102res = PolarObservation( "102", None, Angle("344-38-59", "DMS") )
     o103res = PolarObservation( "103", None, Angle("276-23-12", "DMS") )
     P4res = Calculation.resection( sP4res, p101res, p102res, p103res, o101res, o102res, o103res )
-    print P4res.id, P4res.e, P4res.n #P4 657871.949432 247973.241416
+    if not compare( P4res, Point( "P4", 657871.9494, 247973.2414 ) ):
+        print "Simple-2 resection test failed"
     P5res = Point("P5")
     oP5res = PolarObservation('P5', "station", Angle(0) )
     sP5res = Station( P5res, oP5res )
@@ -751,7 +762,8 @@ if __name__ == "__main__":
     o102res = PolarObservation( "102", None, Angle("40-11-52.9394", "DMS") )
     o103res = PolarObservation( "103", None, Angle("155-23-15.1567", "DMS") )
     P5res = Calculation.resection( sP5res, p101res, p102res, p103res, o101res, o102res, o103res )
-    print P5res #None
+    if not compare( P5res, None ):
+        print "Resection test for dangerous circle failed"
     P6res = Point("P6")
     oP6res = PolarObservation('P6', "station", Angle(0) )
     sP6res = Station( P6res, oP6res )
@@ -762,7 +774,8 @@ if __name__ == "__main__":
     o102res = PolarObservation( "102", None, Angle("97-13-15", "DMS") )
     o103res = PolarObservation( "103", None, Angle("70-43-22", "DMS") )
     P6res = Calculation.resection( sP6res, p101res, p102res, p103res, o101res, o102res, o103res )
-    print P6res.id, P6res.e, P6res.n #P6 -29.6181632685,142.657625507
+    if not compare( P6res, Point( "P6", -29.6182, 142.6576 ) ):
+        print "Resection test for reference points on a line failed"
     P7res = Point("P7")
     oP7res = PolarObservation('P7', "station", Angle(0) )
     sP7res = Station( P7res, oP7res )
@@ -773,7 +786,8 @@ if __name__ == "__main__":
     o102res = PolarObservation( "102", None, Angle("45", "DMS") )
     o103res = PolarObservation( "103", None, Angle("45", "DMS") )
     P7res = Calculation.resection( sP7res, p101res, p102res, p103res, o101res, o102res, o103res )
-    print P7res #
+    if not compare( P7res, None ):
+        print "Resection test for reference points and station point on a line failed"
     
     #orientation
     p101ori = Point( "101", 5693.45, 328.81 )
@@ -803,7 +817,8 @@ if __name__ == "__main__":
     o103ori = PolarObservation( "103", None, Angle("80-57-34", "DMS") )
     o104ori = PolarObservation( "104", None, Angle("105-53-19", "DMS") )
     z101ori = Calculation.orientation(s101ori, [[p102ori,o102ori], [p103ori,o103ori], [p104ori,o104ori]])
-    print z101ori.get_angle('DMS'); #116-25-30
+    if not compare( z101ori.get_angle('DMS'), '116-25-30' ):
+        print "Simple-1 orientation test failed"
     o201ori = PolarObservation('201', "station")
     s201ori = Station( p201ori, o201ori )
     o202ori = PolarObservation( "202", None, Angle("316-40-57", "DMS") )
@@ -812,7 +827,8 @@ if __name__ == "__main__":
     o205ori = PolarObservation( "205", None, Angle("49-6-32", "DMS") )
     o206ori = PolarObservation( "206", None, Angle("197-44-22", "DMS") )
     z201ori = Calculation.orientation(s201ori, [[p202ori,o202ori], [p203ori,o203ori], [p204ori,o204ori], [p205ori,o205ori], [p206ori,o206ori]])
-    print z201ori.get_angle('DMS'); #63-50-00
+    if not compare( z201ori.get_angle('DMS'), '63-50-00' ):
+        print "Simple-2 orientation test failed"
     o201ori = PolarObservation('201', "station")
     s201ori = Station( p201ori, o201ori )
     o202ori = PolarObservation( "202", None, Angle(351.86944, "GON") )
@@ -821,24 +837,28 @@ if __name__ == "__main__":
     o205ori = PolarObservation( "205", None, Angle(54.56543, "GON") )
     o206ori = PolarObservation( "206", None, Angle(219.71049, "GON") )
     z201ori = Calculation.orientation(s201ori, [[p202ori,o202ori], [p203ori,o203ori], [p204ori,o204ori], [p205ori,o205ori], [p206ori,o206ori]])
-    print z201ori.get_angle('DMS'); #63-50-00
+    if not compare( z201ori.get_angle('DMS'), '63-50-00' ):
+        print "Simple-3 orientation test failed"
     o301ori = PolarObservation('301', "station")
     s301ori = Station( p301ori, o301ori )
     o302ori = PolarObservation( "302", None, Angle("166-10-30", "DMS") )
     o303ori = PolarObservation( "303", None, Angle("281-13-55", "DMS") )
     z301ori = Calculation.orientation(s301ori, [[p302ori,o302ori], [p303ori,o303ori]])
-    print z301ori.get_angle('DMS'); #55-41-44
+    if not compare( z301ori.get_angle('DMS'), '55-41-44' ):
+        print "Simple-4 orientation test failed"
     o401ori = PolarObservation('401', "station")
     s401ori = Station( p401ori, o401ori )
     o402ori = PolarObservation( "402", None, Angle("101-37-23", "DMS") )
     o403ori = PolarObservation( "403", None, Angle("103-53-37", "DMS") )
     z401ori = Calculation.orientation(s401ori, [[p402ori,o402ori], [p403ori,o403ori]])
-    print z401ori.get_angle('DMS'); #201-15-38
+    if not compare( z401ori.get_angle('DMS'), '201-15-38' ):
+        print "Simple-5 orientation test failed"
     o401ori = PolarObservation('401', "station")
     s401ori = Station( p401ori, o401ori )
     o402ori = PolarObservation( "402", None, Angle("101-37-23", "DMS") )
     z401ori = Calculation.orientation(s401ori, [[p402ori,o402ori]])
-    print z401ori.get_angle('DMS'); #201-15-32
+    if not compare( z401ori.get_angle('DMS'), '201-15-32' ):
+        print "Simple-6 orientation test failed"
     o501ori = PolarObservation('501', "station")
     s501ori = Station( p501ori, o501ori )
     o502ori = PolarObservation( "502", None, Angle("170-50-59", "DMS") )
@@ -846,7 +866,8 @@ if __name__ == "__main__":
     o504ori = PolarObservation( "504", None, Angle("338-22-5", "DMS") )
     o505ori = PolarObservation( "505", None, Angle("28-15-23", "DMS") )
     z501ori = Calculation.orientation(s501ori, [[p502ori,o502ori], [p503ori,o503ori], [p504ori,o504ori], [p505ori,o505ori]])
-    print z501ori.get_angle('DMS'); #241-44-41
+    if not compare( z501ori.get_angle('DMS'), '241-44-41' ):
+        print "Simple-6 orientation test failed"
 
     # polar points
     p101pol = Point("101", 13456.25, 12569.75)
@@ -861,12 +882,15 @@ if __name__ == "__main__":
     o9pol = PolarObservation("9", None, Angle("145-10-16", "DMS"), None, Distance(206.17,"HD") )
     o10pol = PolarObservation("10", None, Angle("201-30-47", "DMS"), None, Distance(219.38,"HD") )
     z101pol = Calculation.orientation(s101pol, [[p201pol,o201pol], [p202pol,o202pol], [p203pol,o203pol]])
-    print z101pol.get_angle('DMS'); #99-10-05
+    if not compare( z101pol.get_angle('DMS'), '99-10-05' ):
+        print "Simple-1 polar points test failed by orientation"
     s101pol.o.hz = z101pol
     p9pol = Calculation.polarpoint(s101pol, o9pol)
     p10pol = Calculation.polarpoint(s101pol, o10pol)
-    print p9pol.id, p9pol.e, p9pol.n #9 13270.4140703 12480.4691167
-    print p10pol.id, p10pol.e, p10pol.n #10 13267.5784511 12681.6903012
+    if not compare( p9pol, Point( "9", 13270.4141, 12480.4691 ) ):
+        print "Simple-1 polar points test failed by P9"
+    if not compare( p10pol, Point( "10", 13267.5785, 12681.6903 ) ):
+        print "Simple-1 polar points test failed by P10"
     pA1pol = Point("A1", 153.867, 456.430)
     pT1pol = Point("T1", -237.865, -297.772)
     pT2pol = Point("T2", -1549.927, 669.6126)
@@ -879,12 +903,15 @@ if __name__ == "__main__":
     oP1pol = PolarObservation("P1", None, Angle("112-43-47", "DMS"), None, Distance(673.699,"HD") )
     oP2pol = PolarObservation("P2", None, Angle("84-0-44", "DMS"), None, Distance(788.105,"HD") )
     zA1pol = Calculation.orientation(sA1pol, [[pT1pol,oT1pol], [pT2pol,oT2pol], [pT3pol,oT3pol]])
-    print zA1pol.get_angle('DMS'); #134-24-16
+    if not compare( zA1pol.get_angle('DMS'), '134-24-16' ):
+        print "Simple-2 polar points test failed by orientation"
     sA1pol.o.hz = zA1pol
     pP1pol = Calculation.polarpoint(sA1pol, oP1pol)
     pP2pol = Calculation.polarpoint(sA1pol, oP2pol)
-    print pP1pol.id, pP1pol.e, pP1pol.n #P1 -466.890538454 194.646843449
-    print pP2pol.id, pP2pol.e, pP2pol.n #P2 -335.841452527 -161.060989852
+    if not compare( pP1pol, Point( "P1", -466.8905, 194.6468 ) ):
+        print "Simple-2 polar points test failed by P1"
+    if not compare( pP2pol, Point( "P2", -335.8415, -161.0610 ) ):
+        print "Simple-2 polar points test failed by P2"
     
     #traverse1
     # closed at one end and known bearings at one end (free traverse)
@@ -898,7 +925,8 @@ if __name__ == "__main__":
     o5245otra = PolarObservation( "5245", None, Angle("141-56-11", "DMS") )
     o5246otra = PolarObservation( "5246", None, Angle("67-47-14", "DMS") )
     s5247otra.o.hz = Calculation.orientation(s5247otra, [[p5241otra,o5241otra], [p5245otra,o5245otra], [p5246otra,o5246otra]])
-    print s5247otra.o.hz.get_angle('DMS');  #292-06-34
+    if not compare( s5247otra.o.hz.get_angle('DMS'), '292-06-34' ):
+        print "Traverse test for free traverse failed by orientation"
     
     o5247_111otra = PolarObservation("111", None, Angle("241-26-57","DMS"), None, Distance(123.42,"HD")) 
     s111otra = Station( None, PolarObservation('111', "station") )
@@ -962,6 +990,43 @@ if __name__ == "__main__":
 
     plist = Calculation.traverse( [ [sKtra,None,oK_1tra], [s1tra,o1_Ktra,o1_2tra], [s2tra,o2_1tra,o2_3tra],
                                    [s3tra,o3_2tra,o3_Vtra], [sVtra,oV_3tra,None] ] )
+    for pt in plist:
+        print pt.id, pt.e, pt.n
+
+    #traverse3
+    # closed at both ends and known bearing at one end
+    pA5tra = Point("A5",646333.5695,276616.4171)
+    pA11tra = Point("A11",646502.8710,276361.2386)
+    pA4tra = Point("A4",646284.6886,276659.2165)
+
+    oA5tra = PolarObservation('A5', "station")
+    sA5tra = Station( pA5tra, oA5tra )
+    oA5_A4tra = PolarObservation( "A4", None, Angle("311-12-21", "DMS") )
+    oA5_A6tra = PolarObservation( "A6", None, Angle("136-36-49", "DMS"), Angle("100-13-22", "DMS"), Distance(58.405,"SD") )
+    sA5tra.o.hz = Calculation.orientation(sA5tra, [[pA4tra,oA5_A4tra]])
+    print sA5tra.o.hz.get_angle('DMS');  #359-59-57
+    
+    sA6tra = Station( None, PolarObservation('A6', "station") )
+    oA6_A5tra = PolarObservation("A5", None, Angle("316-36-49","DMS"), Angle("79-56-53","DMS"), Distance(58.378,"SD"))
+    oA6_A7tra = PolarObservation("A7", None, Angle("136-43-52","DMS"), Angle("101-55-08","DMS"), Distance(43.917,"SD"))
+    sA7tra = Station( None, PolarObservation('A7', "station") )
+    oA7_A6tra = PolarObservation("A6", None, Angle("316-43-52","DMS"), Angle("78-21-53","DMS"), Distance(43.878,"SD"))
+    oA7_A8tra = PolarObservation("A8", None, Angle("141-48-30","DMS"), Angle("102-29-18","DMS"), Distance(48.459,"SD"))
+    sA8tra = Station( None, PolarObservation('A8', "station") )
+    oA8_A7tra = PolarObservation("A7", None, Angle("321-48-30","DMS"), Angle("77-49-44","DMS"), Distance(48.401,"SD"))
+    oA8_A9tra = PolarObservation("A9", None, Angle("153-25-18","DMS"), Angle("100-01-16","DMS"), Distance(47.098,"SD"))
+    sA9tra = Station( None, PolarObservation('A9', "station") )
+    oA9_A8tra = PolarObservation("A8", None, Angle("333-25-18","DMS"), Angle("80-17-11","DMS"), Distance(47.040,"SD"))
+    oA9_A10tra = PolarObservation("A10", None, Angle("153-59-32","DMS"), Angle("97-46-19","DMS"), Distance(58.077,"SD"))
+    sA10tra = Station( None, PolarObservation('A10', "station") )
+    oA10_A9tra = PolarObservation("A9", None, Angle("333-59-32","DMS"), Angle("82-27-53","DMS"), Distance(58.045,"SD"))
+    oA10_A11tra = PolarObservation("A11", None, Angle("154-05-41","DMS"), Angle("97-06-32","DMS"), Distance(58.188,"SD"))
+    
+    sA11tra = Station( pA11tra, PolarObservation('A11', "station") )
+    oA11_A10tra = PolarObservation("A10", None, Angle("334-05-41","DMS"), Angle("83-09-29","DMS"), Distance(58.151,"SD"))
+
+    plist = Calculation.traverse( [ [sA5tra,None,oA5_A6tra], [sA6tra,oA6_A5tra,oA6_A7tra], [sA7tra,oA7_A6tra,oA7_A8tra],
+             [sA8tra,oA8_A7tra,oA8_A9tra], [sA9tra,oA9_A8tra,oA9_A10tra], [sA10tra,oA10_A9tra,oA10_A11tra], [sA11tra,oA11_A10tra,None] ] )
     for pt in plist:
         print pt.id, pt.e, pt.n
         
