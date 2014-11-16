@@ -129,7 +129,7 @@ class Angle(object):
             a = None
         return a
 
-    def __pdeg2rad(slf, angle):
+    def __pdeg2rad(self, angle):
         "dd.mmss to radian"
         try:
             d = math.floor(angle)
@@ -192,7 +192,7 @@ class Angle(object):
             w = self.value / math.pi * 180.0
             d = int(w)
             a = d * 100 + (w - d) * 60
-        except (ValuError, TypeError):
+        except (ValueError, TypeError):
             a = None
         return a
 
@@ -510,7 +510,7 @@ def intersecCC(circle1, circle2):
         np2 = (-b - math.sqrt(d)) / 2.0 / a
         ep1 = (t - dn * np1) / de
         ep2 = (t - dn * np2) / de
-        if swap:
+        if swap == False:
             return [ Point("@",ep1,np1), Point("@",ep2,np2) ]
         else:
             return [ Point("@",np1,ep1), Point("@",np2,ep2) ]
