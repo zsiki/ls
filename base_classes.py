@@ -533,7 +533,6 @@ def compare (a, b, tol=0.001):
     if type(a) is float:
         return math.fabs(a - b) < tol
     for i in a.__dict__.keys():
-        print i + ' ' + str(a.__dict__[i]) + ' ' + str(b.__dict__[i])
         if not compare(a.__dict__[i], b.__dict__[i], tol):
             return False
     return True
