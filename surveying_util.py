@@ -236,10 +236,11 @@ class QPoint(Point):
         self.coo = None
         return
 
-    def store_coord(self):
+    def store_coord(self, dimension=3):
         """
             Update coordinates in coord table, insert new point if 
             coo is None
+            :param dimension: 1/2/3D coordinates to store
         """
         if self.coo is None:
             # new point to add to the first table
@@ -253,11 +254,11 @@ class QPoint(Point):
             return False
         for feat in lay.getFeatures():
             if feat['point_id'] ==  self.id:
-                # TODO add event handler?
                 # set feature geometry and attributes
                 #pyqtRemoveInputHook()
                 #pdb.set_trace()
                 fid = feat.id()
+                # TODO handle dimension!
                 attrs = {feat.fieldNameIndex('point_id') : self.id,
                     feat.fieldNameIndex('e') : self.e,
                     feat.fieldNameIndex('n') : self.n,
@@ -267,6 +268,7 @@ class QPoint(Point):
                 lay.dataProvider().changeAttributeValues({ fid : attrs })
                 # feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(self.e, self.n)))
                 lay.dataProvider().changeGeometryValues({ fid : QgsGeometry.fromPoint(QgsPoint(self.e, self.n)) })
+                # TODO refresh canvas
                 return True
         # add new point
         feat = QgsFeature()
@@ -277,13 +279,16 @@ class QPoint(Point):
         #pyqtRemoveInputHook()
         #pdb.set_trace()
         feat.setAttribute(feat.fieldNameIndex('point_id'), self.id)
-        feat.setAttribute(feat.fieldNameIndex('e'), self.e)
-        feat.setAttribute(feat.fieldNameIndex('n'), self.n)
-        feat.setAttribute(feat.fieldNameIndex('z'), self.z)
+        if dimension in [2, 3]:
+            feat.setAttribute(feat.fieldNameIndex('e'), self.e)
+            feat.setAttribute(feat.fieldNameIndex('n'), self.n)
+        if dimension in [1, 3]:
+            feat.setAttribute(feat.fieldNameIndex('z'), self.z)
         feat.setAttribute(feat.fieldNameIndex('pc'), self.pc)
         feat.setAttribute(feat.fieldNameIndex('pt'), self.pt)
         feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(self.e, self.n)))
         lay.dataProvider().addFeatures([feat])
+        # TODO refresh canvas
     
     def set_coord(self, p):
         """
