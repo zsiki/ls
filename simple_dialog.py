@@ -1,8 +1,11 @@
 from PyQt4.QtGui import QDialog
 from PyQt4.QtCore import QObject
 # debugging
-from PyQt4.QtCore import pyqtRemoveInputHook
-import pdb
+#from PyQt4.QtCore import pyqtRemoveInputHook
+#import pdb
+import sys
+sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
+import pydevd
 
 from simple_calc import Ui_SimpleCalcDialog
 from surveying_util import *
@@ -17,48 +20,65 @@ class SimpleDialog(QDialog):
         self.ui = Ui_SimpleCalcDialog()
         self.ui.setupUi(self)
         # event handlers
-        self.ui.OrientRadio.toggled.connect(self.reset)
-        self.ui.RadialRadio.toggled.connect(self.reset)
-        self.ui.IntersectRadio.toggled.connect(self.reset)
-        self.ui.ResectionRadio.toggled.connect(self.reset)
-        self.ui.FreeRadio.toggled.connect(self.reset)
+        self.ui.OrientRadio.toggled.connect(self.radio_clicked)
+        self.ui.RadialRadio.toggled.connect(self.radio_clicked)
+        self.ui.IntersectRadio.toggled.connect(self.radio_clicked)
+        self.ui.ResectionRadio.toggled.connect(self.radio_clicked)
+        self.ui.FreeRadio.toggled.connect(self.radio_clicked)
         self.ui.CalcButton.clicked.connect(self.onCalcButton)
-        self.ui.ResetButton.clicked.connect(self.reset)
+        self.ui.ResetButton.clicked.connect(self.onResetButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
 
     def showEvent(self, event):
         """
-            Reset dialog to initial state
+            Reset dialog when receives a show event.
         """
+        pydevd.settrace()
         self.reset()
         
     def reset(self):
+        """
+            Reset dialog to initial state
+        """
         # reset radio buttons
-        #pyqtRemoveInputHook()
-        #pdb.set_trace()
-        
+        self.ui.radioButtonGroup.setExclusive(False)
         self.ui.OrientRadio.setChecked(False)
         self.ui.RadialRadio.setChecked(False)
         self.ui.IntersectRadio.setChecked(False)
         self.ui.ResectionRadio.setChecked(False)
         self.ui.FreeRadio.setChecked(False)
+        self.ui.radioButtonGroup.setExclusive(True)
+
+        # disable widgets
         self.ui.Station1Combo.setEnabled(False)
         self.ui.Station2Combo.setEnabled(False)
 
-        # reset result text
+        # clear widgets
         self.ui.TextBrowser.clear()
+        self.ui.Station1Combo.clear()
+        self.ui.Station2Combo.clear()
 
+    def radio_clicked(self, enabled):
+        """
+            Change dialog controls when an other calculation type selected.
+            :param enable: True/False (Bool)
+        """
+        oldStation1 = self.ui.Station1Combo.itemData( self.ui.Station1Combo.currentIndex() )
+        oldStation2 = self.ui.Station2Combo.itemData( self.ui.Station2Combo.currentIndex() )
+        self.ui.Station1Combo.clear()
+        self.ui.Station2Combo.clear()
+        self.ui.Station1Combo.setEnabled(False)
+        self.ui.Station2Combo.setEnabled(False)
+        
         known_stations = get_stations(True)
         all_stations = get_stations(False)
         # fill Station1Combo and Station2Combo      
-        self.ui.Station1Combo.clear()
-        self.ui.Station2Combo.clear()
         if known_stations is not None and (self.ui.OrientRadio.isChecked() or \
                 self.ui.RadialRadio.isChecked() or self.ui.IntersectRadio.isChecked()):
             for stn in known_stations:
-                self.ui.Station1Combo.addItem( stn[0] )
+                self.ui.Station1Combo.addItem( stn[0], stn )
                 if self.ui.IntersectRadio.isChecked():
-                    self.ui.Station2Combo.addItem( stn[0] )
+                    self.ui.Station2Combo.addItem( stn[0], stn )
             self.ui.Station1Combo.setEnabled(True)
             if self.ui.IntersectRadio.isChecked():
                 self.ui.Station2Combo.setEnabled(True)
@@ -66,24 +86,15 @@ class SimpleDialog(QDialog):
                 self.ui.FreeRadio.isChecked()):
             self.ui.Station1Combo.setEnabled(True)
             for stn in all_stations:
-                self.ui.Station1Combo.addItem( stn[0] )
-
-    def orient_clicked(self, enabled):
-        """
-            Change dialog controls for orientation
-            :param enable: True/False (Bool)
-        """
-        if enabled:
-            self.ui.TextBrowser.append('orient')
-            # fill station1 combo
-            self.ui.Station1Combo.clear()
-            st = get_stations(True)
-            if st is not None:
-                for s in st:
-                    self.ui.Station1Combo.addItem(s[0])
-            self.ui.Station2Combo.clear()
+                self.ui.Station1Combo.addItem( stn[0], stn )
+                
+        self.ui.Station1Combo.setCurrentIndex( self.ui.Station1Combo.findData(oldStation1) )
+        self.ui.Station2Combo.setCurrentIndex( self.ui.Station2Combo.findData(oldStation2) )
 
     def onCalcButton(self):
+        """
+            Start a calculation when the Calculate button pushed.
+        """
         if self.ui.OrientRadio.isChecked():
             #Calculation.orientation(None, None)
             pass
@@ -100,7 +111,13 @@ class SimpleDialog(QDialog):
             pass
         
     def onResetButton(self):
+        """
+            Reset dialog when the Reset button pushed.
+        """
         self.reset()
     
     def onCloseButton(self):
+        """
+            Close the dialog when the Close button pushed.
+        """
         self.accept()
