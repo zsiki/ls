@@ -206,7 +206,7 @@ class JobAre(TotalStation):
         super(JobAre, self).__init__(fname, separator)
         self.angle_unit = 'PDEG'
         self.distance_unit = 'm'
-        self.res = {'station': None}
+        self.res = {}
 
     def parse_next(self):
         """
@@ -246,6 +246,8 @@ class JobAre(TotalStation):
                 # target point id
                 self.res['point_id'] = buf[1].strip()
                 if len(ret):
+                    if not 'station' in ret:
+                        ret['station'] = None
                     return ret
             elif item_code == '6':
                 # target height
@@ -263,8 +265,9 @@ class JobAre(TotalStation):
                 # vertical distance
                 self.res['vd'] = float(buf[1].strip())
             elif item_code == '11':
-                # horizontal distance
-                self.res['hd'] = float(buf[1].strip())
+                # horizontal distance stored as slope 
+                self.res['sd'] = float(buf[1].strip())
+                self.res['v'] = Angle(90, 'DEG').get_angle('GON')
             elif item_code == '37':
                 # northing
                 self.res['n'] = float(buf[1].strip())
@@ -409,8 +412,8 @@ if __name__ == "__main__":
         unit test
     """
     #ts = LeicaGsi('samples/kz120125_kzp.gsi', ' ')
-    #ts = JobAre('test.job', '=')
-    ts = Sdr('samples/PAJE04.crd', None)
+    ts = JobAre('samples/test.job', '=')
+    #ts = Sdr('samples/PAJE04.crd', None)
     if ts.open() != 0:
         print "Open error"
     while True:
