@@ -7,5 +7,15 @@ class NetworkDialog(QDialog):
     """
     def __init__(self):
         super(NetworkDialog, self).__init__()
-        ui = Ui_NetworkCalcDialog()
-        ui.setupUi(self)
+        self.ui = Ui_NetworkCalcDialog()
+        self.ui.setupUi(self)
+        self.ui.CloseButton.clicked.connect(self.onCloseButton)
+
+    def showEvent(self, event):
+        """ set up initial state of dialog
+        """
+        pass
+
+    def onCloseButton(self):
+        self.accept()
+
