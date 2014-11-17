@@ -257,44 +257,28 @@ class Calculation(object):
 
         # calculate sum of betas if we have both orientation
         if beta[0] is not None and beta[n-1]is not None:
-            sumbeta = 0 # in seconds
+            sumbeta = 0.0 # in radians
             for i in range(0,n):
-                sumbeta = sumbeta + beta[i].get_angle("SEC")
+                sumbeta = sumbeta + beta[i].get_angle()
             # calculate angle error
-            dbeta = (n-1) * PISEC - sumbeta # in seconds
-            while dbeta > PISEC:
-                dbeta = dbeta - 2*PISEC
-            while dbeta < -PISEC:
-                dbeta = dbeta + 2*PISEC
+            dbeta = (n-1) * math.pi - sumbeta # in radians
+            while dbeta > math.pi:
+                dbeta = dbeta - 2*math.pi
+            while dbeta < -math.pi:
+                dbeta = dbeta + 2*math.pi
         else:
-            sumbeta = 0
-            dbeta = 0
+            sumbeta = 0.0
+            dbeta = 0.0
 
         # angle corrections
-        w = 0   # in seconds
+        w = 0.0   # in seconds
         vbeta = [None]*n  # in seconds
         for i in range(0,n):
-            vbeta[i] = round(dbeta / n)
+            vbeta[i] = dbeta / n
             w = w + vbeta[i]
 
-        # forced rounding
-        i = 0
-        dbeta = round(dbeta)
-        while w < dbeta:
-            vbeta[i] = vbeta[i] + 1 
-            i = i + 1
-            w = w + 1
-            if i >= n:
-                i = 0
-        while w > dbeta:
-            vbeta[i] = vbeta[i] - 1
-            i = i + 1
-            w = w - 1
-            if i >= n:
-                i = 0
-
         #    calculate bearings and de & dn for sides
-        delta = [0.0]*n # in seconds
+        delta = [0.0]*n # in radians
         sumde = 0.0
         sumdn = 0.0
         sumt = 0.0
@@ -305,34 +289,34 @@ class Calculation(object):
             j = i - 1
             if j==0:
                 if beta[j] is not None:
-                    d = delta[j] + beta[j].get_angle("SEC") + vbeta[j]
+                    d = delta[j] + beta[j].get_angle() + vbeta[j]
                 else:
                     # find orientation for first side "beillesztett"
                     d = 0
                     sumde = 0
                     sumdn = 0
                     for k in range(1,n):
-                        de[k] = t[k].d * math.sin(d / RO)
-                        dn[k] = t[k].d * math.cos(d / RO)
+                        de[k] = t[k].d * math.sin(d)
+                        dn[k] = t[k].d * math.cos(d)
                         sumde = sumde + de[k]
                         sumdn = sumdn + dn[k]
                         if k < n-1:
-                            d = d + beta[k].get_angle("SEC") - PISEC
+                            d = d + beta[k].get_angle() - math.pi
                     
-                    d = bearing( Point("@",endp.p.e, endp.p.n), Point("@",startp.p.e,startp.p.n)).get_angle("SEC") - \
-                            bearing (Point("@",sumde,sumdn),Point("@",0, 0)).get_angle("SEC")
+                    d = bearing( Point("@",endp.p.e, endp.p.n), Point("@",startp.p.e,startp.p.n)).get_angle() - \
+                            bearing (Point("@",sumde,sumdn),Point("@",0, 0)).get_angle()
                     sumde = 0
                     sumdn = 0
             else:
-                d = delta[j] + beta[j].get_angle("SEC") + vbeta[j] - PISEC
+                d = delta[j] + beta[j].get_angle() + vbeta[j] - math.pi
             
             while d < 0:
-                d = d + PISEC*2
-            while d > PISEC*2:
-                d = d - PISEC*2
+                d = d + math.pi*2
+            while d > math.pi*2:
+                d = d - math.pi*2
             delta[i] = d
-            de[i] = t[i].d * math.sin(d / RO)
-            dn[i] = t[i].d * math.cos(d / RO)
+            de[i] = t[i].d * math.sin(d)
+            dn[i] = t[i].d * math.cos(d)
             sumde = sumde + de[i]
             sumdn = sumdn + dn[i]
             sumt = sumt + t[i].d
@@ -407,7 +391,7 @@ class Calculation(object):
                             a[j,k] = -t * q
                     b[j] = b[j] - t * b[i]
     
-    def __similaritytr(self, plist):
+    def __orthogonaltr4tr(self, plist):
         """
             Calculate parameters of orthogonal transformation. Four parameters
             scale, rotation and offset.
@@ -450,7 +434,7 @@ class Calculation(object):
         N0 = (Ns - c * ns - d * es) / float(len(plist))
         return [E0, N0, c, d]
 
-    def ____similarity3tr(self, plist):
+    def ____orthogonal3tr(self, plist):
         """
             Calculate parameters of orthogonal transformation. Three parameters
             E = E0 + cos(alpha) * e - sin(alpha) * n
@@ -459,7 +443,7 @@ class Calculation(object):
             :return the list of parameters {E0 N0 alpha}
         """
         # approximate values from Helmert4
-        appr = self.__similaritytr(plist)
+        appr = self.__orthogonaltr4tr(plist)
         E0 = appr[0]
         N0 = appr[1]
         alpha = math.atan2(appr[3], appr[2])
