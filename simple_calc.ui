@@ -85,6 +85,9 @@
     <property name="text">
      <string>Orientation</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">radioButtonGroup</string>
+    </attribute>
    </widget>
    <widget class="QRadioButton" name="RadialRadio">
     <property name="geometry">
@@ -98,6 +101,9 @@
     <property name="text">
      <string>Radial Survey</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">radioButtonGroup</string>
+    </attribute>
    </widget>
    <widget class="QRadioButton" name="IntersectRadio">
     <property name="geometry">
@@ -111,6 +117,9 @@
     <property name="text">
      <string>Intersection</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">radioButtonGroup</string>
+    </attribute>
    </widget>
    <widget class="QRadioButton" name="ResectionRadio">
     <property name="geometry">
@@ -124,6 +133,9 @@
     <property name="text">
      <string>Resection</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">radioButtonGroup</string>
+    </attribute>
    </widget>
    <widget class="QRadioButton" name="FreeRadio">
     <property name="geometry">
@@ -137,17 +149,10 @@
     <property name="text">
      <string>Free Station</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">radioButtonGroup</string>
+    </attribute>
    </widget>
-   <zorder>OrientRadio</zorder>
-   <zorder>RadialRadio</zorder>
-   <zorder>IntersectRadio</zorder>
-   <zorder>ResectionRadio</zorder>
-   <zorder>FreeRadio</zorder>
-   <zorder>ResultGroup</zorder>
-   <zorder>ResultGroup</zorder>
-   <zorder>ResultGroup</zorder>
-   <zorder>ResultGroup</zorder>
-   <zorder>ResultGroup</zorder>
   </widget>
   <widget class="QGroupBox" name="PointsGroup">
    <property name="geometry">
@@ -259,15 +264,6 @@
      </rect>
     </property>
    </widget>
-   <zorder>AddButton</zorder>
-   <zorder>AddAllButton</zorder>
-   <zorder>TargetList</zorder>
-   <zorder>RemoveButton</zorder>
-   <zorder>RemoveAllButton</zorder>
-   <zorder>label_9</zorder>
-   <zorder>label_10</zorder>
-   <zorder>SourceList</zorder>
-   <zorder>ResultGroup</zorder>
   </widget>
   <widget class="QGroupBox" name="ResultGroup">
    <property name="geometry">
@@ -370,4 +366,7 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="radioButtonGroup"/>
+ </buttongroups>
 </ui>
