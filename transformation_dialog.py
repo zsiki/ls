@@ -7,5 +7,5 @@ class TransformationDialog(QDialog):
     """
     def __init__(self):
         super(TransformationDialog, self).__init__()
-        ui = Ui_TransformationCalcDialog()
-        ui.setupUi(self)
+        self.ui = Ui_TransformationCalcDialog()
+        self.ui.setupUi(self)
