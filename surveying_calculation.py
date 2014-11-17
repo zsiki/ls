@@ -40,6 +40,7 @@ from simple_dialog import SimpleDialog
 from traverse_dialog import TraverseDialog
 #from network_calc import Ui_NetworkCalcDialog
 from network_dialog import NetworkDialog
+from transformation_dialog import TransformationDialog
 from totalstations import *
 from surveying_util import *
 from calculation import *
@@ -82,6 +83,7 @@ class SurveyingCalculation:
         #self.network_dlg = QDialog()
         #Ui_NetworkCalcDialog().setupUi(self.network_dlg)
         self.network_dlg = NetworkDialog()
+        self.transformation_dlg = TransformationDialog()
 
         # Declare instance attributes
 
@@ -162,10 +164,11 @@ class SurveyingCalculation:
         self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','simple_calc.png')),self.tr("Single point calculations ..."), self.iface.mainWindow())
         self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')),self.tr("Traverse calculations ..."), self.iface.mainWindow())
         self.sc_netw = QAction(QIcon(os.path.join(self.plugin_dir,'icons','network_calc.png')),self.tr("Network adjustment ..."), self.iface.mainWindow())
+        self.sc_tran = QAction(QIcon(os.path.join(self.plugin_dir,'icons','coord_calc.png')),self.tr("Coordinate transformation ..."), self.iface.mainWindow())
         self.sc_help = QAction(self.tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(self.tr("About"), self.iface.mainWindow())
         self.menu.addActions([self.sc_coord, self.sc_load, self.sc_calc,
-            self.sc_trav, self.sc_netw, self.sc_help, self.sc_about])
+            self.sc_trav, self.sc_netw, self.sc_tran, self.sc_help, self.sc_about])
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
         lastAction = actions[len(actions) - 1]
@@ -176,6 +179,7 @@ class SurveyingCalculation:
         self.sc_calc.triggered.connect(self.calculations)
         self.sc_trav.triggered.connect(self.traverses)
         self.sc_netw.triggered.connect(self.networks)
+        self.sc_tran.triggered.connect(self.transformation)
         self.sc_about.triggered.connect(self.about)
         self.sc_help.triggered.connect(self.help)
 
@@ -183,7 +187,7 @@ class SurveyingCalculation:
         self.toolbar = self.iface.addToolBar(u'SurveyingCalculation')
         self.toolbar.setObjectName(u'SurveyingCalculation')
         self.toolbar.addActions([self.sc_load, self.sc_calc, self.sc_trav,
-            self.sc_netw, self.sc_help])
+            self.sc_netw, self.sc_tran, self.sc_help])
 
     def unload(self):
         """
@@ -313,6 +317,15 @@ class SurveyingCalculation:
         self.network_dlg.show()
         # Run the dialog event loop
         result = self.network_dlg.exec_()
+
+    def transformation(self):
+        """
+            Various coordinate transformation (orthogonal, polinom)
+        """
+        # show the dialog
+        self.transformation_dlg.show()
+        # Run the dialog event loop
+        result = self.transformation_dlg.exec_()
 
     def about(self):
         """
