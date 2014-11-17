@@ -1034,7 +1034,55 @@ if __name__ == "__main__":
         print "Test traverse closed at both ends and known bearing at one end failed by point A9"
     if not compare( plist[4], Point('A10', 646477.6637, 276413.1392) ):
         print "Test traverse closed at both ends and known bearing at one end failed by point A10"
-        
+
+    #traverse4
+    # loop traverse
+    pA5tra = Point("A5",646333.5695,276616.4171)
+    pA4tra = Point("A4",646284.6886,276659.2165)
+
+    oA5tra = PolarObservation('A5', "station")
+    sA5tra = Station( pA5tra, oA5tra )
+    oA5_A4tra = PolarObservation( "A4", None, Angle("311-12-21", "DMS") )
+    oA5_A6tra = PolarObservation( "A6", None, Angle("136-36-49", "DMS"), Angle("100-13-22", "DMS"), Distance(58.405,"SD") )
+    oA5_A11tra = PolarObservation( "A11", None, Angle("146-26-58", "DMS"), Angle("90-00-00", "DMS"), Distance(306.234,"SD") )
+    sA5tra.o.hz = Calculation.orientation(sA5tra, [[pA4tra,oA5_A4tra]])
+    if not compare( sA5tra.o.hz.get_angle('DMS'), '359-59-57' ):
+        print "Test traverse closed at both ends and known bearing at one end failed by orientation"
+    
+    sA6tra = Station( None, PolarObservation('A6', "station") )
+    oA6_A5tra = PolarObservation("A5", None, Angle("316-36-49","DMS"), Angle("79-56-53","DMS"), Distance(58.378,"SD"))
+    oA6_A7tra = PolarObservation("A7", None, Angle("136-43-52","DMS"), Angle("101-55-08","DMS"), Distance(43.917,"SD"))
+    sA7tra = Station( None, PolarObservation('A7', "station") )
+    oA7_A6tra = PolarObservation("A6", None, Angle("316-43-52","DMS"), Angle("78-21-53","DMS"), Distance(43.878,"SD"))
+    oA7_A8tra = PolarObservation("A8", None, Angle("141-48-30","DMS"), Angle("102-29-18","DMS"), Distance(48.459,"SD"))
+    sA8tra = Station( None, PolarObservation('A8', "station") )
+    oA8_A7tra = PolarObservation("A7", None, Angle("321-48-30","DMS"), Angle("77-49-44","DMS"), Distance(48.401,"SD"))
+    oA8_A9tra = PolarObservation("A9", None, Angle("153-25-18","DMS"), Angle("100-01-16","DMS"), Distance(47.098,"SD"))
+    sA9tra = Station( None, PolarObservation('A9', "station") )
+    oA9_A8tra = PolarObservation("A8", None, Angle("333-25-18","DMS"), Angle("80-17-11","DMS"), Distance(47.040,"SD"))
+    oA9_A10tra = PolarObservation("A10", None, Angle("153-59-32","DMS"), Angle("97-46-19","DMS"), Distance(58.077,"SD"))
+    sA10tra = Station( None, PolarObservation('A10', "station") )
+    oA10_A9tra = PolarObservation("A9", None, Angle("333-59-32","DMS"), Angle("82-27-53","DMS"), Distance(58.045,"SD"))
+    oA10_A11tra = PolarObservation("A11", None, Angle("154-05-41","DMS"), Angle("97-06-32","DMS"), Distance(58.188,"SD"))
+    sA11tra = Station( None, PolarObservation('A11', "station") )
+    oA11_A10tra = PolarObservation("A10", None, Angle("334-05-41","DMS"), Angle("83-09-29","DMS"), Distance(58.151,"SD"))
+    oA11_A5tra = PolarObservation("A5", None, Angle("326-26-13","DMS"), Angle("90-00-00","DMS"), Distance(306.233,"SD"))
+
+    plist = Calculation.traverse( [ [sA5tra,None,oA5_A6tra], [sA6tra,oA6_A5tra,oA6_A7tra], [sA7tra,oA7_A6tra,oA7_A8tra],
+             [sA8tra,oA8_A7tra,oA8_A9tra], [sA9tra,oA9_A8tra,oA9_A10tra], [sA10tra,oA10_A9tra,oA10_A11tra], [sA11tra,oA11_A10tra,None] ] )
+    if not compare( plist[0], Point('A6', 646373.0539, 276574.6449) ):
+        print "Test traverse closed at both ends and known bearing at one end failed by point A6"
+    if not compare( plist[1], Point('A7', 646402.5093, 276543.3546) ):
+        print "Test traverse closed at both ends and known bearing at one end failed by point A7"
+    if not compare( plist[2], Point('A8', 646431.7631, 276506.1698) ):
+        print "Test traverse closed at both ends and known bearing at one end failed by point A8"
+    if not compare( plist[3], Point('A9', 646452.5118, 276464.6981) ):
+        print "Test traverse closed at both ends and known bearing at one end failed by point A9"
+    if not compare( plist[4], Point('A10', 646477.7451, 276412.9820) ):
+        print "Test traverse closed at both ends and known bearing at one end failed by point A10"
+    if not compare( plist[5], Point('A11', 646502.9712, 276361.0454) ):
+        print "Test traverse closed at both ends and known bearing at one end failed by point A11"
+
     # test for polarpoint 3d
     ppp = Point("1",10,20,30)
     ooo = PolarObservation("1","station",Angle("0","DMS"),None,None,1.0)
