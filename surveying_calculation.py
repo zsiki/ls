@@ -283,9 +283,21 @@ class SurveyingCalculation:
                     #pyqtRemoveInputHook()
                     #pdb.set_trace()
                     # store coordinates too
+                    # TODO dimension???
+                    dimension = 0
+                    if 'station_z' in r:
+                        dimension += 1
+                    else:
+                        r['station_z'] = None
+                    if 'station_e' in r and 'station_n' in r:
+                        dimension += 2
+                    else:
+                        r['station_e'] = None
+                        r['station_n'] = None
+                        
                     p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
                     qp = QPoint(p)
-                    qp.store_coord()
+                    qp.store_coord(dimension)
                 i += 10
             #fb_dbf.commitChanges()
         return

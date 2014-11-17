@@ -246,7 +246,9 @@ class JobAre(TotalStation):
                 # target point id
                 self.res['point_id'] = buf[1].strip()
                 if len(ret):
-                    if not 'station' in ret:
+                    # do not add station if no observations
+                    if not 'station' in ret and \
+                        ('hz' in ret or 'v' in ret or 'sd' in ret):
                         ret['station'] = None
                     return ret
             elif item_code == '6':
@@ -270,13 +272,13 @@ class JobAre(TotalStation):
                 self.res['v'] = Angle(90, 'DEG').get_angle('GON')
             elif item_code == '37':
                 # northing
-                self.res['n'] = float(buf[1].strip())
+                self.res['station_n'] = float(buf[1].strip())
             elif item_code == '38':
                 # easting
-                self.res['e'] = float(buf[1].strip())
+                self.res['station_e'] = float(buf[1].strip())
             elif item_code == '39':
                 # elevation
-                self.res['z'] = float(buf[1].strip())
+                self.res['station_z'] = float(buf[1].strip())
 
 class Sdr(TotalStation):
     """
@@ -412,7 +414,7 @@ if __name__ == "__main__":
         unit test
     """
     #ts = LeicaGsi('samples/kz120125_kzp.gsi', ' ')
-    ts = JobAre('samples/test.job', '=')
+    ts = JobAre('samples/test1.are', '=')
     #ts = Sdr('samples/PAJE04.crd', None)
     if ts.open() != 0:
         print "Open error"
