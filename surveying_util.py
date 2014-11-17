@@ -176,7 +176,7 @@ def get_stations(known=False):
         for feat in lay.getFeatures():
             if feat['station'] == "station":
                 pid = feat['point_id']
-                if known and not pid in known_list:
+                if known and known_list is not None and not pid in known_list:
                     # skip unknown points
                     continue
                 id = feat['id']
