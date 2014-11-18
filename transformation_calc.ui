@@ -164,26 +164,6 @@
    <property name="title">
     <string>Points</string>
    </property>
-   <widget class="QListView" name="CommonList">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>121</width>
-      <height>201</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QListView" name="UsedList">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>40</y>
-      <width>121</width>
-      <height>201</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="RemoveButton">
     <property name="geometry">
      <rect>
@@ -258,6 +238,38 @@
     </property>
     <property name="text">
      <string>Add &gt;</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="CommonList">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>121</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="UsedList">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>40</y>
+      <width>121</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
    </widget>
   </widget>
@@ -421,6 +433,12 @@
       <height>121</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="html">
      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -493,10 +511,8 @@ p, li { white-space: pre-wrap; }
   <tabstop>FromLayerToolButton</tabstop>
   <tabstop>ToLayerComboBox</tabstop>
   <tabstop>ToLayerToolButton</tabstop>
-  <tabstop>CommonList</tabstop>
   <tabstop>AddButton</tabstop>
   <tabstop>RemoveButton</tabstop>
-  <tabstop>UsedList</tabstop>
   <tabstop>OrthogonalRadio</tabstop>
   <tabstop>AffineRadio</tabstop>
   <tabstop>ThirdRadio</tabstop>
