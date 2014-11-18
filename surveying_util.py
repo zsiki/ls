@@ -161,6 +161,7 @@ def get_unknown(dimension=2):
 def get_stations(known=False):
     """
         Get list of stations from fieldbooks
+        :param known If True only known points get into list.
         :returns list of station [[point_id fieldbook_name id] ...]
     """
     slist = []
@@ -187,19 +188,22 @@ def get_stations(known=False):
         return sorted(slist)
     return None
 
-def get_targets(point_id, fieldbook, fid):
+def get_targets(point_id, fieldbook, fid, known=False):
     """
         collect observation data from one station
         :param point_id: station number/name (str)
         :param fieldbook: name of fieldbook (str)
         :param fid: id in fieldbook (int)
+        :param known: If True only known points get into list.
         :return list of observations
     """
     obs = []
     found = False
     lay = get_layer_by_name(fieldbook)
     if lay is None:
-        return obs
+        return None
+    if known:
+        known_list = get_known()
     for feat in lay.getFeatures():
         if feat['id'] == fid and feat['station'] == 'station' and feat['point_id'] == point_id:
             found = True
@@ -209,10 +213,15 @@ def get_targets(point_id, fieldbook, fid):
             found = False
             break
         elif found:
+            if known and known_list is not None and not feat['id'] in known_list:
+                # skip unknown points
+                continue
             o = PolarObservation(feat['point_id'], feat['station'], \
                 feat['hz'], feat['v'], feat['sd'], feat['th'], feat['pc'])
             obs.append(o)
-    return obs
+    if len(obs):
+        return sorted(obs)
+    return None
 
 class QPoint(Point):
     """
