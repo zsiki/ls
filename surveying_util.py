@@ -187,6 +187,33 @@ def get_stations(known=False):
         return sorted(slist)
     return None
 
+def get_targets(point_id, fieldbook, id):
+    """
+        collect observation data from one station
+        :param point_id: station number/name (str)
+        :param fieldbook: name of fieldbook (str)
+        :param id: id in fieldbook (int)
+        :return list of observations
+    """
+    obs = []
+    found = False
+    lay = get_layer_by_name(fieldbook)
+    if lay is None:
+        return obs
+    for feat in lay.getFeatures():
+        if feat['id'] == id and feat['station'] == 'station' and feat['point_id'] == point_id:
+            found = True
+            continue
+        elif feat['station'] == 'station':
+            # next station reached
+            found = False
+            break
+        elif found:
+            o = PolarObservation(feat['point_id'], feat['station'], \
+                feat['hz'], feat['v'], feat['sd'], feat['th'], feat['pc'])
+            obs.append(o)
+    return obs
+
 class QPoint(Point):
     """
         Extended point class to store table position
