@@ -195,7 +195,7 @@ def get_targets(point_id, fieldbook, fid, known=False):
         :param fieldbook: name of fieldbook (str)
         :param fid: id in fieldbook (int)
         :param known: If True only known points get into list.
-        :return list of observations
+        :return list of target points [[point_id fieldbook_name id] ...]
     """
     obs = []
     found = False
@@ -213,15 +213,56 @@ def get_targets(point_id, fieldbook, fid, known=False):
             found = False
             break
         elif found:
+            pid = feat['point_id']
+            fid = feat['id']
             if known and known_list is not None and not feat['id'] in known_list:
                 # skip unknown points
                 continue
-            o = PolarObservation(feat['point_id'], feat['station'], \
-                feat['hz'], feat['v'], feat['sd'], feat['th'], feat['pc'])
+            o = [pid, fieldbook, fid]
             obs.append(o)
     if len(obs):
         return sorted(obs)
     return None
+
+def get_station(point_id, fieldbook, fid):
+    """
+        Create a Station instance from a fildbook row and from the coord table.
+        :param point_id: station number/name (str)
+        :param fieldbook: name of fieldbook (str)
+        :param fid: id in fieldbook (int)
+        :return station (Station)
+    """
+    p = QPoint()
+    o = get_target(point_id, fieldbook, fid)
+    return Station(p,o)
+    
+def get_target(point_id, fieldbook, fid):
+    """
+        Create a PolarObsrvation instance of a target point from a fieldbook row.
+        :param point_id: point number/name (str)
+        :param fieldbook: name of fieldbook (str)
+        :param fid: id in fieldbook (int)
+        :return observation on the point (PolarObservation)
+    """
+    return get_fieldbookrow(point_id, fieldbook, fid)
+
+def get_fieldbookrow(point_id, fieldbook, fid):
+    """
+        Reads a fieldbook row and put into a PolarObservation object.
+        :param point_id: point number/name (str)
+        :param fieldbook: name of fieldbook (str)
+        :param fid: id in fieldbook (int)
+        :return observation on the point or astation (PolarObservation)
+    """
+    lay = get_layer_by_name(fieldbook)
+    if lay is None:
+        return None
+    for feat in lay.getFeatures():
+        if feat['id'] == fid and feat['point_id'] == point_id:
+            o = PolarObservation(feat['point_id'], feat['station'],
+                                 feat['hz'], feat['v'], feat['sd'], feat['th'], feat['pc'])
+            break
+    return o
 
 class QPoint(Point):
     """
