@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'simple_calc.ui'
 #
-# Created: Tue Nov 18 18:27:09 2014
-#      by: PyQt4 UI code generator 4.10.3
+# Created: Tue Nov 18 19:59:56 2014
+#      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,16 +12,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_SimpleCalcDialog(object):
     def setupUi(self, SimpleCalcDialog):
@@ -175,6 +166,11 @@ class Ui_SimpleCalcDialog(object):
         self.ResultGroup.setObjectName(_fromUtf8("ResultGroup"))
         self.ResultTextBrowser = QtGui.QTextBrowser(self.ResultGroup)
         self.ResultTextBrowser.setGeometry(QtCore.QRect(10, 20, 681, 171))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ResultTextBrowser.sizePolicy().hasHeightForWidth())
+        self.ResultTextBrowser.setSizePolicy(sizePolicy)
         self.ResultTextBrowser.setObjectName(_fromUtf8("ResultTextBrowser"))
         self.StationGroup = QtGui.QGroupBox(SimpleCalcDialog)
         self.StationGroup.setGeometry(QtCore.QRect(170, 10, 141, 191))
@@ -267,27 +263,27 @@ class Ui_SimpleCalcDialog(object):
         SimpleCalcDialog.setTabOrder(self.ResetButton, self.CloseButton)
 
     def retranslateUi(self, SimpleCalcDialog):
-        SimpleCalcDialog.setWindowTitle(_translate("SimpleCalcDialog", "Simple Point Calculations", None))
-        self.RadioGroup.setTitle(_translate("SimpleCalcDialog", "Calculation", None))
-        self.OrientRadio.setToolTip(_translate("SimpleCalcDialog", "Calculate orientation angle  on stations", None))
-        self.OrientRadio.setText(_translate("SimpleCalcDialog", "Orientation", None))
-        self.RadialRadio.setText(_translate("SimpleCalcDialog", "Radial Survey", None))
-        self.IntersectRadio.setText(_translate("SimpleCalcDialog", "Intersection", None))
-        self.ResectionRadio.setText(_translate("SimpleCalcDialog", "Resection", None))
-        self.FreeRadio.setText(_translate("SimpleCalcDialog", "Free Station", None))
-        self.PointsGroup.setTitle(_translate("SimpleCalcDialog", "Points", None))
-        self.AddButton.setText(_translate("SimpleCalcDialog", "Add >", None))
-        self.AddAllButton.setText(_translate("SimpleCalcDialog", "Add all", None))
-        self.RemoveButton.setText(_translate("SimpleCalcDialog", "< Remove", None))
-        self.RemoveAllButton.setText(_translate("SimpleCalcDialog", "Remove all", None))
-        self.TargetPointsLabel.setText(_translate("SimpleCalcDialog", "Target Points", None))
-        self.UsedPointsLabel.setText(_translate("SimpleCalcDialog", "Used Points", None))
-        self.ResultGroup.setTitle(_translate("SimpleCalcDialog", "Result of Calculations", None))
-        self.StationGroup.setTitle(_translate("SimpleCalcDialog", "Station", None))
-        self.Station1Label.setText(_translate("SimpleCalcDialog", "Station (1)", None))
-        self.Station2Label.setText(_translate("SimpleCalcDialog", "Station (2)", None))
-        self.CalcButton.setText(_translate("SimpleCalcDialog", "Calculate", None))
-        self.HelpButton.setText(_translate("SimpleCalcDialog", "Help", None))
-        self.ResetButton.setText(_translate("SimpleCalcDialog", "Reset", None))
-        self.CloseButton.setText(_translate("SimpleCalcDialog", "Close", None))
+        SimpleCalcDialog.setWindowTitle(QtGui.QApplication.translate("SimpleCalcDialog", "Single Point Calculations", None, QtGui.QApplication.UnicodeUTF8))
+        self.RadioGroup.setTitle(QtGui.QApplication.translate("SimpleCalcDialog", "Calculation", None, QtGui.QApplication.UnicodeUTF8))
+        self.OrientRadio.setToolTip(QtGui.QApplication.translate("SimpleCalcDialog", "Calculate orientation angle  on stations", None, QtGui.QApplication.UnicodeUTF8))
+        self.OrientRadio.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Orientation", None, QtGui.QApplication.UnicodeUTF8))
+        self.RadialRadio.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Radial Survey", None, QtGui.QApplication.UnicodeUTF8))
+        self.IntersectRadio.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Intersection", None, QtGui.QApplication.UnicodeUTF8))
+        self.ResectionRadio.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Resection", None, QtGui.QApplication.UnicodeUTF8))
+        self.FreeRadio.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Free Station", None, QtGui.QApplication.UnicodeUTF8))
+        self.PointsGroup.setTitle(QtGui.QApplication.translate("SimpleCalcDialog", "Points", None, QtGui.QApplication.UnicodeUTF8))
+        self.AddButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Add >", None, QtGui.QApplication.UnicodeUTF8))
+        self.AddAllButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Add all", None, QtGui.QApplication.UnicodeUTF8))
+        self.RemoveButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "< Remove", None, QtGui.QApplication.UnicodeUTF8))
+        self.RemoveAllButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Remove all", None, QtGui.QApplication.UnicodeUTF8))
+        self.TargetPointsLabel.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Target Points", None, QtGui.QApplication.UnicodeUTF8))
+        self.UsedPointsLabel.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Used Points", None, QtGui.QApplication.UnicodeUTF8))
+        self.ResultGroup.setTitle(QtGui.QApplication.translate("SimpleCalcDialog", "Result of Calculations", None, QtGui.QApplication.UnicodeUTF8))
+        self.StationGroup.setTitle(QtGui.QApplication.translate("SimpleCalcDialog", "Station", None, QtGui.QApplication.UnicodeUTF8))
+        self.Station1Label.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Station (1)", None, QtGui.QApplication.UnicodeUTF8))
+        self.Station2Label.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Station (2)", None, QtGui.QApplication.UnicodeUTF8))
+        self.CalcButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Calculate", None, QtGui.QApplication.UnicodeUTF8))
+        self.HelpButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.ResetButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Reset", None, QtGui.QApplication.UnicodeUTF8))
+        self.CloseButton.setText(QtGui.QApplication.translate("SimpleCalcDialog", "Close", None, QtGui.QApplication.UnicodeUTF8))
 
