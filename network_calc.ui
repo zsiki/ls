@@ -55,16 +55,6 @@
    <property name="title">
     <string>Points</string>
    </property>
-   <widget class="QListView" name="PointsList">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>131</width>
-      <height>261</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="AddFixButton">
     <property name="geometry">
      <rect>
@@ -101,16 +91,6 @@
     </property>
     <property name="text">
      <string>Add &gt;</string>
-    </property>
-   </widget>
-   <widget class="QListView" name="FixList">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>40</y>
-      <width>131</width>
-      <height>111</height>
-     </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="RemoveFixButton">
@@ -189,16 +169,6 @@
      <string>&lt; Remove</string>
     </property>
    </widget>
-   <widget class="QListView" name="AdjustmentList">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>190</y>
-      <width>131</width>
-      <height>111</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="AdjustmentLabel">
     <property name="geometry">
      <rect>
@@ -216,6 +186,54 @@
     </property>
     <property name="text">
      <string>Adjusted Points</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="PointsList">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>131</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="FixList">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>40</y>
+      <width>131</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="AdjustmentList">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>190</y>
+      <width>131</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
    </widget>
   </widget>
@@ -283,6 +301,12 @@
       <width>601</width>
       <height>131</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
    </widget>
   </widget>
@@ -548,13 +572,10 @@
   </widget>
  </widget>
  <tabstops>
-  <tabstop>PointsList</tabstop>
   <tabstop>AddFixButton</tabstop>
   <tabstop>RemoveFixButton</tabstop>
-  <tabstop>FixList</tabstop>
   <tabstop>AddAdjButton</tabstop>
   <tabstop>RemoveAdjButton</tabstop>
-  <tabstop>AdjustmentList</tabstop>
   <tabstop>IranymeresDevComboBox</tabstop>
   <tabstop>TavmeresDevMMComboBox</tabstop>
   <tabstop>TavmeresDevMMKMComboBox</tabstop>
