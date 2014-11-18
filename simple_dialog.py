@@ -4,8 +4,6 @@ from PyQt4.QtCore import QObject
 #from PyQt4.QtCore import pyqtRemoveInputHook
 #import pdb
 import sys
-sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
-import pydevd
 
 from simple_calc import Ui_SimpleCalcDialog
 from surveying_util import *
@@ -33,7 +31,6 @@ class SimpleDialog(QDialog):
         """
             Reset dialog when receives a show event.
         """
-        pydevd.settrace()
         self.reset()
         
     def reset(self):
