@@ -280,8 +280,6 @@ class SurveyingCalculation:
                             record.setAttribute(j, r[key])
                     fb_dbf.dataProvider().addFeatures([record])
                 if 'station_e' in r:
-                    #pyqtRemoveInputHook()
-                    #pdb.set_trace()
                     # store coordinates too
                     # TODO dimension???
                     dimension = 0
