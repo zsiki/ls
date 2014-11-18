@@ -208,14 +208,14 @@ def get_targets(point_id, fieldbook, fid, known=False):
         if feat['id'] == fid and feat['station'] == 'station' and feat['point_id'] == point_id:
             found = True
             continue
-        elif feat['station'] == 'station':
+        elif feat['station'] == 'station' and found:
             # next station reached
             found = False
             break
         elif found:
             pid = feat['point_id']
             fid = feat['id']
-            if known and known_list is not None and not feat['id'] in known_list:
+            if known and known_list is not None and not pid in known_list:
                 # skip unknown points
                 continue
             o = [pid, fieldbook, fid]
