@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'simple_calc.ui'
 #
-# Created: Tue Nov 18 15:44:04 2014
+# Created: Tue Nov 18 18:27:09 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -154,6 +154,7 @@ class Ui_SimpleCalcDialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.SourceList.sizePolicy().hasHeightForWidth())
         self.SourceList.setSizePolicy(sizePolicy)
+        self.SourceList.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
         self.SourceList.setObjectName(_fromUtf8("SourceList"))
         self.TargetList = QtGui.QListWidget(self.PointsGroup)
         self.TargetList.setGeometry(QtCore.QRect(250, 40, 121, 141))
@@ -162,6 +163,7 @@ class Ui_SimpleCalcDialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.TargetList.sizePolicy().hasHeightForWidth())
         self.TargetList.setSizePolicy(sizePolicy)
+        self.TargetList.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
         self.TargetList.setObjectName(_fromUtf8("TargetList"))
         self.ResultGroup = QtGui.QGroupBox(SimpleCalcDialog)
         self.ResultGroup.setGeometry(QtCore.QRect(10, 210, 701, 201))
