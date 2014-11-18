@@ -144,16 +144,6 @@
    <property name="title">
     <string>Points</string>
    </property>
-   <widget class="QListView" name="TargetPointsList">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>131</width>
-      <height>171</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="AddButton">
     <property name="geometry">
      <rect>
@@ -230,16 +220,6 @@
      <string>Order of Points</string>
     </property>
    </widget>
-   <widget class="QListView" name="OrderPointsList">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>40</y>
-      <width>131</width>
-      <height>171</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="UpButton">
     <property name="geometry">
      <rect>
@@ -276,6 +256,38 @@
     </property>
     <property name="text">
      <string>Down</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="TargetList">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>131</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="OrderList">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>40</y>
+      <width>131</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
    </widget>
   </widget>
@@ -426,6 +438,12 @@
       <height>131</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
    </widget>
   </widget>
   <widget class="QPushButton" name="HelpButton">
@@ -493,12 +511,10 @@
   <tabstop>BeillesztettRadio</tabstop>
   <tabstop>StartPointComboBox</tabstop>
   <tabstop>EndPointComboBox</tabstop>
-  <tabstop>TargetPointsList</tabstop>
   <tabstop>AddButton</tabstop>
   <tabstop>UpButton</tabstop>
   <tabstop>DownButton</tabstop>
   <tabstop>RemoveButton</tabstop>
-  <tabstop>OrderPointsList</tabstop>
   <tabstop>ResultTextBrowser</tabstop>
   <tabstop>HelpButton</tabstop>
   <tabstop>CalcButton</tabstop>
