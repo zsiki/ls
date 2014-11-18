@@ -28,6 +28,10 @@ class SimpleDialog(QDialog):
         self.ui.FreeRadio.toggled.connect(self.radioClicked)
         self.ui.Station1Combo.currentIndexChanged.connect(self.stationComboChanged)
         self.ui.Station2Combo.currentIndexChanged.connect(self.stationComboChanged)
+        self.ui.AddButton.clicked.connect(self.onAddButton)
+        self.ui.AddAllButton.clicked.connect(self.onAddAllButton)
+        self.ui.RemoveButton.clicked.connect(self.onRemoveButton)
+        self.ui.RemoveAllButton.clicked.connect(self.onRemoveAllButton)
         self.ui.CalcButton.clicked.connect(self.onCalcButton)
         self.ui.ResetButton.clicked.connect(self.onResetButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
@@ -146,6 +150,30 @@ class SimpleDialog(QDialog):
         """
         self.fillSourceList()
         
+    def onAddButton(self):
+        """
+            Add selected target points to used points list.
+        """
+        pass
+    
+    def onAddAllButton(self):
+        """
+            Add all target points to used points list.
+        """
+        pass
+
+    def onRemoveButton(self):
+        """
+            Remove selected used points and add to target points list.
+        """
+        pass
+
+    def onRemoveAllButton(self):
+        """
+            Remove all used points and add to target points list.
+        """
+        pass
+    
     def onCalcButton(self):
         """
             Start a calculation when the Calculate button pushed.
