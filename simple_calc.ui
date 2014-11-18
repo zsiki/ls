@@ -77,7 +77,7 @@
      <string>Orientation</string>
     </property>
     <attribute name="buttonGroup">
-     <string>radioButtonGroup</string>
+     <string notr="true">radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="RadialRadio">
@@ -99,7 +99,7 @@
      <string>Radial Survey</string>
     </property>
     <attribute name="buttonGroup">
-     <string>radioButtonGroup</string>
+     <string notr="true">radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="IntersectRadio">
@@ -121,7 +121,7 @@
      <string>Intersection</string>
     </property>
     <attribute name="buttonGroup">
-     <string>radioButtonGroup</string>
+     <string notr="true">radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ResectionRadio">
@@ -143,7 +143,7 @@
      <string>Resection</string>
     </property>
     <attribute name="buttonGroup">
-     <string>radioButtonGroup</string>
+     <string notr="true">radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="FreeRadio">
@@ -165,7 +165,7 @@
      <string>Free Station</string>
     </property>
     <attribute name="buttonGroup">
-     <string>radioButtonGroup</string>
+     <string notr="true">radioButtonGroup</string>
     </attribute>
    </widget>
   </widget>
@@ -223,22 +223,6 @@
     </property>
     <property name="text">
      <string>Add all</string>
-    </property>
-   </widget>
-   <widget class="QListView" name="TargetList">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>40</y>
-      <width>121</width>
-      <height>141</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
     </property>
    </widget>
    <widget class="QPushButton" name="RemoveButton">
@@ -317,7 +301,7 @@
      <string>Used Points</string>
     </property>
    </widget>
-   <widget class="QListView" name="SourceList">
+   <widget class="QListWidget" name="SourceList">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -325,6 +309,28 @@
       <width>121</width>
       <height>141</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="TargetList">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>40</y>
+      <width>121</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
    </widget>
   </widget>
@@ -531,12 +537,10 @@
   <tabstop>FreeRadio</tabstop>
   <tabstop>Station1Combo</tabstop>
   <tabstop>Station2Combo</tabstop>
-  <tabstop>SourceList</tabstop>
   <tabstop>AddButton</tabstop>
   <tabstop>AddAllButton</tabstop>
   <tabstop>RemoveButton</tabstop>
   <tabstop>RemoveAllButton</tabstop>
-  <tabstop>TargetList</tabstop>
   <tabstop>HelpButton</tabstop>
   <tabstop>CalcButton</tabstop>
   <tabstop>ResetButton</tabstop>
