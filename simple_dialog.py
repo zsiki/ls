@@ -51,7 +51,7 @@ class SimpleDialog(QDialog):
         self.ui.Station2Combo.setEnabled(False)
 
         # clear widgets
-        self.ui.TextBrowser.clear()
+        self.ui.ResultTextBrowser.clear()
         self.ui.Station1Combo.clear()
         self.ui.Station2Combo.clear()
 
