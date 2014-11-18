@@ -179,20 +179,20 @@ def get_stations(known=False):
                 if known and known_list is not None and not pid in known_list:
                     # skip unknown points
                     continue
-                id = feat['id']
-                act = [pid, fb, id]
+                fid = feat['id']
+                act = [pid, fb, fid]
                 if not act in slist:
                     slist.append(act)
     if len(slist):
         return sorted(slist)
     return None
 
-def get_targets(point_id, fieldbook, id):
+def get_targets(point_id, fieldbook, fid):
     """
         collect observation data from one station
         :param point_id: station number/name (str)
         :param fieldbook: name of fieldbook (str)
-        :param id: id in fieldbook (int)
+        :param fid: id in fieldbook (int)
         :return list of observations
     """
     obs = []
@@ -201,7 +201,7 @@ def get_targets(point_id, fieldbook, id):
     if lay is None:
         return obs
     for feat in lay.getFeatures():
-        if feat['id'] == id and feat['station'] == 'station' and feat['point_id'] == point_id:
+        if feat['id'] == fid and feat['station'] == 'station' and feat['point_id'] == point_id:
             found = True
             continue
         elif feat['station'] == 'station':
