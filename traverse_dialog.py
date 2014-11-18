@@ -7,5 +7,5 @@ class TraverseDialog(QDialog):
     """
     def __init__(self):
         super(TraverseDialog, self).__init__()
-        ui = Ui_TraverseCalcDialog()
-        ui.setupUi(self)
+        self.ui = Ui_TraverseCalcDialog()
+        self.ui.setupUi(self)
