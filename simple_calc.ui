@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Simple Point Calculations</string>
+   <string>Single Point Calculations</string>
   </property>
   <widget class="QGroupBox" name="RadioGroup">
    <property name="geometry">
@@ -77,7 +77,7 @@
      <string>Orientation</string>
     </property>
     <attribute name="buttonGroup">
-     <string notr="true">radioButtonGroup</string>
+     <string>radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="RadialRadio">
@@ -99,7 +99,7 @@
      <string>Radial Survey</string>
     </property>
     <attribute name="buttonGroup">
-     <string notr="true">radioButtonGroup</string>
+     <string>radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="IntersectRadio">
@@ -121,7 +121,7 @@
      <string>Intersection</string>
     </property>
     <attribute name="buttonGroup">
-     <string notr="true">radioButtonGroup</string>
+     <string>radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ResectionRadio">
@@ -143,7 +143,7 @@
      <string>Resection</string>
     </property>
     <attribute name="buttonGroup">
-     <string notr="true">radioButtonGroup</string>
+     <string>radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="FreeRadio">
@@ -165,7 +165,7 @@
      <string>Free Station</string>
     </property>
     <attribute name="buttonGroup">
-     <string notr="true">radioButtonGroup</string>
+     <string>radioButtonGroup</string>
     </attribute>
    </widget>
   </widget>
@@ -366,6 +366,12 @@
       <width>681</width>
       <height>171</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
    </widget>
   </widget>
