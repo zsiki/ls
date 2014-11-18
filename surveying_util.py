@@ -128,11 +128,45 @@ def get_known(dimension=2):
         return sorted(plist)
     return None
     
-def get_unknown(dimension=2):
+def get_measured(dimension=2):
     """
         Get list of unknown points
         :param dimension: 1/2/3 point dimension
         :returns list of point ids
+    """
+    plist = []
+    found = []
+    fb_list = get_fblist()
+    if fb_list is None:
+        return None
+    for fb in fb_list:
+        lay = get_layer_by_name(fb)
+        if lay is None:
+            continue
+        for feat in lay.getFeatures():
+            pid = feat['point_id']
+            p = get_coord(pid)
+            if (p is None) or \
+               (dimension == 1 and p.z == NULL) or \
+               (dimension == 2 and (p.e == NULL or p.n == NULL)) or \
+               (dimension == 3 and (p.e == NULL or p.n == NULL or p.z == NULL)):
+               coord = False
+            else:
+                coord = True
+            if not pid in found:
+                plist.append([pid, coord])
+                found.append(pid)
+
+    if len(plist):
+        return sorted(plist)
+    return None
+
+def get_unknown(dimension=2):
+    """
+        Get list of measured points
+        :param dimension: 1/2/3 point dimension
+        :returns list of [point ids, True/False], second element marks
+        if point have coordinates of dimension
     """
     plist = []
     fb_list = get_fblist()
@@ -143,10 +177,7 @@ def get_unknown(dimension=2):
         if lay is None:
             continue
         for feat in lay.getFeatures():
-            if re.match('station_', feat['point_id']):
-                pid = feat['point_id'][8:]
-            else:
-                pid = feat['point_id']
+            pid = feat['point_id']
             p = get_coord(pid)
             if (p is None) or \
                (dimension == 1 and p.z == NULL) or \
