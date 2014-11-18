@@ -411,7 +411,7 @@
      <string>Confidence Level</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="TavmeresDevMMComboBox">
+   <widget class="QComboBox" name="DistDevMMComboBox">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -447,7 +447,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QLabel" name="TavmeresDevLabel">
+   <widget class="QLabel" name="DistDevLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -466,7 +466,7 @@
      <string>Distance standard deviation</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="TavmeresDevMMKMComboBox">
+   <widget class="QComboBox" name="DistDevMMKMComboBox">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -502,7 +502,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QLabel" name="TavmeresDevMMLabel">
+   <widget class="QLabel" name="DistDevMMLabel">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -521,7 +521,7 @@
      <string>[mm]</string>
     </property>
    </widget>
-   <widget class="QLabel" name="TavmeresDevMMKMLabel">
+   <widget class="QLabel" name="DistDevMMKMLabel">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -540,7 +540,7 @@
      <string>[mm/km]</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="IranymeresDevComboBox">
+   <widget class="QComboBox" name="AngleDevComboBox">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -595,7 +595,7 @@
      <string>Angle standard deviation</string>
     </property>
    </widget>
-   <widget class="QLabel" name="TavmeresDevMMLabel_2">
+   <widget class="QLabel" name="DistDevMMLabel_2">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -671,9 +671,9 @@
   <tabstop>RemoveFixButton</tabstop>
   <tabstop>AddAdjButton</tabstop>
   <tabstop>RemoveAdjButton</tabstop>
-  <tabstop>IranymeresDevComboBox</tabstop>
-  <tabstop>TavmeresDevMMComboBox</tabstop>
-  <tabstop>TavmeresDevMMKMComboBox</tabstop>
+  <tabstop>AngleDevComboBox</tabstop>
+  <tabstop>DistDevMMComboBox</tabstop>
+  <tabstop>DistDevMMKMComboBox</tabstop>
   <tabstop>ConfidenceComboBox</tabstop>
   <tabstop>ResultTextBrowser</tabstop>
   <tabstop>HelpButton</tabstop>
