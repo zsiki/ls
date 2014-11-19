@@ -263,7 +263,7 @@ def get_station(point_id, fieldbook, fid):
         :return station (Station)
     """
     p = QPoint(point_id)
-    o = get_target(point_id, fieldbook, fid)
+    o = get_fieldbookrow(point_id, fieldbook, fid)
     return Station(p,o)
     
 def get_target(point_id, fieldbook, fid):
@@ -290,7 +290,7 @@ def get_fieldbookrow(point_id, fieldbook, fid):
     for feat in lay.getFeatures():
         if feat['id'] == fid and feat['point_id'] == point_id:
             o = PolarObservation(feat['point_id'], feat['station'],
-                feat['hz'], feat['v'], feat['sd'], feat['th'], feat['pc'])
+                Angle(feat['hz'],"GON"), Angle(feat['v'],"GON"), Distance(feat['sd']), feat['th'], feat['pc'])
             break
     return o
 
