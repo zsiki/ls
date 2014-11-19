@@ -1,6 +1,7 @@
 from PyQt4.QtGui import QDialog
 from network_calc import Ui_NetworkCalcDialog
 from surveying_util import *
+from gama_interface import *
 # debugging
 from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
@@ -25,6 +26,7 @@ class NetworkDialog(QDialog):
         self.ui.AddAdjButton.clicked.connect(self.onAddAdjButton)
         self.ui.RemoveFixButton.clicked.connect(self.onRemoveFixButton)
         self.ui.RemoveAdjButton.clicked.connect(self.onRemoveAdjButton)
+        self.ui.CalcButton.clicked.connect(self.onCalcButton)
 
 
     def showEvent(self, event):
@@ -97,3 +99,22 @@ class NetworkDialog(QDialog):
         self.adj.append(self.points[i])
         del self.adj[i]
 
+    def onCalcButton(self):
+        if len(self.adj):
+            dimension = int(self.ui.DimensionComboBox.currentText())
+            conf = float(self.ui.ConfidenceComboBox.currentText())
+            stda = float(self.ui.AngleDevComboBox.currentText())
+            stdd = float(self.ui.DistDevMMComboBox.currentText())
+            stdd1 = float(self.ui.DistDevMMKMComboBox.currentText())
+            g = GamaInterface(dimension, conf, stda, stdd, stdd1)
+            # add points to adjustment
+            for fp in self.fix:
+                p = get_coord(fp[0])
+                g.add_point(p)
+            for fp in self.adj:
+                p = get_coord(fp[0])
+                if p is None:
+                    p = Point(fp[0])
+                g.add_point(p)
+            # add observations to adjustment
+            # TODO
