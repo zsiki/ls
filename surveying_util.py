@@ -188,10 +188,11 @@ def get_unknown(dimension=2):
         return sorted(plist)
     return None
 
-def get_stations(known=False):
+def get_stations(known=False, oriented=False):
     """
         Get list of stations from fieldbooks
-        :param known If True only known points get into list.
+        :param known: If True only known points get into list.
+        :param oriented: If True only oriented stations get into list.
         :returns list of station [[point_id fieldbook_name id] ...]
     """
     slist = []
@@ -209,6 +210,8 @@ def get_stations(known=False):
                 pid = feat['point_id']
                 if known and known_list is not None and not pid in known_list:
                     # skip unknown points
+                    continue
+                if oriented and feat['hz'] == NULL:
                     continue
                 fid = feat['id']
                 act = [pid, fb, fid]
@@ -293,6 +296,24 @@ def get_fieldbookrow(point_id, fieldbook, fid):
                 Angle(feat['hz'],"GON"), Angle(feat['v'],"GON"), Distance(feat['sd']), feat['th'], feat['pc'])
             break
     return o
+
+def set_orientationangle(point_id, fieldbook, fid, angle):
+    """
+        Sets the orientation angle(hz) of the given station in the given fieldbook.
+        :param point_id: point number/name (str)
+        :param fieldbook: name of fieldbook (str)
+        :param fid: id in fieldbook (int)
+        :param angle: orientation angle (float)
+    """
+    lay = get_layer_by_name(fieldbook)
+    if lay is None:
+        return False
+    for feat in lay.getFeatures():
+        if feat['id'] == fid and feat['point_id'] == point_id:
+            fid = feat.id()
+            attrs = {feat.fieldNameIndex('hz') : angle}
+            lay.dataProvider().changeAttributeValues({ fid : attrs })
+            return
 
 class ScPoint(Point):
     """
