@@ -188,10 +188,11 @@ def get_unknown(dimension=2):
         return sorted(plist)
     return None
 
-def get_stations(known=False):
+def get_stations(known=False, oriented=False):
     """
         Get list of stations from fieldbooks
-        :param known If True only known points get into list.
+        :param known: If True only known points get into list.
+        :param oriented: If True only oriented stations get into list.
         :returns list of station [[point_id fieldbook_name id] ...]
     """
     slist = []
@@ -209,6 +210,8 @@ def get_stations(known=False):
                 pid = feat['point_id']
                 if known and known_list is not None and not pid in known_list:
                     # skip unknown points
+                    continue
+                if oriented and feat['hz'] == NULL:
                     continue
                 fid = feat['id']
                 act = [pid, fb, fid]
