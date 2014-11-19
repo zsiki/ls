@@ -210,10 +210,17 @@ class SimpleDialog(QDialog):
             return
 
         if self.ui.OrientRadio.isChecked():
-            #for i in range(self.ui.TargetList.count()):
-                #pass
-            #Calculation.orientation(None, None)
-            pass
+            # orientation
+            s = get_station(stn1[0], stn1[1], stn1[2])
+            ref_list = []
+            for i in range(self.ui.TargetList.count()):
+                targetp = self.ui.TargetList.item(i).data(Qt.UserRole)
+                to = get_target(targetp[0], targetp[1], targetp[2])
+                tp = ScPoint(targetp[0])
+                tp.get_coord()
+                ref_list.append([tp,to])
+            z = Calculation.orientation(s, ref_list)
+            set_orientationangle(stn1[0], stn1[1], stn1[2], z.get_angle("GON"))
         elif self.ui.RadialRadio.isChecked():
             #Calculation.polarpoint(None, None)
             pass
