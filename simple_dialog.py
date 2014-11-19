@@ -222,7 +222,6 @@ class SimpleDialog(QDialog):
                 targetp = self.ui.TargetList.item(i).data(Qt.UserRole)
                 to = get_target(targetp[0], targetp[1], targetp[2])
                 tp = ScPoint(targetp[0])
-                tp.get_coord()
                 ref_list.append([tp,to])
             z = Calculation.orientation(s, ref_list)
             set_orientationangle(stn1[0], stn1[1], stn1[2], z.get_angle("GON"))
