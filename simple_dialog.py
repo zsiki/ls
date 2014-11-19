@@ -3,9 +3,9 @@ from PyQt4.QtCore import Qt, QVariant
 # debugging
 #from PyQt4.QtCore import pyqtRemoveInputHook
 #import pdb
-#import sys
-#sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
-#import pydevd
+import sys
+sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
+import pydevd
 
 from simple_calc import Ui_SimpleCalcDialog
 from surveying_util import *
@@ -40,7 +40,7 @@ class SimpleDialog(QDialog):
         """
             Reset dialog when receives a show event.
         """
-        #pydevd.settrace()
+        pydevd.settrace()
         self.reset()
         
     def reset(self):
@@ -154,25 +154,31 @@ class SimpleDialog(QDialog):
         """
             Add selected target points to used points list.
         """
-        pass
-    
+        selected = self.ui.SourceList.selectedItems()
+        for item in selected:
+            self.ui.TargetList.addItem( self.ui.SourceList.takeItem( self.ui.SourceList.row(item) ) )
+            
     def onAddAllButton(self):
         """
             Add all target points to used points list.
         """
-        pass
+        while self.ui.SourceList.count():
+            self.ui.TargetList.addItem( self.ui.SourceList.takeItem( 0 ) )
 
     def onRemoveButton(self):
         """
             Remove selected used points and add to target points list.
         """
-        pass
+        selected = self.ui.TargetList.selectedItems()
+        for item in selected:
+            self.ui.SourceList.addItem( self.ui.TargetList.takeItem( self.ui.TargetList.row(item) ) )
 
     def onRemoveAllButton(self):
         """
             Remove all used points and add to target points list.
         """
-        pass
+        while self.ui.TargetList.count():
+            self.ui.SourceList.addItem( self.ui.TargetList.takeItem( 0 ) )
     
     def onCalcButton(self):
         """
