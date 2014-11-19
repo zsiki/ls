@@ -262,7 +262,7 @@ def get_station(point_id, fieldbook, fid):
         :param fid: id in fieldbook (int)
         :return station (Station)
     """
-    p = QPoint()
+    p = QPoint(point_id)
     o = get_target(point_id, fieldbook, fid)
     return Station(p,o)
     
