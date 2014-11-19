@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QDialog, QListWidgetItem
+from PyQt4.QtGui import QDialog, QListWidgetItem, QFont
 from PyQt4.QtCore import Qt, QVariant
 # debugging
 #from PyQt4.QtCore import pyqtRemoveInputHook
@@ -131,10 +131,15 @@ class SimpleDialog(QDialog):
             #            targets.append(t1)
             
         # fill source list widget
+        known_list = get_known()
         if targets is not None:
             for target in targets:
                 item = QListWidgetItem(u"%s (id:%s)"% (target[0],target[2]) )
                 item.setData(Qt.UserRole,target)
+                if target[0] in known_list:
+                    itemfont = item.font()
+                    itemfont.setWeight(QFont.Bold)
+                    item.setFont(itemfont)
                 self.ui.SourceList.addItem( item )
 
     def radioClicked(self):
@@ -184,7 +189,13 @@ class SimpleDialog(QDialog):
         """
             Start a calculation when the Calculate button pushed.
         """
+        # get the selected stations
+        stn1 = self.ui.Station1Combo.itemData( self.ui.Station1Combo.currentIndex() )
+        stn2 = self.ui.Station2Combo.itemData( self.ui.Station2Combo.currentIndex() )
+
         if self.ui.OrientRadio.isChecked():
+            #for i in range(self.ui.TargetList.count()):
+                #pass
             #Calculation.orientation(None, None)
             pass
         elif self.ui.RadialRadio.isChecked():
