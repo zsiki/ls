@@ -262,7 +262,7 @@ def get_station(point_id, fieldbook, fid):
         :param fid: id in fieldbook (int)
         :return station (Station)
     """
-    p = QPoint(point_id)
+    p = ScPoint(point_id)
     o = get_fieldbookrow(point_id, fieldbook, fid)
     return Station(p,o)
     
@@ -294,7 +294,7 @@ def get_fieldbookrow(point_id, fieldbook, fid):
             break
     return o
 
-class QPoint(Point):
+class ScPoint(Point):
     """
         Extended point class to store table position
     """
@@ -306,12 +306,12 @@ class QPoint(Point):
                 it is None if a new point to add
         """
         if isinstance(p, Point):
-            super(QPoint, self).__init__(p.id, p.e, p.n, p.z, p.pc, p.pt)
+            super(ScPoint, self).__init__(p.id, p.e, p.n, p.z, p.pc, p.pt)
         elif isinstance(p, str) or isinstance(p, unicode):
-            super(QPoint, self).__init__(p)
+            super(ScPoint, self).__init__(p)
             self.get_coord()
         else:
-            super(QPoint, self).__init__("@")
+            super(ScPoint, self).__init__("@")
 
         self.coo = coo
 

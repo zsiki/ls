@@ -294,7 +294,7 @@ class SurveyingCalculation:
                         r['station_n'] = None
                         
                     p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
-                    qp = QPoint(p)
+                    qp = ScPoint(p)
                     qp.store_coord(dimension)
                 i += 10
             #fb_dbf.commitChanges()
