@@ -87,7 +87,6 @@ def get_fieldnames(vlayer):
 
 def get_coord(p):
     """
-        DEPRICATED SEE QPoint class!!!!!!
         Get the coordinates of a point 
         :parameter p: point number
         :return Point object with coordinates
@@ -269,7 +268,7 @@ def get_station(point_id, fieldbook, fid):
     
 def get_target(point_id, fieldbook, fid):
     """
-        Create a PolarObsrvation instance of a target point from a fieldbook row.
+        Create a PolarObservation instance of a target point from a fieldbook row.
         :param point_id: point number/name (str)
         :param fieldbook: name of fieldbook (str)
         :param fid: id in fieldbook (int)
@@ -283,7 +282,7 @@ def get_fieldbookrow(point_id, fieldbook, fid):
         :param point_id: point number/name (str)
         :param fieldbook: name of fieldbook (str)
         :param fid: id in fieldbook (int)
-        :return observation on the point or astation (PolarObservation)
+        :return observation to the point or a station (PolarObservation)
     """
     lay = get_layer_by_name(fieldbook)
     if lay is None:
@@ -291,7 +290,7 @@ def get_fieldbookrow(point_id, fieldbook, fid):
     for feat in lay.getFeatures():
         if feat['id'] == fid and feat['point_id'] == point_id:
             o = PolarObservation(feat['point_id'], feat['station'],
-                                 feat['hz'], feat['v'], feat['sd'], feat['th'], feat['pc'])
+                feat['hz'], feat['v'], feat['sd'], feat['th'], feat['pc'])
             break
     return o
 
@@ -314,34 +313,22 @@ class QPoint(Point):
             Get the coordinates of the point from coord table and
             update coordinate fields
         """
-        coord_lists = get_coordlist()
-        if coord_lists is None:
+        p = get_coord(self.id)
+        if p is None:
             self.e = None
             self.n = None
             self.z = None
             self.pc = None
             self.pt = None
             self.coo = None
-            return
-        for coord_list in coord_lists:
-            lay = get_layer_by_name(coord_list)
-            if lay is None:
-                continue
-            for feat in lay.getFeatures():
-                if feat['point_id'] ==  self.id:
-                    self.e = feat['e']
-                    self.n = feat['n']
-                    self.z = feat['z']
-                    self.pc = feat['pc']
-                    self.pt = feat['pt']
-                    self.coo = coord_list
-                    return
-        self.e = None
-        self.n = None
-        self.z = None
-        self.pc = None
-        self.pt = None
-        self.coo = None
+        else:
+            self.e = p.e
+            self.n = p.n
+            self.z = p.z
+            self.pc = p.pc
+            self.pt = p.pt
+            # TODO get_coord should return a tuple (p coo)
+            #self.coo = coord_list
         return
 
     def store_coord(self, dimension=3):
