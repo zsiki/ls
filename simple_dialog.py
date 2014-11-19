@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QDialog, QListWidgetItem, QFont
+from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox
 from PyQt4.QtCore import Qt, QVariant
 # debugging
 #from PyQt4.QtCore import pyqtRemoveInputHook
@@ -189,9 +189,25 @@ class SimpleDialog(QDialog):
         """
             Start a calculation when the Calculate button pushed.
         """
+        if self.ui.radioButtonGroup.checkedId() == -1:
+            QMessageBox.warning(self,u"Warning",u"Select the type of calculation!")
+            return
+
         # get the selected stations
         stn1 = self.ui.Station1Combo.itemData( self.ui.Station1Combo.currentIndex() )
+        if stn1 is None:
+            QMessageBox.warning(self,u"Warning",u"Select station point 1!")
+            self.ui.Station1Combo.setFocus()
+            return
         stn2 = self.ui.Station2Combo.itemData( self.ui.Station2Combo.currentIndex() )
+        if stn2 is None and self.ui.IntersectRadio.isChecked():
+            QMessageBox.warning(self,u"Warning",u"Select station point 2!")
+            self.ui.Station2Combo.setFocus()
+            return
+        if self.ui.TargetList.count()==0:
+            QMessageBox.warning(self,u"Warning",u"Add points to target list!")
+            self.ui.TargetList.setFocus()
+            return
 
         if self.ui.OrientRadio.isChecked():
             #for i in range(self.ui.TargetList.count()):
