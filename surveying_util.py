@@ -292,8 +292,19 @@ def get_fieldbookrow(point_id, fieldbook, fid):
         return None
     for feat in lay.getFeatures():
         if feat['id'] == fid and feat['point_id'] == point_id:
-            o = PolarObservation(feat['point_id'], feat['station'],
-                Angle(feat['hz'],"GON"), Angle(feat['v'],"GON"), Distance(feat['sd']), feat['th'], feat['pc'])
+            if feat['v']==NULL:
+                dist = Distance(feat['sd'],"HD")
+            elif feat['v']==0.0:    # ???
+                dist = Distance(feat['sd'],"VD")
+            else:
+                dist = Distance(feat['sd'],"SD")
+            o = PolarObservation(feat['point_id'],
+                                 (feat['station'] if feat['station']!=NULL else None),
+                                 (Angle(feat['hz'],"GON") if feat['hz']!=NULL else None),
+                                 (Angle(feat['v'],"GON") if feat['v']!=NULL else None),
+                                 dist,
+                                 (feat['th'] if feat['th']!=NULL else None),
+                                 (feat['pc'] if feat['pc']!=NULL else None))
             break
     return o
 
