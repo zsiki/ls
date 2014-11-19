@@ -81,12 +81,17 @@ class SimpleDialog(QDialog):
         self.ui.Station2Combo.setEnabled(False)
 
         #get stations        
-        known_stations = get_stations(True)
-        all_stations = get_stations(False)
+        known_stations = get_stations(True,False)
+        all_stations = get_stations(False,False)
+        oriented_stations = get_stations(True,True)
         # fill Station1Combo and Station2Combo      
-        if known_stations is not None and (self.ui.OrientRadio.isChecked() or \
-                self.ui.RadialRadio.isChecked() or self.ui.IntersectRadio.isChecked()):
+        if known_stations is not None and self.ui.OrientRadio.isChecked():
             for stn in known_stations:
+                self.ui.Station1Combo.addItem( u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn )
+            self.ui.Station1Combo.setEnabled(True)
+        elif oriented_stations is not None and (self.ui.RadialRadio.isChecked() or \
+                self.ui.IntersectRadio.isChecked()):
+            for stn in oriented_stations:
                 self.ui.Station1Combo.addItem( u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn )
                 if self.ui.IntersectRadio.isChecked():
                     self.ui.Station2Combo.addItem( u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn )
