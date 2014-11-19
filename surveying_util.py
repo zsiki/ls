@@ -310,7 +310,6 @@ def set_orientationangle(point_id, fieldbook, fid, angle):
             fid = feat.id()
             attrs = {feat.fieldNameIndex('hz') : angle}
             lay.dataProvider().changeAttributeValues({ fid : attrs })
-#            lay.changeAttributeValue(fid, feat.fieldNameIndex('hz'), angle)
             return
 
 class ScPoint(Point):
