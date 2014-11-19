@@ -294,6 +294,25 @@ def get_fieldbookrow(point_id, fieldbook, fid):
             break
     return o
 
+def set_orientationangle(point_id, fieldbook, fid, angle):
+    """
+        Sets the orientation angle(hz) of the given station in the given fieldbook.
+        :param point_id: point number/name (str)
+        :param fieldbook: name of fieldbook (str)
+        :param fid: id in fieldbook (int)
+        :param angle: orientation angle (float)
+    """
+    lay = get_layer_by_name(fieldbook)
+    if lay is None:
+        return False
+    for feat in lay.getFeatures():
+        if feat['id'] == fid and feat['point_id'] == point_id:
+            fid = feat.id()
+            attrs = {feat.fieldNameIndex('hz') : angle}
+            lay.dataProvider().changeAttributeValues({ fid : attrs })
+#            lay.changeAttributeValue(fid, feat.fieldNameIndex('hz'), angle)
+            return
+
 class QPoint(Point):
     """
         Extended point class to store table position
