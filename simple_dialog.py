@@ -3,9 +3,9 @@ from PyQt4.QtCore import Qt, QVariant
 # debugging
 #from PyQt4.QtCore import pyqtRemoveInputHook
 #import pdb
-#import sys
-#sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
-#import pydevd
+import sys
+sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
+import pydevd
 
 from simple_calc import Ui_SimpleCalcDialog
 from surveying_util import *
@@ -40,7 +40,7 @@ class SimpleDialog(QDialog):
         """
             Reset dialog when receives a show event.
         """
-        #pydevd.settrace()
+        pydevd.settrace()
         self.reset()
         
     def reset(self):
@@ -224,9 +224,21 @@ class SimpleDialog(QDialog):
                 tp = ScPoint(targetp[0])
                 ref_list.append([tp,to])
             z = Calculation.orientation(s, ref_list)
-            set_orientationangle(stn1[0], stn1[1], stn1[2], z.get_angle("GON"))
+            if z is not None:
+                set_orientationangle(stn1[0], stn1[1], stn1[2], z.get_angle("GON"))
         elif self.ui.RadialRadio.isChecked():
-            #Calculation.polarpoint(None, None)
+            s = get_station(stn1[0], stn1[1], stn1[2])
+            for i in range(self.ui.TargetList.count()):
+                targetp = self.ui.TargetList.item(i).data(Qt.UserRole)
+                to = get_target(targetp[0], targetp[1], targetp[2])
+                tp = ScPoint(targetp[0])
+                p = Calculation.polarpoint(s, to)
+                if p is not None:
+                    tp.set_coord(p)
+                    if p.z is None:
+                        tp.store_coord(2)
+                    else:
+                        tp.store_coord(3)
             pass
         elif self.ui.IntersectRadio.isChecked():
             #Calculation.intersection(None, None, None, None)
