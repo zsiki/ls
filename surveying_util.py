@@ -305,7 +305,14 @@ class QPoint(Point):
             :parameter coo: name of the table where point is/to be store (String)
                 it is None if a new point to add
         """
-        super(QPoint, self).__init__(p.id, p.e, p.n, p.z, p.pc, p.pt)
+        if isinstance(p, Point):
+            super(QPoint, self).__init__(p.id, p.e, p.n, p.z, p.pc, p.pt)
+        elif isinstance(p, str) or isinstance(p, unicode):
+            super(QPoint, self).__init__(p)
+            self.get_coord()
+        else:
+            super(QPoint, self).__init__("@")
+
         self.coo = coo
 
     def get_coord(self):
