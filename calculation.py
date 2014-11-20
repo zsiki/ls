@@ -136,9 +136,9 @@ class Calculation(object):
             if len(points) == 2:
                 #  Select the right one from the two intersection points.
                 if math.fabs(p2.e - points[0].e) < 0.1 and math.fabs(p2.n - points[0].n) < 0.1:
-                    return Point(st.p.id, points[1].e, points[1].n, None, st.p.pc)
+                    return Point(st.p.id, points[1].e, points[1].n, st.p.z, st.p.pc, st.p.pt)
                 else :
-                    return Point(st.p.id, points[0].e, points[0].n, None, st.p.pc)
+                    return Point(st.p.id, points[0].e, points[0].n, st.p.z, st.p.pc, st.p.pt)
                 return None
         except (ValueError, TypeError):
             return None
