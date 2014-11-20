@@ -142,7 +142,7 @@ class GamaInterface(object):
                         tmp.setAttribute('adj', 'xyz')
                 points_observations.appendChild(tmp)
         for o in self.observations:
-            if o.station is not None and len(o.station) > 0:
+            if o.station is not None:
                 # station record
                 sta = doc.createElement('obs')
                 sta.setAttribute('from', o.point_id)
