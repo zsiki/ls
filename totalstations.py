@@ -236,7 +236,7 @@ class JobAre(TotalStation):
                     return ret
             elif item_code == '3':
                 # instrument height
-                self.res['ih'] = float(buf[1].strip())
+                self.res['th'] = float(buf[1].strip())
             elif item_code == '4':
                 # point code
                 self.res['code'] = buf[1].strip()
@@ -414,7 +414,7 @@ if __name__ == "__main__":
         unit test
     """
     #ts = LeicaGsi('samples/kz120125_kzp.gsi', ' ')
-    ts = JobAre('samples/test1.are', '=')
+    ts = JobAre('samples/test1.job', '=')
     #ts = Sdr('samples/PAJE04.crd', None)
     if ts.open() != 0:
         print "Open error"

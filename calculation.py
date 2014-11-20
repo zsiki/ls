@@ -9,6 +9,7 @@
 
 import math
 from base_classes import *
+from PyQt4.QtGui import QMessageBox
 
 class Calculation(object):
     """ container class for all calculations """
@@ -32,13 +33,18 @@ class Calculation(object):
             pt = ref[0]
             obs = ref[1]
             b = bearing(st.p, pt).get_angle()
-            z = b - obs.hz.get_angle()
+            r = obs.hz.get_angle()
+            z = b - r
             if z<0:
                 z = z + math.pi * 2
             d = distance2d(st.p, pt).d
             sd = sd + d
             sz = sz + math.sin(z) * d
             cz = cz + math.cos(z) * d
+            ref.append(d)
+            ref.append(Angle(z))
+            ref.append(Angle(r))
+            ref.append(Angle(b))
  
         if sd==0:
             return None
@@ -49,6 +55,28 @@ class Calculation(object):
         za = math.atan2(sz, cz)
         while za<0:
             za = za + math.pi * 2
+        
+        # log results of orientation?
+        log = ResultLog("log.txt")
+        log.write()
+        log.write_log(u"Orientation - %s" % st.p.id)
+        log.write("Point num  Code         Direction    Bearing   Orient ang   Distance   e\" e\"max   E(m)")
+        for ref in ref_list:
+            emax = int(24.0 / math.sqrt( ref[2] / 1000.0))
+            e = ref[3].get_angle("SEC") - Angle(za).get_angle("SEC")
+            if e>PISEC:
+                e = e - 2*PISEC
+            if e<-PISEC:
+                e = e + 2*PISEC
+            E = e / 206264.8 * ref[2]
+            log.write("%-10s %-10s   %9s   %9s   %9s   %8.3f %4d %4d %8.3f" % \
+                (ref[1].point_id, ref[1].pc, \
+                ref[4].get_angle("DMS"), ref[5].get_angle("DMS"), \
+                ref[3].get_angle("DMS"), ref[2], int(e), emax, E) )
+            if math.fabs(e) > emax:
+                QMessageBox.warning(self,u"Warning",u"Direction error over limit: %s - %s" % \
+                                    (st.p.id, ref[1].point_id))
+        log.write("%-47s %s" % ("Average orientation angle",ref[3].get_angle("DMS")) )
         
         return Angle(za)
 
@@ -72,7 +100,7 @@ class Calculation(object):
                     z = z - obs.th 
             else:
                 z = None
-            return Point(obs.point_id, e, n, z)
+            return Point(obs.point_id, e, n, z, obs.pc)
         except (ValueError, TypeError, AttributeError):
             return None
 
@@ -118,13 +146,13 @@ class Calculation(object):
         """
         try:
             # Calculate angle between obs1 and obs2 and between obs2 and obs3.
-            angle1 = Angle(obs2.hz.get_angle() - obs1.hz.get_angle())
-            angle2 = Angle(obs3.hz.get_angle() - obs2.hz.get_angle())
+            alpha = Angle(obs2.hz.get_angle() - obs1.hz.get_angle()) # alpha
+            beta = Angle(obs3.hz.get_angle() - obs2.hz.get_angle()) # beta
         
-            # Create a circle on points p1 and p2 and angle1.
-            circ1 = Circle(p1, p2, angle1)
-            # Create a circle on points p2 and p3 and angle2.
-            circ2 = Circle(p2, p3, angle2)
+            # Create a circle on points p1 and p2 and alpha.
+            circ1 = Circle(p1, p2, alpha)
+            # Create a circle on points p2 and p3 and beta.
+            circ2 = Circle(p2, p3, beta)
             # Calculate the intersection of two circles.
             try:
                 points = intersecCC(circ1, circ2)
@@ -136,9 +164,28 @@ class Calculation(object):
             if len(points) == 2:
                 #  Select the right one from the two intersection points.
                 if math.fabs(p2.e - points[0].e) < 0.1 and math.fabs(p2.n - points[0].n) < 0.1:
-                    return Point(st.p.id, points[1].e, points[1].n, st.p.z, st.p.pc, st.p.pt)
+                    p = Point(st.p.id, points[1].e, points[1].n, st.p.z, st.p.pc, st.p.pt)
                 else :
-                    return Point(st.p.id, points[0].e, points[0].n, st.p.z, st.p.pc, st.p.pt)
+                    p = Point(st.p.id, points[0].e, points[0].n, st.p.z, st.p.pc, st.p.pt)
+
+                log = ResultLog("log.txt")
+                log.write()
+                log.write_log(u"Resection")
+                log.write("Point num  Code                E            N      Direction  Angle")
+                log.write("%-10s %-10s %12.3f %12.3f    %9s %9s" % \
+                          (obs1.point_id, obs1.pc, p1.e, p1.n, \
+                           obs1.hz.get_angle("DMS"), alpha.get_angle("DMS") ))
+                log.write("%-10s %-10s %12.3f %12.3f    %9s %9s" % \
+                          (obs2.point_id, obs2.pc, p2.e, p2.n, \
+                           obs2.hz.get_angle("DMS"), beta.get_angle("DMS") ))
+                log.write("%-10s %-10s %12.3f %12.3f    %9s" % \
+                          (obs3.point_id, obs3.pc, p3.e, p3.n, \
+                           obs3.hz.get_angle("DMS") ))
+                log.write("%-10s %-10s %12.3f %12.3f" % \
+                          (p.id, p.pc, p.e, p.n) )
+                return p
+            else:
+                QMessageBox.warning(self,u"Warning",u"I cannot calculate coordinates")
                 return None
         except (ValueError, TypeError):
             return None

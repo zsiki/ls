@@ -46,8 +46,9 @@ class NetworkDialog(QDialog):
         self.ui.FixList.clear()
         self.ui.AdjustedList.clear()
         self.ui.ResultTextBrowser.clear()
-        for p in self.points:
-            self.ui.PointsList.addItem(p[0])
+        if self.points is not None:
+            for p in self.points:
+                self.ui.PointsList.addItem(p[0])
 
     def onCloseButton(self):
         """
@@ -108,13 +109,40 @@ class NetworkDialog(QDialog):
             stdd1 = float(self.ui.DistDevMMKMComboBox.currentText())
             g = GamaInterface(dimension, conf, stda, stdd, stdd1)
             # add points to adjustment
+            fix_names = []
+            adj_names = []
             for fp in self.fix:
                 p = get_coord(fp[0])
                 g.add_point(p)
+                fix_names.append(fp[0])
             for fp in self.adj:
                 p = get_coord(fp[0])
                 if p is None:
                     p = Point(fp[0])
                 g.add_point(p)
+                adj_names.append(fp[0])
             # add observations to adjustment
-            # TODO
+            fb_list = get_fblist()
+            if fb_list is None:
+                return None
+            for fb in fb_list:
+                lay = get_layer_by_name(fb)
+                if lay is None:
+                    continue
+                for feat in lay.getFeatures():
+                    pid = feat['point_id']
+                    if pid in fix_names or pid in adj_names:
+                        if feat['station'] == 'station':
+                            o = PolarObservation(pid, feat['station'], \
+                                feat['hz'], feat['v'], feat['sd'], feat['th'], \
+                                feat['pc'])
+                            g.add_observation(o)
+                        else:
+                            if dimension in [2, 3] and (feat['hz'] != NULL or \
+                                feat['v'] != NULL and feat['sd'] != NULL) or \
+                                dimension == 1 and feat['v'] != NULL and feat['sd'] != NULL:
+                                o = PolarObservation(pid, feat['station'], \
+                                    feat['hz'], feat['v'], feat['sd'], feat['th'], \
+                                    feat['pc'])
+                                g.add_observation(o)
+            g.adjust()
