@@ -100,7 +100,7 @@ class Calculation(object):
                     z = z - obs.th 
             else:
                 z = None
-            return Point(obs.point_id, e, n, z)
+            return Point(obs.point_id, e, n, z, obs.pc)
         except (ValueError, TypeError, AttributeError):
             return None
 
