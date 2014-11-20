@@ -10,6 +10,7 @@ from PyQt4.QtCore import Qt, QVariant
 from single_calc import Ui_SingleCalcDialog
 from surveying_util import *
 from calculation import Calculation
+from base_classes import ResultLog
 
 class SingleDialog(QDialog):
     """
@@ -228,16 +229,27 @@ class SingleDialog(QDialog):
                 set_orientationangle(stn1[0], stn1[1], stn1[2], z.get_angle("GON"))
         elif self.ui.RadialRadio.isChecked():
             s = get_station(stn1[0], stn1[1], stn1[2])
+            log_header = False
             for i in range(self.ui.TargetList.count()):
                 targetp = self.ui.TargetList.item(i).data(Qt.UserRole)
                 to = get_target(targetp[0], targetp[1], targetp[2])
                 tp = ScPoint(targetp[0])
                 p = Calculation.polarpoint(s, to)
                 if p is not None:
+                    # log results of orientation?
+                    if log_header is False:
+                        log = ResultLog("log.txt")
+                        log.write()
+                        log.write_log(u"Radial Survey")
+                        log.write("Point num  Code                E            N           Z")
+                        log_header = True
                     tp.set_coord(p)
                     if p.z is None:
+                        # no z calculated
+                        log.write("%-10s %-10s %12.3f %12.3f" % (p.id,p.pc,p.e,p.n))
                         tp.store_coord(2)
                     else:
+                        log.write("%-10s %-10s %12.3f %12.3f    %8.3f" % (p.id,p.pc,p.e,p.n,p.z))
                         tp.store_coord(3)
             pass
         elif self.ui.IntersectRadio.isChecked():
