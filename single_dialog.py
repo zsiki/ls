@@ -241,11 +241,25 @@ class SingleDialog(QDialog):
                         tp.store_coord(3)
             pass
         elif self.ui.IntersectRadio.isChecked():
-            #Calculation.intersection(None, None, None, None)
             pass
         elif self.ui.ResectionRadio.isChecked():
-            #Calculation.resection(None, None, None, None, None, None, None)
-            pass
+            # resection
+            s = get_station(stn1[0], stn1[1], stn1[2])
+            if self.ui.TargetList.count()!=3:
+                QMessageBox.warning(self,u"Warning",u"Select exactly 3 used points for resection!")
+                self.ui.TargetList.setFocus()
+                return
+            targetp1 = self.ui.TargetList.item(0).data(Qt.UserRole)
+            targetp2 = self.ui.TargetList.item(1).data(Qt.UserRole)
+            targetp3 = self.ui.TargetList.item(2).data(Qt.UserRole)
+            to1 = get_target(targetp1[0], targetp1[1], targetp1[2])
+            to2 = get_target(targetp2[0], targetp2[1], targetp2[2])
+            to3 = get_target(targetp3[0], targetp3[1], targetp3[2])
+            tp1 = ScPoint(targetp1[0])            
+            tp2 = ScPoint(targetp2[0])            
+            tp3 = ScPoint(targetp3[0])            
+            p = Calculation.resection(s, tp1, tp2, tp3, to1, to2, to3)
+            ScPoint(p).store_coord(2)
         elif self.ui.FreeRadio.isChecked():
             pass
         
