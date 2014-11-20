@@ -9,6 +9,7 @@
 
 import math
 from base_classes import *
+from PyQt4.QtGui import QMessageBox
 
 class Calculation(object):
     """ container class for all calculations """
@@ -32,13 +33,18 @@ class Calculation(object):
             pt = ref[0]
             obs = ref[1]
             b = bearing(st.p, pt).get_angle()
-            z = b - obs.hz.get_angle()
+            r = obs.hz.get_angle()
+            z = b - r
             if z<0:
                 z = z + math.pi * 2
             d = distance2d(st.p, pt).d
             sd = sd + d
             sz = sz + math.sin(z) * d
             cz = cz + math.cos(z) * d
+            ref.append(d)
+            ref.append(Angle(z))
+            ref.append(Angle(r))
+            ref.append(Angle(b))
  
         if sd==0:
             return None
@@ -49,6 +55,28 @@ class Calculation(object):
         za = math.atan2(sz, cz)
         while za<0:
             za = za + math.pi * 2
+        
+        # log results of orientation?
+        log = ResultLog("log.txt")
+        log.write()
+        log.write_log(u"Orientation - %s" % st.p.id)
+        log.write("Point num  Code         Direction    Bearing   Orient ang   Distance   e\" e\"max   E(m)")
+        for ref in ref_list:
+            emax = int(24.0 / math.sqrt( ref[2] / 1000.0))
+            e = ref[3].get_angle("SEC") - Angle(za).get_angle("SEC")
+            if e>PISEC:
+                e = e - 2*PISEC
+            if e<-PISEC:
+                e = e + 2*PISEC
+            E = e / 206264.8 * ref[2]
+            log.write("%-10s %-10s   %9s   %9s   %9s   %8.3f %4d %4d %8.3f" % \
+                (ref[1].point_id, ref[1].pc, \
+                ref[4].get_angle("DMS"), ref[5].get_angle("DMS"), \
+                ref[3].get_angle("DMS"), ref[2], int(e), emax, E) )
+            if math.fabs(e) > emax:
+                QMessageBox.warning(self,u"Warning",u"Direction error over limit: %s - %s" % \
+                                    (st.p.id, ref[1].point_id))
+        log.write("%-47s %s" % ("Average orientation angle",ref[3].get_angle("DMS")) )
         
         return Angle(za)
 
