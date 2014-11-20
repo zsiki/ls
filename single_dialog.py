@@ -7,17 +7,17 @@ from PyQt4.QtCore import Qt, QVariant
 #sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
 #import pydevd
 
-from simple_calc import Ui_SimpleCalcDialog
+from single_calc import Ui_SingleCalcDialog
 from surveying_util import *
 from calculation import Calculation
 
-class SimpleDialog(QDialog):
+class SingleDialog(QDialog):
     """
         Class for single point calculation dialog (intersection, resection, ...)
     """
     def __init__(self):
-        super(SimpleDialog, self).__init__()
-        self.ui = Ui_SimpleCalcDialog()
+        super(SingleDialog, self).__init__()
+        self.ui = Ui_SingleCalcDialog()
         self.ui.setupUi(self)
         
         # event handlers

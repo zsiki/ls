@@ -34,8 +34,8 @@ from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
 # plugin specific python modules
-#from simple_calc import Ui_SimpleCalcDialog
-from simple_dialog import SimpleDialog
+#from single_calc import Ui_SingleCalcDialog
+from single_dialog import SingleDialog
 #from traverse_calc import Ui_TraverseCalcDialog
 from traverse_dialog import TraverseDialog
 #from network_calc import Ui_NetworkCalcDialog
@@ -74,9 +74,9 @@ class SurveyingCalculation:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-        #self.simple_dlg = QDialog()
-        #Ui_SimpleCalcDialog().setupUi(self.simple_dlg)
-        self.simple_dlg = SimpleDialog()
+        #self.single_dlg = QDialog()
+        #Ui_SingleCalcDialog().setupUi(self.single_dlg)
+        self.single_dlg = SingleDialog()
         #self.traverse_dlg = QDialog()
         #Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)
         self.traverse_dlg = TraverseDialog()
@@ -161,7 +161,7 @@ class SurveyingCalculation:
         self.menu.setTitle(self.tr(u'&SurveyingCalculation'))
         self.sc_coord = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_coord.png')),self.tr("New coordinate list ..."), self.iface.mainWindow())
         self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')),self.tr("Load fieldbook ..."), self.iface.mainWindow())
-        self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','simple_calc.png')),self.tr("Single point calculations ..."), self.iface.mainWindow())
+        self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','single_calc.png')),self.tr("Single point calculations ..."), self.iface.mainWindow())
         self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')),self.tr("Traverse calculations ..."), self.iface.mainWindow())
         self.sc_netw = QAction(QIcon(os.path.join(self.plugin_dir,'icons','network_calc.png')),self.tr("Network adjustment ..."), self.iface.mainWindow())
         self.sc_tran = QAction(QIcon(os.path.join(self.plugin_dir,'icons','coord_calc.png')),self.tr("Coordinate transformation ..."), self.iface.mainWindow())
@@ -306,9 +306,9 @@ class SurveyingCalculation:
             resection, freestation)
         """
         # show the dialog
-        self.simple_dlg.show()
+        self.single_dlg.show()
         # Run the dialog event loop
-        result = self.simple_dlg.exec_()
+        result = self.single_dlg.exec_()
 
     def traverses(self):
         """
