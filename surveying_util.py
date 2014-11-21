@@ -103,14 +103,18 @@ def get_coord(p):
                 return Point(p, feat['e'], feat['n'], feat['z'], feat['pc'], feat['pt'])
     return None
 
-def get_known(dimension=2):
+def get_known(dimension=2, clist=None):
     """
         Get list of known points
-        :param dimension: 1/2/3 point dimension
+        :param dimension: 1/2/3 point dimension, default: 2
+        :param clist: single coordinate list to search, default None (all lists)
         :returns list of point ids
     """
     plist = []
-    coord_lists = get_coordlist()
+    if clist is None:
+        coord_lists = get_coordlist()
+    else:
+        coord_list = [clist]
     if coord_lists is None:
         return None
     for coord_list in coord_lists:
