@@ -44,6 +44,7 @@ from transformation_dialog import TransformationDialog
 from totalstations import *
 from surveying_util import *
 from calculation import *
+from base_classes import ResultLog
 
 class SurveyingCalculation:
     """QGIS Plugin Implementation."""
@@ -74,9 +75,13 @@ class SurveyingCalculation:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
+        # init result log
+        log_path = os.path.join(self.plugin_dir,'log','log.txt')
+        self.log = ResultLog(log_path)
+
         #self.single_dlg = QDialog()
         #Ui_SingleCalcDialog().setupUi(self.single_dlg)
-        self.single_dlg = SingleDialog()
+        self.single_dlg = SingleDialog(self.log)
         #self.traverse_dlg = QDialog()
         #Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)
         self.traverse_dlg = TraverseDialog()
