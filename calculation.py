@@ -70,7 +70,7 @@ class Calculation(object):
                 e = e + 2*PISEC
             E = e / 206264.8 * ref[2]
             cls.log += "%-10s %-10s   %9s   %9s   %9s   %8.3f %4d %4d %8.3f\n" % \
-                (ref[1].point_id, ref[1].pc, \
+                (ref[1].point_id, (ref[1].pc if ref[1].pc is not None else "-"), \
                 ref[4].get_angle("DMS"), ref[5].get_angle("DMS"), \
                 ref[3].get_angle("DMS"), ref[2], int(e), emax, E)
             if math.fabs(e) > emax:
@@ -171,13 +171,13 @@ class Calculation(object):
 
                 cls.log += "Point num  Code                E            N      Direction  Angle\n"
                 cls.log += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
-                          (obs1.point_id, obs1.pc, p1.e, p1.n, \
+                          (obs1.point_id, (obs1.pc if obs1.pc is not None else "-"), p1.e, p1.n, \
                            obs1.hz.get_angle("DMS"), alpha.get_angle("DMS") )
                 cls.log += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
-                          (obs2.point_id, obs2.pc, p2.e, p2.n, \
+                          (obs2.point_id, (obs2.pc if obs2.pc is not None else "-"), p2.e, p2.n, \
                            obs2.hz.get_angle("DMS"), beta.get_angle("DMS") )
                 cls.log += "%-10s %-10s %12.3f %12.3f    %9s\n" % \
-                          (obs3.point_id, obs3.pc, p3.e, p3.n, \
+                          (obs3.point_id, (obs3.pc if obs3.pc is not None else "-"), p3.e, p3.n, \
                            obs3.hz.get_angle("DMS") )
                 cls.log += "%-10s %-10s %12.3f %12.3f\n" % \
                           (p.id, p.pc, p.e, p.n)

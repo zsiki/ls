@@ -231,7 +231,9 @@ class SingleDialog(QDialog):
                 self.log.write(Calculation.log)
             else:
                 QMessageBox.warning(self,u"Warning",u"Orientation angle cannot be calculated!")
+
         elif self.ui.RadialRadio.isChecked():
+            # radial surveys (polar point)
             s = get_station(stn1[0], stn1[1], stn1[2])
             log_header = False
             for i in range(self.ui.TargetList.count()):
@@ -251,18 +253,22 @@ class SingleDialog(QDialog):
                     tp.set_coord(p)
                     if p.z is None:
                         # no z calculated
-                        log_txt = "%-10s %-10s %12.3f %12.3f" % (p.id,p.pc,p.e,p.n)
+                        log_txt = "%-10s %-10s %12.3f %12.3f" % \
+                                (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n)
                         self.ui.ResultTextBrowser.append(log_txt)
                         self.log.write(log_txt)
                         tp.store_coord(2)
                     else:
-                        log_txt = "%-10s %-10s %12.3f %12.3f    %8.3f" % (p.id,p.pc,p.e,p.n,p.z)
+                        log_txt = "%-10s %-10s %12.3f %12.3f    %8.3f" % \
+                                (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n,p.z)
                         self.ui.ResultTextBrowser.append(log_txt)
                         self.log.write(log_txt)
                         tp.store_coord(3)
-            pass
+
         elif self.ui.IntersectRadio.isChecked():
+            # intersection
             pass
+
         elif self.ui.ResectionRadio.isChecked():
             # resection
             s = get_station(stn1[0], stn1[1], stn1[2])
@@ -288,6 +294,8 @@ class SingleDialog(QDialog):
             self.log.write_log(u"Resection")
             self.log.write(Calculation.log)
         elif self.ui.FreeRadio.isChecked():
+            # fre station
+            s = get_station(stn1[0], stn1[1], stn1[2])
             pass
         
     def onResetButton(self):
