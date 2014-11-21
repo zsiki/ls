@@ -330,6 +330,9 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="toolTip">
+     <string>Closed (polygonal or loop) traverse starts and finishes on the same known point.</string>
+    </property>
     <property name="text">
      <string>Closed Traverse</string>
     </property>
@@ -337,7 +340,7 @@
      <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
-   <widget class="QRadioButton" name="LoopRadio">
+   <widget class="QRadioButton" name="LinkRadio">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -352,8 +355,11 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="toolTip">
+     <string>A closed link traverse joins two known points.</string>
+    </property>
     <property name="text">
-     <string>Loop Traverse</string>
+     <string>Link Traverse</string>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">buttonGroup</string>
@@ -374,30 +380,11 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="toolTip">
+     <string>An open (free) traverse starts on a known point and finishes on an unknown point.</string>
+    </property>
     <property name="text">
      <string>Open Traverse</string>
-    </property>
-    <attribute name="buttonGroup">
-     <string notr="true">buttonGroup</string>
-    </attribute>
-   </widget>
-   <widget class="QRadioButton" name="BeillesztettRadio">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>120</y>
-      <width>201</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="text">
-     <string>Beillesztett Traverse</string>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">buttonGroup</string>
@@ -518,9 +505,8 @@
  </widget>
  <tabstops>
   <tabstop>ClosedRadio</tabstop>
-  <tabstop>LoopRadio</tabstop>
+  <tabstop>LinkRadio</tabstop>
   <tabstop>OpenRadio</tabstop>
-  <tabstop>BeillesztettRadio</tabstop>
   <tabstop>StartPointComboBox</tabstop>
   <tabstop>EndPointComboBox</tabstop>
   <tabstop>AddButton</tabstop>
