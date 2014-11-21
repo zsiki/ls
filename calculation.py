@@ -74,8 +74,8 @@ class Calculation(object):
                 ref[4].get_angle("DMS"), ref[5].get_angle("DMS"), \
                 ref[3].get_angle("DMS"), ref[2], int(e), emax, E)
             if math.fabs(e) > emax:
-                QMessageBox.warning(self,u"Warning",u"Direction error over limit: %s - %s" % \
-                                    (st.p.id, ref[1].point_id))
+                cls.log += u"Direction error over limit: %s - %s\n" % \
+                                    (st.p.id, ref[1].point_id)
         cls.log +="%-47s %s\n" % ("Average orientation angle",ref[3].get_angle("DMS"))
         
         return Angle(za)
@@ -131,8 +131,8 @@ class Calculation(object):
         pp.pc = pc
         return pp
 
-    @staticmethod
-    def resection(st, p1, p2, p3, obs1, obs2, obs3):
+    @classmethod
+    def resection(cls, st, p1, p2, p3, obs1, obs2, obs3):
         """
             Calculate resection
             :param st: station (Station)
@@ -144,6 +144,7 @@ class Calculation(object):
             :param obs3: observation from st to p3 (PolarObservation)
             :return coordinates of the resection point (st) if it can be calculated; otherwise None
         """
+        cls.log = ""
         try:
             # Calculate angle between obs1 and obs2 and between obs2 and obs3.
             alpha = Angle(obs2.hz.get_angle() - obs1.hz.get_angle()) # alpha
@@ -168,24 +169,21 @@ class Calculation(object):
                 else :
                     p = Point(st.p.id, points[0].e, points[0].n, st.p.z, st.p.pc, st.p.pt)
 
-                log = ResultLog("log.txt")
-                log.write()
-                log.write_log(u"Resection")
-                log.write("Point num  Code                E            N      Direction  Angle")
-                log.write("%-10s %-10s %12.3f %12.3f    %9s %9s" % \
+                cls.log += "Point num  Code                E            N      Direction  Angle\n"
+                cls.log += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
                           (obs1.point_id, obs1.pc, p1.e, p1.n, \
-                           obs1.hz.get_angle("DMS"), alpha.get_angle("DMS") ))
-                log.write("%-10s %-10s %12.3f %12.3f    %9s %9s" % \
+                           obs1.hz.get_angle("DMS"), alpha.get_angle("DMS") )
+                cls.log += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
                           (obs2.point_id, obs2.pc, p2.e, p2.n, \
-                           obs2.hz.get_angle("DMS"), beta.get_angle("DMS") ))
-                log.write("%-10s %-10s %12.3f %12.3f    %9s" % \
+                           obs2.hz.get_angle("DMS"), beta.get_angle("DMS") )
+                cls.log += "%-10s %-10s %12.3f %12.3f    %9s\n" % \
                           (obs3.point_id, obs3.pc, p3.e, p3.n, \
-                           obs3.hz.get_angle("DMS") ))
-                log.write("%-10s %-10s %12.3f %12.3f" % \
-                          (p.id, p.pc, p.e, p.n) )
+                           obs3.hz.get_angle("DMS") )
+                cls.log += "%-10s %-10s %12.3f %12.3f\n" % \
+                          (p.id, p.pc, p.e, p.n)
                 return p
             else:
-                QMessageBox.warning(self,u"Warning",u"I cannot calculate coordinates")
+                cls.log += u"I cannot calculate coordinates"
                 return None
         except (ValueError, TypeError):
             return None

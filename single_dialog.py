@@ -242,18 +242,23 @@ class SingleDialog(QDialog):
                 if p is not None:
                     # log results of orientation?
                     if log_header is False:
-                        log = ResultLog("log.txt")
-                        log.write()
-                        log.write_log(u"Radial Survey")
-                        log.write("Point num  Code                E            N           Z")
+                        self.ui.ResultTextBrowser.append(u"\nRadial Survey")
+                        self.ui.ResultTextBrowser.append("Point num  Code                E            N           Z")
+                        self.log.write()
+                        self.log.write_log(u"Radial Survey")
+                        self.log.write("Point num  Code                E            N           Z")
                         log_header = True
                     tp.set_coord(p)
                     if p.z is None:
                         # no z calculated
-                        log.write("%-10s %-10s %12.3f %12.3f" % (p.id,p.pc,p.e,p.n))
+                        log_txt = "%-10s %-10s %12.3f %12.3f" % (p.id,p.pc,p.e,p.n)
+                        self.ui.ResultTextBrowser.append(log_txt)
+                        self.log.write(log_txt)
                         tp.store_coord(2)
                     else:
-                        log.write("%-10s %-10s %12.3f %12.3f    %8.3f" % (p.id,p.pc,p.e,p.n,p.z))
+                        log_txt = "%-10s %-10s %12.3f %12.3f    %8.3f" % (p.id,p.pc,p.e,p.n,p.z)
+                        self.ui.ResultTextBrowser.append(log_txt)
+                        self.log.write(log_txt)
                         tp.store_coord(3)
             pass
         elif self.ui.IntersectRadio.isChecked():
@@ -276,6 +281,12 @@ class SingleDialog(QDialog):
             tp3 = ScPoint(targetp3[0])            
             p = Calculation.resection(s, tp1, tp2, tp3, to1, to2, to3)
             ScPoint(p).store_coord(2)
+            # result log
+            self.ui.ResultTextBrowser.append(u"Resection")
+            self.ui.ResultTextBrowser.append(Calculation.log)
+            self.log.write()
+            self.log.write_log(u"Resection")
+            self.log.write(Calculation.log)
         elif self.ui.FreeRadio.isChecked():
             pass
         
