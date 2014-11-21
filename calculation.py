@@ -60,7 +60,6 @@ class Calculation(object):
             za = za + math.pi * 2
         
         # log results of orientation?
-        cls.log += "Point num  Code         Direction    Bearing   Orient ang   Distance   e\" e\"max   E(m)\n"
         for ref in ref_list:
             emax = int(24.0 / math.sqrt( ref[2] / 1000.0))
             e = ref[3].get_angle("SEC") - Angle(za).get_angle("SEC")
@@ -80,14 +79,15 @@ class Calculation(object):
         
         return Angle(za)
 
-    @staticmethod
-    def polarpoint(st, obs):
+    @classmethod
+    def polarpoint(cls, st, obs):
         """
             Calculate coordinates of a point measured by an independent radial measurement
             :param st: station (Station)
             :param obs: observation from station to the unknown point (PolarObservation)
             :return the polar point with new coordinates (Point)
         """
+        cls.log = ""
         try:
             # Calculate the bearing angle between the station and new point.
             b = st.o.hz.get_angle() + obs.hz.get_angle()
@@ -100,12 +100,20 @@ class Calculation(object):
                     z = z - obs.th 
             else:
                 z = None
-            return Point(obs.point_id, e, n, z, obs.pc)
+            p = Point(obs.point_id, e, n, z, obs.pc)
+            if p.z is None:
+                # no z calculated
+                cls.log += "%-10s %-10s %12.3f %12.3f" % \
+                        (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n)
+            else:
+                cls.log += "%-10s %-10s %12.3f %12.3f    %8.3f" % \
+                        (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n,p.z)
+            return p
         except (ValueError, TypeError, AttributeError):
             return None
 
-    @staticmethod
-    def intersection(s1, obs1, s2, obs2):
+    @classmethod
+    def intersection(cls, s1, obs1, s2, obs2):
         """
             Calculate intersection
             :param s1: station 1 (Station)
@@ -113,6 +121,7 @@ class Calculation(object):
             :param s2: station 2 (Station)
             :param obs2: observation from station 2 (PolarObservation)
         """
+        cls.log = ""
         # If the two observation are the same.
         if obs1.point_id != obs2.point_id:
             return None
@@ -129,6 +138,8 @@ class Calculation(object):
             pc = obs1.pc
         pp.id = obs1.point_id
         pp.pc = pc
+        cls.log += "%-10s %-10s %12.3f %12.3f\n" % \
+                  (pp.id, (pp.pc if pp.pc is not None else "-"), pp.e, pp.n)
         return pp
 
     @classmethod
@@ -169,7 +180,6 @@ class Calculation(object):
                 else :
                     p = Point(st.p.id, points[0].e, points[0].n, st.p.z, st.p.pc, st.p.pt)
 
-                cls.log += "Point num  Code                E            N      Direction  Angle\n"
                 cls.log += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
                           (obs1.point_id, (obs1.pc if obs1.pc is not None else "-"), p1.e, p1.n, \
                            obs1.hz.get_angle("DMS"), alpha.get_angle("DMS") )
@@ -183,13 +193,12 @@ class Calculation(object):
                           (p.id, p.pc, p.e, p.n)
                 return p
             else:
-                cls.log += u"I cannot calculate coordinates"
                 return None
         except (ValueError, TypeError):
             return None
 
-    @staticmethod
-    def traverse(trav_obs, forceFree=False):
+    @classmethod
+    def traverse(cls, trav_obs, forceFree=False):
         """
             Calculate traverse line. This method can compute the following types of travesres>
             1. open traverse (free): originates at a known position with known bearings and ends at an unknown position
@@ -205,6 +214,7 @@ class Calculation(object):
             :param forceFree force free traverse calculation (for node)
             :return a list of points which's coordinates has been computed.
         """
+        cls.log = ""
         n = len(trav_obs)
         # at least 3 points must be
         if n<3:

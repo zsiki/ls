@@ -125,24 +125,35 @@ class SingleDialog(QDialog):
             targets = get_targets(stn1[0], stn1[1], stn1[2],False)
         elif stn1 is not None and stn2 is not None and \
                 self.ui.IntersectRadio.isChecked():
+            # fill source list for intersection (common points)
             targets_stn1 = get_targets(stn1[0], stn1[1], stn1[2],False)
             targets_stn2 = get_targets(stn2[0], stn2[1], stn2[2],False)
-            #TODO fill source list for intersection (common points)
-            #for t1 in targets_stn1:
-            #    for t2 in targets_stn2:
-            #        if t1.point_id == t2.point_id:
-            #            targets.append(t1)
+            for t1 in targets_stn1:
+                for t2 in targets_stn2:
+                    if t1[0] == t2[0]:
+                        if not t1[0] in targets:
+                            targets.append([t1,t2])
+                        break
             
         # fill source list widget
         known_list = get_known()
         if targets is not None:
             for target in targets:
-                item = QListWidgetItem(u"%s (id:%s)"% (target[0],target[2]) )
-                item.setData(Qt.UserRole,target)
-                if target[0] in known_list:
-                    itemfont = item.font()
-                    itemfont.setWeight(QFont.Bold)
-                    item.setFont(itemfont)
+                if self.ui.IntersectRadio.isChecked():
+                    item = QListWidgetItem(target[0][0])
+                    item.setData(Qt.UserRole,target)
+                    item.setData(Qt.UserRole,target)
+                    if target[0][0] in known_list:
+                        itemfont = item.font()
+                        itemfont.setWeight(QFont.Bold)
+                        item.setFont(itemfont)
+                else:
+                    item = QListWidgetItem(u"%s (id:%s)"% (target[0],target[2]) )
+                    item.setData(Qt.UserRole,target)
+                    if target[0] in known_list:
+                        itemfont = item.font()
+                        itemfont.setWeight(QFont.Bold)
+                        item.setFont(itemfont)
                 self.ui.SourceList.addItem( item )
 
     def radioClicked(self):
@@ -225,9 +236,11 @@ class SingleDialog(QDialog):
             if z is not None:
                 set_orientationangle(stn1[0], stn1[1], stn1[2], z.get_angle("GON"))
                 self.ui.ResultTextBrowser.append(u"\nOrientation - %s" % s.p.id)
+                self.ui.ResultTextBrowser.append("Point num  Code         Direction    Bearing   Orient ang   Distance   e\" e\"max   E(m)")
                 self.ui.ResultTextBrowser.append(Calculation.log)
                 self.log.write()
                 self.log.write_log(u"Orientation - %s" % s.p.id)
+                self.log.write("Point num  Code         Direction    Bearing   Orient ang   Distance   e\" e\"max   E(m)")
                 self.log.write(Calculation.log)
             else:
                 QMessageBox.warning(self,u"Warning",u"Orientation angle cannot be calculated!")
@@ -242,32 +255,74 @@ class SingleDialog(QDialog):
                 tp = ScPoint(targetp[0])
                 p = Calculation.polarpoint(s, to)
                 if p is not None:
-                    # log results of orientation?
+                    # log results
                     if log_header is False:
                         self.ui.ResultTextBrowser.append(u"\nRadial Survey")
                         self.ui.ResultTextBrowser.append("Point num  Code                E            N           Z")
                         self.log.write()
                         self.log.write_log(u"Radial Survey")
                         self.log.write("Point num  Code                E            N           Z")
+                        log_stn = "%-10s %-10s %12.3f %12.3f    %8.3f    %s" % \
+                            (s.p.id, (s.p.pc if s.p.pc is not None else "-"), s.p.e, s.p.n, \
+                            s.p.z, s.o.hz.get_angle("DMS"))
+                        self.log.write(log_stn)
+                        self.ui.ResultTextBrowser.append(log_stn)
                         log_header = True
                     tp.set_coord(p)
                     if p.z is None:
                         # no z calculated
-                        log_txt = "%-10s %-10s %12.3f %12.3f" % \
-                                (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n)
-                        self.ui.ResultTextBrowser.append(log_txt)
-                        self.log.write(log_txt)
+                        self.ui.ResultTextBrowser.append(Calculation.log)
+                        self.log.write(Calculation.log)
                         tp.store_coord(2)
                     else:
-                        log_txt = "%-10s %-10s %12.3f %12.3f    %8.3f" % \
-                                (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n,p.z)
-                        self.ui.ResultTextBrowser.append(log_txt)
-                        self.log.write(log_txt)
+                        self.ui.ResultTextBrowser.append(Calculation.log)
+                        self.log.write(Calculation.log)
                         tp.store_coord(3)
+                else:
+                    QMessageBox.warning(self,u"Warning",u"Radial survey on %s cannot be calculated!"%targetp[0])
 
         elif self.ui.IntersectRadio.isChecked():
             # intersection
-            pass
+            s1 = get_station(stn1[0], stn1[1], stn1[2])
+            s2 = get_station(stn2[0], stn2[1], stn2[2])
+            if stn1 == stn2:
+                QMessageBox.warning(self,u"Warning",u"Stqtion 1 and station 2 are the same!")
+                self.ui.Station1Combo.setFocus()
+                return
+            log_header = False
+            for i in range(self.ui.TargetList.count()):
+                itemdata = self.ui.TargetList.item(i).data(Qt.UserRole)
+                targetp1 = itemdata[0]
+                targetp2 = itemdata[1]
+                to1 = get_target(targetp1[0], targetp1[1], targetp1[2])
+                tp1 = ScPoint(targetp1[0])
+                to2 = get_target(targetp2[0], targetp2[1], targetp2[2])
+                #tp2 = ScPoint(targetp2[0])
+                p = Calculation.intersection(s1, to1, s2, to2)
+                if p is not None:
+                    # log results
+                    if log_header is False:
+                        self.ui.ResultTextBrowser.append(u"\nIntersection")
+                        self.ui.ResultTextBrowser.append("Point num  Code                E            N     Bearing")
+                        self.log.write()
+                        self.log.write_log(u"Intersection")
+                        self.log.write("Point num  Code                E            N     Bearing")
+
+                        log_stn = "%-10s %-10s %12.3f %12.3f   %s\n" % \
+                            (s1.p.id, (s1.p.pc if s1.p.pc is not None else "-"), s1.p.e, s1.p.n, \
+                            s1.o.hz.get_angle("DMS") )
+                        log_stn += "%-10s %-10s %12.3f %12.3f   %s" % \
+                            (s2.p.id, (s2.p.pc if s2.p.pc is not None else "-"), s2.p.e, s2.p.n, \
+                            s2.o.hz.get_angle("DMS") )
+                        self.log.write(log_stn)
+                        self.ui.ResultTextBrowser.append(log_stn)
+                        log_header = True
+                    tp1.set_coord(p)
+                    tp1.store_coord(2)
+                    self.ui.ResultTextBrowser.append(Calculation.log)
+                    self.log.write(Calculation.log)
+                else:
+                    QMessageBox.warning(self,u"Warning",u"Intersecion on %s cannot be calculated!"%targetp1[0])
 
         elif self.ui.ResectionRadio.isChecked():
             # resection
@@ -288,10 +343,12 @@ class SingleDialog(QDialog):
             p = Calculation.resection(s, tp1, tp2, tp3, to1, to2, to3)
             ScPoint(p).store_coord(2)
             # result log
-            self.ui.ResultTextBrowser.append(u"Resection")
+            self.ui.ResultTextBrowser.append(u"\nResection")
+            self.ui.ResultTextBrowser.append(u"Point num  Code                E            N      Direction  Angle")
             self.ui.ResultTextBrowser.append(Calculation.log)
             self.log.write()
             self.log.write_log(u"Resection")
+            self.log.write(u"Point num  Code                E            N      Direction  Angle")
             self.log.write(Calculation.log)
         elif self.ui.FreeRadio.isChecked():
             # fre station
