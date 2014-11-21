@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'traverse_calc.ui'
 #
-# Created: Tue Nov 18 19:59:43 2014
-#      by: PyQt4 UI code generator 4.8.3
+# Created: Fri Nov 21 23:43:24 2014
+#      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_TraverseCalcDialog(object):
     def setupUi(self, TraverseCalcDialog):
@@ -158,6 +167,9 @@ class Ui_TraverseCalcDialog(object):
         sizePolicy.setHeightForWidth(self.ClosedRadio.sizePolicy().hasHeightForWidth())
         self.ClosedRadio.setSizePolicy(sizePolicy)
         self.ClosedRadio.setObjectName(_fromUtf8("ClosedRadio"))
+        self.buttonGroup = QtGui.QButtonGroup(TraverseCalcDialog)
+        self.buttonGroup.setObjectName(_fromUtf8("buttonGroup"))
+        self.buttonGroup.addButton(self.ClosedRadio)
         self.LoopRadio = QtGui.QRadioButton(self.RadioGroup)
         self.LoopRadio.setGeometry(QtCore.QRect(10, 60, 161, 20))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
@@ -166,6 +178,7 @@ class Ui_TraverseCalcDialog(object):
         sizePolicy.setHeightForWidth(self.LoopRadio.sizePolicy().hasHeightForWidth())
         self.LoopRadio.setSizePolicy(sizePolicy)
         self.LoopRadio.setObjectName(_fromUtf8("LoopRadio"))
+        self.buttonGroup.addButton(self.LoopRadio)
         self.OpenRadio = QtGui.QRadioButton(self.RadioGroup)
         self.OpenRadio.setGeometry(QtCore.QRect(10, 90, 171, 17))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
@@ -174,6 +187,7 @@ class Ui_TraverseCalcDialog(object):
         sizePolicy.setHeightForWidth(self.OpenRadio.sizePolicy().hasHeightForWidth())
         self.OpenRadio.setSizePolicy(sizePolicy)
         self.OpenRadio.setObjectName(_fromUtf8("OpenRadio"))
+        self.buttonGroup.addButton(self.OpenRadio)
         self.BeillesztettRadio = QtGui.QRadioButton(self.RadioGroup)
         self.BeillesztettRadio.setGeometry(QtCore.QRect(10, 120, 201, 17))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
@@ -182,6 +196,7 @@ class Ui_TraverseCalcDialog(object):
         sizePolicy.setHeightForWidth(self.BeillesztettRadio.sizePolicy().hasHeightForWidth())
         self.BeillesztettRadio.setSizePolicy(sizePolicy)
         self.BeillesztettRadio.setObjectName(_fromUtf8("BeillesztettRadio"))
+        self.buttonGroup.addButton(self.BeillesztettRadio)
         self.CloseButton = QtGui.QPushButton(TraverseCalcDialog)
         self.CloseButton.setGeometry(QtCore.QRect(650, 420, 81, 23))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
@@ -249,24 +264,24 @@ class Ui_TraverseCalcDialog(object):
         TraverseCalcDialog.setTabOrder(self.ResetButton, self.CloseButton)
 
     def retranslateUi(self, TraverseCalcDialog):
-        self.EndpointsGroup.setTitle(QtGui.QApplication.translate("TraverseCalcDialog", "Endpoints", None, QtGui.QApplication.UnicodeUTF8))
-        self.StartPointLabel.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Start Point", None, QtGui.QApplication.UnicodeUTF8))
-        self.EndPointLabel.setText(QtGui.QApplication.translate("TraverseCalcDialog", "End Point", None, QtGui.QApplication.UnicodeUTF8))
-        self.PointsGroup.setTitle(QtGui.QApplication.translate("TraverseCalcDialog", "Points", None, QtGui.QApplication.UnicodeUTF8))
-        self.AddButton.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Add >", None, QtGui.QApplication.UnicodeUTF8))
-        self.RemoveButton.setText(QtGui.QApplication.translate("TraverseCalcDialog", "< Remove", None, QtGui.QApplication.UnicodeUTF8))
-        self.TargetPointsLabel.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Target Points", None, QtGui.QApplication.UnicodeUTF8))
-        self.OrderPointsLabel.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Order of Points", None, QtGui.QApplication.UnicodeUTF8))
-        self.UpButton.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Up", None, QtGui.QApplication.UnicodeUTF8))
-        self.DownButton.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Down", None, QtGui.QApplication.UnicodeUTF8))
-        self.RadioGroup.setTitle(QtGui.QApplication.translate("TraverseCalcDialog", "Type", None, QtGui.QApplication.UnicodeUTF8))
-        self.ClosedRadio.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Closed Traverse", None, QtGui.QApplication.UnicodeUTF8))
-        self.LoopRadio.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Loop Traverse", None, QtGui.QApplication.UnicodeUTF8))
-        self.OpenRadio.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Open Traverse", None, QtGui.QApplication.UnicodeUTF8))
-        self.BeillesztettRadio.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Beillesztett Traverse", None, QtGui.QApplication.UnicodeUTF8))
-        self.CloseButton.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Close", None, QtGui.QApplication.UnicodeUTF8))
-        self.ResultGroup.setTitle(QtGui.QApplication.translate("TraverseCalcDialog", "Result of Traverse Calculations", None, QtGui.QApplication.UnicodeUTF8))
-        self.HelpButton.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Help", None, QtGui.QApplication.UnicodeUTF8))
-        self.CalcButton.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Calculate", None, QtGui.QApplication.UnicodeUTF8))
-        self.ResetButton.setText(QtGui.QApplication.translate("TraverseCalcDialog", "Reset", None, QtGui.QApplication.UnicodeUTF8))
+        self.EndpointsGroup.setTitle(_translate("TraverseCalcDialog", "Endpoints", None))
+        self.StartPointLabel.setText(_translate("TraverseCalcDialog", "Start Point", None))
+        self.EndPointLabel.setText(_translate("TraverseCalcDialog", "End Point", None))
+        self.PointsGroup.setTitle(_translate("TraverseCalcDialog", "Points", None))
+        self.AddButton.setText(_translate("TraverseCalcDialog", "Add >", None))
+        self.RemoveButton.setText(_translate("TraverseCalcDialog", "< Remove", None))
+        self.TargetPointsLabel.setText(_translate("TraverseCalcDialog", "Target Points", None))
+        self.OrderPointsLabel.setText(_translate("TraverseCalcDialog", "Order of Points", None))
+        self.UpButton.setText(_translate("TraverseCalcDialog", "Up", None))
+        self.DownButton.setText(_translate("TraverseCalcDialog", "Down", None))
+        self.RadioGroup.setTitle(_translate("TraverseCalcDialog", "Type", None))
+        self.ClosedRadio.setText(_translate("TraverseCalcDialog", "Closed Traverse", None))
+        self.LoopRadio.setText(_translate("TraverseCalcDialog", "Loop Traverse", None))
+        self.OpenRadio.setText(_translate("TraverseCalcDialog", "Open Traverse", None))
+        self.BeillesztettRadio.setText(_translate("TraverseCalcDialog", "Beillesztett Traverse", None))
+        self.CloseButton.setText(_translate("TraverseCalcDialog", "Close", None))
+        self.ResultGroup.setTitle(_translate("TraverseCalcDialog", "Result of Traverse Calculations", None))
+        self.HelpButton.setText(_translate("TraverseCalcDialog", "Help", None))
+        self.CalcButton.setText(_translate("TraverseCalcDialog", "Calculate", None))
+        self.ResetButton.setText(_translate("TraverseCalcDialog", "Reset", None))
 
