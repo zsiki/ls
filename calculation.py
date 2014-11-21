@@ -28,6 +28,7 @@ class Calculation(object):
             :return average orientation angle (Angle)
                 None if no reference direction at all or in case of error
         """
+        cls.log = ""
         sz = 0
         cz = 0
         sd = 0
@@ -59,7 +60,6 @@ class Calculation(object):
             za = za + math.pi * 2
         
         # log results of orientation?
-        cls.log += u"\nOrientation - %s\n" % st.p.id
         cls.log += "Point num  Code         Direction    Bearing   Orient ang   Distance   e\" e\"max   E(m)\n"
         for ref in ref_list:
             emax = int(24.0 / math.sqrt( ref[2] / 1000.0))

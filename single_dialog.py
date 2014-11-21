@@ -3,9 +3,6 @@ from PyQt4.QtCore import Qt, QVariant
 # debugging
 #from PyQt4.QtCore import pyqtRemoveInputHook
 #import pdb
-#import sys
-#sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
-#import pydevd
 
 from single_calc import Ui_SingleCalcDialog
 from surveying_util import *
@@ -16,11 +13,12 @@ class SingleDialog(QDialog):
     """
         Class for single point calculation dialog (intersection, resection, ...)
     """
-    def __init__(self):
+    def __init__(self, log):
         super(SingleDialog, self).__init__()
         self.ui = Ui_SingleCalcDialog()
         self.ui.setupUi(self)
-        
+        self.log = log
+
         # event handlers
         self.ui.OrientRadio.toggled.connect(self.radioClicked)
         self.ui.RadialRadio.toggled.connect(self.radioClicked)
@@ -41,7 +39,6 @@ class SingleDialog(QDialog):
         """
             Reset dialog when receives a show event.
         """
-        #pydevd.settrace()
         self.reset()
         
     def reset(self):
@@ -227,6 +224,13 @@ class SingleDialog(QDialog):
             z = Calculation.orientation(s, ref_list)
             if z is not None:
                 set_orientationangle(stn1[0], stn1[1], stn1[2], z.get_angle("GON"))
+                self.ui.ResultTextBrowser.append(u"\nOrientation - %s" % s.p.id)
+                self.ui.ResultTextBrowser.append(Calculation.log)
+                self.log.write()
+                self.log.write_log(u"Orientation - %s" % s.p.id)
+                self.log.write(Calculation.log)
+            else:
+                QMessageBox.warning(self,u"Warning",u"Orientation angle cannot be calculated!")
         elif self.ui.RadialRadio.isChecked():
             s = get_station(stn1[0], stn1[1], stn1[2])
             log_header = False
