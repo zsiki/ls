@@ -18,7 +18,6 @@ class NetworkDialog(QDialog):
         self.points = []
         self.fix = []
         self.adj = []
-        # set original state
         # event handling
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
         self.ui.ResetButton.clicked.connect(self.onResetButton)
@@ -30,7 +29,8 @@ class NetworkDialog(QDialog):
 
 
     def showEvent(self, event):
-        """ set up initial state of dialog
+        """
+            set up initial state of dialog
         """
         self.reset()
 
