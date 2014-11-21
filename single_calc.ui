@@ -77,7 +77,7 @@
      <string>Orientation</string>
     </property>
     <attribute name="buttonGroup">
-     <string>radioButtonGroup</string>
+     <string notr="true">radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="RadialRadio">
@@ -99,7 +99,7 @@
      <string>Radial Survey</string>
     </property>
     <attribute name="buttonGroup">
-     <string>radioButtonGroup</string>
+     <string notr="true">radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="IntersectRadio">
@@ -121,7 +121,7 @@
      <string>Intersection</string>
     </property>
     <attribute name="buttonGroup">
-     <string>radioButtonGroup</string>
+     <string notr="true">radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ResectionRadio">
@@ -143,7 +143,7 @@
      <string>Resection</string>
     </property>
     <attribute name="buttonGroup">
-     <string>radioButtonGroup</string>
+     <string notr="true">radioButtonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="FreeRadio">
@@ -165,7 +165,7 @@
      <string>Free Station</string>
     </property>
     <attribute name="buttonGroup">
-     <string>radioButtonGroup</string>
+     <string notr="true">radioButtonGroup</string>
     </attribute>
    </widget>
   </widget>
@@ -372,6 +372,11 @@
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Courier New</family>
+     </font>
     </property>
    </widget>
   </widget>
