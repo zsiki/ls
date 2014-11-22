@@ -246,10 +246,6 @@ class JobAre(TotalStation):
                 # target point id
                 self.res['point_id'] = buf[1].strip()
                 if len(ret):
-                    # do not add station if no observations
-                    if not 'station' in ret and \
-                        ('hz' in ret or 'v' in ret or 'sd' in ret):
-                        ret['station'] = None
                     return ret
             elif item_code == '6':
                 # target height
@@ -257,12 +253,15 @@ class JobAre(TotalStation):
             elif item_code == '7' or item_code == '21':
                 # horizontal angle
                 self.res['hz'] = Angle(float(buf[1]), self.angle_unit).get_angle('GON')
+                self.res['station'] = None
             elif item_code == '8':
                 # zenit angle
                 self.res['v'] = Angle(float(buf[1]), self.angle_unit).get_angle('GON')
+                self.res['station'] = None
             elif item_code == '9':
                 # slope distance
                 self.res['sd'] = float(buf[1].strip())
+                self.res['station'] = None
             elif item_code == '10':
                 # vertical distance
                 self.res['vd'] = float(buf[1].strip())
