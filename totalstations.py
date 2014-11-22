@@ -208,6 +208,16 @@ class JobAre(TotalStation):
         self.distance_unit = 'm'
         self.res = {}
 
+    def dist_conv(self, dist):
+        """
+            Convert distance/coordinate to meter using distance_unit
+            :param dist: value to convert
+        """
+        if self.distance_unit == 'f':
+            return dist * FOOT2M
+        else:
+            return dist
+
     def parse_next(self):
         """
             parse an observation/station from input
@@ -236,7 +246,7 @@ class JobAre(TotalStation):
                     return ret
             elif item_code == '3':
                 # instrument height
-                self.res['th'] = float(buf[1].strip())
+                self.res['th'] = self.dist_conv(float(buf[1].strip()))
             elif item_code == '4':
                 # point code
                 self.res['code'] = buf[1].strip()
@@ -249,7 +259,7 @@ class JobAre(TotalStation):
                     return ret
             elif item_code == '6':
                 # target height
-                self.res['th'] = float(buf[1].strip())
+                self.res['th'] = self.dist_conv(float(buf[1].strip()))
             elif item_code == '7' or item_code == '21':
                 # horizontal angle
                 self.res['hz'] = Angle(float(buf[1]), self.angle_unit).get_angle('GON')
@@ -260,24 +270,28 @@ class JobAre(TotalStation):
                 self.res['station'] = None
             elif item_code == '9':
                 # slope distance
-                self.res['sd'] = float(buf[1].strip())
+                self.res['sd'] = self.dist_conv(float(buf[1].strip()))
                 self.res['station'] = None
             elif item_code == '10':
                 # vertical distance
-                self.res['vd'] = float(buf[1].strip())
+                self.res['vd'] = self.dist_conv(float(buf[1].strip()))
             elif item_code == '11':
                 # horizontal distance stored as slope 
-                self.res['sd'] = float(buf[1].strip())
+                self.res['sd'] = self.dist_conv(float(buf[1].strip()))
                 self.res['v'] = Angle(90, 'DEG').get_angle('GON')
+            elif item_code == '23':
+                # units
+                self.angle_unit = { '1': 'GON', '2': 'DMS', '3': 'DEG', '4': 'MIL'}[buf[3]]
+                self.distance_unit = { '1': 'm', '2': 'f'}[buf[2:3]]
             elif item_code == '37':
                 # northing
-                self.res['station_n'] = float(buf[1].strip())
+                self.res['station_n'] = self.dist_conv(float(buf[1].strip()))
             elif item_code == '38':
                 # easting
-                self.res['station_e'] = float(buf[1].strip())
+                self.res['station_e'] = self.dist_conv(float(buf[1].strip()))
             elif item_code == '39':
                 # elevation
-                self.res['station_z'] = float(buf[1].strip())
+                self.res['station_z'] = self.dist_conv(float(buf[1].strip()))
 
 class Sdr(TotalStation):
     """
