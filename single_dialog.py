@@ -1,4 +1,5 @@
-from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox
+from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox,\
+    QStandardItemModel, QStandardItem
 from PyQt4.QtCore import Qt, QVariant
 # debugging
 #from PyQt4.QtCore import pyqtRemoveInputHook
@@ -77,22 +78,28 @@ class SingleDialog(QDialog):
         self.ui.Station2Combo.clear()
         self.ui.Station1Combo.setEnabled(False)
         self.ui.Station2Combo.setEnabled(False)
+        
+        #get combobox models
+        combomodel1 = self.ui.Station1Combo.model()
+        combomodel2 = self.ui.Station2Combo.model()
 
         #get stations        
         known_stations = get_stations(True,False)
         all_stations = get_stations(False,False)
         oriented_stations = get_stations(True,True)
-        # fill Station1Combo and Station2Combo      
+        # fill Station1Combo and Station2Combo
+        stations1 = []      
+        stations2 = []      
         if known_stations is not None and self.ui.OrientRadio.isChecked():
             for stn in known_stations:
-                self.ui.Station1Combo.addItem( u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn )
+                stations1.append( [u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn] )
             self.ui.Station1Combo.setEnabled(True)
         elif oriented_stations is not None and (self.ui.RadialRadio.isChecked() or \
                 self.ui.IntersectRadio.isChecked()):
             for stn in oriented_stations:
-                self.ui.Station1Combo.addItem( u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn )
+                stations1.append( [u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn] )
                 if self.ui.IntersectRadio.isChecked():
-                    self.ui.Station2Combo.addItem( u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn )
+                    stations2.append( [u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn] )
             self.ui.Station1Combo.setEnabled(True)
             if self.ui.IntersectRadio.isChecked():
                 self.ui.Station2Combo.setEnabled(True)
@@ -100,7 +107,27 @@ class SingleDialog(QDialog):
                 self.ui.FreeRadio.isChecked()):
             self.ui.Station1Combo.setEnabled(True)
             for stn in all_stations:
-                self.ui.Station1Combo.addItem( u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn )
+                stations1.append( [u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn] )
+
+        known_points = get_known()
+        if stations1 is not None:
+            for station in stations1:
+                item = QStandardItem(station[0])
+                item.setData(station[1],Qt.UserRole)
+                if station[1][0] in known_points:
+                    itemfont = item.font()
+                    itemfont.setWeight(QFont.Bold)
+                    item.setFont(itemfont)
+                combomodel1.appendRow( item )
+        if self.ui.IntersectRadio.isChecked() and stations2 is not None:
+            for station in stations2:
+                item = QStandardItem(station[0])
+                item.setData(station[1],Qt.UserRole)
+                if station[1][0] in known_points:
+                    itemfont = item.font()
+                    itemfont.setWeight(QFont.Bold)
+                    item.setFont(itemfont)
+                combomodel2.appendRow( item )
                 
         # select previously selected stations if present in the list
         self.ui.Station1Combo.setCurrentIndex( self.ui.Station1Combo.findData(oldStation1) )
@@ -141,7 +168,6 @@ class SingleDialog(QDialog):
             for target in targets:
                 if self.ui.IntersectRadio.isChecked():
                     item = QListWidgetItem(target[0][0])
-                    item.setData(Qt.UserRole,target)
                     item.setData(Qt.UserRole,target)
                     if target[0][0] in known_list:
                         itemfont = item.font()
@@ -258,15 +284,16 @@ class SingleDialog(QDialog):
                     # log results
                     if log_header is False:
                         self.ui.ResultTextBrowser.append(u"\nRadial Survey")
-                        self.ui.ResultTextBrowser.append("Point num  Code                E            N           Z")
+                        self.ui.ResultTextBrowser.append("Point num  Code                E            N           Z    ")
                         self.log.write()
                         self.log.write_log(u"Radial Survey")
-                        self.log.write("Point num  Code                E            N           Z")
-                        log_stn = "%-10s %-10s %12.3f %12.3f    %8.3f    %s" % \
-                            (s.p.id, (s.p.pc if s.p.pc is not None else "-"), s.p.e, s.p.n, \
-                            s.p.z, s.o.hz.get_angle("DMS"))
-                        self.log.write(log_stn)
-                        self.ui.ResultTextBrowser.append(log_stn)
+                        self.log.write("Point num  Code                E            N           Z    ")
+                        #log_stn = "%-10s %-10s %12.3f %12.3f %12s %s" % \
+                        #    (s.p.id, (s.p.pc if s.p.pc is not None else "-"), s.p.e, s.p.n, \
+                        #    ("%8.3f"%s.p.z if s.p.z is not None and not s.p.z.isNull() else ""), \
+                        #    s.o.hz.get_angle("DMS") )
+                        #self.log.write(log_stn)
+                        #self.ui.ResultTextBrowser.append(log_stn)
                         log_header = True
                     tp.set_coord(p)
                     if p.z is None:
@@ -286,7 +313,7 @@ class SingleDialog(QDialog):
             s1 = get_station(stn1[0], stn1[1], stn1[2])
             s2 = get_station(stn2[0], stn2[1], stn2[2])
             if stn1 == stn2:
-                QMessageBox.warning(self,u"Warning",u"Stqtion 1 and station 2 are the same!")
+                QMessageBox.warning(self,u"Warning",u"Station 1 and station 2 are the same!")
                 self.ui.Station1Combo.setFocus()
                 return
             log_header = False
@@ -303,19 +330,19 @@ class SingleDialog(QDialog):
                     # log results
                     if log_header is False:
                         self.ui.ResultTextBrowser.append(u"\nIntersection")
-                        self.ui.ResultTextBrowser.append("Point num  Code                E            N     Bearing")
+                        self.ui.ResultTextBrowser.append("Point num  Code                E            N     ")
                         self.log.write()
                         self.log.write_log(u"Intersection")
-                        self.log.write("Point num  Code                E            N     Bearing")
+                        self.log.write("Point num  Code                E            N     ")
 
-                        log_stn = "%-10s %-10s %12.3f %12.3f   %s\n" % \
-                            (s1.p.id, (s1.p.pc if s1.p.pc is not None else "-"), s1.p.e, s1.p.n, \
-                            s1.o.hz.get_angle("DMS") )
-                        log_stn += "%-10s %-10s %12.3f %12.3f   %s" % \
-                            (s2.p.id, (s2.p.pc if s2.p.pc is not None else "-"), s2.p.e, s2.p.n, \
-                            s2.o.hz.get_angle("DMS") )
-                        self.log.write(log_stn)
-                        self.ui.ResultTextBrowser.append(log_stn)
+                        #log_stn = "%-10s %-10s %12.3f %12.3f   %s\n" % \
+                        #    (s1.p.id, (s1.p.pc if s1.p.pc is not None else "-"), s1.p.e, s1.p.n, \
+                        #    s1.o.hz.get_angle("DMS") )
+                        #log_stn += "%-10s %-10s %12.3f %12.3f   %s" % \
+                        #    (s2.p.id, (s2.p.pc if s2.p.pc is not None else "-"), s2.p.e, s2.p.n, \
+                        #    s2.o.hz.get_angle("DMS") )
+                        #self.log.write(log_stn)
+                        #self.ui.ResultTextBrowser.append(log_stn)
                         log_header = True
                     tp1.set_coord(p)
                     tp1.store_coord(2)

@@ -9,7 +9,6 @@
 
 import math
 from base_classes import *
-from PyQt4.QtGui import QMessageBox
 
 class Calculation(object):
     """ container class for all calculations """
@@ -75,7 +74,7 @@ class Calculation(object):
             if math.fabs(e) > emax:
                 cls.log += u"Direction error over limit: %s - %s\n" % \
                                     (st.p.id, ref[1].point_id)
-        cls.log +="%-47s %s\n" % ("Average orientation angle",ref[3].get_angle("DMS"))
+        cls.log +="%-47s %s\n" % ("Average orientation angle",Angle(za).get_angle("DMS"))
         
         return Angle(za)
 
