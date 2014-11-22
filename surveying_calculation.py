@@ -248,7 +248,7 @@ class SurveyingCalculation:
                     'fb_' + os.path.basename(ofname))
             # make a copy of dbf template
             copyfile(os.path.join(self.plugin_dir, 'template', 'fb_template.dbf'), ofname)
-            fb_dbf = QgsVectorLayer(ofname, os.path.basename(ofname), "ogr")
+            fb_dbf = QgsVectorLayer(ofname, os.path.splitext(os.path.basename(ofname))[0], "ogr")
             QgsMapLayerRegistry.instance().addMapLayer(fb_dbf)
             if re.search('\.gsi$', fname, re.IGNORECASE):
                 fb = LeicaGsi(fname)
