@@ -3,7 +3,7 @@
 """
     Basic classes for Land Surveying Plug-in for QGIS
     GPL v2.0 license
-    Copyright (C) 2014-  DgiKom Kft. http://digikom.hu
+    Copyright (C) 2014-  DigiKom Kft. http://digikom.hu
     .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 
@@ -365,7 +365,6 @@ class Circle(object):
         d12 = bearing(p1, p2).get_angle() + math.pi / 2.0
         d23 = bearing(p2, p3).get_angle() + math.pi / 2.0
         return intersecLL( midp12, midp23, d12, d23 )
-
 
 class ResultLog(object):
     """
