@@ -66,7 +66,6 @@ def get_fieldlist(vlayer):
         :return list of fields
     """
     vprovider = vlayer.dataProvider()
-    # feat = QgsFeature()
     allAttrs = vprovider.attributeIndexes()
     vprovider.select(allAttrs)
     myFields = vprovider.fields()
@@ -100,7 +99,18 @@ def get_coord(p):
             continue
         for feat in lay.getFeatures():
             if feat['point_id'] ==  p:
-                return Point(p, feat['e'], feat['n'], feat['z'], feat['pc'], feat['pt'])
+                #return Point(p, feat['e'], feat['n'], feat['z'], feat['pc'], feat['pt'])
+                pp = Point(p)
+                if type(feat['e']) is float and type(feat['n']) is float:
+                    pp.e = feat['e']
+                    pp.n = feat['n']
+                if type(feat['z']) is float:
+                    pp.z = feat['z']
+                if type(feat['pc']) is str:
+                    p.pc = feat['pc']
+                if type(feat['pt']) is str:
+                    p.pt = feat['pt']
+                return pp
     return None
 
 def get_known(dimension=2, clist=None):
@@ -122,9 +132,9 @@ def get_known(dimension=2, clist=None):
         if lay is None:
             continue
         for feat in lay.getFeatures():
-            if (dimension == 1 and feat['z'] != NULL) or \
-               (dimension == 2 and feat['e'] != NULL and feat['n'] != NULL) or \
-               (dimension == 3 and feat['e'] != NULL and feat['n'] != NULL and feat['z'] != NULL):
+            if (dimension == 1 and type(feat['z']) is float) or \
+               (dimension == 2 and type(feat['e']) is float and type(feat['n']) is float) or \
+               (dimension == 3 and type(feat['e']) is float and type(feat['n']) is float and type(feat['z']) is float):
                 if not feat['point_id'] in plist:
                     plist.append(feat['point_id'])
     if len(plist):
@@ -150,10 +160,10 @@ def get_measured(dimension=2):
             pid = feat['point_id']
             p = get_coord(pid)
             if (p is None) or \
-               (dimension == 1 and p.z == NULL) or \
-               (dimension == 2 and (p.e == NULL or p.n == NULL)) or \
-               (dimension == 3 and (p.e == NULL or p.n == NULL or p.z == NULL)):
-               coord = False
+               (dimension == 1 and p.z is None) or \
+               (dimension == 2 and (p.e is None  or p.n is None)) or \
+               (dimension == 3 and (p.e is None or p.n is None or p.z is None)):
+                coord = False
             else:
                 coord = True
             if not pid in found:
@@ -183,9 +193,9 @@ def get_unknown(dimension=2):
             pid = feat['point_id']
             p = get_coord(pid)
             if (p is None) or \
-               (dimension == 1 and p.z == NULL) or \
-               (dimension == 2 and p.e == NULL and p.n == NULL) or \
-               (dimension == 3 and p.e == NULL and p.n == NULL and p.z == NULL):
+               (dimension == 1 and p.z is None) or \
+               (dimension == 2 and (p.e is None or p.n is None)) or \
+               (dimension == 3 and (p.e is None or p.n is None or p.z is None)):
                 if not pid in plist:
                     plist.append(pid)
     if len(plist):
@@ -215,7 +225,7 @@ def get_stations(known=False, oriented=False):
                 if known and known_list is not None and not pid in known_list:
                     # skip unknown points
                     continue
-                if oriented and feat['hz'] == NULL:
+                if oriented and type(feat['hz']) is float:
                     continue
                 fid = feat['id']
                 act = [pid, fb, fid]
@@ -296,19 +306,22 @@ def get_fieldbookrow(point_id, fieldbook, fid):
         return None
     for feat in lay.getFeatures():
         if feat['id'] == fid and feat['point_id'] == point_id:
-            if feat['v']==NULL:
-                dist = Distance(feat['sd'],"HD")
-            elif feat['v']==0.0:    # ???
-                dist = Distance(feat['sd'],"VD")
+            if type(feat['sd']) is float:
+                if type(feat['v']) is not float:
+                    dist = Distance(feat['sd'],"HD")
+                elif feat['v']==0.0:    # ???
+                    dist = Distance(feat['sd'],"VD")
+                else:
+                    dist = Distance(feat['sd'],"SD")
             else:
-                dist = Distance(feat['sd'],"SD")
+                dist = None
             o = PolarObservation(feat['point_id'],
-                                 (feat['station'] if feat['station']!=NULL else None),
-                                 (Angle(feat['hz'],"GON") if feat['hz']!=NULL else None),
-                                 (Angle(feat['v'],"GON") if feat['v']!=NULL else None),
-                                 dist,
-                                 (feat['th'] if feat['th']!=NULL else None),
-                                 (feat['pc'] if feat['pc']!=NULL else None))
+                (feat['station'] if type(feat['station']) is float else None),
+                (Angle(feat['hz'],"GON") if type(feat['hz']) is float else None),
+                (Angle(feat['v'],"GON") if type(feat['v']) is float else None),
+                dist,
+                (feat['th'] if type(feat['th']) is float else None),
+                (feat['pc'] if type(feat['pc']) is float else None))
             break
     return o
 
