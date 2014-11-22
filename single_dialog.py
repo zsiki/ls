@@ -8,7 +8,7 @@ from PyQt4.QtCore import Qt, QVariant
 from single_calc import Ui_SingleCalcDialog
 from surveying_util import *
 from calculation import Calculation
-from base_classes import ResultLog
+from resultlog import *
 
 class SingleDialog(QDialog):
     """
@@ -263,11 +263,11 @@ class SingleDialog(QDialog):
                 set_orientationangle(stn1[0], stn1[1], stn1[2], z.get_angle("GON"))
                 self.ui.ResultTextBrowser.append(u"\nOrientation - %s" % s.p.id)
                 self.ui.ResultTextBrowser.append("Point num  Code         Direction    Bearing   Orient ang   Distance   e\" e\"max   E(m)")
-                self.ui.ResultTextBrowser.append(Calculation.log)
+                self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
                 self.log.write()
                 self.log.write_log(u"Orientation - %s" % s.p.id)
                 self.log.write("Point num  Code         Direction    Bearing   Orient ang   Distance   e\" e\"max   E(m)")
-                self.log.write(Calculation.log)
+                self.log.write(ResultLog.resultlog_message)
             else:
                 QMessageBox.warning(self,u"Warning",u"Orientation angle cannot be calculated!")
 
@@ -298,12 +298,12 @@ class SingleDialog(QDialog):
                     tp.set_coord(p)
                     if p.z is None:
                         # no z calculated
-                        self.ui.ResultTextBrowser.append(Calculation.log)
-                        self.log.write(Calculation.log)
+                        self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
+                        self.log.write(ResultLog.resultlog_message)
                         tp.store_coord(2)
                     else:
-                        self.ui.ResultTextBrowser.append(Calculation.log)
-                        self.log.write(Calculation.log)
+                        self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
+                        self.log.write(ResultLog.resultlog_message)
                         tp.store_coord(3)
                 else:
                     QMessageBox.warning(self,u"Warning",u"Radial survey on %s cannot be calculated!"%targetp[0])
@@ -346,8 +346,8 @@ class SingleDialog(QDialog):
                         log_header = True
                     tp1.set_coord(p)
                     tp1.store_coord(2)
-                    self.ui.ResultTextBrowser.append(Calculation.log)
-                    self.log.write(Calculation.log)
+                    self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
+                    self.log.write(ResultLog.resultlog_message)
                 else:
                     QMessageBox.warning(self,u"Warning",u"Intersecion on %s cannot be calculated!"%targetp1[0])
 
@@ -372,11 +372,11 @@ class SingleDialog(QDialog):
             # result log
             self.ui.ResultTextBrowser.append(u"\nResection")
             self.ui.ResultTextBrowser.append(u"Point num  Code                E            N      Direction  Angle")
-            self.ui.ResultTextBrowser.append(Calculation.log)
+            self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
             self.log.write()
             self.log.write_log(u"Resection")
             self.log.write(u"Point num  Code                E            N      Direction  Angle")
-            self.log.write(Calculation.log)
+            self.log.write(ResultLog.resultlog_message)
         elif self.ui.FreeRadio.isChecked():
             # fre station
             s = get_station(stn1[0], stn1[1], stn1[2])

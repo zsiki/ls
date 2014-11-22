@@ -9,17 +9,16 @@
 
 import math
 from base_classes import *
+from resultlog import *
 
 class Calculation(object):
     """ container class for all calculations """
     
-    log = ""
-
     def __init__(self):
         pass
 
-    @classmethod
-    def orientation(cls, st, ref_list):
+    @staticmethod
+    def orientation(st, ref_list):
         """
             Orientation calculation for a station
             :param st: station (Station)
@@ -27,36 +26,39 @@ class Calculation(object):
             :return average orientation angle (Angle)
                 None if no reference direction at all or in case of error
         """
-        cls.log = ""
-        sz = 0
-        cz = 0
-        sd = 0
-        for ref in ref_list:
-            pt = ref[0]
-            obs = ref[1]
-            b = bearing(st.p, pt).get_angle()
-            r = obs.hz.get_angle()
-            z = b - r
-            if z<0:
-                z = z + math.pi * 2
-            d = distance2d(st.p, pt).d
-            sd = sd + d
-            sz = sz + math.sin(z) * d
-            cz = cz + math.cos(z) * d
-            ref.append(d)
-            ref.append(Angle(z))
-            ref.append(Angle(r))
-            ref.append(Angle(b))
+        ResultLog.resultlog_message = ""
+        try:
+            sz = 0
+            cz = 0
+            sd = 0
+            for ref in ref_list:
+                pt = ref[0]
+                obs = ref[1]
+                b = bearing(st.p, pt).get_angle()
+                r = obs.hz.get_angle()
+                z = b - r
+                if z<0:
+                    z = z + math.pi * 2
+                d = distance2d(st.p, pt).d
+                sd = sd + d
+                sz = sz + math.sin(z) * d
+                cz = cz + math.cos(z) * d
+                ref.append(d)
+                ref.append(Angle(z))
+                ref.append(Angle(r))
+                ref.append(Angle(b))
  
-        if sd==0:
-            return None
+            if sd==0:
+                return None
         
-        sz = sz / sd
-        cz = cz / sd
-        # Calculate average orient angle.
-        za = math.atan2(sz, cz)
-        while za<0:
-            za = za + math.pi * 2
+            sz = sz / sd
+            cz = cz / sd
+            # Calculate average orient angle.
+            za = math.atan2(sz, cz)
+            while za<0:
+                za = za + math.pi * 2
+        except (ValueError, TypeError, AttributeError):
+            return None
         
         # log results of orientation?
         for ref in ref_list:
@@ -67,26 +69,26 @@ class Calculation(object):
             if e<-PISEC:
                 e = e + 2*PISEC
             E = e / 206264.8 * ref[2]
-            cls.log += "%-10s %-10s   %9s   %9s   %9s   %8.3f %4d %4d %8.3f\n" % \
+            ResultLog.resultlog_message += "%-10s %-10s   %9s   %9s   %9s   %8.3f %4d %4d %8.3f\n" % \
                 (ref[1].point_id, (ref[1].pc if ref[1].pc is not None else "-"), \
                 ref[4].get_angle("DMS"), ref[5].get_angle("DMS"), \
                 ref[3].get_angle("DMS"), ref[2], int(e), emax, E)
             if math.fabs(e) > emax:
-                cls.log += u"Direction error over limit: %s - %s\n" % \
+                ResultLog.resultlog_message += u"Direction error over limit: %s - %s\n" % \
                                     (st.p.id, ref[1].point_id)
-        cls.log +="%-47s %s\n" % ("Average orientation angle",Angle(za).get_angle("DMS"))
+        ResultLog.resultlog_message +="%-47s %s\n" % ("Average orientation angle",Angle(za).get_angle("DMS"))
         
         return Angle(za)
 
-    @classmethod
-    def polarpoint(cls, st, obs):
+    @staticmethod
+    def polarpoint(st, obs):
         """
             Calculate coordinates of a point measured by an independent radial measurement
             :param st: station (Station)
             :param obs: observation from station to the unknown point (PolarObservation)
             :return the polar point with new coordinates (Point)
         """
-        cls.log = ""
+        ResultLog.resultlog_message = ""
         try:
             # Calculate the bearing angle between the station and new point.
             b = st.o.hz.get_angle() + obs.hz.get_angle()
@@ -102,17 +104,17 @@ class Calculation(object):
             p = Point(obs.point_id, e, n, z, obs.pc)
             if p.z is None:
                 # no z calculated
-                cls.log += "%-10s %-10s %12.3f %12.3f" % \
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f" % \
                         (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n)
             else:
-                cls.log += "%-10s %-10s %12.3f %12.3f    %8.3f" % \
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f    %8.3f" % \
                         (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n,p.z)
             return p
         except (ValueError, TypeError, AttributeError):
             return None
 
-    @classmethod
-    def intersection(cls, s1, obs1, s2, obs2):
+    @staticmethod
+    def intersection(s1, obs1, s2, obs2):
         """
             Calculate intersection
             :param s1: station 1 (Station)
@@ -120,7 +122,7 @@ class Calculation(object):
             :param s2: station 2 (Station)
             :param obs2: observation from station 2 (PolarObservation)
         """
-        cls.log = ""
+        ResultLog.resultlog_message = ""
         # If the two observation are the same.
         if obs1.point_id != obs2.point_id:
             return None
@@ -137,12 +139,12 @@ class Calculation(object):
             pc = obs1.pc
         pp.id = obs1.point_id
         pp.pc = pc
-        cls.log += "%-10s %-10s %12.3f %12.3f\n" % \
+        ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f\n" % \
                   (pp.id, (pp.pc if pp.pc is not None else "-"), pp.e, pp.n)
         return pp
 
-    @classmethod
-    def resection(cls, st, p1, p2, p3, obs1, obs2, obs3):
+    @staticmethod
+    def resection(st, p1, p2, p3, obs1, obs2, obs3):
         """
             Calculate resection
             :param st: station (Station)
@@ -154,7 +156,7 @@ class Calculation(object):
             :param obs3: observation from st to p3 (PolarObservation)
             :return coordinates of the resection point (st) if it can be calculated; otherwise None
         """
-        cls.log = ""
+        ResultLog.resultlog_message = ""
         try:
             # Calculate angle between obs1 and obs2 and between obs2 and obs3.
             alpha = Angle(obs2.hz.get_angle() - obs1.hz.get_angle()) # alpha
@@ -179,16 +181,16 @@ class Calculation(object):
                 else :
                     p = Point(st.p.id, points[0].e, points[0].n, st.p.z, st.p.pc, st.p.pt)
 
-                cls.log += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
                           (obs1.point_id, (obs1.pc if obs1.pc is not None else "-"), p1.e, p1.n, \
                            obs1.hz.get_angle("DMS"), alpha.get_angle("DMS") )
-                cls.log += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
                           (obs2.point_id, (obs2.pc if obs2.pc is not None else "-"), p2.e, p2.n, \
                            obs2.hz.get_angle("DMS"), beta.get_angle("DMS") )
-                cls.log += "%-10s %-10s %12.3f %12.3f    %9s\n" % \
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f    %9s\n" % \
                           (obs3.point_id, (obs3.pc if obs3.pc is not None else "-"), p3.e, p3.n, \
                            obs3.hz.get_angle("DMS") )
-                cls.log += "%-10s %-10s %12.3f %12.3f\n" % \
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f\n" % \
                           (p.id, p.pc, p.e, p.n)
                 return p
             else:
@@ -196,8 +198,8 @@ class Calculation(object):
         except (ValueError, TypeError):
             return None
 
-    @classmethod
-    def traverse(cls, trav_obs, forceFree=False):
+    @staticmethod
+    def traverse(trav_obs, forceFree=False):
         """
             Calculate traverse line. This method can compute the following types of travesres>
             1. open traverse (free): originates at a known position with known bearings and ends at an unknown position
@@ -213,7 +215,7 @@ class Calculation(object):
             :param forceFree force free traverse calculation (for node)
             :return a list of points which's coordinates has been computed.
         """
-        cls.log = ""
+        ResultLog.resultlog_message = ""
         n = len(trav_obs)
         # at least 3 points must be
         if n<3:

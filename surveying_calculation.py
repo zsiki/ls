@@ -44,7 +44,12 @@ from transformation_dialog import TransformationDialog
 from totalstations import *
 from surveying_util import *
 from calculation import *
-from base_classes import ResultLog
+from resultlog import *
+
+import sys
+sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
+import pydevd
+
 
 class SurveyingCalculation:
     """QGIS Plugin Implementation."""
@@ -57,6 +62,7 @@ class SurveyingCalculation:
             application at run time.
         :type iface: QgsInterface
         """
+        pydevd.settrace()
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory

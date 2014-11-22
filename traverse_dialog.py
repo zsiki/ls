@@ -2,7 +2,7 @@ from PyQt4.QtGui import QDialog
 from traverse_calc import Ui_TraverseCalcDialog
 from surveying_util import *
 from calculation import Calculation
-from base_classes import ResultLog
+from resultlog import *
 
 class TraverseDialog(QDialog):
     """
