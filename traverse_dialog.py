@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QDialog, QStandardItem, QFont
+from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem
 from PyQt4.QtCore import Qt
 from traverse_calc import Ui_TraverseCalcDialog
 from surveying_util import *
@@ -26,6 +26,7 @@ class TraverseDialog(QDialog):
         self.ui.CalcButton.clicked.connect(self.onCalcButton)
         self.ui.ResetButton.clicked.connect(self.onResetButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
+        self.ui.TargetList.setSortingEnabled(True)
 
     def showEvent(self, event):
         """
@@ -124,18 +125,32 @@ class TraverseDialog(QDialog):
         if self.ui.ClosedRadio.isChecked():
             self.ui.EndPointComboBox.setCurrentIndex(self.ui.StartPointComboBox.currentIndex())
     
-    def fillSourceList(self):
+    def fillTargetList(self):
         """
             Change dialog controls when an other calculation type selected.
         """
-        pass
+        self.ui.TargetList.clear()
+        self.ui.OrderList.clear()
+        # get target points
+        targets = get_stations(False,False)
+        # fill target list widget
+        known_list = get_known()
+        if targets is not None:
+            for target in targets:
+                item = QListWidgetItem(u"%s (%s:%s)"% (target[0],target[1],target[2]) )
+                item.setData(Qt.UserRole,target)
+                if known_list is not None and target[0] in known_list:
+                    itemfont = item.font()
+                    itemfont.setWeight(QFont.Bold)
+                    item.setFont(itemfont)
+                self.ui.TargetList.addItem( item )
     
     def radioClicked(self):
         """
             Change dialog controls when an other calculation type selected.
         """
         self.fillStationCombos()
-        self.fillSourceList()
+        self.fillTargetList()
         
     def startpointComboChanged(self):
         if self.ui.ClosedRadio.isChecked():
@@ -145,7 +160,12 @@ class TraverseDialog(QDialog):
         """
             Add selected target point to used points list.
         """
-        self.ui.OrderList.addItem( self.ui.TargetList.takeItem( self.ui.TargetList.currentRow() ) )
+        item = self.ui.TargetList.takeItem( self.ui.TargetList.currentRow() )
+        cur = self.ui.OrderList.currentRow()
+        if cur == -1:
+            self.ui.OrderList.addItem(item)
+        else:
+            self.ui.OrderList.insertItem(cur,item)
 
     def onRemoveButton(self):
         """
@@ -159,7 +179,7 @@ class TraverseDialog(QDialog):
         """
         cur = self.ui.OrderList.currentRow()
         if cur>0:
-            self.ui.OrderList.addItem( cur-1, self.ui.OrderList.takeItem( cur ) )
+            self.ui.OrderList.insertItem( cur-1, self.ui.OrderList.takeItem( cur ) )
             self.ui.OrderList.setCurrentRow(cur-1)
 
     def onDownButton(self):
@@ -168,7 +188,7 @@ class TraverseDialog(QDialog):
         """
         cur = self.ui.OrderList.currentRow()
         if cur<self.ui.OrderList.count()-1:
-            self.ui.OrderList.addItem( cur+1, self.ui.OrderList.takeItem( cur ) )
+            self.ui.OrderList.insertItem( cur+1, self.ui.OrderList.takeItem( cur ) )
             self.ui.OrderList.setCurrentRow(cur+1)
 
     def onCalcButton(self):

@@ -35,6 +35,7 @@ class SingleDialog(QDialog):
         self.ui.CalcButton.clicked.connect(self.onCalcButton)
         self.ui.ResetButton.clicked.connect(self.onResetButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
+        self.ui.SourceList.setSortingEnabled(True)
 
     def showEvent(self, event):
         """
