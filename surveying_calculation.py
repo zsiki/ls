@@ -90,7 +90,7 @@ class SurveyingCalculation:
         self.single_dlg = SingleDialog(self.log)
         #self.traverse_dlg = QDialog()
         #Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)
-        self.traverse_dlg = TraverseDialog()
+        self.traverse_dlg = TraverseDialog(self.log)
         #self.network_dlg = QDialog()
         #Ui_NetworkCalcDialog().setupUi(self.network_dlg)
         self.network_dlg = NetworkDialog()
