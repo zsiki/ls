@@ -348,7 +348,7 @@
      <string>3rd order</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="FourthRradio">
+   <widget class="QRadioButton" name="FourthRadio">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -515,7 +515,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>OrthogonalRadio</tabstop>
   <tabstop>AffineRadio</tabstop>
   <tabstop>ThirdRadio</tabstop>
-  <tabstop>FourthRradio</tabstop>
+  <tabstop>FourthRadio</tabstop>
   <tabstop>FifthRadio</tabstop>
   <tabstop>ResultTextBrowser</tabstop>
   <tabstop>HelpButton</tabstop>

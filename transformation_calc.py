@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'transformation_calc.ui'
 #
-# Created: Sun Nov 23 22:32:23 2014
+# Created: Sun Nov 23 22:38:08 2014
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -171,15 +171,15 @@ class Ui_TransformationCalcDialog(object):
         self.ThirdRadio.setSizePolicy(sizePolicy)
         self.ThirdRadio.setText(QtGui.QApplication.translate("TransformationCalcDialog", "3rd order", None, QtGui.QApplication.UnicodeUTF8))
         self.ThirdRadio.setObjectName(_fromUtf8("ThirdRadio"))
-        self.FourthRradio = QtGui.QRadioButton(self.RadioGroup)
-        self.FourthRradio.setGeometry(QtCore.QRect(10, 120, 151, 20))
+        self.FourthRadio = QtGui.QRadioButton(self.RadioGroup)
+        self.FourthRadio.setGeometry(QtCore.QRect(10, 120, 151, 20))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.FourthRradio.sizePolicy().hasHeightForWidth())
-        self.FourthRradio.setSizePolicy(sizePolicy)
-        self.FourthRradio.setText(QtGui.QApplication.translate("TransformationCalcDialog", "4th order", None, QtGui.QApplication.UnicodeUTF8))
-        self.FourthRradio.setObjectName(_fromUtf8("FourthRradio"))
+        sizePolicy.setHeightForWidth(self.FourthRadio.sizePolicy().hasHeightForWidth())
+        self.FourthRadio.setSizePolicy(sizePolicy)
+        self.FourthRadio.setText(QtGui.QApplication.translate("TransformationCalcDialog", "4th order", None, QtGui.QApplication.UnicodeUTF8))
+        self.FourthRadio.setObjectName(_fromUtf8("FourthRadio"))
         self.FifthRadio = QtGui.QRadioButton(self.RadioGroup)
         self.FifthRadio.setGeometry(QtCore.QRect(10, 150, 181, 17))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
@@ -257,8 +257,8 @@ class Ui_TransformationCalcDialog(object):
         TransformationCalcDialog.setTabOrder(self.RemoveButton, self.OrthogonalRadio)
         TransformationCalcDialog.setTabOrder(self.OrthogonalRadio, self.AffineRadio)
         TransformationCalcDialog.setTabOrder(self.AffineRadio, self.ThirdRadio)
-        TransformationCalcDialog.setTabOrder(self.ThirdRadio, self.FourthRradio)
-        TransformationCalcDialog.setTabOrder(self.FourthRradio, self.FifthRadio)
+        TransformationCalcDialog.setTabOrder(self.ThirdRadio, self.FourthRadio)
+        TransformationCalcDialog.setTabOrder(self.FourthRadio, self.FifthRadio)
         TransformationCalcDialog.setTabOrder(self.FifthRadio, self.ResultTextBrowser)
         TransformationCalcDialog.setTabOrder(self.ResultTextBrowser, self.HelpButton)
         TransformationCalcDialog.setTabOrder(self.HelpButton, self.CalcButton)
