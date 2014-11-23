@@ -195,13 +195,13 @@ class TraverseDialog(QDialog):
             return
 
         # get the selected stations
-        stn1 = self.ui.StartPointComboBox.itemData( self.ui.StartPointComboBox.currentIndex() )
-        if stn1 is None:
+        startpoint = self.ui.StartPointComboBox.itemData( self.ui.StartPointComboBox.currentIndex() )
+        if startpoint is None:
             QMessageBox.warning(self,u"Warning",u"Select start point!")
             self.ui.StartPointComboBox.setFocus()
             return
-        stn2 = self.ui.EndPointComboBox.itemData( self.ui.EndPointComboBox.currentIndex() )
-        if stn2 is None and not self.ui.OpenRadio.isChecked():
+        endpoint = self.ui.EndPointComboBox.itemData( self.ui.EndPointComboBox.currentIndex() )
+        if endpoint is None and not self.ui.OpenRadio.isChecked():
             QMessageBox.warning(self,u"Warning",u"Select end point!")
             self.ui.EndPointComboBox.setFocus()
             return
@@ -209,7 +209,41 @@ class TraverseDialog(QDialog):
             QMessageBox.warning(self,u"Warning",u"Add points to angle point list!")
             self.ui.OrderList.setFocus()
             return
-        pass
+
+        # fill stations list
+        stations = [startpoint]
+        for i in range(self.ui.OrderList.count()):
+            station = self.ui.OrderList.item(i).data(Qt.UserRole)
+            stations.append(station)
+        if not self.ui.OpenRadio.isChecked():
+            stations.append(endpoint)
+            
+        # add stations and observations to trav_obs
+        trav_obs = []
+        for i in range(len(stations)):
+            st = get_station(stations[i][0], stations[i][1], stations[i][2])
+            targets = get_targets(stations[i][0], stations[i][1], stations[i][2])
+            obs1 = None
+            obs2 = None
+            for target in targets:
+                if i>0 and target[0]==stations[i-1][0]:
+                    if obs1 is None:
+                        obs1 = get_target(target[0],target[1],target[2])
+                    if obs2 is not None or i==len(stations)-1:
+                        break
+                elif i<len(stations)-1 and target[0]==stations[i+1][0]:
+                    if obs2 is None:
+                        obs2 = get_target(target[0],target[1],target[2])
+                    if obs1 is not None or i==0:
+                        break
+                    
+            trav_obs.append([st,obs1,obs2])
+            
+        if self.ui.OpenRadio.isChecked():
+            Calculation.traverse(trav_obs,True)
+        else:
+            Calculation.traverse(trav_obs,False)
+
     
     def onResetButton(self):
         """
