@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem
+from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem, QMessageBox
 from PyQt4.QtCore import Qt
 from traverse_calc import Ui_TraverseCalcDialog
 from surveying_util import *
@@ -190,6 +190,25 @@ class TraverseDialog(QDialog):
         """
             Start a calculation when the Calculate button pushed.
         """
+        if self.ui.buttonGroup.checkedId() == -1:
+            QMessageBox.warning(self,u"Warning",u"Select the type of traverse line!")
+            return
+
+        # get the selected stations
+        stn1 = self.ui.StartPointComboBox.itemData( self.ui.StartPointComboBox.currentIndex() )
+        if stn1 is None:
+            QMessageBox.warning(self,u"Warning",u"Select start point!")
+            self.ui.StartPointComboBox.setFocus()
+            return
+        stn2 = self.ui.EndPointComboBox.itemData( self.ui.EndPointComboBox.currentIndex() )
+        if stn2 is None and not self.ui.OpenRadio.isChecked():
+            QMessageBox.warning(self,u"Warning",u"Select end point!")
+            self.ui.EndPointComboBox.setFocus()
+            return
+        if self.ui.OrderList.count()==0:
+            QMessageBox.warning(self,u"Warning",u"Add points to angle point list!")
+            self.ui.OrderList.setFocus()
+            return
         pass
     
     def onResetButton(self):
