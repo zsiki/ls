@@ -14,6 +14,7 @@ from subprocess import call
 import tempfile
 # surveying calculation modules
 from base_classes import *
+from surveying_util import *
 # debugging
 from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
@@ -214,13 +215,29 @@ class GamaInterface(object):
         f_txt = open(tmp_name + '.txt', 'r')
         res = f_txt.read()
         f.close()
-        #pyqtRemoveInputHook()
-        #pdb.set_trace()
+        # store coordinates
+        adj_nodes = doc.getElementsByTagName('adjusted')
+        if len(adj_nodes) < 1:
+            return res
+        pyqtRemoveInputHook()
+        pdb.set_trace()
+        adj_node = adj_nodes[0]
+        for pp in adj_node.childNodes:
+            if pp.nodeName == 'point':
+                for ppp in pp.childNodes:
+                    if ppp.nodeName == 'id':
+                        p = Point(ppp.firstChild.data)
+                    elif ppp.nodeName == 'Y' or ppp.nodeName == 'y':
+                        p.e = float(ppp.firstChild.data)
+                    elif ppp.nodeName == 'X' or ppp.nodeName == 'x':
+                        p.n = float(ppp.firstChild.data)
+                    elif ppp.nodeName == 'Z' or ppp.nodeName == 'z':
+                        p.z = float(ppp.firstChild.data)
+                ScPoint(p).store_coord(self.dimension)
         # get orientations TODO
-        #oris = doc.getElementByTagName('orientation')
+        #oris = doc.getElementsByTagName('orientation')
         #for ori in oris:
         #    pass
-        # restore coordinates TODO
         # remove input xml and output xml
         try:
             os.remove(tmp_name + '.txt')
