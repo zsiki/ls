@@ -1,4 +1,5 @@
-from PyQt4.QtGui import QDialog
+from PyQt4.QtGui import QDialog, QStandardItem, QFont
+from PyQt4.QtCore import Qt
 from traverse_calc import Ui_TraverseCalcDialog
 from surveying_util import *
 from calculation import Calculation
@@ -13,6 +14,11 @@ class TraverseDialog(QDialog):
         self.ui = Ui_TraverseCalcDialog()
         self.ui.setupUi(self)
 
+        # event handlers
+        self.ui.ClosedRadio.toggled.connect(self.radioClicked)
+        self.ui.LinkRadio.toggled.connect(self.radioClicked)
+        self.ui.OpenRadio.toggled.connect(self.radioClicked)
+        self.ui.StartPointComboBox.currentIndexChanged.connect(self.startpointComboChanged)
         self.ui.AddButton.clicked.connect(self.onAddButton)
         self.ui.RemoveButton.clicked.connect(self.onRemoveButton)
         self.ui.UpButton.clicked.connect(self.onUpButton)
@@ -48,6 +54,92 @@ class TraverseDialog(QDialog):
         self.ui.TargetList.clear()
         self.ui.OrderList.clear()
         self.ui.ResultTextBrowser.clear()
+
+    def fillStationCombos(self):
+        """
+            Change dialog controls when an other calculation type selected.
+        """
+        # get selected stations
+        oldStation1 = self.ui.StartPointComboBox.itemData( self.ui.StartPointComboBox.currentIndex() )
+        oldStation2 = self.ui.EndPointComboBox.itemData( self.ui.EndPointComboBox.currentIndex() )
+        # clear station combos
+        self.ui.StartPointComboBox.clear()
+        self.ui.EndPointComboBox.clear()
+        self.ui.StartPointComboBox.setEnabled(False)
+        self.ui.EndPointComboBox.setEnabled(False)
+
+        #get combobox models
+        combomodel1 = self.ui.StartPointComboBox.model()
+        combomodel2 = self.ui.EndPointComboBox.model()
+
+        #get stations        
+        known_stations = get_stations(True,False)
+        oriented_stations = get_stations(True,True)
+
+        # fill StartPointComboBox and EndPointComboBox
+        start_points = []      
+        end_points = []      
+
+        if oriented_stations is not None and self.ui.ClosedRadio.isChecked():
+            for stn in oriented_stations:
+                start_points.append( [u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn] )
+                end_points.append( [u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn] )
+            self.ui.StartPointComboBox.setEnabled(True)
+        elif known_stations is not None and self.ui.LinkRadio.isChecked():
+            for stn in known_stations:
+                start_points.append( [u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn] )
+                end_points.append( [u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn] )
+            self.ui.StartPointComboBox.setEnabled(True)
+            self.ui.EndPointComboBox.setEnabled(True)
+        elif oriented_stations is not None and self.ui.OpenRadio.isChecked():
+            for stn in oriented_stations:
+                start_points.append( [u"%s (%s:%s)"% (stn[0],stn[1],stn[2]), stn] )
+            self.ui.StartPointComboBox.setEnabled(True)
+
+        known_points = get_known()
+        if start_points is not None:
+            for startpoint in start_points:
+                item = QStandardItem(startpoint[0])
+                item.setData(startpoint[1],Qt.UserRole)
+                if known_points is not None and startpoint[1][0] in known_points:
+                    itemfont = item.font()
+                    itemfont.setWeight(QFont.Bold)
+                    item.setFont(itemfont)
+                combomodel1.appendRow( item )
+        if end_points is not None:
+            for endpoint in end_points:
+                item = QStandardItem(endpoint[0])
+                item.setData(endpoint[1],Qt.UserRole)
+                if known_points is not None and endpoint[1][0] in known_points:
+                    itemfont = item.font()
+                    itemfont.setWeight(QFont.Bold)
+                    item.setFont(itemfont)
+                combomodel2.appendRow( item )
+                
+        # select previously selected start/end point if present in the list
+        self.ui.StartPointComboBox.setCurrentIndex( self.ui.StartPointComboBox.findData(oldStation1) )
+        self.ui.EndPointComboBox.setCurrentIndex( self.ui.EndPointComboBox.findData(oldStation2) )
+        
+        # in case of closed traverse ens point must be the same as start point
+        if self.ui.ClosedRadio.isChecked():
+            self.ui.EndPointComboBox.setCurrentIndex(self.ui.StartPointComboBox.currentIndex())
+    
+    def fillSourceList(self):
+        """
+            Change dialog controls when an other calculation type selected.
+        """
+        pass
+    
+    def radioClicked(self):
+        """
+            Change dialog controls when an other calculation type selected.
+        """
+        self.fillStationCombos()
+        self.fillSourceList()
+        
+    def startpointComboChanged(self):
+        if self.ui.ClosedRadio.isChecked():
+            self.ui.EndPointComboBox.setCurrentIndex(self.ui.StartPointComboBox.currentIndex())
 
     def onAddButton(self):
         """
