@@ -9,10 +9,11 @@ class TraverseDialog(QDialog):
     """
         Class for traverse calculation dialog
     """
-    def __init__(self):
+    def __init__(self, log):
         super(TraverseDialog, self).__init__()
         self.ui = Ui_TraverseCalcDialog()
         self.ui.setupUi(self)
+        self.log = log
 
         # event handlers
         self.ui.ClosedRadio.toggled.connect(self.radioClicked)
@@ -240,9 +241,19 @@ class TraverseDialog(QDialog):
             trav_obs.append([st,obs1,obs2])
             
         if self.ui.OpenRadio.isChecked():
-            Calculation.traverse(trav_obs,True)
+            plist = Calculation.traverse(trav_obs,True)
         else:
-            Calculation.traverse(trav_obs,False)
+            plist = Calculation.traverse(trav_obs,False)
+            
+        if plist is not None:
+            for pt in plist:
+                tp = ScPoint(pt.id)
+                tp.set_coord(pt)
+                self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
+                self.log.write(ResultLog.resultlog_message)
+                tp.store_coord(2)
+        else:
+            QMessageBox.warning(self,u"Warning",u"Traverse line cannot be calculated!")
 
     
     def onResetButton(self):
