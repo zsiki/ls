@@ -68,11 +68,11 @@ class Calculation(object):
                 e = e - 2*PISEC
             if e<-PISEC:
                 e = e + 2*PISEC
-            E = e / 206264.8 * ref[2]
-            ResultLog.resultlog_message += "%-10s %-10s   %9s   %9s   %9s   %8.3f %4d %4d %8.3f\n" % \
+            E = e / RO * ref[2]
+            ResultLog.resultlog_message += "%-10s %-10s   %9s   %9s   %9s   %8.3f %4d %8.3f\n" % \
                 (ref[1].point_id, (ref[1].pc if ref[1].pc is not None else "-"), \
                 ref[4].get_angle("DMS"), ref[5].get_angle("DMS"), \
-                ref[3].get_angle("DMS"), ref[2], int(e), emax, E)
+                ref[3].get_angle("DMS"), ref[2], int(e), E)
             if math.fabs(e) > emax:
                 ResultLog.resultlog_message += u"Direction error over limit: %s - %s\n" % \
                                     (st.p.id, ref[1].point_id)
