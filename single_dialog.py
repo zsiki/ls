@@ -1,6 +1,6 @@
 from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox,\
-    QStandardItemModel, QStandardItem
-from PyQt4.QtCore import Qt, QVariant
+    QStandardItem
+from PyQt4.QtCore import Qt
 # debugging
 #from PyQt4.QtCore import pyqtRemoveInputHook
 #import pdb
