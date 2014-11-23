@@ -308,6 +308,12 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="font">
+     <font>
+      <family>DejaVu Sans Mono</family>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
    </widget>
   </widget>
   <widget class="QPushButton" name="HelpButton">

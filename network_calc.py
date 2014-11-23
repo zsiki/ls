@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'network_calc.ui'
 #
-# Created: Wed Nov 19 00:52:19 2014
+# Created: Sun Nov 23 10:19:24 2014
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -158,6 +158,10 @@ class Ui_NetworkCalcDialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ResultTextBrowser.sizePolicy().hasHeightForWidth())
         self.ResultTextBrowser.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("DejaVu Sans Mono"))
+        font.setPointSize(8)
+        self.ResultTextBrowser.setFont(font)
         self.ResultTextBrowser.setObjectName(_fromUtf8("ResultTextBrowser"))
         self.HelpButton = QtGui.QPushButton(NetworkCalcDialog)
         self.HelpButton.setGeometry(QtCore.QRect(20, 510, 81, 23))
