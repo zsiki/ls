@@ -132,7 +132,7 @@ class LeicaGsi(TotalStation):
         """
         if self.fp is None:
             return None
-        res = {'station': None}
+        res = {}
         buf = self.get_line()
         if buf is None:
             return None
@@ -147,15 +147,19 @@ class LeicaGsi(TotalStation):
             elif item_code == '21':
                 # horizontal angle
                 res['hz'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
+                res['station'] = None
             elif item_code == '22':
                 # vertical angle
                 res['v'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
+                res['station'] = None
             elif item_code == '31':
                 # slope distance
                 res['sd'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
+                res['station'] = None
             elif item_code == '32':
                 # horizontal distance
                 res['hd'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
+                res['station'] = None
             elif item_code == '33':
                 # vertical distance
                 res['vd'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
@@ -184,18 +188,22 @@ class LeicaGsi(TotalStation):
             elif item_code == '84':
                 # station easting
                 res['station_e'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
+                res['station'] = 'station'
             elif item_code == '85':
                 # station northing
                 res['station_n'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
+                res['station'] = 'station'
             elif item_code == '86':
                 # station elevation
                 res['station_z'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
+                res['station'] = 'station'
             elif item_code == '87':
                 # reflector height
                 res['th'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
             elif item_code == '88':
                 # station height
                 res['ih'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
+                res['station'] = 'station'
         return res
 
 class JobAre(TotalStation):
@@ -426,8 +434,8 @@ if __name__ == "__main__":
     """
         unit test
     """
-    #ts = LeicaGsi('samples/kz120125_kzp.gsi', ' ')
-    ts = JobAre('samples/test1.job', '=')
+    ts = LeicaGsi('samples/test_trafo.gsi', ' ')
+    #ts = JobAre('samples/test1.job', '=')
     #ts = Sdr('samples/PAJE04.crd', None)
     if ts.open() != 0:
         print "Open error"

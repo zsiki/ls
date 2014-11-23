@@ -290,9 +290,8 @@ class SurveyingCalculation:
                         if j != -1:
                             record.setAttribute(j, r[key])
                     fb_dbf.dataProvider().addFeatures([record])
-                if 'station_e' in r:
+                if 'station_e' in r or 'station_z' in r:
                     # store coordinates too
-                    # TODO dimension???
                     dimension = 0
                     if 'station_z' in r:
                         dimension += 1
@@ -303,8 +302,22 @@ class SurveyingCalculation:
                     else:
                         r['station_e'] = None
                         r['station_n'] = None
-                        
                     p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
+                    qp = ScPoint(p)
+                    qp.store_coord(dimension)
+                if 'e' in r or 'z' in r:
+                    # store coordinates too
+                    dimension = 0
+                    if 'z' in r:
+                        dimension += 1
+                    else:
+                        r['z'] = None
+                    if 'e' in r and 'n' in r:
+                        dimension += 2
+                    else:
+                        r['e'] = None
+                        r['n'] = None
+                    p = Point(r['point_id'], r['e'], r['n'], r['z'])
                     qp = ScPoint(p)
                     qp.store_coord(dimension)
                 i += 10
