@@ -173,4 +173,8 @@ class NetworkDialog(QDialog):
                                     if pid in adj_names:
                                         n_adj += 1
             t = g.adjust()
-            self.ui.ResultTextBrowser.append(t)
+            if t is None:
+                # adjustment failed
+                self.ui.ResultTextBrowser.append('gama-local not installed or other runtime error')
+            else:
+                self.ui.ResultTextBrowser.append(t)

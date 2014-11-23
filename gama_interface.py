@@ -206,6 +206,8 @@ class GamaInterface(object):
         doc.writexml(open(tmp_name + '.xml', 'w'))
         doc.unlink()
         # run gama-local
+        if self.gama_prog is None:
+            return None
         status = call([self.gama_prog, tmp_name + '.xml', '--text',
             tmp_name + '.txt', '--xml', tmp_name + 'out.xml'])
         if status != 0:
@@ -219,8 +221,6 @@ class GamaInterface(object):
         adj_nodes = doc.getElementsByTagName('adjusted')
         if len(adj_nodes) < 1:
             return res
-        pyqtRemoveInputHook()
-        pdb.set_trace()
         adj_node = adj_nodes[0]
         for pp in adj_node.childNodes:
             if pp.nodeName == 'point':
