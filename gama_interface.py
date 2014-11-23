@@ -8,13 +8,15 @@
 """
 
 import re
-#import os.path
 import os
 from xml.dom import minidom, Node
 from subprocess import call
 import tempfile
-
+# surveying calculation modules
 from base_classes import *
+# debugging
+from PyQt4.QtCore import pyqtRemoveInputHook
+import pdb
 
 class GamaInterface(object):
     """
@@ -55,6 +57,19 @@ class GamaInterface(object):
             :param obs PolarObservation
         """
         self.observations.append(obs)
+
+    def remove_last_observation(self, st=False):
+        """
+            remove last observation or station data
+            :param st: False - remove single observation, True remove station
+        """
+        if len(self.observations):
+            if st:
+                o = self.observations.pop()
+                while len(self.observations) and o.station is None:
+                    o = self.observations.pop()
+            else:
+                self.observations.pop()
 
     def adjust(self):
         """
@@ -103,10 +118,11 @@ class GamaInterface(object):
         points_observations.setAttribute('zenith-angle-stdev', str(self.stdev_angle))
         network.appendChild(points_observations)
         for p, s in self.points:
-            if self.dimension == 1 and p.z is not None:
+            if self.dimension == 1:
                 tmp = doc.createElement('point')
                 tmp.setAttribute('id', p.id)
-                tmp.setAttribute('z', str(p.z))
+                if p.z is not None:
+                    tmp.setAttribute('z', str(p.z))
                 if s == 'FIX':
                     tmp.setAttribute('fix', 'z')
                 else:
@@ -115,11 +131,12 @@ class GamaInterface(object):
                     else:
                         tmp.setAttribute('adj', 'z')
                 points_observations.appendChild(tmp)
-            elif self.dimension == 2 and p.e is not None and p.n is not None:
+            elif self.dimension == 2:
                 tmp = doc.createElement('point')
                 tmp.setAttribute('id', p.id)
-                tmp.setAttribute('y', str(p.e))
-                tmp.setAttribute('x', str(p.n))
+                if p.e is not None and p.n is not None:
+                    tmp.setAttribute('y', str(p.e))
+                    tmp.setAttribute('x', str(p.n))
                 if s == 'FIX':
                     tmp.setAttribute('fix', 'xy')
                 else:
@@ -129,12 +146,14 @@ class GamaInterface(object):
                     else:
                         tmp.setAttribute('adj', 'xy')
                 points_observations.appendChild(tmp)
-            elif self.dimension == 3 and p.e is not None and p.n is not None and p.z is not None:
+            elif self.dimension == 3:
                 tmp = doc.createElement('point')
                 tmp.setAttribute('id', p.id)
-                tmp.setAttribute('y', str(p.e))
-                tmp.setAttribute('x', str(p.n))
-                tmp.setAttribute('z', str(p.z))
+                if p.e is not None and p.n is not None:
+                    tmp.setAttribute('y', str(p.e))
+                    tmp.setAttribute('x', str(p.n))
+                if p.z is not None:
+                    tmp.setAttribute('z', str(p.z))
                 if s == 'FIX':
                     tmp.setAttribute('fix', 'xyz')
                 else:
@@ -163,7 +182,7 @@ class GamaInterface(object):
                         sta.appendChild(tmp)
                     if o.d is not None:
                         # horizontal distance
-                        hd = o.horiz_dist
+                        hd = o.horiz_dist()
                         if hd is not None:
                             tmp = doc.createElement('distance')
                             tmp.setAttribute('to', o.point_id)
@@ -195,10 +214,13 @@ class GamaInterface(object):
         f_txt = open(tmp_name + '.txt', 'r')
         res = f_txt.read()
         f.close()
-        # get orientations
+        #pyqtRemoveInputHook()
+        #pdb.set_trace()
+        # get orientations TODO
         #oris = doc.getElementByTagName('orientation')
         #for ori in oris:
         #    pass
+        # restore coordinates TODO
         # remove input xml and output xml
         try:
             os.remove(tmp_name + '.txt')

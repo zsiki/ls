@@ -88,7 +88,7 @@ class NetworkDialog(QDialog):
             return
         item = self.ui.FixList.takeItem(i)
         self.ui.PointsList.addItem(item)
-        self.points.append(self.points[i])
+        self.points.append(self.fix[i])
         del self.fix[i]
 
     def onRemoveAdjButton(self):
@@ -97,7 +97,7 @@ class NetworkDialog(QDialog):
             return
         item = self.ui.AdjustedList.takeItem(i)
         self.ui.PointsList.addItem(item)
-        self.adj.append(self.points[i])
+        self.points.append(self.adj[i])
         del self.adj[i]
 
     def onCalcButton(self):
@@ -130,10 +130,19 @@ class NetworkDialog(QDialog):
                 if lay is None:
                     continue
                 st = None
+                n_ori = 0    # number of orientation directions
+                n_adj = 0    # number of adjusted targets
                 for feat in lay.getFeatures():
                     pid = feat['point_id']
                     if feat['station'] == 'station':
+                        if st is not None:
+                            if (n_ori + n_adj == 0) or \
+                                (st in fix_names and n_adj == 0):
+                                # no adjusted point on known station, remove it
+                                g.remove_last_observation(True)
                         st = None
+                        n_ori = 0    # number of orientation directions
+                        n_adj = 0    # number of adjusted targets
                         if pid in fix_names or pid in adj_names:
                             st = pid
                             o = PolarObservation(pid, feat['station'])
@@ -153,9 +162,15 @@ class NetworkDialog(QDialog):
                                 if type(feat['sd']) is float and \
                                     (st in adj_names or pid in adj_names):
                                     # add distance if one end is unknown
-                                    o.sd = Distance(feat['sd'], 'SD')
+                                    o.d = Distance(feat['sd'], 'SD')
                                 o.th = feat['th'] if type(feat['th']) is float else None
                                 o.pc = feat['pc'] if type(feat['pc']) is str else None
-                                g.add_observation(o)
+                                if o.hz is not None or o.d is not None:
+                                    # direction or distance given
+                                    g.add_observation(o)
+                                    if pid in fix_names:
+                                        n_ori += 1
+                                    if pid in adj_names:
+                                        n_adj += 1
             t = g.adjust()
             self.ui.ResultTextBrowser.append(t)
