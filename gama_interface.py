@@ -165,7 +165,6 @@ class GamaInterface(object):
                 points_observations.appendChild(tmp)
         for o in self.observations:
             if o.station == 'station':
-                print o.point_id + ' ' + o.station
                 # station record
                 sta = doc.createElement('obs')
                 sta.setAttribute('from', o.point_id)
@@ -176,7 +175,6 @@ class GamaInterface(object):
                 if self.dimension == 2:
                     # horizontal network
                     if o.hz is not None:
-                        print o.point_id + ' ' + str(o.hz.get_angle('GON')) + ' obs'
                         tmp = doc.createElement('direction')
                         tmp.setAttribute('to', o.point_id)
                         tmp.setAttribute('val', str(o.hz.get_angle('GON')))
