@@ -8,7 +8,8 @@
 """
 
 import re
-import os.path
+#import os.path
+import os
 from xml.dom import minidom, Node
 from subprocess import call
 import tempfile
@@ -102,7 +103,7 @@ class GamaInterface(object):
         points_observations.setAttribute('zenith-angle-stdev', str(self.stdev_angle))
         network.appendChild(points_observations)
         for p, s in self.points:
-            if self.dimension == 1 and not p.z is None:
+            if self.dimension == 1 and p.z is not None:
                 tmp = doc.createElement('point')
                 tmp.setAttribute('id', p.id)
                 tmp.setAttribute('z', str(p.z))
@@ -114,7 +115,7 @@ class GamaInterface(object):
                     else:
                         tmp.setAttribute('adj', 'z')
                 points_observations.appendChild(tmp)
-            elif self.dimension == 2 and not p.e is None and not p.n is None:
+            elif self.dimension == 2 and p.e is not None and p.n is not None:
                 tmp = doc.createElement('point')
                 tmp.setAttribute('id', p.id)
                 tmp.setAttribute('y', str(p.e))
@@ -123,11 +124,12 @@ class GamaInterface(object):
                     tmp.setAttribute('fix', 'xy')
                 else:
                     if fix == 0:
+                        # free network
                         tmp.setAttribute('adj', 'XY')
                     else:
                         tmp.setAttribute('adj', 'xy')
                 points_observations.appendChild(tmp)
-            elif self.dimension == 3 and not p.e is None and not p.n is None and not p.z is None:
+            elif self.dimension == 3 and p.e is not None and p.n is not None and p.z is not None:
                 tmp = doc.createElement('point')
                 tmp.setAttribute('id', p.id)
                 tmp.setAttribute('y', str(p.e))
@@ -142,28 +144,30 @@ class GamaInterface(object):
                         tmp.setAttribute('adj', 'xyz')
                 points_observations.appendChild(tmp)
         for o in self.observations:
-            if o.station is not None:
+            if o.station == 'station':
+                print o.point_id + ' ' + o.station
                 # station record
                 sta = doc.createElement('obs')
                 sta.setAttribute('from', o.point_id)
-                points_observations.appendChild(sta)
                 ih = o.th
+                points_observations.appendChild(sta)
             else:
                 # observation
                 if self.dimension == 2:
                     # horizontal network
-                    if not o.hz is None:
+                    if o.hz is not None:
+                        print o.point_id + ' ' + str(o.hz.get_angle('GON')) + ' obs'
                         tmp = doc.createElement('direction')
                         tmp.setAttribute('to', o.point_id)
                         tmp.setAttribute('val', str(o.hz.get_angle('GON')))
                         sta.appendChild(tmp)
-                    if not o.d is None:
-                        if o.d.mode == 'SD' and not o.v is None or o.d.mode == 'HD':
-                            # horizontal distance
-                            tmp.setAttribute('to', o.point_id)
+                    if o.d is not None:
+                        # horizontal distance
+                        hd = o.horiz_dist
+                        if hd is not None:
                             tmp = doc.createElement('distance')
                             tmp.setAttribute('to', o.point_id)
-                            tmp.setAttribute('val', str(o.horiz_dist()))
+                            tmp.setAttribute('val', str(hd))
                             sta.appendChild(tmp)
                 elif self.dimension == 1:
                     # elevations only
@@ -188,11 +192,21 @@ class GamaInterface(object):
             # error running GNU gama TODO
             return None
         doc = minidom.parse(tmp_name + 'out.xml')
+        f_txt = open(tmp_name + '.txt', 'r')
+        res = f_txt.read()
+        f.close()
         # get orientations
         #oris = doc.getElementByTagName('orientation')
         #for ori in oris:
         #    pass
-        # TODO remove input xml and output xml
+        # remove input xml and output xml
+        try:
+            os.remove(tmp_name + '.txt')
+            os.remove(tmp_name + '.xml')
+            os.remove(tmp_name + 'out.xml')
+        except OSError:
+            pass
+        return res
 
 if __name__ == "__main__":
     """

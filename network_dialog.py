@@ -113,13 +113,13 @@ class NetworkDialog(QDialog):
             adj_names = []
             for fp in self.fix:
                 p = get_coord(fp[0])
-                g.add_point(p)
+                g.add_point(p, 'FIX')
                 fix_names.append(fp[0])
             for fp in self.adj:
                 p = get_coord(fp[0])
                 if p is None:
                     p = Point(fp[0])
-                g.add_point(p)
+                g.add_point(p, 'ADJ')
                 adj_names.append(fp[0])
             # add observations to adjustment
             fb_list = get_fblist()
@@ -129,20 +129,33 @@ class NetworkDialog(QDialog):
                 lay = get_layer_by_name(fb)
                 if lay is None:
                     continue
+                st = None
                 for feat in lay.getFeatures():
                     pid = feat['point_id']
-                    if pid in fix_names or pid in adj_names:
-                        if feat['station'] == 'station':
-                            o = PolarObservation(pid, feat['station'], \
-                                feat['hz'], feat['v'], feat['sd'], feat['th'], \
-                                feat['pc'])
+                    if feat['station'] == 'station':
+                        st = None
+                        if pid in fix_names or pid in adj_names:
+                            st = pid
+                            o = PolarObservation(pid, feat['station'])
+                            o.th = feat['th'] if type(feat['th']) is float else None
+                            o.pc = feat['pc'] if type(feat['pc']) is str else None
                             g.add_observation(o)
-                        else:
-                            if dimension in [2, 3] and (feat['hz'] != NULL or \
-                                feat['v'] != NULL and feat['sd'] != NULL) or \
-                                dimension == 1 and feat['v'] != NULL and feat['sd'] != NULL:
-                                o = PolarObservation(pid, feat['station'], \
-                                    feat['hz'], feat['v'], feat['sd'], feat['th'], \
-                                    feat['pc'])
+                            # TODO empty station? without observation
+                    else:
+                        if st is not None and (pid in fix_names or pid in adj_names):
+                            if dimension in [2, 3] and (type(feat['hz']) is float or \
+                                type(feat['v']) is float and type(feat['sd']) is float) or \
+                                dimension == 1 and type(feat['v']) is float and \
+                                type(feat['sd']):
+                                o = PolarObservation(pid, None)
+                                o.hz = Angle(feat['hz'], 'GON') if type(feat['hz']) is float else None
+                                o.v = Angle(feat['v'], 'GON') if type(feat['v']) is float else None
+                                if type(feat['sd']) is float and \
+                                    (st in adj_names or pid in adj_names):
+                                    # add distance if one end is unknown
+                                    o.sd = Distance(feat['sd'], 'SD')
+                                o.th = feat['th'] if type(feat['th']) is float else None
+                                o.pc = feat['pc'] if type(feat['pc']) is str else None
                                 g.add_observation(o)
-            g.adjust()
+            t = g.adjust()
+            self.ui.ResultTextBrowser.append(t)
