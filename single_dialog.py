@@ -114,7 +114,7 @@ class SingleDialog(QDialog):
             for station in stations1:
                 item = QStandardItem(station[0])
                 item.setData(station[1],Qt.UserRole)
-                if station[1][0] in known_points:
+                if known_points is not None and station[1][0] in known_points:
                     itemfont = item.font()
                     itemfont.setWeight(QFont.Bold)
                     item.setFont(itemfont)
@@ -123,7 +123,7 @@ class SingleDialog(QDialog):
             for station in stations2:
                 item = QStandardItem(station[0])
                 item.setData(station[1],Qt.UserRole)
-                if station[1][0] in known_points:
+                if known_points is not None and station[1][0] in known_points:
                     itemfont = item.font()
                     itemfont.setWeight(QFont.Bold)
                     item.setFont(itemfont)
@@ -169,14 +169,14 @@ class SingleDialog(QDialog):
                 if self.ui.IntersectRadio.isChecked():
                     item = QListWidgetItem(target[0][0])
                     item.setData(Qt.UserRole,target)
-                    if target[0][0] in known_list:
+                    if known_list is not None and target[0][0] in known_list:
                         itemfont = item.font()
                         itemfont.setWeight(QFont.Bold)
                         item.setFont(itemfont)
                 else:
                     item = QListWidgetItem(u"%s (id:%s)"% (target[0],target[2]) )
                     item.setData(Qt.UserRole,target)
-                    if target[0] in known_list:
+                    if known_list is not None and target[0] in known_list:
                         itemfont = item.font()
                         itemfont.setWeight(QFont.Bold)
                         item.setFont(itemfont)
