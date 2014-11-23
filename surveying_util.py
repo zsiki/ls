@@ -225,7 +225,7 @@ def get_stations(known=False, oriented=False):
                 if known and known_list is not None and not pid in known_list:
                     # skip unknown points
                     continue
-                if oriented and type(feat['hz']) is float:
+                if oriented and type(feat['hz']) is not float:
                     continue
                 fid = feat['id']
                 act = [pid, fb, fid]
@@ -409,13 +409,14 @@ class ScPoint(Point):
                 #pyqtRemoveInputHook()
                 #pdb.set_trace()
                 fid = feat.id()
-                # TODO handle dimension!
-                attrs = {feat.fieldNameIndex('point_id') : self.id,
-                    feat.fieldNameIndex('e') : self.e,
-                    feat.fieldNameIndex('n') : self.n,
-                    feat.fieldNameIndex('z') : self.z,
-                    feat.fieldNameIndex('pc') : self.pc,
-                    feat.fieldNameIndex('pt') : self.pt}
+                attrs = {feat.fieldNameIndex('point_id') : self.id}
+                if dimension in [2, 3]:
+                    attrs[feat.fieldNameIndex('e')] = self.e
+                    attrs[feat.fieldNameIndex('n')] = self.n
+                if dimension in [1, 3]:
+                    attrs[feat.fieldNameIndex('z')] = self.z
+                attrs[feat.fieldNameIndex('pc')] = self.pc
+                attrs[feat.fieldNameIndex('pt')] = self.pt
                 lay.dataProvider().changeAttributeValues({ fid : attrs })
                 # feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(self.e, self.n)))
                 lay.dataProvider().changeGeometryValues({ fid : QgsGeometry.fromPoint(QgsPoint(self.e, self.n)) })
