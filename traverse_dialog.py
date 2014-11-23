@@ -286,6 +286,15 @@ class TraverseDialog(QDialog):
         if self.ui.OpenRadio.isChecked():
             trav_obs.append([Station( Point(endpoint[0]), \
                             PolarObservation(endpoint[0], 'station') ),None,None])
+            
+            # if end point is a known point -> question
+            known_list = get_known()
+            if known_list is not None and endpoint[0] in known_list:
+                reply = QMessageBox.question(self,u"Question", \
+                    u"End point has coordinates.\nAre you sure you want to calculate an open traverse?", \
+                    QMessageBox.Yes, QMessageBox.No)
+                if reply == QMessageBox.No:
+                    return
 
         if self.ui.OpenRadio.isChecked():
             plist = Calculation.traverse(trav_obs,True)
@@ -296,9 +305,9 @@ class TraverseDialog(QDialog):
             for pt in plist:
                 tp = ScPoint(pt.id)
                 tp.set_coord(pt)
-                self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
-                self.log.write(ResultLog.resultlog_message)
                 tp.store_coord(2)
+            self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
+            self.log.write(ResultLog.resultlog_message)
         else:
             QMessageBox.warning(self,u"Warning",u"Traverse line cannot be calculated!")
             self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
