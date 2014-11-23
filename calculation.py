@@ -187,7 +187,7 @@ class Calculation(object):
                           (obs3.point_id, (obs3.pc if obs3.pc is not None else "-"), p3.e, p3.n, \
                            obs3.hz.get_angle("DMS") )
                 ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f\n" % \
-                          (p.id, p.pc, p.e, p.n)
+                          (p.id, (p.pc if p.pc is not None else "-"), p.e, p.n)
                 return p
             else:
                 return None
