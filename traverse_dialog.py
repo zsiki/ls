@@ -160,12 +160,7 @@ class TraverseDialog(QDialog):
         """
             Add selected target point to used points list.
         """
-        item = self.ui.TargetList.takeItem( self.ui.TargetList.currentRow() )
-        cur = self.ui.OrderList.currentRow()
-        if cur == -1:
-            self.ui.OrderList.addItem(item)
-        else:
-            self.ui.OrderList.insertItem(cur,item)
+        self.ui.OrderList.addItem( self.ui.TargetList.takeItem( self.ui.TargetList.currentRow() ) )
 
     def onRemoveButton(self):
         """
