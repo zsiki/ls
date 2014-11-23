@@ -47,8 +47,8 @@ from calculation import *
 from resultlog import *
 
 import sys
-sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
-import pydevd
+#sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
+#import pydevd
 
 
 class SurveyingCalculation:
@@ -62,7 +62,7 @@ class SurveyingCalculation:
             application at run time.
         :type iface: QgsInterface
         """
-        pydevd.settrace()
+#        pydevd.settrace()
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
