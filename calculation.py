@@ -415,6 +415,7 @@ class Calculation(object):
 
         return plist
 
+    @staticmethod
     def __GaussElimination(self, a, b, size):
         """
             Solve a linear equation system
@@ -444,7 +445,8 @@ class Calculation(object):
                             a[j,k] = -t * q
                     b[j] = b[j] - t * b[i]
     
-    def __orthogonaltr4tr(self, plist):
+    @staticmethod
+    def orthogonal_transformation(self, plist):
         """
             Calculate parameters of orthogonal transformation. Four parameters
             scale, rotation and offset.
@@ -549,7 +551,8 @@ class Calculation(object):
 
         return [ E0 + al[0], N0 + al[1], alpha + al[2] ]
 
-    def __affinetr(self, plist):
+    @staticmethod
+    def affine_transformation(self, plist):
         """
             Calculate parameters of affine transformation. Six parameters
             E = E0 + a * e + b * n
@@ -602,7 +605,8 @@ class Calculation(object):
         N0 = (Ns - c * es - d * ns) / float(len(plist))
         return [E0, N0, a, b, c, d]
 
-    def __polynomialtr(self, plist, degree = 3):
+    @staticmethod
+    def polynomial_transformation(self, plist, degree = 3):
         """
             Calculate parameters of polynomial (rubber sheet) transformation.
             X = X0 + a1 * x + a2 * y + a3 * xy + a4 * x^2 + a5 * y^2 + ...
@@ -688,10 +692,6 @@ class Calculation(object):
             res.append(n1[i], n2[i])
         res.append(avge, avgn, avgE, avgN)
         return res
-    
-    @staticmethod
-    def transformation():
-        pass
 
 if __name__ == "__main__":
     """
