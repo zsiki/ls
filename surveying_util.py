@@ -400,6 +400,10 @@ class ScPoint(Point):
                 return False
 
             self.coo = cl[0]
+        # e, n coordinates must be given (geometry)
+        if self.e is None or self.n is None:
+            # TODO error report
+            return
         lay = get_layer_by_name(self.coo)
         if lay is None:
             return False
