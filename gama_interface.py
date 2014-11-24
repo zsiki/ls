@@ -238,8 +238,8 @@ class GamaInterface(object):
         #    pass
         # remove input xml and output xml
         try:
-            os.remove(tmp_name + '.txt')
-            os.remove(tmp_name + '.xml')
+            #os.remove(tmp_name + '.txt') # TODO remove comment after testing
+            #os.remove(tmp_name + '.xml')
             os.remove(tmp_name + 'out.xml')
         except OSError:
             pass
