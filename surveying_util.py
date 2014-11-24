@@ -84,13 +84,17 @@ def get_fieldnames(vlayer):
             fieldlist.append(unicode(field.name()))
     return sorted(fieldlist)
 
-def get_coord(p):
+def get_coord(p, clist=None):
     """
         Get the coordinates of a point 
         :parameter p: point number
+        :param clist: coordinate list to search for (str), optional
         :return Point object with coordinates
     """
-    coord_lists = get_coordlist()
+    if clist is None:
+        coord_lists = get_coordlist()
+    else:
+        coord_list = [clist]
     if coord_lists is None:
         return None
     for coord_list in coord_lists:
