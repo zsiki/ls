@@ -9,6 +9,7 @@ from single_calc import Ui_SingleCalcDialog
 from surveying_util import *
 from calculation import Calculation
 from resultlog import *
+from gama_interface import *
 
 class SingleDialog(QDialog):
     """
@@ -379,9 +380,22 @@ class SingleDialog(QDialog):
             self.log.write(u"Point num  Code                E            N      Direction  Angle")
             self.log.write(ResultLog.resultlog_message)
         elif self.ui.FreeRadio.isChecked():
-            # fre station
+            # free station
+            g = GamaInterface()    # TODO standard devs!
             s = get_station(stn1[0], stn1[1], stn1[2])
-            pass
+            g.add_point(s.p, 'ADJ')
+            for i in range(self.ui.TargetList.count()):
+                targetp = self.ui.TargetList.item(i).data(Qt.UserRole)
+                p = get_coord(targetp[0])
+                g.add_point(p, 'FIX')
+                to = get_target(targetp[0], targetp[1], targetp[2])
+                g.add_observation(to)
+            t = g.adjust()
+            if t is None:
+                # adjustment failed
+                self.ui.ResultTextBrowser.append('gama-local not installed or other runtime error')
+            else:
+                self.ui.ResultTextBrowser.append(t)
         
     def onResetButton(self):
         """
