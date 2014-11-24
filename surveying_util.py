@@ -322,7 +322,7 @@ def get_fieldbookrow(point_id, fieldbook, fid):
             else:
                 dist = None
             o = PolarObservation(feat['point_id'],
-                (feat['station'] if type(feat['station']) is float else None),
+                (feat['station'] if type(feat['station']) is str else None),
                 (Angle(feat['hz'],"GON") if type(feat['hz']) is float else None),
                 (Angle(feat['v'],"GON") if type(feat['v']) is float else None),
                 dist,
