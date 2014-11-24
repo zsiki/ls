@@ -94,7 +94,7 @@ def get_coord(p, clist=None):
     if clist is None:
         coord_lists = get_coordlist()
     else:
-        coord_list = [clist]
+        coord_lists = [clist]
     if coord_lists is None:
         return None
     for coord_list in coord_lists:
