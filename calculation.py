@@ -68,11 +68,11 @@ class Calculation(object):
             if e<-PISEC:
                 e = e + 2*PISEC
             E = e / RO * ref[2]
-            ResultLog.resultlog_message += "%-10s %-10s   %9s   %9s   %9s   %8.3f %4d %8.3f\n" % \
+            ResultLog.resultlog_message += "%-10s %-10s    %8.4f    %8.4f    %8.4f   %8.3f %4d %8.3f\n" % \
                 (ref[1].point_id, (ref[1].pc if ref[1].pc is not None else "-"), \
-                ref[4].get_angle("DMS"), ref[5].get_angle("DMS"), \
-                ref[3].get_angle("DMS"), ref[2], int(e), E)
-        ResultLog.resultlog_message +="%-47s %s\n" % ("Average orientation angle",Angle(za).get_angle("DMS"))
+                ref[4].get_angle("GON"), ref[5].get_angle("GON"), \
+                ref[3].get_angle("GON"), ref[2], int(e), E)
+        ResultLog.resultlog_message +="%-48s %8.4f\n" % ("Average orientation angle",Angle(za).get_angle("GON"))
         
         return Angle(za)
 
@@ -177,15 +177,15 @@ class Calculation(object):
                 else :
                     p = Point(st.p.id, points[0].e, points[0].n, st.p.z, st.p.pc, st.p.pt)
 
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f     %8.4f  %8.4f\n" % \
                           (obs1.point_id, (obs1.pc if obs1.pc is not None else "-"), p1.e, p1.n, \
-                           obs1.hz.get_angle("DMS"), alpha.get_angle("DMS") )
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f    %9s %9s\n" % \
+                           obs1.hz.get_angle("GON"), alpha.get_angle("GON") )
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f     %8.4f  %8.4f\n" % \
                           (obs2.point_id, (obs2.pc if obs2.pc is not None else "-"), p2.e, p2.n, \
-                           obs2.hz.get_angle("DMS"), beta.get_angle("DMS") )
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f    %9s\n" % \
+                           obs2.hz.get_angle("GON"), beta.get_angle("GON") )
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f     %8.4f\n" % \
                           (obs3.point_id, (obs3.pc if obs3.pc is not None else "-"), p3.e, p3.n, \
-                           obs3.hz.get_angle("DMS") )
+                           obs3.hz.get_angle("GON") )
                 ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f\n" % \
                           (p.id, (p.pc if p.pc is not None else "-"), p.e, p.n)
                 return p
