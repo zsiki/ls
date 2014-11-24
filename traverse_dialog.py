@@ -252,6 +252,10 @@ class TraverseDialog(QDialog):
         stations = [startpoint]
         for i in range(self.ui.OrderList.count()):
             station = self.ui.OrderList.item(i).data(Qt.UserRole)
+            if i==0 and station == startpoint:
+                continue 
+            if i==self.ui.OrderList.count()-1 and station == endpoint:
+                continue 
             stations.append(station)
         if not self.ui.OpenRadio.isChecked():
             stations.append(endpoint)
