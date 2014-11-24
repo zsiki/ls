@@ -446,7 +446,7 @@ class Calculation(object):
                     b[j] = b[j] - t * b[i]
     
     @staticmethod
-    def orthogonal_transformation(self, plist):
+    def orthogonal_transformation(plist):
         """
             Calculate parameters of orthogonal transformation. Four parameters
             scale, rotation and offset.
