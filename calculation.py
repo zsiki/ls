@@ -215,14 +215,14 @@ class Calculation(object):
         n = len(trav_obs)
         # at least 3 points must be
         if n<3:
-            ResultLog.resultlog_message += "Error: At least 3 points must be added to traverse line!"
+            ResultLog.resultlog_message += "Error: At least 3 points must be added to traverse line!\n"
             return None
         # start point and end point
         startp = trav_obs[0][0]
         endp = trav_obs[n-1][0]
         # no coord for startpoint
         if startp is None or startp.p is None or startp.p.e is None or startp.p.n is None:
-            ResultLog.resultlog_message += "Error: No coordinates on start point!"
+            ResultLog.resultlog_message += "Error: No coordinates on start point!\n"
             return None
         
         free = False
@@ -233,7 +233,7 @@ class Calculation(object):
             endp.p.n = None
         elif endp is None or endp.p is None or endp.p.e is None or endp.p.n is None:
             # no coordinate for endpoint            
-            ResultLog.resultlog_message += "Warning: No coordinates for end point -> Free traverse." 
+            ResultLog.resultlog_message += "Warning: No coordinates for end point -> Free traverse.\n" 
             free = True # free traverse
 
         #collect measurements in traverse
@@ -251,20 +251,20 @@ class Calculation(object):
                 if beta[0] is None:
                     # no orientation on start
                     if free is True:
-                        ResultLog.resultlog_message += "Error: No orientation on start point and no coordinates on end point!"
+                        ResultLog.resultlog_message += "Error: No orientation on start point and no coordinates on end point!\n"
                         return None
                     else:
-                        ResultLog.resultlog_message += "Warning: No orientation on start point - inserted traverse."
+                        ResultLog.resultlog_message += "Warning: No orientation on start point - inserted traverse.\n"
                 
             if i==n-1:
                 beta[i] = st.o.hz
                 if beta[i] is None:
                     # no orientation on end
-                    ResultLog.resultlog_message +=  "Warning: No orientation on end point."
+                    ResultLog.resultlog_message +=  "Warning: No orientation on end point.\n"
             
             if i!=0 and i!=n-1 and (obsprev is None or obsnext is None or obsprev.hz is None or obsnext.hz is None):
                 # no angle at angle point
-                ResultLog.resultlog_message += "Error: No angle at point %s!" % trav_obs[i][0].p.id
+                ResultLog.resultlog_message += "Error: No angle at point %s!\n" % trav_obs[i][0].p.id
                 return None
 
             if i == 0:
@@ -298,7 +298,7 @@ class Calculation(object):
                     t[i] = Distance(obsprev.horiz_dist(),"HD")
             elif i>1 and t[i-1] is None:
                 # no distance between points
-                ResultLog.resultlog_message += "Error: No distance between points %s and %s!" % \
+                ResultLog.resultlog_message += "Error: No distance between points %s and %s!\n" % \
                     (trav_obs[i-1][0].p.id,trav_obs[i][0].p.id)
                 return None
             
@@ -309,7 +309,7 @@ class Calculation(object):
             beta[n-1] = None
 
         # calculate sum of betas if we have both orientation
-        if beta[0] is not None and beta[n-1]is not None:
+        if beta[0] is not None and beta[n-1] is not None:
             sumbeta = 0.0 # in radians
             for i in range(0,n):
                 sumbeta = sumbeta + beta[i].get_angle()
