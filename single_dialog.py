@@ -2,8 +2,8 @@ from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox,\
     QStandardItem
 from PyQt4.QtCore import Qt
 # debugging
-#from PyQt4.QtCore import pyqtRemoveInputHook
-#import pdb
+from PyQt4.QtCore import pyqtRemoveInputHook
+import pdb
 
 from single_calc import Ui_SingleCalcDialog
 from surveying_util import *
@@ -384,6 +384,7 @@ class SingleDialog(QDialog):
             g = GamaInterface()    # TODO standard devs!
             s = get_station(stn1[0], stn1[1], stn1[2])
             g.add_point(s.p, 'ADJ')
+            g.add_observation(s.o)
             for i in range(self.ui.TargetList.count()):
                 targetp = self.ui.TargetList.item(i).data(Qt.UserRole)
                 p = get_coord(targetp[0])
