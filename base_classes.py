@@ -129,9 +129,9 @@ class Angle(object):
         "dd.mmss to radian"
         try:
             d = math.floor(angle)
-            angle = (angle - d) * 100
+            angle = round((angle - d) * 100, 10)
             m = math.floor(angle)
-            s = (angle - m) * 100
+            s = round((angle - m) * 100, 10)
             a = math.radians(d + m / 60.0 + s / 3600.0)
         except (ValueError, TypeError):
             a = None
