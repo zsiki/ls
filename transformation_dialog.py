@@ -12,6 +12,7 @@ from PyQt4.QtCore import SIGNAL
 from transformation_calc import Ui_TransformationCalcDialog
 
 from surveying_util import *
+from calculation import *
 
 class TransformationDialog(QDialog):
     """
@@ -137,12 +138,6 @@ class TransformationDialog(QDialog):
         if len(self.used) < 21:
             self.ui.FifthRadio.setEnabled(False)
 
-    def onCalcButton(self):
-        """
-            Start transformation calculation
-        """
-        pass
-
     def fill_common(self):
         """
             Find common points in coordinate lists
@@ -163,6 +158,39 @@ class TransformationDialog(QDialog):
         for from_p in from_points:
             if from_p in to_points:
                 self.common.append(from_p)
-        print self.common
         for p in self.common:
             self.ui.CommonList.addItem(p)
+
+    def onCalcButton(self):
+        """
+            Start transformation calculation
+        """
+        from_list = self.ui.FromLayerComboBox.currentText()
+        to_list = 'tmp_to_shape'
+        p_list = []
+        to_name = self.ui.ToShapeEdit.text()
+        to_shp = QgsVectorLayer(to_name, "tmp_to_shape", "ogr") 
+        QgsMapLayerRegistry.instance().addMapLayer(to_shp, False)
+        for point_id in self.used:
+            # get coords of points
+            p_from = get_coord(point_id, from_list)
+            p_to = get_coord(point_id, to_list)
+            p_list.append([p_from, p_to])
+            print p_from
+            print p_to
+        QgsMapLayerRegistry.instance().removeMapLayer("tmp_to_shape")
+        if self.ui.OrthogonalRadio.isChecked():
+            tr = Calculation.orthogonal_transformation(p_list)
+            print tr
+        elif self.ui.AffineRadio.isChecked():
+            tr = Calculation.affine_transformation(p_list)
+            print tr
+        elif self.ui.ThirdRadio.isChecked():
+            tr = Calculation.polynomial_transformation(p_list, 3)
+            print tr
+        elif self.ui.FourthRadio.isChecked():
+            tr = Calculation.polynomial_transformation(p_list, 4)
+            print tr
+        elif self.ui.FifthRadio.isChecked():
+            tr = Calculation.polynomial_transformation(p_list, 5)
+            print tr
