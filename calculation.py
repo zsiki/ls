@@ -552,7 +552,7 @@ class Calculation(object):
         return [ E0 + al[0], N0 + al[1], alpha + al[2] ]
 
     @staticmethod
-    def affine_transformation(self, plist):
+    def affine_transformation(plist):
         """
             Calculate parameters of affine transformation. Six parameters
             E = E0 + a * e + b * n
@@ -606,7 +606,7 @@ class Calculation(object):
         return [E0, N0, a, b, c, d]
 
     @staticmethod
-    def polynomial_transformation(self, plist, degree = 3):
+    def polynomial_transformation(plist, degree = 3):
         """
             Calculate parameters of polynomial (rubber sheet) transformation.
             X = X0 + a1 * x + a2 * y + a3 * xy + a4 * x^2 + a5 * y^2 + ...
