@@ -151,7 +151,7 @@ class SingleDialog(QDialog):
                 self.ui.ResectionRadio.isChecked() or self.ui.FreeRadio.isChecked()):
             targets = get_targets(stn1[0], stn1[1], stn1[2],True)
         elif stn1 is not None and self.ui.RadialRadio.isChecked():
-            targets = get_targets(stn1[0], stn1[1], stn1[2],False)
+            targets = get_targets(stn1[0], stn1[1], stn1[2],False,True)
         elif stn1 is not None and stn2 is not None and \
                 self.ui.IntersectRadio.isChecked():
             # fill source list for intersection (common points)

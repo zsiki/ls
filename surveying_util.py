@@ -18,7 +18,7 @@ import pdb
 def get_namelist(pattern):
     """
         Find layers matching name with the pattern
-        :parameter pattern: regexp pattern for layer name
+        :param pattern: regexp pattern for layer name
         :return list of matching names or None
     """
     w = []
@@ -47,7 +47,7 @@ def get_fblist():
 def get_layer_by_name(name):
     """
         Look for a layer object by name
-        :parameter name: name of the layer
+        :param name: name of the layer
         :return layer object 
     """
     layermap = QgsMapLayerRegistry.instance().mapLayers()
@@ -62,7 +62,7 @@ def get_layer_by_name(name):
 def get_fieldlist(vlayer):
     """
         Create a list of fields
-        :parameter vlayer: vector layer
+        :param vlayer: vector layer
         :return list of fields
     """
     vprovider = vlayer.dataProvider()
@@ -87,7 +87,7 @@ def get_fieldnames(vlayer):
 def get_coord(p, clist=None):
     """
         Get the coordinates of a point 
-        :parameter p: point number
+        :param p: point number
         :param clist: coordinate list to search for (str), optional
         :return Point object with coordinates
     """
@@ -269,11 +269,9 @@ def get_targets(point_id, fieldbook, fid, known=False, polar=False):
             if known and known_list is not None and not pid in known_list:
                 # skip unknown points
                 continue
-            if polar and type(feat['sd']) is not float and \
-                type(feat['hz']) is not float:
+            if polar and (type(feat['hz']) is not float or type(feat['sd']) is not float):
                 continue
-            else:
-                o = [pid, fieldbook, fid]
+            o = [pid, fieldbook, fid]
             obs.append(o)
     if len(obs):
         return sorted(obs)
@@ -358,8 +356,8 @@ class ScPoint(Point):
 
     def __init__(self, p, coo=None):
         """
-            :parameter p: Point object (Point) or a point_id (String)
-            :parameter coo: name of the table where point is/to be store (String)
+            :param p: Point object (Point) or a point_id (String)
+            :param coo: name of the table where point is/to be store (String)
                 it is None if a new point to add
         """
         if isinstance(p, Point):

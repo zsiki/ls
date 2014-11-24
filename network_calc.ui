@@ -310,8 +310,8 @@
     </property>
     <property name="font">
      <font>
-      <family>DejaVu Sans Mono</family>
-      <pointsize>8</pointsize>
+      <family>Courier New</family>
+      <pointsize>11</pointsize>
      </font>
     </property>
    </widget>
