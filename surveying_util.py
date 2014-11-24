@@ -239,7 +239,7 @@ def get_stations(known=False, oriented=False):
         return sorted(slist)
     return None
 
-def get_targets(point_id, fieldbook, fid, known=False):
+def get_targets(point_id, fieldbook, fid, known=False, polar=False):
     """
         collect observation data from one station
         :param point_id: station number/name (str)
@@ -269,7 +269,11 @@ def get_targets(point_id, fieldbook, fid, known=False):
             if known and known_list is not None and not pid in known_list:
                 # skip unknown points
                 continue
-            o = [pid, fieldbook, fid]
+            if polar and type(feat['sd']) is not float and \
+                type(feat['hz']) is not float:
+                continue
+            else:
+                o = [pid, fieldbook, fid]
             obs.append(o)
     if len(obs):
         return sorted(obs)
