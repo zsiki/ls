@@ -296,7 +296,7 @@ class Calculation(object):
                     t[i]  = Distance((t[i].d + obsprev.horiz_dist()) / 2.0, "HD")
                 else:
                     t[i] = Distance(obsprev.horiz_dist(),"HD")
-            elif i>1 and t[i-1] is None:
+            elif i>0 and t[i] is None:
                 # no distance between points
                 ResultLog.resultlog_message += "Error: No distance between points %s and %s!\n" % \
                     (trav_obs[i-1][0].p.id,trav_obs[i][0].p.id)
