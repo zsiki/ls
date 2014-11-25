@@ -8,7 +8,7 @@
 """
 
 from PyQt4.QtGui import QDialog, QFileDialog
-from PyQt4.QtCore import SIGNAL
+from PyQt4.QtCore import SIGNAL, QCoreApplication
 from transformation_calc import Ui_TransformationCalcDialog
 
 from surveying_util import *
@@ -22,6 +22,7 @@ class TransformationDialog(QDialog):
         super(TransformationDialog, self).__init__()
         self.ui = Ui_TransformationCalcDialog()
         self.ui.setupUi(self)
+        self.from_points = []
         self.common = []
         self.used = []
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
@@ -64,6 +65,7 @@ class TransformationDialog(QDialog):
         self.ui.ThirdRadio.setEnabled(False)
         self.ui.FourthRadio.setEnabled(False)
         self.ui.FifthRadio.setEnabled(False)
+        self.ui.ResultTextBrowser.clear()
 
     def onCloseButton(self):
         """
@@ -152,10 +154,10 @@ class TransformationDialog(QDialog):
         QgsMapLayerRegistry.instance().addMapLayer(to_shp, False)
         to_points = get_known(2, "tmp_to_shape")
         QgsMapLayerRegistry.instance().removeMapLayer("tmp_to_shape")
-        from_points = get_known(2, from_name)
+        self.from_points = get_known(2, from_name)
         self.common = []
         self.used = []
-        for from_p in from_points:
+        for from_p in self.from_points:
             if from_p in to_points:
                 self.common.append(from_p)
         for p in self.common:
@@ -176,34 +178,50 @@ class TransformationDialog(QDialog):
             p_from = get_coord(point_id, from_list)
             p_to = get_coord(point_id, to_list)
             p_list.append([p_from, p_to])
-        QgsMapLayerRegistry.instance().removeMapLayer("tmp_to_shape")
         if self.ui.OrthogonalRadio.isChecked():
             tr = Calculation.orthogonal_transformation(p_list)
             tr_func = self.ortho_tr
+            self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\nOrthogonal transformation'))
         elif self.ui.AffineRadio.isChecked():
             tr = Calculation.affine_transformation(p_list)
             tr_func = self.affine_tr
+            self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\nAffine transformation'))
         elif self.ui.ThirdRadio.isChecked():
             tr = Calculation.polynomial_transformation(p_list, 3)
             tr_func = self.poly3_tr
+            self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\n3rd order polynomial transformation'))
         elif self.ui.FourthRadio.isChecked():
             tr = Calculation.polynomial_transformation(p_list, 4)
             tr_func = self.poly4_tr
+            self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\n4th order polynomial transformation'))
         elif self.ui.FifthRadio.isChecked():
             tr = Calculation.polynomial_transformation(p_list, 5)
             tr_func = self.poly5_tr
+            self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\n5th order polynomial transformation'))
 
-
+        # calculate transformed coordinates
+        self.ui.ResultTextBrowser.append('Point num                E from       N from       E to         N to      dE     dN')
         for (p_from, p_to) in p_list:
             (e, n) = tr_func(p_from, tr)
             de = p_to.e - e
             dn = p_to.n - n
-            buf = '%20s ' % p_from.id + \
+            buf = '%-20s ' % p_from.id + \
                 '%12.3f ' % p_from.e + '%12.3f ' % p_from.n + \
                 '%12.3f ' % p_to.e + '%12.3f ' % p_to.n + \
                 '%6.3f ' % de + '%6.3f ' % dn
             self.ui.ResultTextBrowser.append(buf)
-
+        # transform and store 
+        for p_num in self.from_points:
+            if not p_num in self.common:
+                p = get_coord(p_num, from_list)
+                (e, n) = tr_func(p, tr)
+                buf = '%-20s ' % p.id + \
+                    '%12.3f ' % p.e + '%12.3f ' % p.n + \
+                    '%12.3f ' % e + '%12.3f ' % n
+                self.ui.ResultTextBrowser.append(buf)
+                pp = Point(p_num, e, n, pc='transformed')
+                ScPoint(p).store_coord(2, "tmp_to_shape")
+        QgsMapLayerRegistry.instance().removeMapLayer("tmp_to_shape")
 
     def ortho_tr(self, p, tr):
         """
