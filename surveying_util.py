@@ -393,19 +393,22 @@ class ScPoint(Point):
             #self.coo = coord_list
         return
 
-    def store_coord(self, dimension=3):
+    def store_coord(self, dimension=3, clist=None):
         """
             Update coordinates in coord table, insert new point if 
-            coo is None
-            :param dimension: 1/2/3D coordinates to store
+            coo is None or point not found
+            :param dimension: 1/2/3D coordinates to store (int)
+            :param clist: name of layer to add (str)
         """
-        if self.coo is None:
-            # new point to add to the first table
-            cl = get_coordlist()
-            if cl is None:
-                return False
-
+        if clist is None:
+            if self.coo is None:
+                # new point to add to the first table
+                cl = get_coordlist()
+                if cl is None:
+                    return False
             self.coo = cl[0]
+        else:
+            self.coo = clist
         # e, n coordinates must be given (geometry)
         if self.e is None or self.n is None:
             # TODO error report
