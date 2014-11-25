@@ -176,21 +176,65 @@ class TransformationDialog(QDialog):
             p_from = get_coord(point_id, from_list)
             p_to = get_coord(point_id, to_list)
             p_list.append([p_from, p_to])
-            print p_from
-            print p_to
         QgsMapLayerRegistry.instance().removeMapLayer("tmp_to_shape")
         if self.ui.OrthogonalRadio.isChecked():
             tr = Calculation.orthogonal_transformation(p_list)
-            print tr
+            tr_func = self.ortho_tr
         elif self.ui.AffineRadio.isChecked():
             tr = Calculation.affine_transformation(p_list)
-            print tr
+            tr_func = self.affine_tr
         elif self.ui.ThirdRadio.isChecked():
             tr = Calculation.polynomial_transformation(p_list, 3)
-            print tr
+            tr_func = self.poly3_tr
         elif self.ui.FourthRadio.isChecked():
             tr = Calculation.polynomial_transformation(p_list, 4)
-            print tr
+            tr_func = self.poly4_tr
         elif self.ui.FifthRadio.isChecked():
             tr = Calculation.polynomial_transformation(p_list, 5)
-            print tr
+            tr_func = self.poly5_tr
+
+
+        for (p_from, p_to) in p_list:
+            (e, n) = tr_func(p_from, tr)
+            de = p_to.e - e
+            dn = p_to.n - n
+            buf = '%20s ' % p_from.id + \
+                '%12.3f ' % p_from.e + '%12.3f ' % p_from.n + \
+                '%12.3f ' % p_to.e + '%12.3f ' % p_to.n + \
+                '%6.3f ' % de + '%6.3f ' % dn
+            self.ui.ResultTextBrowser.append(buf)
+
+
+    def ortho_tr(self, p, tr):
+        """
+            Calculate orthogonal transformation for a point
+        """
+        e = tr[0] + tr[2] * p.e - tr[3] * p.n
+        n = tr[1] + tr[3] * p.e + tr[2] * p.n
+        return [e, n]
+
+    def affine_tr(self, p, tr):
+        """
+            Calculate affine transformation for a point
+        """
+        e = tr[0] + tr[2] * p.e + tr[3] * p.n
+        n = tr[1] + tr[4] * p.e + tr[5] * p.n
+        return [e, n]
+
+    def poly3_tr(self, p, tr):
+        """
+            Calculate 3rd order polynomial transformation for a point
+        """
+        pass
+
+    def poly4_tr(self, p, tr):
+        """
+            Calculate 4th order polynomial transformation for a point
+        """
+        pass
+
+    def poly5_tr(self, p, tr):
+        """
+            Calculate 5th order polynomial transformation for a point
+        """
+        pass
