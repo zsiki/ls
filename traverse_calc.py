@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'traverse_calc.ui'
 #
-# Created: Fri Nov 21 23:59:06 2014
+# Created: Tue Nov 25 01:47:02 2014
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -211,6 +211,9 @@ class Ui_TraverseCalcDialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ResultTextBrowser.sizePolicy().hasHeightForWidth())
         self.ResultTextBrowser.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Courier New"))
+        self.ResultTextBrowser.setFont(font)
         self.ResultTextBrowser.setObjectName(_fromUtf8("ResultTextBrowser"))
         self.HelpButton = QtGui.QPushButton(TraverseCalcDialog)
         self.HelpButton.setGeometry(QtCore.QRect(20, 420, 75, 23))
