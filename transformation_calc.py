@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'transformation_calc.ui'
 #
-# Created: Sun Nov 23 22:38:08 2014
+# Created: Thu Nov 27 21:41:00 2014
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -126,6 +126,7 @@ class Ui_TransformationCalcDialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.CommonList.sizePolicy().hasHeightForWidth())
         self.CommonList.setSizePolicy(sizePolicy)
+        self.CommonList.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
         self.CommonList.setObjectName(_fromUtf8("CommonList"))
         self.UsedList = QtGui.QListWidget(self.PointsGroup)
         self.UsedList.setGeometry(QtCore.QRect(230, 40, 121, 201))
@@ -134,6 +135,7 @@ class Ui_TransformationCalcDialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.UsedList.sizePolicy().hasHeightForWidth())
         self.UsedList.setSizePolicy(sizePolicy)
+        self.UsedList.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
         self.UsedList.setObjectName(_fromUtf8("UsedList"))
         self.RadioGroup = QtGui.QGroupBox(TransformationCalcDialog)
         self.RadioGroup.setGeometry(QtCore.QRect(590, 10, 111, 251))

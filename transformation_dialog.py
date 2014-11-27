@@ -98,15 +98,21 @@ class TransformationDialog(QDialog):
 
     def onAddButton(self):
         """
-            Add point to used point in transformation
+            Add selected points to used points in transformation
         """
-        i = self.ui.CommonList.currentRow()
-        if i < 0:
-            return
-        item = self.ui.CommonList.takeItem(i)
-        self.ui.UsedList.addItem(item)
-        self.used.append(self.common[i])
-        del self.common[i]
+        selected = self.ui.CommonList.selectedItems()
+        for item in selected:
+            i  = self.ui.CommonList.row(item)
+            self.ui.UsedList.addItem(self.ui.CommonList.takeItem(i))
+            self.used.append(self.common[i])
+            del self.common[i]
+        #i = self.ui.CommonList.currentRow()
+        #if i < 0:
+        #    return
+        #item = self.ui.CommonList.takeItem(i)
+        #self.ui.UsedList.addItem(item)
+        #self.used.append(self.common[i])
+        #del self.common[i]
         if len(self.used) > 1:
             self.ui.OrthogonalRadio.setEnabled(True)
         if len(self.used) > 2:
@@ -120,15 +126,21 @@ class TransformationDialog(QDialog):
     
     def onRemoveButton(self):
         """
-            Remove point from used points
+            Remove selected points from used points
         """
-        i = self.ui.UsedList.currentRow()
-        if i < 0:
-            return
-        item = self.ui.UsedList.takeItem(i)
-        self.ui.CommonList.addItem(item)
-        self.common.append(self.used[i])
-        del self.used[i]
+        selected = self.ui.UsedList.selectedItems()
+        for item in selected:
+            i  = self.ui.UsedList.row(item)
+            self.ui.CommonList.addItem(self.ui.UsedList.takeItem(i))
+            self.common.append(self.used[i])
+            del self.used[i]
+        #i = self.ui.UsedList.currentRow()
+        #if i < 0:
+        #    return
+        #item = self.ui.UsedList.takeItem(i)
+        #self.ui.CommonList.addItem(item)
+        #self.common.append(self.used[i])
+        #del self.used[i]
         if len(self.used) < 2:
             self.ui.OrthogonalRadio.setEnabled(False)
         if len(self.used) < 3:
@@ -200,7 +212,7 @@ class TransformationDialog(QDialog):
             self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\n5th order polynomial transformation'))
 
         # calculate transformed coordinates
-        self.ui.ResultTextBrowser.append('Point num                E from       N from       E to         N to      dE     dN')
+        self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', 'Point num                E from       N from       E to         N to      dE     dN'))
         for (p_from, p_to) in p_list:
             (e, n) = tr_func(p_from, tr)
             de = p_to.e - e
