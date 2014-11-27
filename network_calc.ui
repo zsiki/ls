@@ -203,6 +203,9 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
    </widget>
    <widget class="QListWidget" name="FixList">
     <property name="geometry">
@@ -219,6 +222,9 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
    </widget>
    <widget class="QListWidget" name="AdjustedList">
     <property name="geometry">
@@ -234,6 +240,9 @@
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
     </property>
    </widget>
   </widget>

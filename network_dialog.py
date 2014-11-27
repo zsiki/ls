@@ -12,6 +12,9 @@ class NetworkDialog(QDialog):
         Class for network calculation dialog
     """
     def __init__(self):
+        """
+            Initialize dialog data and event handlers
+        """
         super(NetworkDialog, self).__init__()
         self.ui = Ui_NetworkCalcDialog()
         self.ui.setupUi(self)
@@ -30,7 +33,7 @@ class NetworkDialog(QDialog):
 
     def showEvent(self, event):
         """
-            set up initial state of dialog
+            set up initial state of dialog widgets
         """
         self.reset()
 
@@ -63,44 +66,84 @@ class NetworkDialog(QDialog):
         self.reset()
 
     def onAddFixButton(self):
-        i = self.ui.PointsList.currentRow()
-        if i < 0:
-            return
-        if self.points[i][1]:
-            # has coordinates
-            item = self.ui.PointsList.takeItem(i)
-            self.ui.FixList.addItem(item)
-            self.fix.append(self.points[i])
-            del self.points[i]
+        """
+            Move selected points to fix point list
+        """
+        selected = self.ui.PointsList.selectedItems()
+        for item in selected:
+            i = self.ui.PointsList.row(item)
+            if self.points[i][1]:
+                self.ui.FixList.addItem(self.ui.PointsList.takeItem(i))
+                self.fix.append(self.points[i])
+                del self.points[i]
+        #i = self.ui.PointsList.currentRow()
+        #if i < 0:
+        #    return
+        #if self.points[i][1]:
+        #    # has coordinates
+        #    item = self.ui.PointsList.takeItem(i)
+        #    self.ui.FixList.addItem(item)
+        #    self.fix.append(self.points[i])
+        #    del self.points[i]
 
     def onAddAdjButton(self):
-        i = self.ui.PointsList.currentRow()
-        if i < 0:
-            return
-        item = self.ui.PointsList.takeItem(i)
-        self.ui.AdjustedList.addItem(item)
-        self.adj.append(self.points[i])
-        del self.points[i]
+        """
+            Move selected points to adjusted list
+        """
+        selected = self.ui.PointsList.selectedItems()
+        for item in selected:
+            i = self.ui.PointsList.row(item)
+            self.ui.AdjustedList.addItem(self.ui.PointsList.takeItem(i))
+            self.adj.append(self.points[i])
+            del self.points[i]
+        #i = self.ui.PointsList.currentRow()
+        #if i < 0:
+        #    return
+        #item = self.ui.PointsList.takeItem(i)
+        #self.ui.AdjustedList.addItem(item)
+        #self.adj.append(self.points[i])
+        #del self.points[i]
 
     def onRemoveFixButton(self):
-        i = self.ui.FixList.currentRow()
-        if i < 0:
-            return
-        item = self.ui.FixList.takeItem(i)
-        self.ui.PointsList.addItem(item)
-        self.points.append(self.fix[i])
-        del self.fix[i]
+        """
+            Move back selected points from fixed list
+        """
+        selected = self.ui.FixList.selectedItems()
+        for item in selected:
+            i = self.ui.FixList.row(item)
+            self.ui.PointsList.addItem(self.ui.FixList.takeItem(i))
+            self.points.append(self.fix[i])
+            del self.fix[i]
+        #i = self.ui.FixList.currentRow()
+        #if i < 0:
+        #    return
+        #item = self.ui.FixList.takeItem(i)
+        #self.ui.PointsList.addItem(item)
+        #self.points.append(self.fix[i])
+        #del self.fix[i]
 
     def onRemoveAdjButton(self):
-        i = self.ui.AdjustedList.currentRow()
-        if i < 0:
-            return
-        item = self.ui.AdjustedList.takeItem(i)
-        self.ui.PointsList.addItem(item)
-        self.points.append(self.adj[i])
-        del self.adj[i]
+        """
+            Move back selected points from adjusted list
+        """
+        selected = self.ui.AdjustedList.selectedItems()
+        for item in selected:
+            i = self.ui.AdjustedList.row(item)
+            self.ui.PointsList.addItem(self.ui.AdjustedList.takeItem(i))
+            self.points.append(self.adj[i])
+            del self.adj[i]
+        #i = self.ui.AdjustedList.currentRow()
+        #if i < 0:
+        #    return
+        #item = self.ui.AdjustedList.takeItem(i)
+        #self.ui.PointsList.addItem(item)
+        #self.points.append(self.adj[i])
+        #del self.adj[i]
 
     def onCalcButton(self):
+        """
+            Collect observations and adjust network
+        """
         if len(self.adj):
             dimension = int(self.ui.DimensionComboBox.currentText())
             conf = float(self.ui.ConfidenceComboBox.currentText())
