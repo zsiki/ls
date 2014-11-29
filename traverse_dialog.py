@@ -57,9 +57,9 @@ class TraverseDialog(QDialog):
         self.ui.OrderList.clear()
         self.ui.ResultTextBrowser.clear()
 
-    def fillStationCombos(self):
+    def fillStartEndPointsCombos(self):
         """
-            Change dialog controls when an other calculation type selected.
+            Change start and end point combo when an other traversing type selected.
         """
         # get selected stations
         oldStartPoint = self.ui.StartPointComboBox.itemData( self.ui.StartPointComboBox.currentIndex() )
@@ -129,7 +129,7 @@ class TraverseDialog(QDialog):
     
     def fillTargetList(self):
         """
-            Change dialog controls when an other calculation type selected.
+            Change Target List when an other calculation type selected.
         """
         self.ui.TargetList.clear()
         self.ui.OrderList.clear()
@@ -148,6 +148,11 @@ class TraverseDialog(QDialog):
                 self.ui.TargetList.addItem( item )
                 
     def fillOpenTraverseEndPoints(self):
+        """
+            Change End Points combo with target points observed 
+            from the last point selected in Order List 
+            if open traverse is chosen.
+        """
         oldEndPoint = self.ui.EndPointComboBox.itemData( self.ui.EndPointComboBox.currentIndex() )
         # clear combos
         self.ui.EndPointComboBox.clear()
@@ -177,7 +182,7 @@ class TraverseDialog(QDialog):
         """
             Change dialog controls when an other calculation type selected.
         """
-        self.fillStationCombos()
+        self.fillStartEndPointsCombos()
         self.fillTargetList()
         
     def startpointComboChanged(self):
@@ -226,7 +231,7 @@ class TraverseDialog(QDialog):
 
     def onCalcButton(self):
         """
-            Start a calculation when the Calculate button pushed.
+            Start a traverse calculation when the Calculate button pushed.
         """
         if self.ui.buttonGroup.checkedId() == -1:
             QMessageBox.warning(self,u"Warning",u"Select the type of traverse line!")
