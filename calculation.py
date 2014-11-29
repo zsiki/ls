@@ -398,7 +398,72 @@ class Calculation(object):
             vn[i] = t[i].d * wn
             ee[i] = ee[i-1] + de[i] + ve[i]
             nn[i] = nn[i-1] + dn[i] + vn[i]
-        
+
+        for i in range(0,n):
+            pcode = (trav_obs[i][0].p.pc if trav_obs[i][0].p.pc is not None else "-")
+            t_1 = "%8.3f" % t1[i].d if t1[i] is not None else "-"
+            t_2 = "%8.3f" % t2[i].d if t2[i] is not None else "-"
+            ResultLog.resultlog_message += "           %10.4f %8s\n" % (Angle(delta[i]).get_angle("GON"), t_1)
+
+            if i > 0:
+                if beta[i] is None:
+                    ResultLog.resultlog_message += "%-10s %10s %8.3f %8.3f %8.3f %10.3f %10.3f\n" % \
+                             (trav_obs[i][0].p.id, "", t[i].d, \
+                             de[i], dn[i], de[i]+ve[i],dn[i]+vn[i])
+                else:
+                    ResultLog.resultlog_message += "%-10s %10.4f %8.3f %8.3f %8.3f %10.3f %10.3f\n" % \
+                             (trav_obs[i][0].p.id, beta[i].get_angle('GON'), t[i].d, \
+                             de[i], dn[i], de[i]+ve[i],dn[i]+vn[i])
+            else:
+                if beta[i] is None:
+                    ResultLog.resultlog_message += "%-10s %10s\n" % \
+                             (trav_obs[i][0].p.id, "")
+                else:
+                    ResultLog.resultlog_message += "%-10s %10.4f\n" % \
+                             (trav_obs[i][0].p.id, beta[i].get_angle('GON'))
+            
+            if i > 0:
+                if free is True:
+                    w1 = "-"
+                    w2 = "-"
+                else:
+                    w1 = "%8.3f" % ve[i]
+                    w2 = "%8.3f" % vn[i]
+                if beta[0] is None or beta[n-1] is None:
+                    ResultLog.resultlog_message += "%-10s %10s %8s %8s %8s %10.3f %10.3f\n" % \
+                             (pcode, "", t_2, w1, w2, ee[i], nn[i])
+                else:
+                    ResultLog.resultlog_message += "%-10s %10.4f %8s %8.3f %8.3f %10.3f %10.3f\n" % \
+                             (pcode, Angle(vbeta[i]).get_angle('GON'), t_2, ve[i], vn[i], ee[i], nn[i])
+            else:
+                if beta[0] is None or beta[n-1] is None:
+                    ResultLog.resultlog_message += "%-10s %10s                           %10.3f %10.3f\n" % \
+                             (pcode, "", ee[i], nn[i])
+                else:
+                    ResultLog.resultlog_message += "%-10s %10.4s                           %10.3f %10.3f\n" % \
+                             (pcode, Angle(vbeta[i]).get_angle('GON'), ee[i], nn[i])
+            pass
+
+        ResultLog.resultlog_message += "\n"
+        if beta[0] is None or beta[n-1] is None:
+            ResultLog.resultlog_message += "           %10s                            %10.3f %10.3f\n" % \
+                     ("", ee[n-1]-ee[0], nn[n-1]-nn[0])
+            ResultLog.resultlog_message += "           %10s %8.3f %8.3f %8.3f\n\n" % \
+                     ("", sumt, sumde, sumdn)
+            if not free:
+                ResultLog.resultlog_message += "           %10s          %8.3f %8.3f\n" % ("",dde,ddn)
+        else:
+            ResultLog.resultlog_message += "           %10.4s                            %10.3f %10.3f\n" % \
+                     (Angle(0).get_angle('GON'), ee[n-1]-ee[0], nn[n-1]-nn[0])
+            ResultLog.resultlog_message += "           %10.4s %8.3f %8.3f %8.3f\n" % \
+                     (Angle(sumbeta).get_angle('GON'),sumt,sumde,sumdn)
+            ResultLog.resultlog_message += "           %10.4f\n" % \
+                     (Angle((n-1) * math.pi).get_angle('GON'))
+            ResultLog.resultlog_message += "           %10.4s          %8.3f %8.3f\n" % \
+                     (Angle(dbeta).get_angle('GON'), dde, ddn)
+        if not free:
+            ResultLog.resultlog_message += "                                   %8.3f\n" % ddist
+     
         if free is True:
             last = n
         else:
