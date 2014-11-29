@@ -688,9 +688,12 @@ class Calculation(object):
         self.__GaussElimination(N1, n1, m)
         self.__GaussElimination(N2, n2, m)
         res = []
-        for i in range(0,m):
-            res.append(n1[i], n2[i])
-        res.append(avge, avgn, avgE, avgN)
+        res.append(n1)
+        res.append(n2)
+        #for i in range(0,m):
+        #    res.append(n1[i], n2[i])
+        #res.append(avge, avgn, avgE, avgN)
+        res.append([avge, avgn, avgE, avgN])
         return res
 
 if __name__ == "__main__":
