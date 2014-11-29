@@ -100,11 +100,11 @@ class Calculation(object):
             p = Point(obs.point_id, e, n, z, obs.pc)
             if p.z is None:
                 # no z calculated
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f" % \
-                        (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n)
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f          %8.4f %8.3f" % \
+                        (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n,Angle(b).get_angle("GON"),obs.horiz_dist())
             else:
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f    %8.3f" % \
-                        (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n,p.z)
+                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f %8.3f %8.4f %8.3f" % \
+                        (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n,p.z,Angle(b).get_angle("GON"),obs.horiz_dist())
             return p
         except (ValueError, TypeError, AttributeError):
             return None
@@ -135,8 +135,8 @@ class Calculation(object):
             pc = obs1.pc
         pp.id = obs1.point_id
         pp.pc = pc
-        ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f\n" % \
-                  (pp.id, (pp.pc if pp.pc is not None else "-"), pp.e, pp.n)
+        ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f %8.4f %8.4f" % \
+                  (pp.id, (pp.pc if pp.pc is not None else "-"), pp.e, pp.n, b1, b2)
         return pp
 
     @staticmethod

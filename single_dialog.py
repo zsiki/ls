@@ -286,16 +286,15 @@ class SingleDialog(QDialog):
                     # log results
                     if log_header is False:
                         self.ui.ResultTextBrowser.append(u"\nRadial Survey")
-                        self.ui.ResultTextBrowser.append("Point num  Code                E            N           Z    ")
+                        self.ui.ResultTextBrowser.append("Point num  Code              E            N        Z     Bearing  H.Distance")
                         self.log.write()
                         self.log.write_log(u"Radial Survey")
-                        self.log.write("Point num  Code                E            N           Z    ")
-                        #log_stn = "%-10s %-10s %12.3f %12.3f %12s %s" % \
-                        #    (s.p.id, (s.p.pc if s.p.pc is not None else "-"), s.p.e, s.p.n, \
-                        #    ("%8.3f"%s.p.z if s.p.z is not None and not s.p.z.isNull() else ""), \
-                        #    s.o.hz.get_angle("DMS") )
-                        #self.log.write(log_stn)
-                        #self.ui.ResultTextBrowser.append(log_stn)
+                        self.log.write("Point num  Code              E            N        Z     Bearing  H.Distance")
+                        log_stn = "%-10s %-10s %12.3f %12.3f %8.3s     <station>" % \
+                            (s.p.id, (s.p.pc if s.p.pc is not None else "-"), s.p.e, s.p.n, \
+                            ("%8.3f"%s.p.z if s.p.z is not None and not s.p.z.isNull() else "") )
+                        self.log.write(log_stn)
+                        self.ui.ResultTextBrowser.append(log_stn)
                         log_header = True
                     tp.set_coord(p)
                     if p.z is None:
@@ -332,19 +331,17 @@ class SingleDialog(QDialog):
                     # log results
                     if log_header is False:
                         self.ui.ResultTextBrowser.append(u"\nIntersection")
-                        self.ui.ResultTextBrowser.append("Point num  Code                E            N     ")
+                        self.ui.ResultTextBrowser.append("Point num  Code              E            N     Bearing1 Bearing2")
                         self.log.write()
                         self.log.write_log(u"Intersection")
-                        self.log.write("Point num  Code                E            N     ")
+                        self.log.write("Point num  Code              E            N     Bearing1 Bearing2")
 
-                        #log_stn = "%-10s %-10s %12.3f %12.3f   %s\n" % \
-                        #    (s1.p.id, (s1.p.pc if s1.p.pc is not None else "-"), s1.p.e, s1.p.n, \
-                        #    s1.o.hz.get_angle("DMS") )
-                        #log_stn += "%-10s %-10s %12.3f %12.3f   %s" % \
-                        #    (s2.p.id, (s2.p.pc if s2.p.pc is not None else "-"), s2.p.e, s2.p.n, \
-                        #    s2.o.hz.get_angle("DMS") )
-                        #self.log.write(log_stn)
-                        #self.ui.ResultTextBrowser.append(log_stn)
+                        log_stn = "%-10s %-10s %12.3f %12.3f     <station>\n" % \
+                            (s1.p.id, (s1.p.pc if s1.p.pc is not None else "-"), s1.p.e, s1.p.n)
+                        log_stn += "%-10s %-10s %12.3f %12.3f     <station>" % \
+                            (s2.p.id, (s2.p.pc if s2.p.pc is not None else "-"), s2.p.e, s2.p.n)
+                        self.log.write(log_stn)
+                        self.ui.ResultTextBrowser.append(log_stn)
                         log_header = True
                     tp1.set_coord(p)
                     tp1.store_coord(2)
