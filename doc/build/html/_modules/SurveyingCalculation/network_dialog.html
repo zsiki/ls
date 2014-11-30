@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation.network_dialog &mdash; Land Surveying Calculation v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Land Surveying Calculation v0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="SurveyingCalculation" href="../SurveyingCalculation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" accesskey="U">SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for SurveyingCalculation.network_dialog</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">surveying_util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">gama_interface</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># debugging</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">pyqtRemoveInputHook</span>
+<span class="kn">import</span> <span class="nn">pdb</span>
+
+
+<span class="k">class</span> <span class="nc">NetworkDialog</span><span class="p">(</span><span class="n">QDialog</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NetworkDialog"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.network_dialog.NetworkDialog">[docs]</a><span class="sd">        Class for network calculation dialog</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initialize dialog data and event handlers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NetworkDialog</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_NetworkCalcDialog</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fix</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adj</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># event handling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CloseButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onCloseButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResetButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onResetButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AddFixButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onAddFixButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AddAdjButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onAddAdjButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">RemoveFixButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onRemoveFixButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">RemoveAdjButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onRemoveAdjButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CalcButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onCalcButton</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">showEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NetworkDialog.showEvent"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.network_dialog.NetworkDialog.showEvent">[docs]</a><span class="sd">            set up initial state of dialog widgets</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="NetworkDialog.reset"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.network_dialog.NetworkDialog.reset">[docs]</a><span class="sd">            Reset dialog to initial state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">get_measured</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fix</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adj</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># clear lists</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">PointsList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FixList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AdjustedList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">PointsList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">onCloseButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="NetworkDialog.onCloseButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.network_dialog.NetworkDialog.onCloseButton">[docs]</a><span class="sd">            Close dialog after Close button pressed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onResetButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="NetworkDialog.onResetButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.network_dialog.NetworkDialog.onResetButton">[docs]</a><span class="sd">            Reset dialog to initial state after Reset button pressed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onAddFixButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="NetworkDialog.onAddFixButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.network_dialog.NetworkDialog.onAddFixButton">[docs]</a><span class="sd">            Move selected points to fix point list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">PointsList</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">PointsList</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FixList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">PointsList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="c">#i = self.ui.PointsList.currentRow()</span>
+        <span class="c">#if i &lt; 0:</span>
+        <span class="c">#    return</span>
+        <span class="c">#if self.points[i][1]:</span>
+        <span class="c">#    # has coordinates</span>
+        <span class="c">#    item = self.ui.PointsList.takeItem(i)</span>
+        <span class="c">#    self.ui.FixList.addItem(item)</span>
+        <span class="c">#    self.fix.append(self.points[i])</span>
+        <span class="c">#    del self.points[i]</span>
+
+    <span class="k">def</span> <span class="nf">onAddAdjButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="NetworkDialog.onAddAdjButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.network_dialog.NetworkDialog.onAddAdjButton">[docs]</a><span class="sd">            Move selected points to adjusted list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">PointsList</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">PointsList</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AdjustedList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">PointsList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">adj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="c">#i = self.ui.PointsList.currentRow()</span>
+        <span class="c">#if i &lt; 0:</span>
+        <span class="c">#    return</span>
+        <span class="c">#item = self.ui.PointsList.takeItem(i)</span>
+        <span class="c">#self.ui.AdjustedList.addItem(item)</span>
+        <span class="c">#self.adj.append(self.points[i])</span>
+        <span class="c">#del self.points[i]</span>
+
+    <span class="k">def</span> <span class="nf">onRemoveFixButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="NetworkDialog.onRemoveFixButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.network_dialog.NetworkDialog.onRemoveFixButton">[docs]</a><span class="sd">            Move back selected points from fixed list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FixList</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FixList</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">PointsList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FixList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fix</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="c">#i = self.ui.FixList.currentRow()</span>
+        <span class="c">#if i &lt; 0:</span>
+        <span class="c">#    return</span>
+        <span class="c">#item = self.ui.FixList.takeItem(i)</span>
+        <span class="c">#self.ui.PointsList.addItem(item)</span>
+        <span class="c">#self.points.append(self.fix[i])</span>
+        <span class="c">#del self.fix[i]</span>
+
+    <span class="k">def</span> <span class="nf">onRemoveAdjButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="NetworkDialog.onRemoveAdjButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.network_dialog.NetworkDialog.onRemoveAdjButton">[docs]</a><span class="sd">            Move back selected points from adjusted list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AdjustedList</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AdjustedList</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">PointsList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AdjustedList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adj</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">adj</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="c">#i = self.ui.AdjustedList.currentRow()</span>
+        <span class="c">#if i &lt; 0:</span>
+        <span class="c">#    return</span>
+        <span class="c">#item = self.ui.AdjustedList.takeItem(i)</span>
+        <span class="c">#self.ui.PointsList.addItem(item)</span>
+        <span class="c">#self.points.append(self.adj[i])</span>
+        <span class="c">#del self.adj[i]</span>
+
+    <span class="k">def</span> <span class="nf">onCalcButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="NetworkDialog.onCalcButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.network_dialog.NetworkDialog.onCalcButton">[docs]</a><span class="sd">            Collect observations and adjust network</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adj</span><span class="p">):</span>
+            <span class="n">dimension</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">DimensionComboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">())</span>
+            <span class="n">conf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ConfidenceComboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">())</span>
+            <span class="n">stda</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AngleDevComboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">())</span>
+            <span class="n">stdd</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">DistDevMMComboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">())</span>
+            <span class="n">stdd1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">DistDevMMKMComboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">())</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">GamaInterface</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="n">stda</span><span class="p">,</span> <span class="n">stdd</span><span class="p">,</span> <span class="n">stdd1</span><span class="p">)</span>
+            <span class="c"># add points to adjustment</span>
+            <span class="n">fix_names</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">adj_names</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">fp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">get_coord</span><span class="p">(</span><span class="n">fp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s">&#39;FIX&#39;</span><span class="p">)</span>
+                <span class="n">fix_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">fp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">adj</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">get_coord</span><span class="p">(</span><span class="n">fp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">fp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s">&#39;ADJ&#39;</span><span class="p">)</span>
+                <span class="n">adj_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="c"># add observations to adjustment</span>
+            <span class="n">fb_list</span> <span class="o">=</span> <span class="n">get_fblist</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">fb_list</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span>
+            <span class="k">for</span> <span class="n">fb</span> <span class="ow">in</span> <span class="n">fb_list</span><span class="p">:</span>
+                <span class="n">lay</span> <span class="o">=</span> <span class="n">get_layer_by_name</span><span class="p">(</span><span class="n">fb</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">lay</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">st</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="n">n_ori</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c"># number of orientation directions</span>
+                <span class="n">n_adj</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c"># number of adjusted targets</span>
+                <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lay</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+                    <span class="n">pid</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;station&#39;</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">st</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="n">n_ori</span> <span class="o">+</span> <span class="n">n_adj</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> \
+                                <span class="p">(</span><span class="n">st</span> <span class="ow">in</span> <span class="n">fix_names</span> <span class="ow">and</span> <span class="n">n_adj</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                                <span class="c"># no adjusted point on known station, remove it</span>
+                                <span class="n">g</span><span class="o">.</span><span class="n">remove_last_observation</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                        <span class="n">st</span> <span class="o">=</span> <span class="bp">None</span>
+                        <span class="n">n_ori</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c"># number of orientation directions</span>
+                        <span class="n">n_adj</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c"># number of adjusted targets</span>
+                        <span class="k">if</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">fix_names</span> <span class="ow">or</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">adj_names</span><span class="p">:</span>
+                            <span class="n">st</span> <span class="o">=</span> <span class="n">pid</span>
+                            <span class="n">o</span> <span class="o">=</span> <span class="n">PolarObservation</span><span class="p">(</span><span class="n">pid</span><span class="p">,</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">])</span>
+                            <span class="n">o</span><span class="o">.</span><span class="n">th</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="k">else</span> <span class="bp">None</span>
+                            <span class="n">o</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span> <span class="k">else</span> <span class="bp">None</span>
+                            <span class="n">g</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+                            <span class="c"># TODO empty station? without observation</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">st</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">pid</span> <span class="ow">in</span> <span class="n">fix_names</span> <span class="ow">or</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">adj_names</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">dimension</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">or</span> \
+                                <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> \
+                                <span class="n">dimension</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> \
+                                <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">]):</span>
+                                <span class="n">o</span> <span class="o">=</span> <span class="n">PolarObservation</span><span class="p">(</span><span class="n">pid</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+                                <span class="n">o</span><span class="o">.</span><span class="n">hz</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">],</span> <span class="s">&#39;GON&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="k">else</span> <span class="bp">None</span>
+                                <span class="n">o</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">],</span> <span class="s">&#39;GON&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="k">else</span> <span class="bp">None</span>
+                                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> \
+                                    <span class="p">(</span><span class="n">st</span> <span class="ow">in</span> <span class="n">adj_names</span> <span class="ow">or</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">adj_names</span><span class="p">):</span>
+                                    <span class="c"># add distance if one end is unknown</span>
+                                    <span class="n">o</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">],</span> <span class="s">&#39;SD&#39;</span><span class="p">)</span>
+                                <span class="n">o</span><span class="o">.</span><span class="n">th</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="k">else</span> <span class="bp">None</span>
+                                <span class="n">o</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span> <span class="k">else</span> <span class="bp">None</span>
+                                <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">hz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">o</span><span class="o">.</span><span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                                    <span class="c"># direction or distance given</span>
+                                    <span class="n">g</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+                                    <span class="k">if</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">fix_names</span><span class="p">:</span>
+                                        <span class="n">n_ori</span> <span class="o">+=</span> <span class="mi">1</span>
+                                    <span class="k">if</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">adj_names</span><span class="p">:</span>
+                                        <span class="n">n_adj</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">adjust</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c"># adjustment failed</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;gama-local not installed or other runtime error&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" >SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Dec 01, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

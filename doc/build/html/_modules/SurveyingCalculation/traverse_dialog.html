@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation.traverse_dialog &mdash; Land Surveying Calculation v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Land Surveying Calculation v0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="SurveyingCalculation" href="../SurveyingCalculation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" accesskey="U">SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for SurveyingCalculation.traverse_dialog</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">traverse_calc</span> <span class="kn">import</span> <span class="n">Ui_TraverseCalcDialog</span>
+<span class="kn">from</span> <span class="nn">surveying_util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">calculation</span> <span class="kn">import</span> <span class="n">Calculation</span>
+<span class="kn">from</span> <span class="nn">resultlog</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">TraverseDialog</span><span class="p">(</span><span class="n">QDialog</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TraverseDialog"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog">[docs]</a><span class="sd">        Class for traverse calculation dialog</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TraverseDialog</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_TraverseCalcDialog</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">log</span>
+
+        <span class="c"># event handlers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ClosedRadio</span><span class="o">.</span><span class="n">toggled</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radioClicked</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">LinkRadio</span><span class="o">.</span><span class="n">toggled</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radioClicked</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">toggled</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radioClicked</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">startpointComboChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AddButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onAddButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">RemoveButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onRemoveButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">UpButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onUpButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">DownButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onDownButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CalcButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onCalcButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResetButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onResetButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CloseButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onCloseButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">TargetList</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">showEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TraverseDialog.showEvent"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.showEvent">[docs]</a><span class="sd">            Reset dialog when receives a show event.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.reset"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.reset">[docs]</a><span class="sd">            Reset dialog to initial state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># reset radio buttons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">buttonGroup</span><span class="o">.</span><span class="n">setExclusive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ClosedRadio</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">LinkRadio</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">buttonGroup</span><span class="o">.</span><span class="n">setExclusive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="c"># disable widgets</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="c"># clear widgets</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">TargetList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">fillStartEndPointsCombos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.fillStartEndPointsCombos"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.fillStartEndPointsCombos">[docs]</a><span class="sd">            Change start and end point combo when an other traversing type selected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># get selected stations</span>
+        <span class="n">oldStartPoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">itemData</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span> <span class="p">)</span>
+        <span class="n">oldEndPoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">itemData</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span> <span class="p">)</span>
+        <span class="c"># clear combos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="c">#get combobox models</span>
+        <span class="n">combomodel1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">model</span><span class="p">()</span>
+        <span class="n">combomodel2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">model</span><span class="p">()</span>
+
+        <span class="c">#get stations        </span>
+        <span class="n">known_stations</span> <span class="o">=</span> <span class="n">get_stations</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">oriented_stations</span> <span class="o">=</span> <span class="n">get_stations</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="c"># fill StartPointComboBox and EndPointComboBox</span>
+        <span class="n">start_points</span> <span class="o">=</span> <span class="p">[]</span>      
+        <span class="n">end_points</span> <span class="o">=</span> <span class="p">[]</span>      
+
+        <span class="k">if</span> <span class="n">oriented_stations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ClosedRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">stn</span> <span class="ow">in</span> <span class="n">oriented_stations</span><span class="p">:</span>
+                <span class="n">start_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="s">u&quot;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">)&quot;</span><span class="o">%</span> <span class="p">(</span><span class="n">stn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">stn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">stn</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">stn</span><span class="p">]</span> <span class="p">)</span>
+                <span class="n">end_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="s">u&quot;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">)&quot;</span><span class="o">%</span> <span class="p">(</span><span class="n">stn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">stn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">stn</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">stn</span><span class="p">]</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">known_stations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">LinkRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">stn</span> <span class="ow">in</span> <span class="n">known_stations</span><span class="p">:</span>
+                <span class="n">start_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="s">u&quot;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">)&quot;</span><span class="o">%</span> <span class="p">(</span><span class="n">stn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">stn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">stn</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">stn</span><span class="p">]</span> <span class="p">)</span>
+                <span class="n">end_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="s">u&quot;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">)&quot;</span><span class="o">%</span> <span class="p">(</span><span class="n">stn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">stn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">stn</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">stn</span><span class="p">]</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">oriented_stations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">stn</span> <span class="ow">in</span> <span class="n">oriented_stations</span><span class="p">:</span>
+                <span class="n">start_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="s">u&quot;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">)&quot;</span><span class="o">%</span> <span class="p">(</span><span class="n">stn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">stn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">stn</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">stn</span><span class="p">]</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="n">known_points</span> <span class="o">=</span> <span class="n">get_known</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">start_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">startpoint</span> <span class="ow">in</span> <span class="n">start_points</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">QStandardItem</span><span class="p">(</span><span class="n">startpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">startpoint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">known_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">startpoint</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">known_points</span><span class="p">:</span>
+                    <span class="n">itemfont</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">font</span><span class="p">()</span>
+                    <span class="n">itemfont</span><span class="o">.</span><span class="n">setWeight</span><span class="p">(</span><span class="n">QFont</span><span class="o">.</span><span class="n">Bold</span><span class="p">)</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">itemfont</span><span class="p">)</span>
+                <span class="n">combomodel1</span><span class="o">.</span><span class="n">appendRow</span><span class="p">(</span> <span class="n">item</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="n">end_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">endpoint</span> <span class="ow">in</span> <span class="n">end_points</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">QStandardItem</span><span class="p">(</span><span class="n">endpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">endpoint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">known_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">endpoint</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">known_points</span><span class="p">:</span>
+                    <span class="n">itemfont</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">font</span><span class="p">()</span>
+                    <span class="n">itemfont</span><span class="o">.</span><span class="n">setWeight</span><span class="p">(</span><span class="n">QFont</span><span class="o">.</span><span class="n">Bold</span><span class="p">)</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">itemfont</span><span class="p">)</span>
+                <span class="n">combomodel2</span><span class="o">.</span><span class="n">appendRow</span><span class="p">(</span> <span class="n">item</span> <span class="p">)</span>
+                
+        <span class="c"># select previously selected start/end point if present in the list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">findData</span><span class="p">(</span><span class="n">oldStartPoint</span><span class="p">)</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">findData</span><span class="p">(</span><span class="n">oldEndPoint</span><span class="p">)</span> <span class="p">)</span>
+        
+        <span class="c"># in case of closed traverse ens point must be the same as start point</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ClosedRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">())</span>
+    
+    <span class="k">def</span> <span class="nf">fillTargetList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.fillTargetList"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.fillTargetList">[docs]</a><span class="sd">            Change Target List when an other calculation type selected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">TargetList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="c"># get target points</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">get_stations</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+        <span class="c"># fill target list widget</span>
+        <span class="n">known_list</span> <span class="o">=</span> <span class="n">get_known</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">targets</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">QListWidgetItem</span><span class="p">(</span><span class="s">u&quot;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">)&quot;</span><span class="o">%</span> <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">target</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="p">)</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">known_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">known_list</span><span class="p">:</span>
+                    <span class="n">itemfont</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">font</span><span class="p">()</span>
+                    <span class="n">itemfont</span><span class="o">.</span><span class="n">setWeight</span><span class="p">(</span><span class="n">QFont</span><span class="o">.</span><span class="n">Bold</span><span class="p">)</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">itemfont</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">TargetList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span> <span class="n">item</span> <span class="p">)</span>
+                
+    <span class="k">def</span> <span class="nf">fillOpenTraverseEndPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.fillOpenTraverseEndPoints"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.fillOpenTraverseEndPoints">[docs]</a><span class="sd">            Change End Points combo with target points observed </span>
+<span class="sd">            from the last point selected in Order List </span>
+<span class="sd">            if open traverse is chosen.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">oldEndPoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">itemData</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span> <span class="p">)</span>
+        <span class="c"># clear combos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        
+        <span class="c">#get last angle point from order list</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">lastp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">item</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span> <span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">get_targets</span><span class="p">(</span><span class="n">lastp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lastp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">lastp</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="c"># fill end point combo        </span>
+        <span class="n">combomodel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">model</span><span class="p">()</span>
+        <span class="n">known_list</span> <span class="o">=</span> <span class="n">get_known</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">QStandardItem</span><span class="p">(</span><span class="s">u&quot;</span><span class="si">%s</span><span class="s"> (id:</span><span class="si">%s</span><span class="s">)&quot;</span><span class="o">%</span> <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">target</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">target</span><span class="p">,</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">known_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">known_list</span><span class="p">:</span>
+                <span class="n">itemfont</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">font</span><span class="p">()</span>
+                <span class="n">itemfont</span><span class="o">.</span><span class="n">setWeight</span><span class="p">(</span><span class="n">QFont</span><span class="o">.</span><span class="n">Bold</span><span class="p">)</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">itemfont</span><span class="p">)</span>
+            <span class="n">combomodel</span><span class="o">.</span><span class="n">appendRow</span><span class="p">(</span> <span class="n">item</span> <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">findData</span><span class="p">(</span><span class="n">oldEndPoint</span><span class="p">)</span> <span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">radioClicked</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.radioClicked"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.radioClicked">[docs]</a><span class="sd">            Change dialog controls when an other calculation type selected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fillStartEndPointsCombos</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fillTargetList</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">startpointComboChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ClosedRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fillOpenTraverseEndPoints</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onAddButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TraverseDialog.onAddButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.onAddButton">[docs]</a><span class="sd">            Add selected target point to used points list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">TargetList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">TargetList</span><span class="o">.</span><span class="n">currentRow</span><span class="p">()</span> <span class="p">)</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fillOpenTraverseEndPoints</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onRemoveButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.onRemoveButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.onRemoveButton">[docs]</a><span class="sd">            Remove selected used point and add to target points list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">TargetList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">currentRow</span><span class="p">()</span> <span class="p">)</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fillOpenTraverseEndPoints</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onUpButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.onUpButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.onUpButton">[docs]</a><span class="sd">            Add selected target point to used points list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">currentRow</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cur</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">insertItem</span><span class="p">(</span> <span class="n">cur</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span> <span class="n">cur</span> <span class="p">)</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">setCurrentRow</span><span class="p">(</span><span class="n">cur</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fillOpenTraverseEndPoints</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onDownButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.onDownButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.onDownButton">[docs]</a><span class="sd">            Add selected target point to used points list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">currentRow</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cur</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">insertItem</span><span class="p">(</span> <span class="n">cur</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span> <span class="n">cur</span> <span class="p">)</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">setCurrentRow</span><span class="p">(</span><span class="n">cur</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fillOpenTraverseEndPoints</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onCalcButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.onCalcButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.onCalcButton">[docs]</a><span class="sd">            Start a traverse calculation when the Calculate button pushed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">buttonGroup</span><span class="o">.</span><span class="n">checkedId</span><span class="p">()</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">u&quot;Warning&quot;</span><span class="p">,</span><span class="s">u&quot;Select the type of traverse line!&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c"># get the selected stations</span>
+        <span class="n">startpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">itemData</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="n">startpoint</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">u&quot;Warning&quot;</span><span class="p">,</span><span class="s">u&quot;Select start point!&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">StartPointComboBox</span><span class="o">.</span><span class="n">setFocus</span><span class="p">()</span>
+            <span class="k">return</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">itemData</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="n">endpoint</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">u&quot;Warning&quot;</span><span class="p">,</span><span class="s">u&quot;Select end point!&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">EndPointComboBox</span><span class="o">.</span><span class="n">setFocus</span><span class="p">()</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">u&quot;Warning&quot;</span><span class="p">,</span><span class="s">u&quot;Add points to angle point list!&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">setFocus</span><span class="p">()</span>
+            <span class="k">return</span>
+
+        <span class="c"># fill stations list</span>
+        <span class="n">stations</span> <span class="o">=</span> <span class="p">[</span><span class="n">startpoint</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+            <span class="n">station</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">station</span> <span class="o">==</span> <span class="n">startpoint</span><span class="p">:</span>
+                <span class="k">continue</span> 
+            <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrderList</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">station</span> <span class="o">==</span> <span class="n">endpoint</span><span class="p">:</span>
+                <span class="k">continue</span> 
+            <span class="n">stations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">station</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="n">stations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+            
+        <span class="c"># add stations and observations to trav_obs</span>
+        <span class="n">trav_obs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stations</span><span class="p">)):</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">get_station</span><span class="p">(</span><span class="n">stations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">stations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">stations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="n">get_targets</span><span class="p">(</span><span class="n">stations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">stations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">stations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">obs1</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">obs2</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">stations</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">obs1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">obs1</span> <span class="o">=</span> <span class="n">get_target</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">target</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">obs2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">i</span><span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="n">stations</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                        <span class="k">break</span>
+                <span class="k">elif</span> <span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">stations</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">stations</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">obs2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">obs2</span> <span class="o">=</span> <span class="n">get_target</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">target</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">obs1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                        <span class="k">break</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="ow">and</span> <span class="n">i</span><span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="n">stations</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">endpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">obs2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">obs2</span> <span class="o">=</span> <span class="n">get_target</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">target</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">obs1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    
+            <span class="n">trav_obs</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">st</span><span class="p">,</span><span class="n">obs1</span><span class="p">,</span><span class="n">obs2</span><span class="p">])</span>
+            
+        <span class="c"># Open Traverse: end point can be selected from end point list</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="n">trav_obs</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Station</span><span class="p">(</span> <span class="n">Point</span><span class="p">(</span><span class="n">endpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> \
+                            <span class="n">PolarObservation</span><span class="p">(</span><span class="n">endpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;station&#39;</span><span class="p">)</span> <span class="p">),</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">])</span>
+            
+            <span class="c"># if end point is a known point -&gt; question</span>
+            <span class="n">known_list</span> <span class="o">=</span> <span class="n">get_known</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">known_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">endpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">known_list</span><span class="p">:</span>
+                <span class="n">reply</span> <span class="o">=</span> <span class="n">QMessageBox</span><span class="o">.</span><span class="n">question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">u&quot;Question&quot;</span><span class="p">,</span> \
+                    <span class="s">u&quot;End point has coordinates.</span><span class="se">\n</span><span class="s">Are you sure you want to calculate an open traverse?&quot;</span><span class="p">,</span> \
+                    <span class="n">QMessageBox</span><span class="o">.</span><span class="n">Yes</span><span class="p">,</span> <span class="n">QMessageBox</span><span class="o">.</span><span class="n">No</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">reply</span> <span class="o">==</span> <span class="n">QMessageBox</span><span class="o">.</span><span class="n">No</span><span class="p">:</span>
+                    <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OpenRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="n">plist</span> <span class="o">=</span> <span class="n">Calculation</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span><span class="n">trav_obs</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plist</span> <span class="o">=</span> <span class="n">Calculation</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span><span class="n">trav_obs</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">plist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">plist</span><span class="p">:</span>
+                <span class="n">tp</span> <span class="o">=</span> <span class="n">ScPoint</span><span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                <span class="n">tp</span><span class="o">.</span><span class="n">set_coord</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+                <span class="n">tp</span><span class="o">.</span><span class="n">store_coord</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">traversing_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">buttonGroup</span><span class="o">.</span><span class="n">checkedButton</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">u&quot;</span><span class="se">\n</span><span class="s">Traversing - </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">traversing_type</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;            bearing    bw dist&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Point        angle     distance  (dE)     (dN)       dE         dN&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;           correction  fw dist    corrections      Easting    Northing&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="s">u&quot;Traversing - </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">traversing_type</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;            bearing    bw dist&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;Point        angle     distance  (dE)     (dN)       dE         dN&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;           correction  fw dist    corrections      Easting    Northing&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ResultLog</span><span class="o">.</span><span class="n">resultlog_message</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ResultLog</span><span class="o">.</span><span class="n">resultlog_message</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">u&quot;Warning&quot;</span><span class="p">,</span><span class="s">u&quot;Traverse line cannot be calculated!&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ResultLog</span><span class="o">.</span><span class="n">resultlog_message</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ResultLog</span><span class="o">.</span><span class="n">resultlog_message</span><span class="p">)</span>
+
+    
+    <span class="k">def</span> <span class="nf">onResetButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.onResetButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.onResetButton">[docs]</a><span class="sd">            Reset dialog when the Reset button pushed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">onCloseButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TraverseDialog.onCloseButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.traverse_dialog.TraverseDialog.onCloseButton">[docs]</a><span class="sd">            Close the dialog when the Close button pushed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" >SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Dec 01, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

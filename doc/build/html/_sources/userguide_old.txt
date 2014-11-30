@@ -1,0 +1,216 @@
+========================================
+SurveyingCalculation plugin for QGIS 2.x
+========================================
+User's Guide
+------------
+
+| `SurveyingCalculation plugin install`_
+| `Settings before use`_
+| `Load fieldbook`_
+|   `JOB/ARE fieldbook open`_
+    
+| `Single Point Calculations`_
+|   `Orientation`_
+|   `Radial Survey`_
+|   `Intersection`_
+|   `Resection`_
+
+
+SurveyingCalculation plugin install
+:::::::::::::::::::::::::::::::::::
+
+Installing from GitHub
+
+If you have Git Client (Git Bash or other clients)
+# git clone from https://github.com/zsiki/ls to ~/.qgis2/python/plugins/SurveyingCalculation
+# Open QGIS Desktop.
+
+If you dont have Git Clone
+# Download the ZIP file from https://github.com/zsiki/ls to your computer.
+# Unzip to ~/.qgis2/python/plugins/SurveyingCalculation.
+# Open QGIS Desktop.
+
+Installing from QGIS Plug-in repo
+    |   1. Start QGIS
+    |   2. In the the plug-in dialog enable experiental plugins
+    |   3. Look for SurveyingCalculation plug-in and press Install button
+
+    | In the QGIS Desktop you must enable the SurveyingCalculation plug-in in 
+    | the plug-in dialog. After it the menu and the toolbar of the plug-in
+    | will be visible.
+
+.. image:: images/01.jpg
+  :scale: 50 %
+  :align: center
+
+.. class:: center
+
+(1.) SurveyingCalculation plugin in QGIS (menu and toolbar)
+
+In case of problem, check the plugin in Manage and Install Plugins
+    
+    .. image:: images/02.jpg
+       :scale: 50 %
+       :alt: (2.) Manage and Install Plugins
+       :align: center
+
+    | Is switched on SurveyingCalculation plugin?
+
+    .. image:: images/03.jpg
+       :scale: 50 %
+       :alt: (3.) Installed SurveyingCalculation
+       :align: center
+
+
+Settings before use
+:::::::::::::::::::
+    | Easy to read the Attribute Table (Fieldbook), if you set none in Representation for NULL values.
+
+    .. image:: images/04.jpg
+       :scale: 50 %
+       :alt: (4.) Settings of Attribute Table
+       :align: center
+
+    .. image:: images/05.jpg
+       :scale: 50 %
+       :alt: (5.) Settings of Attribute Table
+       :align: center
+
+
+Load fieldbook
+::::::::::::::
+    | 1. First you have to open an existing Coordinate list or create a new
+    | one from the menu. Otherwise coordinates in the filedbook will be lost.
+
+    .. image:: images/06.jpg
+       :scale: 50 %
+       :alt: (6.) New coordinate list
+       :align: center
+
+    | 2. After save Coordinate list shape file, will open an empty table. This table stores coordinate points.
+        :point_id:    point number
+        :e:           East coordinate
+        :n:           North coordinate
+        :z:           Z coordinate (height)
+        :pc:          point code
+        :pt:          
+
+    .. image:: images/07.jpg
+       :scale: 50 %
+       :alt: (7.) Empty coordinate table
+       :align: center
+
+    | 3. Click the Load fieldbook icon.
+    | 4. Choose the type of fieldbook (Leica GSI; Geodimeter JOB/ARE; Sokkia CRD)
+
+JOB/ARE fieldbook open
+++++++++++++++++++++++
+    | 1. Select your measurments contain .JOB file.
+    | 2. Save .JOB as .dbf file.
+
+    .. image:: images/08.jpg
+       :scale: 50 %
+       :alt: (8.) Load fieldbook
+       :align: center
+
+    | 3. After the save, will open a new table in Layers. This attribute table stores measurments.
+    |    Id:          identification
+    |    Point_id:    point number
+    |    Hz:          horizontal angle
+    |    V:           vertical angle
+    |    Sd:          slope distance
+    |    Th:          target height
+    |    Pc:          point code
+    |    Station:     the point is station or not
+
+    .. image:: images/09.jpg
+       :scale: 50 %
+       :alt: (9.) Fieldbook
+       :align: center
+
+    | 4. After the .JOB loading, you have to open the .ARE file.
+    | 5. Open the Load fieldbook again, and select your coordinate points contain .JOB file.
+    | 6. Save .ARE as .dbf file.
+    | 7. After the save, will load into the empty coordinate layer (coordinate shape file).
+
+    .. image:: images/10.jpg
+       :scale: 50 %
+       :alt: (10.) Coordinate table
+       :align: center
+
+
+Single Point Calculations
+:::::::::::::::::::::::::
+
+Orientation
++++++++++++
+    | 1. Click the Single Point Calculations icon.
+    | 2. Select the Orientation from the type of Calculations.
+    | 3. Select the Station from the list. You can calculate only one station’s orientation at a time.
+    | 4. The Target Points list loads automatically.
+
+    .. image:: images/11.jpg
+       :scale: 50 %
+       :alt: (11.) Orientation
+       :align: center    
+
+    | 5. Add to Used Points list one or more points which would like to use to the orientation. If you would like to correct, use the Remove button.
+    | 6. Click the Calculate button.
+    | 7. Result of Calculation prints automatically in result window.
+    | 8. If you want to new calculate, use the Reset button. The Reset button clear everything in dialog window.
+
+    .. image:: images/12.jpg
+       :scale: 50 %
+       :alt: (12.) Result of Orientation
+       :align: center
+
+
+Radial Survey
++++++++++++++
+    | 1. Click the Single Point Calculations icon.
+    | 2. Select the Radial Survey from the type of Calculations.
+    | 3. Select the Station from the list. You can calculate only one station measured points at a time.
+    | 4. The Target Points list loads automatically.
+    | 5. Add to Used Points list one or more points which would like to calculate coordinates. If you would like to correct, use the Remove button.
+    | 6. Click the Calculate button.
+    | 7. Result of Calculation prints automatically in result window.
+    | 8. If you want to new calculate, use the Reset button. The Reset button clear everything in dialog window.
+
+    .. image:: images/13.jpg
+       :scale: 50 %
+       :alt: (13.) Radial Survey
+       :align: center
+
+
+Intersection
+++++++++++++
+    | 1. Click the Single Point Calculations icon.
+    | 2. Select the Intersection from the type of Calculations.
+    | 3. Select the Station from the list, which station’s coordinates you would like to calculate.
+    | 4. The Target Points list loads automatically. The list contains the points, which were measured from both Station.
+    | 5. Add to Used Points list one or more points which would like to calculate coordinates. If you would like to correct, use the Remove button.
+    | 6. Click the Calculate button.
+    | 7. Result of Calculation prints automatically in result window.
+    | 8. If you want to new calculate, use the Reset button. The Reset button clear everything in dialog window.
+
+    .. image:: images/14.jpg
+       :scale: 50 %
+       :alt: (14.) Intersection
+       :align: center
+
+
+Resection
++++++++++
+    | 1. Click the Single Point Calculations icon.
+    | 2. Select the Resection from the type of Calculations.
+    | 3. Select the stations from Station (1) and Station (2) list.
+    | 4. The Target Points list loads automatically. The list contains the points, which were measured from both Station. You can calculate only one station’s coordinates at a time.
+    | 5. Add to Used Points list 3 points which you would like to use to calculate. If you would like to correct, use the Remove button.
+    | 6. Click the Calculate button.
+    | 7. Result of Calculation prints automatically in result window.
+    | 8. If you want to new calculate, use the Reset button. The Reset button clear everything in dialog window.
+
+    .. image:: images/15.jpg
+       :scale: 50 %
+       :alt: (15.) Resection
+       :align: center

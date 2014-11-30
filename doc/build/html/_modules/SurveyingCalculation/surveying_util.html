@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation.surveying_util &mdash; Land Surveying Calculation v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Land Surveying Calculation v0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="SurveyingCalculation" href="../SurveyingCalculation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" accesskey="U">SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for SurveyingCalculation.surveying_util</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: surveying_util.py</span>
+<span class="sd">    :platform: Linux/Windows</span>
+<span class="sd">    :synopsis: Utility module for Land Surveying Plug-in for QGIS</span>
+<span class="sd">    GPL v2.0 license</span>
+<span class="sd">    Copyright (C) 2014-  DgiKom Kft. http://digikom.hu</span>
+<span class="sd">    .. moduleauthor::Zoltan Siki &lt;siki@agt.bme.hu&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">base_classes</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># debugging</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">pyqtRemoveInputHook</span>
+<span class="kn">import</span> <span class="nn">pdb</span>
+
+<span class="k">def</span> <span class="nf">get_namelist</span><span class="p">(</span><span class="n">pattern</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_namelist"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_namelist">[docs]</a><span class="sd">        Find layers matching name with the pattern</span>
+<span class="sd">        :param pattern: regexp pattern for layer name</span>
+<span class="sd">        :return list of matching names or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">layermap</span> <span class="o">=</span> <span class="n">QgsMapLayerRegistry</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">mapLayers</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layermap</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">layer</span><span class="o">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">QGis</span><span class="o">.</span><span class="n">Point</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">layer</span><span class="o">.</span><span class="n">name</span><span class="p">()):</span>
+            <span class="n">w</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">w</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="k">def</span> <span class="nf">get_coordlist</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_coordlist"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_coordlist">[docs]</a><span class="sd">        Find the coordinate list point shape in the actual project</span>
+<span class="sd">        :return layer name or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_namelist</span><span class="p">(</span><span class="s">&#39;^coord_&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_fblist</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_fblist"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_fblist">[docs]</a><span class="sd">        Find the fieldbook tables in the actual project</span>
+<span class="sd">        :return layer name or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_namelist</span><span class="p">(</span><span class="s">&#39;^fb_&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_layer_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_layer_by_name"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_layer_by_name">[docs]</a><span class="sd">        Look for a layer object by name</span>
+<span class="sd">        :param name: name of the layer</span>
+<span class="sd">        :return layer object </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">layermap</span> <span class="o">=</span> <span class="n">QgsMapLayerRegistry</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">mapLayers</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layermap</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">layer</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">layer</span><span class="o">.</span><span class="n">isValid</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">layer</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="k">def</span> <span class="nf">get_fieldlist</span><span class="p">(</span><span class="n">vlayer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_fieldlist"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_fieldlist">[docs]</a><span class="sd">        Create a list of fields</span>
+<span class="sd">        :param vlayer: vector layer</span>
+<span class="sd">        :return list of fields</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vprovider</span> <span class="o">=</span> <span class="n">vlayer</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span>
+    <span class="n">allAttrs</span> <span class="o">=</span> <span class="n">vprovider</span><span class="o">.</span><span class="n">attributeIndexes</span><span class="p">()</span>
+    <span class="n">vprovider</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">allAttrs</span><span class="p">)</span>
+    <span class="n">myFields</span> <span class="o">=</span> <span class="n">vprovider</span><span class="o">.</span><span class="n">fields</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">myFields</span>
+
+<span class="k">def</span> <span class="nf">get_fieldnames</span><span class="p">(</span><span class="n">vlayer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_fieldnames"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_fieldnames">[docs]</a><span class="sd">        Create a list from column names of a vector layer</span>
+<span class="sd">        :paramter vlayer: vector layer</span>
+<span class="sd">        :return sorted list of field names</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fieldmap</span> <span class="o">=</span> <span class="n">get_fieldlist</span><span class="p">(</span><span class="n">vlayer</span><span class="p">)</span>
+    <span class="n">fieldlist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fieldmap</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="ow">in</span> <span class="n">fieldlist</span><span class="p">:</span>
+            <span class="n">fieldlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">unicode</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fieldlist</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_coord</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">clist</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_coord"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_coord">[docs]</a><span class="sd">        Get the coordinates of a point </span>
+<span class="sd">        :param p: point number</span>
+<span class="sd">        :param clist: coordinate list to search for (str), optional</span>
+<span class="sd">        :return Point object with coordinates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">clist</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">coord_lists</span> <span class="o">=</span> <span class="n">get_coordlist</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">coord_lists</span> <span class="o">=</span> <span class="p">[</span><span class="n">clist</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">coord_lists</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">coord_list</span> <span class="ow">in</span> <span class="n">coord_lists</span><span class="p">:</span>
+        <span class="n">lay</span> <span class="o">=</span> <span class="n">get_layer_by_name</span><span class="p">(</span><span class="n">coord_list</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lay</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lay</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">==</span>  <span class="n">p</span><span class="p">:</span>
+                <span class="c">#return Point(p, feat[&#39;e&#39;], feat[&#39;n&#39;], feat[&#39;z&#39;], feat[&#39;pc&#39;], feat[&#39;pt&#39;])</span>
+                <span class="n">pp</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;n&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+                    <span class="n">pp</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">]</span>
+                    <span class="n">pp</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;n&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+                    <span class="n">pp</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+                    <span class="n">p</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;pt&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+                    <span class="n">p</span><span class="o">.</span><span class="n">pt</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;pt&#39;</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">pp</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="k">def</span> <span class="nf">get_known</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">clist</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_known"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_known">[docs]</a><span class="sd">        Get list of known points</span>
+<span class="sd">        :param dimension: 1/2/3 point dimension, default: 2</span>
+<span class="sd">        :param clist: single coordinate list to search, default None (all lists)</span>
+<span class="sd">        :returns list of point ids</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">clist</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">coord_lists</span> <span class="o">=</span> <span class="n">get_coordlist</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">coord_lists</span> <span class="o">=</span> <span class="p">[</span><span class="n">clist</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">coord_lists</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">coord_list</span> <span class="ow">in</span> <span class="n">coord_lists</span><span class="p">:</span>
+        <span class="n">lay</span> <span class="o">=</span> <span class="n">get_layer_by_name</span><span class="p">(</span><span class="n">coord_list</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lay</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lay</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;n&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;n&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">plist</span><span class="p">:</span>
+                    <span class="n">plist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plist</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">plist</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">None</span>
+    
+<span class="k">def</span> <span class="nf">get_measured</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_measured"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_measured">[docs]</a><span class="sd">        Get list of unknown points</span>
+<span class="sd">        :param dimension: 1/2/3 point dimension</span>
+<span class="sd">        :returns list of point ids</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">found</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fb_list</span> <span class="o">=</span> <span class="n">get_fblist</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">fb_list</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">fb</span> <span class="ow">in</span> <span class="n">fb_list</span><span class="p">:</span>
+        <span class="n">lay</span> <span class="o">=</span> <span class="n">get_layer_by_name</span><span class="p">(</span><span class="n">fb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lay</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lay</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+            <span class="n">pid</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">get_coord</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="ow">is</span> <span class="bp">None</span>  <span class="ow">or</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">))</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)):</span>
+                <span class="n">coord</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">coord</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">found</span><span class="p">:</span>
+                <span class="n">plist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">pid</span><span class="p">,</span> <span class="n">coord</span><span class="p">])</span>
+                <span class="n">found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plist</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">plist</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="k">def</span> <span class="nf">get_unknown</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_unknown"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_unknown">[docs]</a><span class="sd">        Get list of measured points</span>
+<span class="sd">        :param dimension: 1/2/3 point dimension</span>
+<span class="sd">        :returns list of [point ids, True/False], second element marks</span>
+<span class="sd">        if point have coordinates of dimension</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fb_list</span> <span class="o">=</span> <span class="n">get_fblist</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">fb_list</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">fb</span> <span class="ow">in</span> <span class="n">fb_list</span><span class="p">:</span>
+        <span class="n">lay</span> <span class="o">=</span> <span class="n">get_layer_by_name</span><span class="p">(</span><span class="n">fb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lay</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lay</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+            <span class="n">pid</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">get_coord</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">))</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">plist</span><span class="p">:</span>
+                    <span class="n">plist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plist</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">plist</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="k">def</span> <span class="nf">get_stations</span><span class="p">(</span><span class="n">known</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">oriented</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_stations"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_stations">[docs]</a><span class="sd">        Get list of stations from fieldbooks</span>
+<span class="sd">        :param known: If True only known points get into list.</span>
+<span class="sd">        :param oriented: If True only oriented stations get into list.</span>
+<span class="sd">        :returns list of station [[point_id fieldbook_name id] ...]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">slist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fb_list</span> <span class="o">=</span> <span class="n">get_fblist</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">fb_list</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="n">known</span><span class="p">:</span>
+        <span class="n">known_list</span> <span class="o">=</span> <span class="n">get_known</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">fb</span> <span class="ow">in</span> <span class="n">fb_list</span><span class="p">:</span>
+        <span class="n">lay</span> <span class="o">=</span> <span class="n">get_layer_by_name</span><span class="p">(</span><span class="n">fb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lay</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lay</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;station&quot;</span><span class="p">:</span>
+                <span class="n">pid</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">known</span> <span class="ow">and</span> <span class="n">known_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">known_list</span><span class="p">:</span>
+                    <span class="c"># skip unknown points</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">oriented</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">fid</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+                <span class="n">act</span> <span class="o">=</span> <span class="p">[</span><span class="n">pid</span><span class="p">,</span> <span class="n">fb</span><span class="p">,</span> <span class="n">fid</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">act</span> <span class="ow">in</span> <span class="n">slist</span><span class="p">:</span>
+                    <span class="n">slist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">act</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">slist</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">slist</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="k">def</span> <span class="nf">get_targets</span><span class="p">(</span><span class="n">point_id</span><span class="p">,</span> <span class="n">fieldbook</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">known</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">polar</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_targets"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_targets">[docs]</a><span class="sd">        collect observation data from one station</span>
+<span class="sd">        :param point_id: station number/name (str)</span>
+<span class="sd">        :param fieldbook: name of fieldbook (str)</span>
+<span class="sd">        :param fid: id in fieldbook (int)</span>
+<span class="sd">        :param known: If True only known points get into list.</span>
+<span class="sd">        :return list of target points [[point_id fieldbook_name id] ...]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">lay</span> <span class="o">=</span> <span class="n">get_layer_by_name</span><span class="p">(</span><span class="n">fieldbook</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lay</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="n">known</span><span class="p">:</span>
+        <span class="n">known_list</span> <span class="o">=</span> <span class="n">get_known</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lay</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">fid</span> <span class="ow">and</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;station&#39;</span> <span class="ow">and</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">point_id</span><span class="p">:</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">continue</span>
+        <span class="k">elif</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;station&#39;</span> <span class="ow">and</span> <span class="n">found</span><span class="p">:</span>
+            <span class="c"># next station reached</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">break</span>
+        <span class="k">elif</span> <span class="n">found</span><span class="p">:</span>
+            <span class="n">pid</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span>
+            <span class="n">fid</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">known</span> <span class="ow">and</span> <span class="n">known_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">known_list</span><span class="p">:</span>
+                <span class="c"># skip unknown points</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">polar</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">o</span> <span class="o">=</span> <span class="p">[</span><span class="n">pid</span><span class="p">,</span> <span class="n">fieldbook</span><span class="p">,</span> <span class="n">fid</span><span class="p">]</span>
+            <span class="n">obs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="k">def</span> <span class="nf">get_station</span><span class="p">(</span><span class="n">point_id</span><span class="p">,</span> <span class="n">fieldbook</span><span class="p">,</span> <span class="n">fid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_station"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_station">[docs]</a><span class="sd">        Create a Station instance from a fildbook row and from the coord table.</span>
+<span class="sd">        :param point_id: station number/name (str)</span>
+<span class="sd">        :param fieldbook: name of fieldbook (str)</span>
+<span class="sd">        :param fid: id in fieldbook (int)</span>
+<span class="sd">        :return station (Station)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">ScPoint</span><span class="p">(</span><span class="n">point_id</span><span class="p">)</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="n">get_fieldbookrow</span><span class="p">(</span><span class="n">point_id</span><span class="p">,</span> <span class="n">fieldbook</span><span class="p">,</span> <span class="n">fid</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Station</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">o</span><span class="p">)</span>
+    
+<span class="k">def</span> <span class="nf">get_target</span><span class="p">(</span><span class="n">point_id</span><span class="p">,</span> <span class="n">fieldbook</span><span class="p">,</span> <span class="n">fid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_target"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_target">[docs]</a><span class="sd">        Create a PolarObservation instance of a target point from a fieldbook row.</span>
+<span class="sd">        :param point_id: point number/name (str)</span>
+<span class="sd">        :param fieldbook: name of fieldbook (str)</span>
+<span class="sd">        :param fid: id in fieldbook (int)</span>
+<span class="sd">        :return observation on the point (PolarObservation)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_fieldbookrow</span><span class="p">(</span><span class="n">point_id</span><span class="p">,</span> <span class="n">fieldbook</span><span class="p">,</span> <span class="n">fid</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_fieldbookrow</span><span class="p">(</span><span class="n">point_id</span><span class="p">,</span> <span class="n">fieldbook</span><span class="p">,</span> <span class="n">fid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="get_fieldbookrow"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.get_fieldbookrow">[docs]</a><span class="sd">        Reads a fieldbook row and put into a PolarObservation object.</span>
+<span class="sd">        :param point_id: point number/name (str)</span>
+<span class="sd">        :param fieldbook: name of fieldbook (str)</span>
+<span class="sd">        :param fid: id in fieldbook (int)</span>
+<span class="sd">        :return observation to the point or a station (PolarObservation)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lay</span> <span class="o">=</span> <span class="n">get_layer_by_name</span><span class="p">(</span><span class="n">fieldbook</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lay</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lay</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">fid</span> <span class="ow">and</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">point_id</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span><span class="p">:</span>
+                    <span class="n">dist</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">],</span><span class="s">&quot;HD&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span><span class="o">==</span><span class="mf">0.0</span><span class="p">:</span>    <span class="c"># ???</span>
+                    <span class="n">dist</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">],</span><span class="s">&quot;VD&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dist</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">],</span><span class="s">&quot;SD&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dist</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">o</span> <span class="o">=</span> <span class="n">PolarObservation</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">],</span>
+                <span class="p">(</span><span class="s">&#39;station&#39;</span> <span class="k">if</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;station&#39;</span> <span class="k">else</span> <span class="bp">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">Angle</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">],</span><span class="s">&quot;GON&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="k">else</span> <span class="bp">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">Angle</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">],</span><span class="s">&quot;GON&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="k">else</span> <span class="bp">None</span><span class="p">),</span>
+                <span class="n">dist</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="k">else</span> <span class="bp">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">feat</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">float</span> <span class="k">else</span> <span class="bp">None</span><span class="p">))</span>
+            <span class="k">break</span>
+    <span class="k">return</span> <span class="n">o</span>
+
+<span class="k">def</span> <span class="nf">set_orientationangle</span><span class="p">(</span><span class="n">point_id</span><span class="p">,</span> <span class="n">fieldbook</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="set_orientationangle"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.set_orientationangle">[docs]</a><span class="sd">        Sets the orientation angle(hz) of the given station in the given fieldbook.</span>
+<span class="sd">        :param point_id: point number/name (str)</span>
+<span class="sd">        :param fieldbook: name of fieldbook (str)</span>
+<span class="sd">        :param fid: id in fieldbook (int)</span>
+<span class="sd">        :param angle: orientation angle (float)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lay</span> <span class="o">=</span> <span class="n">get_layer_by_name</span><span class="p">(</span><span class="n">fieldbook</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lay</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lay</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">fid</span> <span class="ow">and</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">point_id</span><span class="p">:</span>
+            <span class="n">fid</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+            <span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;hz&#39;</span><span class="p">)</span> <span class="p">:</span> <span class="n">angle</span><span class="p">}</span>
+            <span class="n">lay</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">changeAttributeValues</span><span class="p">({</span> <span class="n">fid</span> <span class="p">:</span> <span class="n">attrs</span> <span class="p">})</span>
+            <span class="k">return</span>
+
+<span class="k">class</span> <span class="nc">ScPoint</span><span class="p">(</span><span class="n">Point</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="ScPoint"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.ScPoint">[docs]</a><span class="sd">        Extended point class to store table position</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">coo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            :param p: Point object (Point) or a point_id (String)</span>
+<span class="sd">            :param coo: name of the table where point is/to be store (String)</span>
+<span class="sd">                it is None if a new point to add</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">Point</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">ScPoint</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">pc</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">pt</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">unicode</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">ScPoint</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_coord</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">ScPoint</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">coo</span> <span class="o">=</span> <span class="n">coo</span>
+
+    <span class="k">def</span> <span class="nf">get_coord</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ScPoint.get_coord"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.ScPoint.get_coord">[docs]</a><span class="sd">            Get the coordinates of the point from coord table and</span>
+<span class="sd">            update coordinate fields</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">get_coord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pt</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coo</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">pc</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pt</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">pt</span>
+            <span class="c"># TODO get_coord should return a tuple (p coo)</span>
+            <span class="c">#self.coo = coord_list</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">store_coord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">clist</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="ScPoint.store_coord"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.ScPoint.store_coord">[docs]</a><span class="sd">            Update coordinates in coord table, insert new point if </span>
+<span class="sd">            coo is None or point not found</span>
+<span class="sd">            :param dimension: 1/2/3D coordinates to store (int)</span>
+<span class="sd">            :param clist: name of layer to add (str)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">clist</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c"># new point to add to the first table</span>
+                <span class="n">cl</span> <span class="o">=</span> <span class="n">get_coordlist</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">cl</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coo</span> <span class="o">=</span> <span class="n">cl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coo</span> <span class="o">=</span> <span class="n">clist</span>
+        <span class="c"># e, n coordinates must be given (geometry)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># TODO error report</span>
+            <span class="k">return</span>
+        <span class="n">lay</span> <span class="o">=</span> <span class="n">get_layer_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coo</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lay</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lay</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">==</span>  <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+                <span class="c"># set feature geometry and attributes</span>
+                <span class="c">#pyqtRemoveInputHook()</span>
+                <span class="c">#pdb.set_trace()</span>
+                <span class="n">fid</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+                <span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;point_id&#39;</span><span class="p">)</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
+                <span class="k">if</span> <span class="n">dimension</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                    <span class="n">attrs</span><span class="p">[</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span>
+                    <span class="n">attrs</span><span class="p">[</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;n&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+                <span class="k">if</span> <span class="n">dimension</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                    <span class="n">attrs</span><span class="p">[</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
+                <span class="n">attrs</span><span class="p">[</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;pc&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pc</span>
+                <span class="n">attrs</span><span class="p">[</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;pt&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pt</span>
+                <span class="n">lay</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">changeAttributeValues</span><span class="p">({</span> <span class="n">fid</span> <span class="p">:</span> <span class="n">attrs</span> <span class="p">})</span>
+                <span class="c"># feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(self.e, self.n)))</span>
+                <span class="n">lay</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">changeGeometryValues</span><span class="p">({</span> <span class="n">fid</span> <span class="p">:</span> <span class="n">QgsGeometry</span><span class="o">.</span><span class="n">fromPoint</span><span class="p">(</span><span class="n">QgsPoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">))</span> <span class="p">})</span>
+                <span class="c"># TODO refresh canvas</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="c"># add new point</span>
+        <span class="n">feat</span> <span class="o">=</span> <span class="n">QgsFeature</span><span class="p">()</span>
+        <span class="c">#feat.setFields(lay.pendingFields(), True)</span>
+        <span class="c">#feat.setFields(lay.dataProvider().fields(), True)</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">lay</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">fields</span><span class="p">()</span>
+        <span class="n">feat</span><span class="o">.</span><span class="n">setFields</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="c">#pyqtRemoveInputHook()</span>
+        <span class="c">#pdb.set_trace()</span>
+        <span class="n">feat</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;point_id&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dimension</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+            <span class="n">feat</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">feat</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;n&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dimension</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+            <span class="n">feat</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">feat</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;pc&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">pc</span><span class="p">)</span>
+        <span class="n">feat</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;pt&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">pt</span><span class="p">)</span>
+        <span class="n">feat</span><span class="o">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="n">QgsGeometry</span><span class="o">.</span><span class="n">fromPoint</span><span class="p">(</span><span class="n">QgsPoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)))</span>
+        <span class="n">lay</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">addFeatures</span><span class="p">([</span><span class="n">feat</span><span class="p">])</span>
+        <span class="c"># TODO refresh canvas</span>
+    
+    <span class="k">def</span> <span class="nf">set_coord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="ScPoint.set_coord"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_util.ScPoint.set_coord">[docs]</a><span class="sd">            Set the coordinates</span>
+<span class="sd">            :param p: Point</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">point_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">pc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pt</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">pt</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" >SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Dec 01, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

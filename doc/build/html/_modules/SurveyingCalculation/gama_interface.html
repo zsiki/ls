@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation.gama_interface &mdash; Land Surveying Calculation v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Land Surveying Calculation v0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="SurveyingCalculation" href="../SurveyingCalculation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" accesskey="U">SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for SurveyingCalculation.gama_interface</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GNU Gama interface classes for Land Surveying Plug-in for QGIS</span>
+<span class="sd">    GPL v2.0 license</span>
+<span class="sd">    Copyright (C) 2014-  DgiKom Kft. http://digikom.hu</span>
+<span class="sd">    .. moduleauthor::Zoltan Siki &lt;siki@agt.bme.hu&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">xml.dom</span> <span class="kn">import</span> <span class="n">minidom</span><span class="p">,</span> <span class="n">Node</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">call</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="c"># surveying calculation modules</span>
+<span class="kn">from</span> <span class="nn">base_classes</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">surveying_util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># debugging</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">pyqtRemoveInputHook</span>
+<span class="kn">import</span> <span class="nn">pdb</span>
+
+<span class="k">class</span> <span class="nc">GamaInterface</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GamaInterface"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.gama_interface.GamaInterface">[docs]</a><span class="sd">        interface class to GNU Gama</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">stdev_angle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stdev_dist</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stdev_dist1</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="n">dimension</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probability</span> <span class="o">=</span> <span class="n">probability</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdev_angle</span> <span class="o">=</span> <span class="n">stdev_angle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdev_dist</span> <span class="o">=</span> <span class="n">stdev_dist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdev_dist1</span> <span class="o">=</span> <span class="n">stdev_dist1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># get operating system dependent file name of gama_local</span>
+        <span class="n">plugin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
+        <span class="n">gama_prog</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin_dir</span><span class="p">,</span> <span class="s">&#39;gama-local&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gama_prog</span><span class="p">):</span>
+            <span class="n">gama_prog</span> <span class="o">+=</span> <span class="s">&#39;.exe&#39;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gama_prog</span><span class="p">):</span>
+                <span class="n">gama_prog</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gama_prog</span> <span class="o">=</span> <span class="n">gama_prog</span>
+
+    <span class="k">def</span> <span class="nf">add_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s">&#39;ADJ&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GamaInterface.add_point"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.gama_interface.GamaInterface.add_point">[docs]</a><span class="sd">            Add point to adjustment</span>
+<span class="sd">            :param point Point</span>
+<span class="sd">            :state FIX or ADJ</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+            <span class="c"># avoid duplicated points</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">point</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">point</span><span class="p">,</span> <span class="n">state</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">add_observation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="GamaInterface.add_observation"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.gama_interface.GamaInterface.add_observation">[docs]</a><span class="sd">            Add observation to adjustment</span>
+<span class="sd">            :param obs PolarObservation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">remove_last_observation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">st</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="GamaInterface.remove_last_observation"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.gama_interface.GamaInterface.remove_last_observation">[docs]</a><span class="sd">            remove last observation or station data</span>
+<span class="sd">            :param st: False - remove single observation, True remove station</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">st</span><span class="p">:</span>
+                <span class="n">o</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="p">)</span> <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">station</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">o</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">adjust</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="GamaInterface.adjust"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.gama_interface.GamaInterface.adjust">[docs]</a><span class="sd">            Export data to GNU Gama xml, adjust the network and read result</span>
+<span class="sd">            :return None/0 failure/success</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># fix = 0 free network</span>
+        <span class="n">fix</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">adj</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s">&#39;FIX&#39;</span><span class="p">:</span>
+                <span class="n">fix</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">adj</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">adj</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># no unknowns or observations</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">minidom</span><span class="o">.</span><span class="n">Document</span><span class="p">()</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">createComment</span><span class="p">(</span><span class="s">&#39;Gama XML created by Land Surveying plugin for QGIS&#39;</span><span class="p">))</span>
+        <span class="n">gama_local</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;gama-local&#39;</span><span class="p">)</span>
+        <span class="n">gama_local</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;version&#39;</span><span class="p">,</span> <span class="s">&#39;2.0&#39;</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">gama_local</span><span class="p">)</span>
+        <span class="n">network</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;network&#39;</span><span class="p">)</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;axes-xy&#39;</span><span class="p">,</span> <span class="s">&#39;ne&#39;</span><span class="p">)</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;angles&#39;</span><span class="p">,</span> <span class="s">&#39;left-handed&#39;</span><span class="p">)</span>
+        <span class="n">gama_local</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;description&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">description</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">createTextNode</span><span class="p">(</span><span class="s">&#39;GNU Gama 1D network&#39;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">description</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">createTextNode</span><span class="p">(</span><span class="s">&#39;GNU Gama 2D network&#39;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">description</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">createTextNode</span><span class="p">(</span><span class="s">&#39;GNU Gama 3D network&#39;</span><span class="p">))</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;parameters&#39;</span><span class="p">)</span>
+        <span class="n">parameters</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;sigma-apr&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">)</span>
+        <span class="n">parameters</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;conf-pr&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probability</span><span class="p">))</span>
+        <span class="n">parameters</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;tol-abs&#39;</span><span class="p">,</span> <span class="s">&#39;1000&#39;</span><span class="p">)</span>
+        <span class="n">parameters</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;sigma-act&#39;</span><span class="p">,</span> <span class="s">&#39;aposteriori&#39;</span><span class="p">)</span>
+        <span class="n">parameters</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;update-constrained-coordinates&#39;</span><span class="p">,</span> <span class="s">&#39;yes&#39;</span><span class="p">)</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="n">points_observations</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;points-observations&#39;</span><span class="p">)</span>
+        <span class="n">points_observations</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;distance-stdev&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdev_dist</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdev_dist1</span><span class="p">))</span> 
+        <span class="n">points_observations</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;direction-stdev&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdev_angle</span><span class="p">))</span>
+        <span class="n">points_observations</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;angle-stdev&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdev_angle</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)))</span>
+        <span class="n">points_observations</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;zenith-angle-stdev&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdev_angle</span><span class="p">))</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">points_observations</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;point&#39;</span><span class="p">)</span>
+                <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s">&#39;FIX&#39;</span><span class="p">:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;fix&#39;</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">fix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;adj&#39;</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;adj&#39;</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">)</span>
+                <span class="n">points_observations</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;point&#39;</span><span class="p">)</span>
+                <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">e</span><span class="p">))</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">n</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s">&#39;FIX&#39;</span><span class="p">:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;fix&#39;</span><span class="p">,</span> <span class="s">&#39;xy&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">fix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="c"># free network</span>
+                        <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;adj&#39;</span><span class="p">,</span> <span class="s">&#39;XY&#39;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;adj&#39;</span><span class="p">,</span> <span class="s">&#39;xy&#39;</span><span class="p">)</span>
+                <span class="n">points_observations</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;point&#39;</span><span class="p">)</span>
+                <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">e</span><span class="p">))</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">n</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s">&#39;FIX&#39;</span><span class="p">:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;fix&#39;</span><span class="p">,</span> <span class="s">&#39;xyz&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">fix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;adj&#39;</span><span class="p">,</span> <span class="s">&#39;XYZ&#39;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;adj&#39;</span><span class="p">,</span> <span class="s">&#39;xyz&#39;</span><span class="p">)</span>
+                <span class="n">points_observations</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">station</span> <span class="o">==</span> <span class="s">&#39;station&#39;</span><span class="p">:</span>
+                <span class="c"># station record</span>
+                <span class="n">sta</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;obs&#39;</span><span class="p">)</span>
+                <span class="n">sta</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;from&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">point_id</span><span class="p">)</span>
+                <span class="n">ih</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">th</span>
+                <span class="n">points_observations</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">sta</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c"># observation</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="c"># horizontal network</span>
+                    <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">hz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">tmp</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;direction&#39;</span><span class="p">)</span>
+                        <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;to&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">point_id</span><span class="p">)</span>
+                        <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;val&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">hz</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;GON&#39;</span><span class="p">)))</span>
+                        <span class="n">sta</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="c"># horizontal distance</span>
+                        <span class="n">hd</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">horiz_dist</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="n">hd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="n">tmp</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">&#39;distance&#39;</span><span class="p">)</span>
+                            <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;to&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">point_id</span><span class="p">)</span>
+                            <span class="n">tmp</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s">&#39;val&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">hd</span><span class="p">))</span>
+                            <span class="n">sta</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="c"># elevations only</span>
+                    <span class="k">pass</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="c"># 3d</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c"># unknown dimension</span>
+                    <span class="k">return</span> <span class="bp">None</span>
+        <span class="c">#print doc.toprettyxml(indent=&quot;  &quot;)</span>
+        <span class="c"># generate temp file name</span>
+        <span class="n">f</span> <span class="o">=</span>  <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">tmp_name</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">writexml</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">tmp_name</span> <span class="o">+</span> <span class="s">&#39;.xml&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="c"># run gama-local</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gama_prog</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">call</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">gama_prog</span><span class="p">,</span> <span class="n">tmp_name</span> <span class="o">+</span> <span class="s">&#39;.xml&#39;</span><span class="p">,</span> <span class="s">&#39;--text&#39;</span><span class="p">,</span>
+            <span class="n">tmp_name</span> <span class="o">+</span> <span class="s">&#39;.txt&#39;</span><span class="p">,</span> <span class="s">&#39;--xml&#39;</span><span class="p">,</span> <span class="n">tmp_name</span> <span class="o">+</span> <span class="s">&#39;out.xml&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># error running GNU gama TODO</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">minidom</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">tmp_name</span> <span class="o">+</span> <span class="s">&#39;out.xml&#39;</span><span class="p">)</span>
+        <span class="n">f_txt</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmp_name</span> <span class="o">+</span> <span class="s">&#39;.txt&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">f_txt</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c"># store coordinates</span>
+        <span class="n">adj_nodes</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s">&#39;adjusted&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">adj_nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">res</span>
+        <span class="n">adj_node</span> <span class="o">=</span> <span class="n">adj_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">adj_node</span><span class="o">.</span><span class="n">childNodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pp</span><span class="o">.</span><span class="n">nodeName</span> <span class="o">==</span> <span class="s">&#39;point&#39;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">ppp</span> <span class="ow">in</span> <span class="n">pp</span><span class="o">.</span><span class="n">childNodes</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ppp</span><span class="o">.</span><span class="n">nodeName</span> <span class="o">==</span> <span class="s">&#39;id&#39;</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">ppp</span><span class="o">.</span><span class="n">firstChild</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">ppp</span><span class="o">.</span><span class="n">nodeName</span> <span class="o">==</span> <span class="s">&#39;Y&#39;</span> <span class="ow">or</span> <span class="n">ppp</span><span class="o">.</span><span class="n">nodeName</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span><span class="p">:</span>
+                        <span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">ppp</span><span class="o">.</span><span class="n">firstChild</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">ppp</span><span class="o">.</span><span class="n">nodeName</span> <span class="o">==</span> <span class="s">&#39;X&#39;</span> <span class="ow">or</span> <span class="n">ppp</span><span class="o">.</span><span class="n">nodeName</span> <span class="o">==</span> <span class="s">&#39;x&#39;</span><span class="p">:</span>
+                        <span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">ppp</span><span class="o">.</span><span class="n">firstChild</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">ppp</span><span class="o">.</span><span class="n">nodeName</span> <span class="o">==</span> <span class="s">&#39;Z&#39;</span> <span class="ow">or</span> <span class="n">ppp</span><span class="o">.</span><span class="n">nodeName</span> <span class="o">==</span> <span class="s">&#39;z&#39;</span><span class="p">:</span>
+                        <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">ppp</span><span class="o">.</span><span class="n">firstChild</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">ScPoint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">store_coord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+        <span class="c"># get orientations TODO</span>
+        <span class="c">#oris = doc.getElementsByTagName(&#39;orientation&#39;)</span>
+        <span class="c">#for ori in oris:</span>
+        <span class="c">#    pass</span>
+        <span class="c"># remove input xml and output xml</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c">#os.remove(tmp_name + &#39;.txt&#39;) # TODO remove comment after testing</span>
+            <span class="c">#os.remove(tmp_name + &#39;.xml&#39;)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tmp_name</span> <span class="o">+</span> <span class="s">&#39;out.xml&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span></div></div>
+<span class="sd">        unit test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gi</span> <span class="o">=</span> <span class="n">GamaInterface</span><span class="p">()</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="mf">211.70</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="mf">257.95</span><span class="p">,</span> <span class="mf">375.64</span><span class="p">))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="mf">78.1562</span><span class="p">,</span> <span class="mf">395.49</span><span class="p">))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">60.35</span><span class="p">,</span> <span class="mf">387.99</span><span class="p">))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;station&#39;</span><span class="p">))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;42-56-02&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;87-35-39&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">211.886</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;347-24-35&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;88-54-24&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">455.774</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;324-06-32&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;90-00-36&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">403.150</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;304-05-19&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;89-58-23&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">392.665</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="s">&#39;station&#39;</span><span class="p">))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;304-20-43&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;92-27-19&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">211.894</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;359-18-19&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;91-03-52&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">473.977</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;15-41-16&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;91-14-36&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">417.565</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;41-22-11&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;90-02-29&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">378.506</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;station&#39;</span><span class="p">))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;324-16-52&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;90-06-46&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">138.703</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;329-36-15&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;88-27-29&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">318.672</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;22-20-43&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;88-55-56&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">473.959</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;48-32-26&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;90-01-16&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">392.662</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="s">&#39;station&#39;</span><span class="p">))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;346-38-25&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;88-45-44&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">417.543</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;16-28-34&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;89-59-40&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">403.146</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;92-11-53&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;89-57-38&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">138.704</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;station&#39;</span><span class="p">))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;59-45-52&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;91-33-41&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">318.673</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;2-01-09&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;91-05-51&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">455.772</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">add_observation</span><span class="p">(</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;334-33-23&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span>
+        <span class="n">Angle</span><span class="p">(</span><span class="s">&#39;89-57-40&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">378.487</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)))</span>
+    <span class="n">gi</span><span class="o">.</span><span class="n">adjust</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" >SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Dec 01, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

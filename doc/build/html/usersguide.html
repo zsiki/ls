@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation plugin for QGIS 2.x &mdash; Land Surveying Calculation v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Land Surveying Calculation v0.0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="surveyingcalculation-plugin-for-qgis-2-x">
+<h1>SurveyingCalculation plugin for QGIS 2.x<a class="headerlink" href="#surveyingcalculation-plugin-for-qgis-2-x" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="user-s-guide">
+<h2>User&#8217;s Guide<a class="headerlink" href="#user-s-guide" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#surveyingcalculation-plugin-install">SurveyingCalculation plugin install</a></div>
+<div class="line"><a class="reference internal" href="#settings-before-use">Settings before use</a></div>
+<div class="line"><a class="reference internal" href="#loading-fieldbooks">Loading fieldbooks</a></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#geodimeter-job-are">Geodimeter JOB/ARE</a></div>
+<div class="line"><a class="reference internal" href="#leica-gsi">Leica GSI</a></div>
+<div class="line"><a class="reference internal" href="#sokkia-crd">Sokkia CRD</a></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#single-point-calculations">Single Point Calculations</a></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#orientation">Orientation</a></div>
+<div class="line"><a class="reference internal" href="#radial-survey-polar-point">Radial Survey (Polar Point)</a></div>
+<div class="line"><a class="reference internal" href="#intersection">Intersection</a></div>
+<div class="line"><a class="reference internal" href="#resection">Resection</a></div>
+<div class="line"><a class="reference internal" href="#free-station">Free Station</a></div>
+</div>
+<div class="line"><a class="reference internal" href="#traverse-calculations">Traverse Calculations</a></div>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#closed-traverse">Closed traverse</a></div>
+<div class="line"><a class="reference internal" href="#link-traverse">Link traverse</a></div>
+<div class="line"><a class="reference internal" href="#open-traverse">Open traverse</a></div>
+</div>
+<div class="line"><a class="reference internal" href="#network-adjustment">Network adjustment</a></div>
+<div class="line"><a class="reference internal" href="#coordinate-transformation">Coordinate transformation</a></div>
+</div>
+<div class="section" id="typogrphical-conventions">
+<h3>Typogrphical conventions<a class="headerlink" href="#typogrphical-conventions" title="Permalink to this headline">¶</a></h3>
+<p><strong>TODO</strong></p>
+</div>
+<div class="section" id="hardware-and-software-requirements">
+<h3>Hardware and software requirements<a class="headerlink" href="#hardware-and-software-requirements" title="Permalink to this headline">¶</a></h3>
+<p><strong>TODO</strong></p>
+</div>
+<div class="section" id="surveyingcalculation-plugin-install">
+<h3>SurveyingCalculation plugin install<a class="headerlink" href="#surveyingcalculation-plugin-install" title="Permalink to this headline">¶</a></h3>
+<p><strong>Installing from GitHub</strong></p>
+<p>If you have Git Client (Git Bash or other clients)</p>
+<ol class="arabic simple">
+<li>git clone from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to <em>~/.qgis2/python/plugins/SurveyingCalculation</em> (~ is your home directory on Linux, replace it on Windows)</li>
+<li>Open QGIS Desktop.</li>
+</ol>
+<p>If you dont have Git Clone</p>
+<ol class="arabic simple">
+<li>Download the ZIP file from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to your computer.</li>
+<li>Unzip to <em>~/.qgis2/python/plugins/SurveyingCalculation</em>.</li>
+<li>Open QGIS Desktop.</li>
+</ol>
+<p><strong>Installing from QGIS Plug-in repo</strong></p>
+<ol class="arabic">
+<li><p class="first">Start QGIS</p>
+</li>
+<li><p class="first">In the the plug-in dialog enable experiental plugins</p>
+</li>
+<li><p class="first">Look for SurveyingCalculation plug-in and press Install button</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">In the QGIS Desktop you must enable the SurveyingCalculation plug-in in</div>
+<div class="line">the plug-in dialog. After it the menu and the toolbar of the plug-in</div>
+<div class="line">will be visible.</div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/01.jpg"><img alt="_images/01.jpg" src="_images/01.jpg" style="width: 959.2px; height: 557.6px;" /></a>
+<p class="caption"><em>(1.) SurveyingCalculation plugin in QGIS (menu and toolbar)</em></p>
+</div>
+<p>In case of problem, check the plugin in Manage and Install Plugins dialog</p>
+<p>Beside installing the plug-in you must also install gama-local (part of the GNU
+Gama project) for adjustment calculation.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/02.jpg"><img alt="_images/02.jpg" src="_images/02.jpg" style="width: 544.8px; height: 224.0px;" /></a>
+<p class="caption"><em>(2.) Manage and Install Plugins</em></p>
+</div>
+<p>Is switched on SurveyingCalculation plugin?</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/03.jpg"><img alt="_images/03.jpg" src="_images/03.jpg" style="width: 656.0px; height: 482.4px;" /></a>
+<p class="caption"><em>(3.) Installed SurveyingCalculation plug-in</em></p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="settings-before-use">
+<h3>Settings before use<a class="headerlink" href="#settings-before-use" title="Permalink to this headline">¶</a></h3>
+<p>Set to empty string the <em>Representation for NULL values</em> on the Data sources
+tab in the Setting/Options menu. It makes the Attribute Table (Fieldbook) more
+readable.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/04.jpg"><img alt="_images/04.jpg" src="_images/04.jpg" style="width: 540.8px; height: 256.8px;" /></a>
+<p class="caption"><em>(4.) Settings of Attribute Table</em></p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/05.jpg"><img alt="_images/05.jpg" src="_images/05.jpg" style="width: 685.6px; height: 491.2px;" /></a>
+<p class="caption"><em>(5.) Settings of Attribute Table</em></p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="loading-fieldbooks">
+<h3>Loading fieldbooks<a class="headerlink" href="#loading-fieldbooks" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">First you have to open an existing Coordinate list or create a new one from the menu. Otherwise coordinates in the filedbook will be lost.</p>
+</li>
+<li><dl class="first docutils">
+<dt>After creating a new Coordinate list shape file, you get an empty table in your project with the following columns (column names and types are mandatory):</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">point_id:</th><td class="field-body">point number</td>
+</tr>
+<tr class="field"><th class="field-name">e:</th><td class="field-body">East coordinate</td>
+</tr>
+<tr class="field"><th class="field-name">n:</th><td class="field-body">North coordinate</td>
+</tr>
+<tr class="field"><th class="field-name">z:</th><td class="field-body">Z coordinate (height)</td>
+</tr>
+<tr class="field"><th class="field-name">pc:</th><td class="field-body">point code</td>
+</tr>
+<tr class="field"><th class="field-name">pt:</th><td class="field-body">point type</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</li>
+<li><p class="first">Click on the Load fieldbook icon.</p>
+</li>
+<li><p class="first">Choose the type of fieldbook (<a class="reference internal" href="#geodimeter-job-are">Geodimeter JOB/ARE</a>; <a class="reference internal" href="#leica-gsi">Leica GSI</a>; <a class="reference internal" href="#sokkia-crd">Sokkia CRD</a>)</p>
+</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/06.jpg"><img alt="_images/06.jpg" src="_images/06.jpg" style="width: 537.6px; height: 229.6px;" /></a>
+<p class="caption"><em>(6.) New coordinate list</em></p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/07.jpg"><img alt="_images/07.jpg" src="_images/07.jpg" style="width: 917.6px; height: 514.4px;" /></a>
+<p class="caption"><em>(7.) Empty coordinate table</em></p>
+</div>
+<div class="section" id="geodimeter-job-are">
+<h4>Geodimeter JOB/ARE<a class="headerlink" href="#geodimeter-job-are" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first">Select the JOB file</p>
+</li>
+<li><p class="first">Select the output .dbf file containing your observations, the name will start with <em>fb_</em>, the program will add it to the name automatically if neccessary</p>
+</li>
+<li><dl class="first docutils">
+<dt>After giving the path to the DBF file a new fieldbook is added to your QGIS project. The name of the fieldbook always starts with &#8220;fb_&#8221;. This database table stores measurements, it has no graphical (map) data.</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">id:</th><td class="field-body">ordinal number of observation in fieldbook, sort by this field normally</td>
+</tr>
+<tr class="field"><th class="field-name">point_id:</th><td class="field-body">point number (max 20 characters)</td>
+</tr>
+<tr class="field"><th class="field-name">station:</th><td class="field-body">if record data belongs to a station it must be <em>station</em> otherwise empty</td>
+</tr>
+<tr class="field"><th class="field-name">hz:</th><td class="field-body">horizontal angle or orientation angle in station record</td>
+</tr>
+<tr class="field"><th class="field-name">v:</th><td class="field-body">vertical angle</td>
+</tr>
+<tr class="field"><th class="field-name">sd:</th><td class="field-body">slope distance</td>
+</tr>
+<tr class="field"><th class="field-name">th:</th><td class="field-body">target height or instrument height in station record</td>
+</tr>
+<tr class="field"><th class="field-name">pc:</th><td class="field-body">point code</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</li>
+<li><p class="first">After loading the .JOB, you can optionally load the .ARE file in the same way</p>
+</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/08.jpg"><img alt="_images/08.jpg" src="_images/08.jpg" style="width: 540.0px; height: 227.2px;" /></a>
+<p class="caption"><em>(8.) Load fieldbook</em></p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/09.jpg"><img alt="_images/09.jpg" src="_images/09.jpg" style="width: 917.6px; height: 513.6px;" /></a>
+<p class="caption"><em>(9.) Fieldbook</em></p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/10.jpg"><img alt="_images/10.jpg" src="_images/10.jpg" style="width: 918.4px; height: 513.6px;" /></a>
+<p class="caption"><em>(10.) Coordinate table</em></p>
+</div>
+</div>
+<div class="section" id="leica-gsi">
+<h4>Leica GSI<a class="headerlink" href="#leica-gsi" title="Permalink to this headline">¶</a></h4>
+<p>See Job loading.</p>
+</div>
+<div class="section" id="sokkia-crd">
+<h4>Sokkia CRD<a class="headerlink" href="#sokkia-crd" title="Permalink to this headline">¶</a></h4>
+<p>See JOB loading.</p>
+</div>
+</div>
+<div class="section" id="using-fieldbook-data">
+<h3>Using fieldbook data<a class="headerlink" href="#using-fieldbook-data" title="Permalink to this headline">¶</a></h3>
+<p>Angles are displayed in the fieldbook in Grads (Gon) unit with four decimals.
+Distances, instrument and target heights are in meters.
+TODO: How to change, insert, delete, ...</p>
+</div>
+<div class="section" id="single-point-calculations">
+<h3>Single Point Calculations<a class="headerlink" href="#single-point-calculations" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="orientation">
+<h4>Orientation<a class="headerlink" href="#orientation" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>Click the Single Point Calculations icon.</li>
+<li>Select the Orientation from the type of Calculations.</li>
+<li>Select the Station from the list. You can calculate only the orientation of one station at a time.</li>
+<li>The Target Points list loads automatically.</li>
+<li>Add to Used Points list one or more points which ypu would like to use for the orientation. If you would like to change the <em>Used Points</em> list, use the Remove button.</li>
+<li>Click the Calculate button.</li>
+<li>Result of Calculation displayed automatically in result window.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/11.jpg"><img alt="_images/11.jpg" src="_images/11.jpg" style="width: 583.2px; height: 398.4px;" /></a>
+<p class="caption"><em>(11.) Orientation</em></p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/12.jpg"><img alt="_images/12.jpg" src="_images/12.jpg" style="width: 583.2px; height: 398.4px;" /></a>
+<p class="caption"><em>(12.) Result of Orientation</em></p>
+</div>
+</div>
+<div class="section" id="radial-survey-polar-point">
+<h4>Radial Survey (Polar Point)<a class="headerlink" href="#radial-survey-polar-point" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>Click the Single Point Calculations icon.</li>
+<li>Select the Radial Survey from the type of Calculations.</li>
+<li>Select the Station from the list. You can calculate several polar point from the same station at a time.</li>
+<li>The Target Points list loads automatically.</li>
+<li>Add to Used Points list one or more points which you would like to calculate coordinates for. If you would like to correct, use the Remove button.</li>
+<li>Click the Calculate button.</li>
+<li>Result of Calculation displayed automatically in result window.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/13.jpg"><img alt="_images/13.jpg" src="_images/13.jpg" style="width: 584.0px; height: 400.0px;" /></a>
+<p class="caption"><em>(13.) Radial Survey</em></p>
+</div>
+</div>
+<div class="section" id="intersection">
+<h4>Intersection<a class="headerlink" href="#intersection" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>Click the Single Point Calculations icon.</li>
+<li>Select the Intersection from the type of Calculations.</li>
+<li>Select two stations from the Station(1) and Station(2) lists</li>
+<li>The Target Points list loads automatically. It contains the points, which were measured from both stations.</li>
+<li>Add to Used Points list one or more points which would like to calculate coordinates. If you would like to correct, use the Remove button.</li>
+<li>Click the Calculate button.</li>
+<li>Result of Calculation prints automatically in result window.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/14.jpg"><img alt="_images/14.jpg" src="_images/14.jpg" style="width: 584.0px; height: 399.2px;" /></a>
+<p class="caption"><em>(14.) Intersection</em></p>
+</div>
+</div>
+<div class="section" id="resection">
+<h4>Resection<a class="headerlink" href="#resection" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>Click the Single Point Calculations icon.</li>
+<li>Select the Resection from the type of Calculations.</li>
+<li>Select the station from Station (1) list.</li>
+<li>The Target Points list loads automatically. The list contains the points, which were measured from the station. You can calculate only one station coordinates at a time.</li>
+<li>Add three points to the Used Points list which will be used for resection. If you would like to correct, use the Remove button.</li>
+<li>Click the Calculate button.</li>
+<li>Result of Calculation prints automatically in result window.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/15.jpg"><img alt="_images/15.jpg" src="_images/15.jpg" style="width: 584.0px; height: 398.4px;" /></a>
+<p class="caption"><em>(15.) Resection</em></p>
+</div>
+</div>
+<div class="section" id="free-station">
+<h4>Free Station<a class="headerlink" href="#free-station" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="traverse-calculations">
+<h3>Traverse Calculations<a class="headerlink" href="#traverse-calculations" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="closed-traverse">
+<h4>Closed traverse<a class="headerlink" href="#closed-traverse" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="link-traverse">
+<h4>Link traverse<a class="headerlink" href="#link-traverse" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="open-traverse">
+<h4>Open traverse<a class="headerlink" href="#open-traverse" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="network-adjustment">
+<h3>Network adjustment<a class="headerlink" href="#network-adjustment" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="coordinate-transformation">
+<h3>Coordinate transformation<a class="headerlink" href="#coordinate-transformation" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">SurveyingCalculation plugin for QGIS 2.x</a><ul>
+<li><a class="reference internal" href="#user-s-guide">User&#8217;s Guide</a><ul>
+<li><a class="reference internal" href="#typogrphical-conventions">Typogrphical conventions</a></li>
+<li><a class="reference internal" href="#hardware-and-software-requirements">Hardware and software requirements</a></li>
+<li><a class="reference internal" href="#surveyingcalculation-plugin-install">SurveyingCalculation plugin install</a></li>
+<li><a class="reference internal" href="#settings-before-use">Settings before use</a></li>
+<li><a class="reference internal" href="#loading-fieldbooks">Loading fieldbooks</a><ul>
+<li><a class="reference internal" href="#geodimeter-job-are">Geodimeter JOB/ARE</a></li>
+<li><a class="reference internal" href="#leica-gsi">Leica GSI</a></li>
+<li><a class="reference internal" href="#sokkia-crd">Sokkia CRD</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-fieldbook-data">Using fieldbook data</a></li>
+<li><a class="reference internal" href="#single-point-calculations">Single Point Calculations</a><ul>
+<li><a class="reference internal" href="#orientation">Orientation</a></li>
+<li><a class="reference internal" href="#radial-survey-polar-point">Radial Survey (Polar Point)</a></li>
+<li><a class="reference internal" href="#intersection">Intersection</a></li>
+<li><a class="reference internal" href="#resection">Resection</a></li>
+<li><a class="reference internal" href="#free-station">Free Station</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#traverse-calculations">Traverse Calculations</a><ul>
+<li><a class="reference internal" href="#closed-traverse">Closed traverse</a></li>
+<li><a class="reference internal" href="#link-traverse">Link traverse</a></li>
+<li><a class="reference internal" href="#open-traverse">Open traverse</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#network-adjustment">Network adjustment</a></li>
+<li><a class="reference internal" href="#coordinate-transformation">Coordinate transformation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/usersguide.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Nov 30, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

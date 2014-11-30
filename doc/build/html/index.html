@@ -1,0 +1,1508 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation developer’s documentation &mdash; Land Surveying Calculation v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Land Surveying Calculation v0.0.1 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="surveyingcalculation-developer-s-documentation">
+<h1>SurveyingCalculation developer&#8217;s documentation<a class="headerlink" href="#surveyingcalculation-developer-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<span class="target" id="module-SurveyingCalculation"></span><p>A QGIS plugin to solve surveying calculations.</p>
+<ol class="upperalpha simple" start="3">
+<li>2014 by DigiKom Ltd &lt;<a class="reference external" href="mailto:mail&#37;&#52;&#48;digikom&#46;hu">mail<span>&#64;</span>digikom<span>&#46;</span>hu</a>&gt;</li>
+</ol>
+<p>This program is free software; you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.</p>
+<p>This script initializes the plugin, making it known to QGIS.</p>
+<dl class="function">
+<dt id="SurveyingCalculation.classFactory">
+<tt class="descclassname">SurveyingCalculation.</tt><tt class="descname">classFactory</tt><big>(</big><em>iface</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation.html#classFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.classFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load SurveyingCalculation class from file SurveyingCalculation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>iface</strong> &#8211; a QGIS interface instance (QgsInterface)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="section" id="module-SurveyingCalculation.surveying_calculation">
+<span id="entry-modul-for-the-qgis-plug-in"></span><h2>Entry modul for the QGIS plug-in<a class="headerlink" href="#module-SurveyingCalculation.surveying_calculation" title="Permalink to this headline">¶</a></h2>
+<p id="module-surveying_calculation"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.surveying_calculation.</tt><tt class="descname">SurveyingCalculation</tt><big>(</big><em>iface</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>SurveyingCalculation QGIS Plugin Implementation.</p>
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.about">
+<tt class="descname">about</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.about"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.about" title="Permalink to this definition">¶</a></dt>
+<dd><p>About box of the plugin</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.add_action">
+<tt class="descname">add_action</tt><big>(</big><em>icon_path</em>, <em>text</em>, <em>callback</em>, <em>enabled_flag=True</em>, <em>add_to_menu=True</em>, <em>add_to_toolbar=True</em>, <em>status_tip=None</em>, <em>whats_this=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.add_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.add_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a toolbar icon to the InaSAFE toolbar.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>icon_path</strong> &#8211; path to the icon for this action. Can be a resource path (e.g. &#8216;:/plugins/foo/bar.png&#8217;) or a normal file system path (str)</li>
+<li><strong>text</strong> &#8211; text that should be shown in menu items for this action (str)</li>
+<li><strong>callback</strong> &#8211; function to be called when the action is triggered (function)</li>
+<li><strong>enabled_flag</strong> &#8211; a flag indicating if the action should be enabled by default (bool). Defaults to True.</li>
+<li><strong>add_to_menu</strong> &#8211; flag indicating whether the action should also be added to the menu (bool). Defaults to True.</li>
+<li><strong>add_to_toolbar</strong> &#8211; flag indicating whether the action should also be added to the toolbar (bool). Defaults to True.</li>
+<li><strong>status_tip</strong> &#8211; optional text to show in a popup when mouse pointer hovers over the action (str)</li>
+<li><strong>parent</strong> &#8211; parent widget for the new action (QWidget). Defaults None.</li>
+<li><strong>whats_this</strong> &#8211; optional text to show in the status bar when the mouse pointer hovers over the action (str)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the action that was created (Qaction). Note that the action is also added to self.actions list.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.calculations">
+<tt class="descname">calculations</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.calculations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.calculations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Single point calculations (orientation, intersection,
+resection, freestation)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.create_coordlist">
+<tt class="descname">create_coordlist</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.create_coordlist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.create_coordlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new coordinate list from template and add to layer list. Layer/file name changed to start with &#8216;coord_&#8217; if neccessary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.initGui">
+<tt class="descname">initGui</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.initGui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.initGui" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the menu entries and toolbar icons inside the QGIS GUI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.load_fieldbook">
+<tt class="descname">load_fieldbook</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.load_fieldbook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.load_fieldbook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an electric fieldbook from file (GSI, JOB/ARE, ...)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.networks">
+<tt class="descname">networks</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.networks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.networks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Various network adjustments (1D/2D/3D)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.tr">
+<tt class="descname">tr</tt><big>(</big><em>message</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.tr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.tr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the translation for a string using Qt translation API. We implement this ourselves since we do not inherit QObject.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> &#8211; string for translation (str, QString)</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">translated version of message (QString)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.transformation">
+<tt class="descname">transformation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.transformation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Various coordinate transformations (orthogonal, affine, polynomial)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.traverses">
+<tt class="descname">traverses</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.traverses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.traverses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Various traverse claculations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.unload">
+<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.unload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the plugin menu item and icon from QGIS GUI.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-SurveyingCalculation.base_classes">
+<span id="base-classes-functions"></span><h2>Base classes, functions<a class="headerlink" href="#module-SurveyingCalculation.base_classes" title="Permalink to this headline">¶</a></h2>
+<p id="module-base_classes"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.base_classes.Angle">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">Angle</tt><big>(</big><em>value</em>, <em>unit='RAD'</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#Angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.Angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Angle class, value stored in radian internally</p>
+<dl class="method">
+<dt id="SurveyingCalculation.base_classes.Angle.get_angle">
+<tt class="descname">get_angle</tt><big>(</big><em>out='RAD'</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#Angle.get_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.Angle.get_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get angle value in different units</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> &#8211; output unit (str RAD/DMS/DEG/GON/NMEA/PDEG/SEC/MIL)</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">value (float or string)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.base_classes.Angle.set_angle">
+<tt class="descname">set_angle</tt><big>(</big><em>value</em>, <em>unit='RAD'</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#Angle.set_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.Angle.set_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set or change value of angle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>value</strong> &#8211; new value for angle</li>
+<li><strong>unit</strong> &#8211; unit for the new value</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="SurveyingCalculation.base_classes.Circle">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">Circle</tt><big>(</big><em>p1</em>, <em>p2</em>, <em>p3=None</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#Circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.Circle" title="Permalink to this definition">¶</a></dt>
+<dd><p>circle object</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="SurveyingCalculation.base_classes.Distance">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">Distance</tt><big>(</big><em>d</em>, <em>m='SD'</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#Distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.Distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance observation</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="SurveyingCalculation.base_classes.Point">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">Point</tt><big>(</big><em>id</em>, <em>e=None</em>, <em>n=None</em>, <em>z=None</em>, <em>pc=None</em>, <em>pt=None</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#Point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.Point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Point class</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="SurveyingCalculation.base_classes.PolarObservation">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">PolarObservation</tt><big>(</big><em>tp</em>, <em>station=None</em>, <em>hz=None</em>, <em>v=None</em>, <em>d=None</em>, <em>th=None</em>, <em>pc=None</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#PolarObservation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.PolarObservation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Polar observation class</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="SurveyingCalculation.base_classes.Station">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">Station</tt><big>(</big><em>p</em>, <em>o</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#Station"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.Station" title="Permalink to this definition">¶</a></dt>
+<dd><p>station data</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.base_classes.bearing">
+<tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">bearing</tt><big>(</big><em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#bearing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.bearing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate whole circle bearing</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.base_classes.compare">
+<tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">compare</tt><big>(</big><em>a</em>, <em>b</em>, <em>tol=0.001</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#compare"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.compare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare to objects for equality. Only for testing purposes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; first instance</li>
+<li><strong>b</strong> &#8211; second instance</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.base_classes.distance2d">
+<tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">distance2d</tt><big>(</big><em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#distance2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.distance2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate horizontal distance between two points</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.base_classes.distance3d">
+<tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">distance3d</tt><big>(</big><em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#distance3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.distance3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate 3D distance between two points</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.base_classes.intersecCC">
+<tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">intersecCC</tt><big>(</big><em>circle1</em>, <em>circle2</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#intersecCC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.intersecCC" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate intersection of two circles solving::</dt>
+<dd>(x - x01)**2 + (y - y01)**2 = r1**2
+(x - x02)**2 + (y - y02)**2 = r2**2</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>circle1</strong> &#8211; center coordinates and radius of first circle (Circle)</li>
+<li><strong>circle2</strong> &#8211; center coordinates and radius of first circle (Circle)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">two, one or none intersection as a list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.base_classes.intersecLL">
+<tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">intersecLL</tt><big>(</big><em>pa</em>, <em>pb</em>, <em>dap</em>, <em>dbp</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#intersecLL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.intersecLL" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate intersection of two lines solving::</dt>
+<dd>xa + t1 * sin dap = xb + t2 * sin dbp
+ya + t1 * cos dap = yb + t2 * cos dbp</dd>
+</dl>
+<p>:param pa first point
+:param pb  second point
+:param dap direction (bearing) from first point to new point
+:param dbp direction (bearing) from second point to new point
+:returns: xp yp as a list or an empty list if lines are near paralel</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-SurveyingCalculation.calculation">
+<span id="mathematical-calculations"></span><h2>Mathematical calculations<a class="headerlink" href="#module-SurveyingCalculation.calculation" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-SurveyingCalculation.gama_interface">
+<span id="interface-to-gnu-gama"></span><h2>Interface to GNU Gama<a class="headerlink" href="#module-SurveyingCalculation.gama_interface" title="Permalink to this headline">¶</a></h2>
+<p id="module-gama_interface"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.gama_interface.GamaInterface">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.gama_interface.</tt><tt class="descname">GamaInterface</tt><big>(</big><em>dimension=2</em>, <em>probability=0.95</em>, <em>stdev_angle=3</em>, <em>stdev_dist=3</em>, <em>stdev_dist1=3</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/gama_interface.html#GamaInterface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.gama_interface.GamaInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interface class to GNU Gama</p>
+<dl class="method">
+<dt id="SurveyingCalculation.gama_interface.GamaInterface.add_observation">
+<tt class="descname">add_observation</tt><big>(</big><em>obs</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/gama_interface.html#GamaInterface.add_observation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.gama_interface.GamaInterface.add_observation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add observation to adjustment</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>obs</strong> &#8211; observation to add (PolarObservation)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.gama_interface.GamaInterface.add_point">
+<tt class="descname">add_point</tt><big>(</big><em>point</em>, <em>state='ADJ'</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/gama_interface.html#GamaInterface.add_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.gama_interface.GamaInterface.add_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add point to adjustment</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>point</strong> &#8211; point to ad network (Point)</li>
+<li><strong>state</strong> &#8211; FIXi or ADJ (str)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.gama_interface.GamaInterface.adjust">
+<tt class="descname">adjust</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/gama_interface.html#GamaInterface.adjust"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.gama_interface.GamaInterface.adjust" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export data to GNU Gama xml, adjust the network and read result</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">result list of adjusment from GNU Gama</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.gama_interface.GamaInterface.remove_last_observation">
+<tt class="descname">remove_last_observation</tt><big>(</big><em>st=False</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/gama_interface.html#GamaInterface.remove_last_observation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.gama_interface.GamaInterface.remove_last_observation" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove last observation or station data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>st</strong> &#8211; False remove single observation, True remove station (Bool)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-SurveyingCalculation.network_dialog">
+<span id="network-adjusment-calculation-gui"></span><h2>Network adjusment calculation GUI<a class="headerlink" href="#module-SurveyingCalculation.network_dialog" title="Permalink to this headline">¶</a></h2>
+<p id="module-network_dialog"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.network_dialog.NetworkDialog">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.network_dialog.</tt><tt class="descname">NetworkDialog</tt><a class="reference internal" href="_modules/SurveyingCalculation/network_dialog.html#NetworkDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.network_dialog.NetworkDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for network calculation dialog</p>
+<dl class="method">
+<dt id="SurveyingCalculation.network_dialog.NetworkDialog.onAddAdjButton">
+<tt class="descname">onAddAdjButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/network_dialog.html#NetworkDialog.onAddAdjButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.network_dialog.NetworkDialog.onAddAdjButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move selected points to adjusted list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.network_dialog.NetworkDialog.onAddFixButton">
+<tt class="descname">onAddFixButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/network_dialog.html#NetworkDialog.onAddFixButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.network_dialog.NetworkDialog.onAddFixButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move selected points to fix point list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.network_dialog.NetworkDialog.onCalcButton">
+<tt class="descname">onCalcButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/network_dialog.html#NetworkDialog.onCalcButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.network_dialog.NetworkDialog.onCalcButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect observations and adjust network</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.network_dialog.NetworkDialog.onCloseButton">
+<tt class="descname">onCloseButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/network_dialog.html#NetworkDialog.onCloseButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.network_dialog.NetworkDialog.onCloseButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close dialog after Close button pressed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.network_dialog.NetworkDialog.onRemoveAdjButton">
+<tt class="descname">onRemoveAdjButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/network_dialog.html#NetworkDialog.onRemoveAdjButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.network_dialog.NetworkDialog.onRemoveAdjButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move back selected points from adjusted list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.network_dialog.NetworkDialog.onRemoveFixButton">
+<tt class="descname">onRemoveFixButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/network_dialog.html#NetworkDialog.onRemoveFixButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.network_dialog.NetworkDialog.onRemoveFixButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move back selected points from fixed list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.network_dialog.NetworkDialog.onResetButton">
+<tt class="descname">onResetButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/network_dialog.html#NetworkDialog.onResetButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.network_dialog.NetworkDialog.onResetButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog to initial state after Reset button pressed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.network_dialog.NetworkDialog.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/network_dialog.html#NetworkDialog.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.network_dialog.NetworkDialog.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog to initial state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.network_dialog.NetworkDialog.showEvent">
+<tt class="descname">showEvent</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/network_dialog.html#NetworkDialog.showEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.network_dialog.NetworkDialog.showEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up initial state of dialog widgets</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; NOT USED</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-SurveyingCalculation.resultlog">
+<span id="text-file-loging"></span><h2>Text file loging<a class="headerlink" href="#module-SurveyingCalculation.resultlog" title="Permalink to this headline">¶</a></h2>
+<p id="module-resultlog"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.resultlog.ResultLog">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.resultlog.</tt><tt class="descname">ResultLog</tt><big>(</big><em>logfile</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/resultlog.html#ResultLog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.resultlog.ResultLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>File based logging for Surveying Calculations. Events &amp; calculation results are logged into this file.</p>
+<dl class="method">
+<dt id="SurveyingCalculation.resultlog.ResultLog.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/resultlog.html#ResultLog.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.resultlog.ResultLog.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete content of log file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.resultlog.ResultLog.write">
+<tt class="descname">write</tt><big>(</big><em>msg=''</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/resultlog.html#ResultLog.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.resultlog.ResultLog.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a  simple message to log</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>msg</strong> &#8211; message to write</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.resultlog.ResultLog.write_log">
+<tt class="descname">write_log</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/resultlog.html#ResultLog.write_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.resultlog.ResultLog.write_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write log message with date &amp; time</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>msg</strong> &#8211; message to write</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-SurveyingCalculation.single_dialog">
+<span id="single-point-calcultions"></span><h2>Single point calcultions<a class="headerlink" href="#module-SurveyingCalculation.single_dialog" title="Permalink to this headline">¶</a></h2>
+<p id="module-single_dialog"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.single_dialog.</tt><tt class="descname">SingleDialog</tt><big>(</big><em>log</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for single point calculation dialog (intersection, resection, ...)</p>
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.fillSourceList">
+<tt class="descname">fillSourceList</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.fillSourceList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.fillSourceList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change dialog controls when an other calculation type selected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.fillStationCombos">
+<tt class="descname">fillStationCombos</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.fillStationCombos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.fillStationCombos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change dialog controls when an other calculation type selected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.onAddAllButton">
+<tt class="descname">onAddAllButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.onAddAllButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.onAddAllButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add all target points to used points list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.onAddButton">
+<tt class="descname">onAddButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.onAddButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.onAddButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add selected target points to used points list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.onCalcButton">
+<tt class="descname">onCalcButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.onCalcButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.onCalcButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a calculation when the Calculate button pushed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.onCloseButton">
+<tt class="descname">onCloseButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.onCloseButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.onCloseButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the dialog when the Close button pushed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.onRemoveAllButton">
+<tt class="descname">onRemoveAllButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.onRemoveAllButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.onRemoveAllButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove all used points and add to target points list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.onRemoveButton">
+<tt class="descname">onRemoveButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.onRemoveButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.onRemoveButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove selected used points and add to target points list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.onResetButton">
+<tt class="descname">onResetButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.onResetButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.onResetButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog when the Reset button pushed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.radioClicked">
+<tt class="descname">radioClicked</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.radioClicked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.radioClicked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change dialog controls when an other calculation type selected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog to initial state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.showEvent">
+<tt class="descname">showEvent</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.showEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.showEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog when receives a show event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; NOT USED</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.single_dialog.SingleDialog.stationComboChanged">
+<tt class="descname">stationComboChanged</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/single_dialog.html#SingleDialog.stationComboChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.single_dialog.SingleDialog.stationComboChanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Init source and target list when one of two station combobox changed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-SurveyingCalculation.surveying_util">
+<span id="utility-functions-to-qgis-interface"></span><h2>Utility functions to QGIS interface<a class="headerlink" href="#module-SurveyingCalculation.surveying_util" title="Permalink to this headline">¶</a></h2>
+<p id="module-surveying_util.py"><em>Platforms: </em>Linux/Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.surveying_util.ScPoint">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">ScPoint</tt><big>(</big><em>p</em>, <em>coo=None</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#ScPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.ScPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extended point class to store table position</p>
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_util.ScPoint.get_coord">
+<tt class="descname">get_coord</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#ScPoint.get_coord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.ScPoint.get_coord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the coordinates of the point from coord table and update coordinate fields</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_util.ScPoint.set_coord">
+<tt class="descname">set_coord</tt><big>(</big><em>p</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#ScPoint.set_coord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.ScPoint.set_coord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the coordinates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> &#8211; Point</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_util.ScPoint.store_coord">
+<tt class="descname">store_coord</tt><big>(</big><em>dimension=3</em>, <em>clist=None</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#ScPoint.store_coord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.ScPoint.store_coord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update coordinates in coord table, insert new point if coo is None or point not found</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dimension</strong> &#8211; 1/2/3D coordinates to store (int)</li>
+<li><strong>clist</strong> &#8211; name of layer to add (str)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_coord">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_coord</tt><big>(</big><em>p</em>, <em>clist=None</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_coord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_coord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the coordinates of a point</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; point number (str)</li>
+<li><strong>clist</strong> &#8211; coordinate list to search for (str), optional</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Point object with coordinates</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_coordlist">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_coordlist</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_coordlist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_coordlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the coordinate list point shape in the actual project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">layer name or None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_fblist">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_fblist</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_fblist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_fblist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the fieldbook tables in the actual project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">layer name or None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_fieldbookrow">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_fieldbookrow</tt><big>(</big><em>point_id</em>, <em>fieldbook</em>, <em>fid</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_fieldbookrow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_fieldbookrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a fieldbook row and put into a PolarObservation object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>point_id</strong> &#8211; point number/name (str)</li>
+<li><strong>fieldbook</strong> &#8211; name of fieldbook (str)</li>
+<li><strong>fid</strong> &#8211; id in fieldbook (int)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">observation to the point or a station (PolarObservation)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_fieldlist">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_fieldlist</tt><big>(</big><em>vlayer</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_fieldlist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_fieldlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a list of fields</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vlayer</strong> &#8211; vector layer</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of fields</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_fieldnames">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_fieldnames</tt><big>(</big><em>vlayer</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_fieldnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_fieldnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a list from column names of a vector layer</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name" colspan="2">Paramter vlayer:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">vector layer</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">sorted list of field names</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_known">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_known</tt><big>(</big><em>dimension=2</em>, <em>clist=None</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_known"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_known" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of known points</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dimension</strong> &#8211; 1/2/3 point dimension, default: 2</li>
+<li><strong>clist</strong> &#8211; single coordinate list to search, default None (all lists)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of point ids</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_layer_by_name">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_layer_by_name</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_layer_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_layer_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for a layer object by name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; name of the layer (str)</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">layer object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_measured">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_measured</tt><big>(</big><em>dimension=2</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_measured"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_measured" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of unknown points</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dimension</strong> &#8211; 1/2/3 point dimension</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of point ids</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_namelist">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_namelist</tt><big>(</big><em>pattern</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_namelist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_namelist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find layers matching name with the pattern</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pattern</strong> &#8211; regexp pattern for layer name (str)</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of matching names or None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_station">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_station</tt><big>(</big><em>point_id</em>, <em>fieldbook</em>, <em>fid</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_station"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_station" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Station instance from a fildbook row and from the coord table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>point_id</strong> &#8211; station number/name (str)</li>
+<li><strong>fieldbook</strong> &#8211; name of fieldbook (str)</li>
+<li><strong>fid</strong> &#8211; id in fieldbook (int)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">station (Station)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_stations">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_stations</tt><big>(</big><em>known=False</em>, <em>oriented=False</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_stations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_stations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of stations from fieldbooks</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>known</strong> &#8211; If True only known points get into list.</li>
+<li><strong>oriented</strong> &#8211; If True only oriented stations get into list.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of station [[point_id fieldbook_name id] ...]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_target">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_target</tt><big>(</big><em>point_id</em>, <em>fieldbook</em>, <em>fid</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_target"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a PolarObservation instance of a target point from a fieldbook row.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>point_id</strong> &#8211; point number/name (str)</li>
+<li><strong>fieldbook</strong> &#8211; name of fieldbook (str)</li>
+<li><strong>fid</strong> &#8211; id in fieldbook (int)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">observation on the point (PolarObservation)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_targets">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_targets</tt><big>(</big><em>point_id</em>, <em>fieldbook</em>, <em>fid</em>, <em>known=False</em>, <em>polar=False</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_targets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_targets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect observation data from one station</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>point_id</strong> &#8211; station number/name (str)</li>
+<li><strong>fieldbook</strong> &#8211; name of fieldbook (str)</li>
+<li><strong>fid</strong> &#8211; id in fieldbook (int)</li>
+<li><strong>known</strong> &#8211; If True only known points get into list.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of target points [[point_id fieldbook_name id] ...]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.get_unknown">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">get_unknown</tt><big>(</big><em>dimension=2</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#get_unknown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.get_unknown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of measured points</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dimension</strong> &#8211; 1/2/3 point dimension</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of [point id, True/False], second element marks if point have coordinates of dimension</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SurveyingCalculation.surveying_util.set_orientationangle">
+<tt class="descclassname">SurveyingCalculation.surveying_util.</tt><tt class="descname">set_orientationangle</tt><big>(</big><em>point_id</em>, <em>fieldbook</em>, <em>fid</em>, <em>angle</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_util.html#set_orientationangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_util.set_orientationangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the orientation angle(hz) of the given station in the given fieldbook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>point_id</strong> &#8211; point number/name (str)</li>
+<li><strong>fieldbook</strong> &#8211; name of fieldbook (str)</li>
+<li><strong>fid</strong> &#8211; id in fieldbook (int)</li>
+<li><strong>angle</strong> &#8211; orientation angle (float)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-SurveyingCalculation.totalstations">
+<span id="totalstation-data-import"></span><h2>Totalstation data import<a class="headerlink" href="#module-SurveyingCalculation.totalstations" title="Permalink to this headline">¶</a></h2>
+<p id="module-totalstations"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.totalstations.JobAre">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.totalstations.</tt><tt class="descname">JobAre</tt><big>(</big><em>fname</em>, <em>separator='='</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#JobAre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.JobAre" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to import JOB/ARE data from file</p>
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.JobAre.dist_conv">
+<tt class="descname">dist_conv</tt><big>(</big><em>dist</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#JobAre.dist_conv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.JobAre.dist_conv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert distance/coordinate to meter using distance_unit</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dist</strong> &#8211; value to convert</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">distance in meters</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.JobAre.parse_next">
+<tt class="descname">parse_next</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#JobAre.parse_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.JobAre.parse_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse an observation/station from input</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of observation data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="SurveyingCalculation.totalstations.LeicaGsi">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.totalstations.</tt><tt class="descname">LeicaGsi</tt><big>(</big><em>fname</em>, <em>separator=' '</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#LeicaGsi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.LeicaGsi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to read leica GSI 8/16 data</p>
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.LeicaGsi.convert">
+<tt class="descname">convert</tt><big>(</big><em>val</em>, <em>unit</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#LeicaGsi.convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.LeicaGsi.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert angle to radian, distance to meter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>val</strong> &#8211; value to convert (float)</li>
+<li><strong>unit</strong> &#8211; unit &amp; decimals (int)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">converted value (float)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.LeicaGsi.parse_next">
+<tt class="descname">parse_next</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#LeicaGsi.parse_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.LeicaGsi.parse_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse single line from input</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of values</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="SurveyingCalculation.totalstations.Sdr">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.totalstations.</tt><tt class="descname">Sdr</tt><big>(</big><em>fname</em>, <em>separator=None</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#Sdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.Sdr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to import Sokkia field books</p>
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Sdr.angle">
+<tt class="descname">angle</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#Sdr.angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.Sdr.angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert angle to Gon</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> &#8211; angle to convert</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">angle in Gon</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Sdr.dist">
+<tt class="descname">dist</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#Sdr.dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.Sdr.dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change distance to meters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> &#8211; value to convert</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">distance in meters</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Sdr.parse_next">
+<tt class="descname">parse_next</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#Sdr.parse_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.Sdr.parse_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load next observation, station</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">observation data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Sdr.pn">
+<tt class="descname">pn</tt><big>(</big><em>pbuf</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#Sdr.pn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.Sdr.pn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get point id from input buffer removing leading zeros</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pbuf</strong> &#8211; input buffer</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">point id</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="SurveyingCalculation.totalstations.TotalStation">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.totalstations.</tt><tt class="descname">TotalStation</tt><big>(</big><em>fname</em>, <em>separator</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#TotalStation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.TotalStation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class to load different total station data format</p>
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.TotalStation.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#TotalStation.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.TotalStation.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close dataset</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.TotalStation.get_line">
+<tt class="descname">get_line</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#TotalStation.get_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.TotalStation.get_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read &amp; split a single line</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.TotalStation.open">
+<tt class="descname">open</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#TotalStation.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.TotalStation.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open data set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">0 on success/1 on failure</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.TotalStation.parse_next">
+<tt class="descname">parse_next</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#TotalStation.parse_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.TotalStation.parse_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse one line/logical unit of input, implemented in derived classes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.TotalStation.trim_left">
+<tt class="descname">trim_left</tt><big>(</big><em>s</em>, <em>ch</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#TotalStation.trim_left"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.TotalStation.trim_left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strip left part of a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> &#8211; string to left trim</li>
+<li><strong>ch</strong> &#8211; character to trim</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">left trimmed string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-SurveyingCalculation.transformation_dialog">
+<span id="transformation-calculation-gui"></span><h2>Transformation calculation GUI<a class="headerlink" href="#module-SurveyingCalculation.transformation_dialog" title="Permalink to this headline">¶</a></h2>
+<p id="module-transformation_dialog"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.transformation_dialog.</tt><tt class="descname">TransformationDialog</tt><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for transformation calculation dialog</p>
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.affine_tr">
+<tt class="descname">affine_tr</tt><big>(</big><em>p</em>, <em>tr</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.affine_tr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.affine_tr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate affine transformation for a point</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; point to transform (Point)</li>
+<li><strong>tr</strong> &#8211; transformation parameters</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of easting and northin of transformed coordinates</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.fill_common">
+<tt class="descname">fill_common</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.fill_common"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.fill_common" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find common points in coordinate lists</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.onAddButton">
+<tt class="descname">onAddButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.onAddButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.onAddButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add selected points to used points in transformation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.onCalcButton">
+<tt class="descname">onCalcButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.onCalcButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.onCalcButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start transformation calculation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.onCloseButton">
+<tt class="descname">onCloseButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.onCloseButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.onCloseButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close dialog after Close button pressed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.onRemoveButton">
+<tt class="descname">onRemoveButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.onRemoveButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.onRemoveButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove selected points from used points</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.onResetButton">
+<tt class="descname">onResetButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.onResetButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.onResetButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog to initial state after Reset button pressed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.onToFileButton">
+<tt class="descname">onToFileButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.onToFileButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.onToFileButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select target shape file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.ortho_tr">
+<tt class="descname">ortho_tr</tt><big>(</big><em>p</em>, <em>tr</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.ortho_tr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.ortho_tr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate orthogonal transformation for a point</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; point to transform (Point)</li>
+<li><strong>tr</strong> &#8211; transformation parameters</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of easting and northin of transformed coordinates</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.poly3_tr">
+<tt class="descname">poly3_tr</tt><big>(</big><em>p</em>, <em>tr</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.poly3_tr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.poly3_tr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate 3rd order polynomial transformation for a point</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; point to transform (Point)</li>
+<li><strong>tr</strong> &#8211; transformation parameters</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of easting and northin of transformed coordinates</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.poly4_tr">
+<tt class="descname">poly4_tr</tt><big>(</big><em>p</em>, <em>tr</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.poly4_tr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.poly4_tr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate 4th order polynomial transformation for a point</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; point to transform (Point)</li>
+<li><strong>tr</strong> &#8211; transformation parameters</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of easting and northin of transformed coordinates</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.poly5_tr">
+<tt class="descname">poly5_tr</tt><big>(</big><em>p</em>, <em>tr</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.poly5_tr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.poly5_tr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate 5th order polynomial transformation for a point</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; point to transform (Point)</li>
+<li><strong>tr</strong> &#8211; transformation parameters</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of easting and northin of transformed coordinates</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog to initial state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.transformation_dialog.TransformationDialog.showEvent">
+<tt class="descname">showEvent</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/transformation_dialog.html#TransformationDialog.showEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.transformation_dialog.TransformationDialog.showEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>set up initial state of dialog</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; NOT USED</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-SurveyingCalculation.traverse_dialog">
+<span id="traverse-calculation-gui"></span><h2>Traverse calculation GUI<a class="headerlink" href="#module-SurveyingCalculation.traverse_dialog" title="Permalink to this headline">¶</a></h2>
+<p id="module-traverse_dialog"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.traverse_dialog.</tt><tt class="descname">TraverseDialog</tt><big>(</big><em>log</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for traverse calculation dialog</p>
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.fillOpenTraverseEndPoints">
+<tt class="descname">fillOpenTraverseEndPoints</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.fillOpenTraverseEndPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.fillOpenTraverseEndPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change End Points combo with target points observed 
+from the last point selected in Order List 
+if open traverse is chosen.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.fillStartEndPointsCombos">
+<tt class="descname">fillStartEndPointsCombos</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.fillStartEndPointsCombos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.fillStartEndPointsCombos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change start and end point combo when an other traversing type selected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.fillTargetList">
+<tt class="descname">fillTargetList</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.fillTargetList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.fillTargetList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change Target List when an other calculation type selected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.onAddButton">
+<tt class="descname">onAddButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.onAddButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.onAddButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add selected target point to used points list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.onCalcButton">
+<tt class="descname">onCalcButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.onCalcButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.onCalcButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a traverse calculation when the Calculate button pushed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.onCloseButton">
+<tt class="descname">onCloseButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.onCloseButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.onCloseButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the dialog when the Close button pushed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.onDownButton">
+<tt class="descname">onDownButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.onDownButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.onDownButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add selected target point to used points list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.onRemoveButton">
+<tt class="descname">onRemoveButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.onRemoveButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.onRemoveButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove selected used point and add to target points list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.onResetButton">
+<tt class="descname">onResetButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.onResetButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.onResetButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog when the Reset button pushed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.onUpButton">
+<tt class="descname">onUpButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.onUpButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.onUpButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add selected target point to used points list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.radioClicked">
+<tt class="descname">radioClicked</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.radioClicked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.radioClicked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change dialog controls when an other calculation type selected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog to initial state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.traverse_dialog.TraverseDialog.showEvent">
+<tt class="descname">showEvent</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/traverse_dialog.html#TraverseDialog.showEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.traverse_dialog.TraverseDialog.showEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog when receives a show event.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">SurveyingCalculation developer&#8217;s documentation</a><ul>
+<li><a class="reference internal" href="#module-SurveyingCalculation.surveying_calculation">Entry modul for the QGIS plug-in</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.base_classes">Base classes, functions</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.calculation">Mathematical calculations</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.gama_interface">Interface to GNU Gama</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.network_dialog">Network adjusment calculation GUI</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.resultlog">Text file loging</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.single_dialog">Single point calcultions</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.surveying_util">Utility functions to QGIS interface</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.totalstations">Totalstation data import</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.transformation_dialog">Transformation calculation GUI</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.traverse_dialog">Traverse calculation GUI</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Dec 01, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,628 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation.base_classes &mdash; Land Surveying Calculation v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Land Surveying Calculation v0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="SurveyingCalculation" href="../SurveyingCalculation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" accesskey="U">SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for SurveyingCalculation.base_classes</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: base_classes</span>
+<span class="sd">	:platform: Linux, Windows</span>
+<span class="sd">	:synopsis: Basic classes for Land Surveying Plug-in for QGIS GPL v2.0 license Copyright (C) 2014-  DigiKom Kft. http://digikom.hu</span>
+
+<span class="sd">.. moduleauthor::Zoltan Siki &lt;siki@agt.bme.hu&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">RO</span> <span class="o">=</span> <span class="mi">180</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+<span class="n">PISEC</span> <span class="o">=</span> <span class="mi">180</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
+<span class="n">FOOT2M</span> <span class="o">=</span> <span class="mf">0.3048</span>
+
+<span class="k">class</span> <span class="nc">Angle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Angle class, value stored in radian internally</span>
+<div class="viewcode-block" id="Angle"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.Angle">[docs]</a><span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">&#39;RAD&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Create </span>
+<span class="sd">            :param value: angle value</span>
+<span class="sd">            :param unit: angle unit (RAD/DMS/DEG/GON/NMEA/PDEG/SEC/MIL)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_angle</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s">&#39;RAD&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get angle value in diffferent units</span>
+<div class="viewcode-block" id="Angle.get_angle"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.Angle.get_angle">[docs]</a><span class="sd">            :param out: output unit (RAD/DMS/DEG/GON/NMEA/PDEG/SEC)</span>
+<span class="sd">            :returns float or string </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">elif</span> <span class="n">out</span> <span class="o">==</span> <span class="s">&#39;RAD&#39;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">elif</span> <span class="n">out</span> <span class="o">==</span> <span class="s">&#39;DMS&#39;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dms</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">out</span> <span class="o">==</span> <span class="s">&#39;DEG&#39;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rad2deg</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">out</span> <span class="o">==</span> <span class="s">&#39;GON&#39;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rad2gon</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">out</span> <span class="o">==</span> <span class="s">&#39;NMEA&#39;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rad2dm</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">out</span> <span class="o">==</span> <span class="s">&#39;PDEG&#39;</span><span class="p">:</span>
+            <span class="c"># pseudo decimal DMS ddd.mmss</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rad2pdeg</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">out</span> <span class="o">==</span> <span class="s">&#39;SEC&#39;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rad2sec</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">out</span> <span class="o">==</span> <span class="s">&#39;MIL&#39;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rad2mil</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="k">def</span> <span class="nf">set_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">&#39;RAD&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="Angle.set_angle"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.Angle.set_angle">[docs]</a><span class="sd">            Change value of angle</span>
+<span class="sd">            :param value: new value for angle</span>
+<span class="sd">            :param unit: unit for the new value</span>
+<span class="sd">            :return: none</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">unit</span> <span class="o">==</span> <span class="s">&#39;RAD&#39;</span> <span class="ow">or</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="s">&#39;DMS&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dms2rad</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="s">&#39;DEG&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__deg2rad</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="s">&#39;GON&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__gon2rad</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="s">&#39;NMEA&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dm2rad</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="s">&#39;PDEG&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pdeg2rad</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="s">&#39;SEC&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sec2rad</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="s">&#39;MIL&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mil2rad</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># unknown unit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="c"># move angle to 0 - 2*PI interval</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">-=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">+=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="nf">__deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span></div>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__gon2rad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">/</span> <span class="mf">200.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__dms2rad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dms</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;^[0-9]{1,3}(-[0-9]{1,2}){0,2}$&#39;</span><span class="p">,</span> <span class="n">dms</span><span class="p">):</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dms</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)]</span>
+            <span class="n">div</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
+                <span class="n">a</span> <span class="o">+=</span> <span class="n">val</span> <span class="o">/</span> <span class="n">div</span>
+                <span class="n">div</span> <span class="o">*=</span> <span class="mf">60.0</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__dm2rad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="s">&quot;DDMM.nnnnnn NMEA angle to radian&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">/</span> <span class="mf">100.0</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="mf">100.0</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__pdeg2rad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="s">&quot;dd.mmss to radian&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">angle</span> <span class="o">-</span> <span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">angle</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="n">m</span> <span class="o">/</span> <span class="mf">60.0</span> <span class="o">+</span> <span class="n">s</span> <span class="o">/</span> <span class="mf">3600.0</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__sec2rad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">/</span> <span class="n">RO</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__mil2rad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">/</span> <span class="mf">6400.0</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__rad2gon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">200.0</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__rad2sec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">RO</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__rad2deg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__dms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">secs</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__rad2sec</span><span class="p">())</span>
+            <span class="nb">min</span><span class="p">,</span> <span class="n">sec</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">secs</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+            <span class="n">deg</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+            <span class="n">deg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span>
+            <span class="n">dms</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%d</span><span class="s">-</span><span class="si">%02d</span><span class="s">-</span><span class="si">%02d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="n">sec</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">dms</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">dms</span>
+
+    <span class="k">def</span> <span class="nf">__rad2dm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">180.0</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">d</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">+</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="mi">60</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">__rad2pdeg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">secs</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__rad2sec</span><span class="p">())</span>
+            <span class="nb">min</span><span class="p">,</span> <span class="n">sec</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">secs</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+            <span class="n">deg</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+            <span class="n">deg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span>
+            <span class="n">pdeg</span> <span class="o">=</span> <span class="n">deg</span> <span class="o">+</span> <span class="nb">min</span> <span class="o">/</span> <span class="mf">100.0</span> <span class="o">+</span> <span class="n">sec</span> <span class="o">/</span> <span class="mf">10000.0</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">pdeg</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">pdeg</span>
+
+    <span class="k">def</span> <span class="nf">__rad2mil</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="mf">6400.0</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">w</span>
+
+
+<span class="k">class</span> <span class="nc">Point</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.Point">[docs]</a><span class="sd">        Point class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            initialize new Point object</span>
+<span class="sd">            :param id: point name (string), use &#39;@&#39; for temporary points</span>
+<span class="sd">            :param e: easting coordinate (float)</span>
+<span class="sd">            :param n: northing coordinate (float)</span>
+<span class="sd">            :param z: elevation (float)</span>
+<span class="sd">            :param pc: point code (string)</span>
+<span class="sd">            :param pt: point type (string, e.g. controll/detail)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">e</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="n">pc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pt</span> <span class="o">=</span> <span class="n">pt</span>
+
+<span class="k">class</span> <span class="nc">Distance</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="Distance"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.Distance">[docs]</a><span class="sd">        Distance observation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="s">&#39;SD&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            :param d: distance value</span>
+<span class="sd">            :param m: slope/horizontal/vertical distance SD/HD/VD</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">m</span>
+
+<span class="k">class</span> <span class="nc">PolarObservation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="PolarObservation"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.PolarObservation">[docs]</a><span class="sd">        Polar observation classs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">station</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">hz</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">th</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initialize new Polar observation object.</span>
+<span class="sd">            There are two types of PolarObservation, station record and</span>
+<span class="sd">            observation record. In station record</span>
+<span class="sd">            instrument height is stored in th field,</span>
+<span class="sd">            orientation angle stored in hz, v and d must be None</span>
+<span class="sd">            :param tp: target point id/station point id (string)</span>
+<span class="sd">            :param station: if not None, this is a station record</span>
+<span class="sd">            :param hz: horizontal angle/orientation angle (Angle)</span>
+<span class="sd">            :param v: zenith angle (Angle)</span>
+<span class="sd">            :param d: slope distance (Distance)</span>
+<span class="sd">            :param th: target height/instrument height (float)</span>
+<span class="sd">            :param pc: point code (string)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">station</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># remove distance and zenith</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">point_id</span> <span class="o">=</span> <span class="n">tp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">station</span> <span class="o">=</span> <span class="n">station</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hz</span> <span class="o">=</span> <span class="n">hz</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">th</span> <span class="o">=</span> <span class="n">th</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="n">pc</span>
+
+    <span class="k">def</span> <span class="nf">horiz_dist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;HD&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">.</span><span class="n">d</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;SD&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">.</span><span class="n">d</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">get_angle</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;VD&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+<span class="k">class</span> <span class="nc">Station</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="Station"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.Station">[docs]</a><span class="sd">        station data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            :param p point data (Point)</span>
+<span class="sd">            :param o observation data (PolarObservation)</span>
+<span class="sd">            orientation angle in hz field, instrument height in th field</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">o</span> <span class="o">=</span> <span class="n">o</span>
+
+<span class="k">class</span> <span class="nc">Circle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="Circle"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.Circle">[docs]</a><span class="sd">        circle object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Multiple initialize signatures</span>
+<span class="sd">            1. Center and radius given</span>
+<span class="sd">            :param p1 center point (Point)</span>
+<span class="sd">            :param p2 radius (float)</span>
+<span class="sd">            :param p3 None</span>
+
+<span class="sd">            2. Calculate circle parameters from three points</span>
+<span class="sd">            center is the intersection of orthogonals at the midpoints</span>
+<span class="sd">            :param p1: first point (Point)</span>
+<span class="sd">            :param p2: second point (Point)</span>
+<span class="sd">            :param p3: third point (Point)</span>
+
+<span class="sd">            3 Calculate circle parameters defined by two points and included angle</span>
+<span class="sd">            :param p1: first point (Point)</span>
+<span class="sd">            :param p2: second point (Point)</span>
+<span class="sd">            :param p3: included angle (radian) (Angle)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">p2</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p3</span><span class="p">,</span> <span class="n">Point</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__center</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">distance2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">d</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p3</span><span class="p">,</span>  <span class="n">Angle</span><span class="p">):</span>
+            <span class="n">t2</span> <span class="o">=</span> <span class="n">distance2d</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span><span class="o">.</span><span class="n">d</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">p3</span><span class="o">.</span><span class="n">get_angle</span><span class="p">()</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="k">return</span>
+            <span class="n">dab</span> <span class="o">=</span> <span class="n">bearing</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+
+            <span class="n">e3</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="n">t2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dab</span><span class="o">.</span><span class="n">get_angle</span><span class="p">())</span> <span class="o">+</span> <span class="n">d</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dab</span><span class="o">.</span><span class="n">get_angle</span><span class="p">())</span>
+            <span class="n">n3</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">t2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dab</span><span class="o">.</span><span class="n">get_angle</span><span class="p">())</span> <span class="o">-</span> <span class="n">d</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dab</span><span class="o">.</span><span class="n">get_angle</span><span class="p">())</span>
+            <span class="n">p4</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">,</span> <span class="n">e3</span><span class="p">,</span> <span class="n">n3</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__center</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p4</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">distance2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">d</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">):</span>
+        <span class="c"># midpoints</span>
+        <span class="n">midp12</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="n">p2</span><span class="o">.</span><span class="n">e</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>  <span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">p2</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">midp23</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="n">p3</span><span class="o">.</span><span class="n">e</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>  <span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">p3</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">d12</span> <span class="o">=</span> <span class="n">bearing</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">()</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">d23</span> <span class="o">=</span> <span class="n">bearing</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">()</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="k">return</span> <span class="n">intersecLL</span><span class="p">(</span> <span class="n">midp12</span><span class="p">,</span> <span class="n">midp23</span><span class="p">,</span> <span class="n">d12</span><span class="p">,</span> <span class="n">d23</span> <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">distance2d</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="distance2d"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.distance2d">[docs]</a><span class="sd">        Calculate horizontal distance between two points</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">p2</span><span class="o">.</span><span class="n">e</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">e</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">n</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">Distance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s">&#39;HD&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">distance3d</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="distance3d"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.distance3d">[docs]</a><span class="sd">        Calculate 3D distance between two points</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">p2</span><span class="o">.</span><span class="n">e</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">e</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">n</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">Distance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">bearing</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="bearing"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.bearing">[docs]</a><span class="sd">        Calculate whole circle bearing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">wcb</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">e</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="n">p2</span><span class="o">.</span><span class="n">n</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">wcb</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">wcb</span> <span class="o">=</span> <span class="n">wcb</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="n">wcb</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">intersecLL</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span> <span class="n">pb</span><span class="p">,</span> <span class="n">dap</span><span class="p">,</span> <span class="n">dbp</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="intersecLL"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.intersecLL">[docs]</a><span class="sd">        Calculate intersection of two lines solving</span>
+<span class="sd">            xa + t1 * sin dap = xb + t2 * sin dbp</span>
+<span class="sd">            ya + t1 * cos dap = yb + t2 * cos dbp</span>
+<span class="sd">        :param pa first point</span>
+<span class="sd">        :param pb  second point</span>
+<span class="sd">        :param dap direction (bearing) from first point to new point</span>
+<span class="sd">        :param dbp direction (bearing) from second point to new point</span>
+<span class="sd">        :return xp yp as a list or an empty list if lines are near paralel</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">sdap</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dap</span><span class="p">)</span>
+        <span class="n">cdap</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dap</span><span class="p">)</span>
+        <span class="n">sdbp</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dbp</span><span class="p">)</span>
+        <span class="n">cdbp</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dbp</span><span class="p">)</span>
+        <span class="n">det</span> <span class="o">=</span> <span class="n">sdap</span><span class="o">*</span><span class="n">cdbp</span> <span class="o">-</span> <span class="n">sdbp</span><span class="o">*</span><span class="n">cdap</span>
+            
+        <span class="n">t1</span> <span class="o">=</span> <span class="p">((</span><span class="n">pb</span><span class="o">.</span><span class="n">e</span> <span class="o">-</span> <span class="n">pa</span><span class="o">.</span><span class="n">e</span><span class="p">)</span> <span class="o">*</span> <span class="n">cdbp</span> <span class="o">-</span> <span class="p">(</span><span class="n">pb</span><span class="o">.</span><span class="n">n</span> <span class="o">-</span> <span class="n">pa</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">sdbp</span><span class="p">)</span> <span class="o">/</span> <span class="n">det</span>
+        
+        <span class="n">e</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">sdap</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">cdap</span>
+        <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ZeroDivisionError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+<span class="k">def</span> <span class="nf">intersecCC</span><span class="p">(</span><span class="n">circle1</span><span class="p">,</span> <span class="n">circle2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="intersecCC"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.intersecCC">[docs]</a><span class="sd">        Calculate intersection of two circles solving </span>
+<span class="sd">            (x - x01)^2 + (y - y01)^2 = r1^2</span>
+<span class="sd">            (x - x02)^2 + (y - y02)^2 = r2^2</span>
+<span class="sd">        :param circle1: center coordinates and radius of first circle (Circle)</span>
+<span class="sd">        :param circle2: center coordinates and radius of first circle (Circle)</span>
+
+<span class="sd">        :return two, one or none intersection as a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">swap</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span> <span class="n">circle2</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">-</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.001</span><span class="p">:</span>
+            <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span>
+            <span class="n">circle2</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="n">circle2</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">circle2</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">circle2</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span>
+            <span class="n">swap</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="p">(</span> <span class="n">circle1</span><span class="o">.</span><span class="n">r</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">circle2</span><span class="o">.</span><span class="n">r</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> \
+              <span class="n">circle2</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">circle2</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="o">**</span> <span class="mi">2</span> <span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">de</span> <span class="o">=</span> <span class="n">circle2</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">-</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span>
+        <span class="n">dn</span> <span class="o">=</span> <span class="n">circle2</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="o">-</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span>
+
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">dn</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">/</span> <span class="n">de</span> <span class="o">/</span> <span class="n">de</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">/</span> <span class="n">de</span> <span class="o">-</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="o">-</span> <span class="n">t</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">/</span> <span class="n">de</span> <span class="o">/</span> <span class="n">de</span> <span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">t</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="n">de</span> <span class="o">/</span> <span class="n">de</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="n">de</span> <span class="o">-</span> <span class="n">circle1</span><span class="o">.</span><span class="n">r</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> \
+            <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">circle1</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">c</span>
+        <span class="n">np1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">a</span>
+        <span class="n">np2</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">a</span>
+        <span class="n">ep1</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">dn</span> <span class="o">*</span> <span class="n">np1</span><span class="p">)</span> <span class="o">/</span> <span class="n">de</span>
+        <span class="n">ep2</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">dn</span> <span class="o">*</span> <span class="n">np2</span><span class="p">)</span> <span class="o">/</span> <span class="n">de</span>
+        <span class="k">if</span> <span class="n">swap</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span> <span class="n">Point</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">,</span><span class="n">ep1</span><span class="p">,</span><span class="n">np1</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">,</span><span class="n">ep2</span><span class="p">,</span><span class="n">np2</span><span class="p">)</span> <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span> <span class="n">Point</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">,</span><span class="n">np1</span><span class="p">,</span><span class="n">ep1</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">,</span><span class="n">np2</span><span class="p">,</span><span class="n">ep2</span><span class="p">)</span> <span class="p">]</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ZeroDivisionError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    
+<span class="k">def</span> <span class="nf">compare</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="compare"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.base_classes.compare">[docs]</a><span class="sd">        compare to objects for equality</span>
+<span class="sd">        :param a: first instance</span>
+<span class="sd">        :param b: second instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">b</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="c"># simple numeric, string variables</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">b</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">tol</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="bp">True</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span></div>
+<span class="sd">        unit test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Compare function test failed&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Test for Angle class&quot;</span>
+    <span class="n">adms</span> <span class="o">=</span> <span class="s">&#39;359-59-59&#39;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">adms</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">adms</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;DMS test failed&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">Angle</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;RAD&#39;</span><span class="p">),</span> <span class="s">&#39;RAD&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">adms</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;RAD test failed&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">Angle</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="s">&#39;DMS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">adms</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;DMS 2 test failed&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">Angle</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DEG&#39;</span><span class="p">),</span> <span class="s">&#39;DEG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">adms</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;DEG test failed&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">Angle</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;GON&#39;</span><span class="p">),</span> <span class="s">&#39;GON&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">adms</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;GON test failed&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">Angle</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;NMEA&#39;</span><span class="p">),</span> <span class="s">&#39;NMEA&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">adms</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;NMEA test failed&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">Angle</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;PDEG&#39;</span><span class="p">),</span> <span class="s">&#39;PDEG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="n">adms</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;PDEG test failed&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">Angle</span><span class="p">(</span><span class="s">&#39;16-20&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="s">&#39;16-20-00&#39;</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Short DMS test failed&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">Angle</span><span class="p">(</span><span class="s">&#39;16&#39;</span><span class="p">,</span> <span class="s">&#39;DMS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;DMS&#39;</span><span class="p">),</span> <span class="s">&#39;16-00-00&#39;</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Short DMS 2 test failed&quot;</span>
+    <span class="c"># new test style to continue from here</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">60</span><span class="p">)]</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="p">[</span><span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;station&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mf">1.54</span><span class="p">),</span>
+         <span class="n">PolarObservation</span><span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">Angle</span><span class="p">(</span><span class="mf">60.9345</span><span class="p">,</span> <span class="s">&#39;GON&#39;</span><span class="p">),</span> <span class="n">Angle</span><span class="p">(</span><span class="mf">89.855615</span><span class="p">,</span> <span class="s">&#39;DEG&#39;</span><span class="p">),</span> <span class="n">Distance</span><span class="p">(</span><span class="mf">501.105</span><span class="p">,</span> <span class="s">&#39;SD&#39;</span><span class="p">),</span> <span class="mf">1.80</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">horiz_dist</span><span class="p">(),</span> <span class="mf">501.103</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Horizontal distance test failed&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="mf">100.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Circle from center and radius test failed by e&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="mi">200</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Circle from center and radius test failed by n&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Circle from center and radius test failed by r&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s">&#39;6&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Circle from 3 points test failed by e&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Circle from 3 points test failed by n&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Circle from 3 points test failed by r&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s">&#39;6&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">Angle</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="s">&#39;DEG&#39;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Circle from 2 points and angle test failed by e&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="mf">128.867513459</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Circle from 2 points and angle test failed by n&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">compare</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="mf">57.735026919</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Circle from 2 points and angle test failed by r&quot;</span>
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" >SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Dec 01, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

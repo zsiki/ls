@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation.totalstations &mdash; Land Surveying Calculation v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Land Surveying Calculation v0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="SurveyingCalculation" href="../SurveyingCalculation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" accesskey="U">SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for SurveyingCalculation.totalstations</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Total station file loader classes for Land Surveying Plug-in for QGIS</span>
+<span class="sd">    GPL v2.0 license</span>
+<span class="sd">    Copyright (C) 2014-  DgiKom Kft. http://digikom.hu</span>
+<span class="sd">    .. moduleauthor::Zoltan Siki &lt;siki@agt.bme.hu&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">base_classes</span> <span class="kn">import</span> <span class="n">Angle</span>
+
+<span class="k">class</span> <span class="nc">TotalStation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TotalStation"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.TotalStation">[docs]</a><span class="sd">        base class to load different total station data format</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">separator</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            :param fname: input file name (string)</span>
+<span class="sd">            :param separator: field separator in input (string/regexp???)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="k">if</span> <span class="n">separator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TotalStation.open"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.TotalStation.open">[docs]</a><span class="sd">            open data set</span>
+<span class="sd">            return 0 on success -1 on failure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TotalStation.close"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.TotalStation.close">[docs]</a><span class="sd">            close dataset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">get_line</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TotalStation.get_line"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.TotalStation.get_line">[docs]</a><span class="sd">            read &amp; split a single line</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fp</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">buf</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="c"># end of file</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">separator</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">buf</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">buf</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">trim_left</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">ch</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TotalStation.trim_left"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.TotalStation.trim_left">[docs]</a><span class="sd">            strip left part of a string</span>
+<span class="sd">            :param s: string to legt trim</span>
+<span class="sd">            :param ch: character to trim</span>
+<span class="sd">            :return left trimmed string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;^&#39;</span> <span class="o">+</span> <span class="n">ch</span> <span class="o">+</span> <span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">ch</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">parse_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TotalStation.parse_next"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.TotalStation.parse_next">[docs]</a><span class="sd">            parse one line/logical unit of input, implemented in derives classes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">LeicaGsi</span><span class="p">(</span><span class="n">TotalStation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div></div>
+<div class="viewcode-block" id="LeicaGsi"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.LeicaGsi">[docs]</a><span class="sd">        read leica GSI 8/16 data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LeicaGsi</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">separator</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="LeicaGsi.convert"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.LeicaGsi.convert">[docs]</a><span class="sd">            convert angle to radian, distance to meter</span>
+<span class="sd">            :param val: value to convert (float)</span>
+<span class="sd">            :param unit: unit &amp; decimals (int)</span>
+<span class="sd">            :return converted value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">unit</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># meter, 3 decimals</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">val</span> <span class="o">/</span> <span class="mf">1000.0</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c"># feet, 3 decimals</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">val</span> <span class="o">/</span> <span class="mf">1000.0</span> <span class="o">*</span> <span class="n">FOOT2M</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c"># gon</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">val</span> <span class="o">/</span> <span class="mf">100000.0</span><span class="p">,</span> <span class="s">&#39;GON&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;GON&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="c"># DEG</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">val</span> <span class="o">/</span> <span class="mf">10000.0</span><span class="p">,</span> <span class="s">&#39;DEG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;GON&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="c"># DMS</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">val</span> <span class="o">/</span> <span class="mf">100000.0</span><span class="p">,</span> <span class="s">&#39;PDEG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;GON&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="c"># mil</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">val</span> <span class="o">/</span> <span class="mf">6400.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="c"># meter, 4 decimals</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">val</span> <span class="o">/</span> <span class="mf">10000.0</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="c"># feet, 4 decimals</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">val</span> <span class="o">/</span> <span class="mf">1000.0</span> <span class="o">*</span> <span class="mf">0.3048</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+            <span class="c"># meter, 5 decimals</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">val</span> <span class="o">/</span> <span class="mf">100000.0</span>
+        <span class="k">return</span> <span class="n">res</span>
+            
+    <span class="k">def</span> <span class="nf">parse_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="LeicaGsi.parse_next"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.LeicaGsi.parse_next">[docs]</a><span class="sd">            parse single line from input</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_line</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">buf</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;*&#39;</span><span class="p">:</span>
+            <span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
+            <span class="n">item_code</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;11&#39;</span><span class="p">:</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;21&#39;</span><span class="p">:</span>
+                <span class="c"># horizontal angle</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;22&#39;</span><span class="p">:</span>
+                <span class="c"># vertical angle</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;31&#39;</span><span class="p">:</span>
+                <span class="c"># slope distance</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;32&#39;</span><span class="p">:</span>
+                <span class="c"># horizontal distance</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;hd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;33&#39;</span><span class="p">:</span>
+                <span class="c"># vertical distance</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;vd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;41&#39;</span><span class="p">:</span>
+                <span class="c"># new station</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;42&#39;</span><span class="p">:</span>
+                <span class="c"># station number</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;station&#39;</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;43&#39;</span><span class="p">:</span>
+                <span class="c"># station height</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;ih&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;71&#39;</span><span class="p">:</span>
+                <span class="c"># code (first remark)</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;81&#39;</span><span class="p">:</span>
+                <span class="c"># easting</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;82&#39;</span><span class="p">:</span>
+                <span class="c"># northing</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;n&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;83&#39;</span><span class="p">:</span>
+                <span class="c"># elevation</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;84&#39;</span><span class="p">:</span>
+                <span class="c"># station easting</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;station&#39;</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;85&#39;</span><span class="p">:</span>
+                <span class="c"># station northing</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;station&#39;</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;86&#39;</span><span class="p">:</span>
+                <span class="c"># station elevation</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;station&#39;</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;87&#39;</span><span class="p">:</span>
+                <span class="c"># reflector height</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;88&#39;</span><span class="p">:</span>
+                <span class="c"># station height</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;ih&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trim_left</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="s">&#39;0&#39;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;station&#39;</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+<span class="k">class</span> <span class="nc">JobAre</span><span class="p">(</span><span class="n">TotalStation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div></div>
+<div class="viewcode-block" id="JobAre"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.JobAre">[docs]</a><span class="sd">        Class to import JOB/ARE data from file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s">&#39;=&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">JobAre</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">separator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle_unit</span> <span class="o">=</span> <span class="s">&#39;PDEG&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance_unit</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">dist_conv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="JobAre.dist_conv"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.JobAre.dist_conv">[docs]</a><span class="sd">            Convert distance/coordinate to meter using distance_unit</span>
+<span class="sd">            :param dist: value to convert</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_unit</span> <span class="o">==</span> <span class="s">&#39;f&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dist</span> <span class="o">*</span> <span class="n">FOOT2M</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dist</span>
+
+    <span class="k">def</span> <span class="nf">parse_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="JobAre.parse_next"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.JobAre.parse_next">[docs]</a><span class="sd">            parse an observation/station from input</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_line</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">buf</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">ret</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">item_code</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;2&#39;</span><span class="p">:</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="c"># station point id</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;station&#39;</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">ret</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;3&#39;</span><span class="p">:</span>
+                <span class="c"># instrument height</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_conv</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;4&#39;</span><span class="p">:</span>
+                <span class="c"># point code</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;5&#39;</span> <span class="ow">or</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;62&#39;</span><span class="p">:</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">res</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="c"># target point id</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">ret</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;6&#39;</span><span class="p">:</span>
+                <span class="c"># target height</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_conv</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;7&#39;</span> <span class="ow">or</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;21&#39;</span><span class="p">:</span>
+                <span class="c"># horizontal angle</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle_unit</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;GON&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;8&#39;</span><span class="p">:</span>
+                <span class="c"># zenit angle</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle_unit</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;GON&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;9&#39;</span><span class="p">:</span>
+                <span class="c"># slope distance</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_conv</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;10&#39;</span><span class="p">:</span>
+                <span class="c"># vertical distance</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;vd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_conv</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;11&#39;</span><span class="p">:</span>
+                <span class="c"># horizontal distance stored as slope </span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_conv</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="s">&#39;DEG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;GON&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;23&#39;</span><span class="p">:</span>
+                <span class="c"># units</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">angle_unit</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;1&#39;</span><span class="p">:</span> <span class="s">&#39;GON&#39;</span><span class="p">,</span> <span class="s">&#39;2&#39;</span><span class="p">:</span> <span class="s">&#39;DMS&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">:</span> <span class="s">&#39;DEG&#39;</span><span class="p">,</span> <span class="s">&#39;4&#39;</span><span class="p">:</span> <span class="s">&#39;MIL&#39;</span><span class="p">}[</span><span class="n">buf</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">distance_unit</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;1&#39;</span><span class="p">:</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;2&#39;</span><span class="p">:</span> <span class="s">&#39;f&#39;</span><span class="p">}[</span><span class="n">buf</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]]</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;37&#39;</span><span class="p">:</span>
+                <span class="c"># northing</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_conv</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;38&#39;</span><span class="p">:</span>
+                <span class="c"># easting</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_conv</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">item_code</span> <span class="o">==</span> <span class="s">&#39;39&#39;</span><span class="p">:</span>
+                <span class="c"># elevation</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s">&#39;station_z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_conv</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+
+<span class="k">class</span> <span class="nc">Sdr</span><span class="p">(</span><span class="n">TotalStation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span></div></div>
+<div class="viewcode-block" id="Sdr"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.Sdr">[docs]</a><span class="sd">        Class to import Sokkia field books</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Sdr</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">separator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle_unit</span> <span class="o">=</span> <span class="s">&#39;DEG&#39;</span>     <span class="c"># 1-DEG, 2-GON, 3-MIL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance_unit</span> <span class="o">=</span> <span class="mi">1</span>        <span class="c"># 1-meter, 2-feet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord_order</span> <span class="o">=</span> <span class="mi">2</span>        <span class="c"># 1-North, East, 2-East, North</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle_dir</span> <span class="o">=</span> <span class="mi">1</span>            <span class="c"># 1-Clockwise, 2-Counter clockwise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pn_length</span> <span class="o">=</span> <span class="mi">4</span>            <span class="c"># point id length (default srd20)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">th</span> <span class="o">=</span> <span class="bp">None</span>                <span class="c"># default target height</span>
+
+    <span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Sdr.dist"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.Sdr.dist">[docs]</a><span class="sd">            return distance in meters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_unit</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">FOOT2M</span>
+        <span class="k">return</span> <span class="n">value</span>
+    
+    <span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle_unit</span><span class="p">)</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="s">&#39;GON&#39;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Sdr.angle"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.Sdr.angle">[docs]</a>
+    <span class="k">def</span> <span class="nf">pn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pbuf</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="Sdr.pn"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.Sdr.pn">[docs]</a><span class="sd">            get point id from input buffer</span>
+<span class="sd">            :param buf: input buffer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">pbuf</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">pn_length</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;0&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">p</span>
+
+    <span class="k">def</span> <span class="nf">parse_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="Sdr.parse_next"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.totalstations.Sdr.parse_next">[docs]</a><span class="sd">            Load next observation, station</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_line</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">buf</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span>
+            <span class="n">line_code</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">line_code</span> <span class="o">==</span> <span class="s">&#39;00&#39;</span><span class="p">:</span>
+                <span class="c"># header</span>
+                <span class="k">if</span> <span class="n">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;SDR33&#39;</span><span class="p">:</span>
+                    <span class="n">pn_length</span> <span class="o">=</span> <span class="mi">16</span>
+                <span class="k">elif</span> <span class="n">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;SDR20&#39;</span><span class="p">:</span>
+                    <span class="n">pn_length</span> <span class="o">=</span> <span class="mi">4</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">None</span>
+                <span class="n">w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">40</span><span class="p">:</span><span class="mi">41</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">w</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">angle_unit</span> <span class="o">=</span> <span class="s">&#39;DEG&#39;</span>
+                <span class="k">elif</span> <span class="n">w</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">angle_unit</span> <span class="o">=</span> <span class="s">&#39;GON&#39;</span>
+                <span class="k">elif</span> <span class="n">w</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">angle_unit</span> <span class="o">=</span> <span class="s">&#39;MIL&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">distance_unit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">41</span><span class="p">:</span><span class="mi">42</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">coord_order</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">44</span><span class="p">:</span><span class="mi">45</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">angle_dir</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">45</span><span class="p">:</span><span class="mi">46</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">line_code</span> <span class="o">==</span> <span class="s">&#39;02&#39;</span><span class="p">:</span>
+                <span class="c"># station record</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pn</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pn_length</span> <span class="o">==</span> <span class="mi">16</span><span class="p">:</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">36</span><span class="p">:</span><span class="mi">52</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">52</span><span class="p">:</span><span class="mi">68</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">68</span><span class="p">:</span><span class="mi">84</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">84</span><span class="p">:</span><span class="mi">90</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">18</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">28</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">38</span><span class="p">:</span><span class="mi">48</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">48</span><span class="p">:</span><span class="mi">64</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord_order</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">]</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;station&#39;</span>
+                <span class="k">return</span> <span class="n">res</span>
+            <span class="k">elif</span> <span class="n">line_code</span> <span class="o">==</span> <span class="s">&#39;03&#39;</span><span class="p">:</span>
+                <span class="c"># target height</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">th</span> <span class="o">=</span>  <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">line_code</span> <span class="o">==</span> <span class="s">&#39;07&#39;</span><span class="p">:</span>
+                <span class="c"># orientation</span>
+                <span class="c"># TODO</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">line_code</span> <span class="o">==</span> <span class="s">&#39;08&#39;</span><span class="p">:</span>
+                <span class="c"># coordinate</span>
+                <span class="n">res</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pn</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pn_length</span> <span class="o">==</span> <span class="mi">16</span><span class="p">:</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">36</span><span class="p">:</span><span class="mi">52</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">52</span><span class="p">:</span><span class="mi">68</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">68</span><span class="p">:</span><span class="mi">84</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">18</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">28</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">38</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord_order</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">res</span>
+            <span class="k">elif</span> <span class="n">line_code</span> <span class="o">==</span> <span class="s">&#39;09&#39;</span><span class="p">:</span>
+                <span class="c"># observation</span>
+                <span class="k">if</span> <span class="n">buf</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;F1&#39;</span> <span class="ow">or</span> <span class="n">buf</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;MD&#39;</span><span class="p">:</span>
+                    <span class="c"># face left only</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pn_length</span> <span class="o">==</span> <span class="mi">16</span><span class="p">:</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pn</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">20</span><span class="p">:])</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">36</span><span class="p">:</span><span class="mi">52</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">52</span><span class="p">:</span><span class="mi">68</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">68</span><span class="p">:</span><span class="mi">84</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">84</span><span class="p">:</span><span class="mi">100</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pn</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">8</span><span class="p">:])</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;sd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">22</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">22</span><span class="p">:</span><span class="mi">32</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;hz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">32</span><span class="p">:</span><span class="mi">42</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;pc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="mi">42</span><span class="p">:</span><span class="mi">58</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">th</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">res</span><span class="p">[</span><span class="s">&#39;th&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">th</span>
+                    <span class="n">res</span><span class="p">[</span><span class="s">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+                    <span class="k">return</span> <span class="n">res</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span></div></div>
+<span class="sd">        unit test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">LeicaGsi</span><span class="p">(</span><span class="s">&#39;samples/test_trafo.gsi&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span>
+    <span class="c">#ts = JobAre(&#39;samples/test1.job&#39;, &#39;=&#39;)</span>
+    <span class="c">#ts = Sdr(&#39;samples/PAJE04.crd&#39;, None)</span>
+    <span class="k">if</span> <span class="n">ts</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Open error&quot;</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">parse_next</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">r</span>
+    <span class="n">ts</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="c">#ts.open()</span>
+    <span class="c">#while True:</span>
+    <span class="c">#    r = ts.parse_next()</span>
+    <span class="c">#    if r is None:</span>
+    <span class="c">#        break</span>
+    <span class="c">#    if len(r) &gt; 0:</span>
+    <span class="c">#        print r</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" >SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Dec 01, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

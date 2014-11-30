@@ -1,0 +1,454 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation.surveying_calculation &mdash; Land Surveying Calculation v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Land Surveying Calculation v0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="SurveyingCalculation" href="../SurveyingCalculation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" accesskey="U">SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for SurveyingCalculation.surveying_calculation</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: surveying_calculation</span>
+<span class="sd">	:platform: Linux, Windows</span>
+<span class="sd">	:synopsis: main module</span>
+
+<span class="sd">.. moduleauthor: Zoltan Siki &lt;siki@agt.bme.hu&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c"># generic python modules</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">QSettings</span><span class="p">,</span> <span class="n">QTranslator</span><span class="p">,</span> <span class="n">qVersion</span><span class="p">,</span> <span class="n">QCoreApplication</span><span class="p">,</span> <span class="n">QVariant</span><span class="p">,</span> <span class="n">QFile</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtGui</span> <span class="kn">import</span> <span class="n">QAction</span><span class="p">,</span> <span class="n">QIcon</span><span class="p">,</span> <span class="n">QMenu</span><span class="p">,</span> <span class="n">QMessageBox</span><span class="p">,</span> <span class="n">QFileDialog</span><span class="p">,</span> <span class="n">QDialog</span>
+<span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># Initialize Qt resources from file resources.py</span>
+<span class="kn">import</span> <span class="nn">resources_rc</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
+<span class="c"># debugging</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">pyqtRemoveInputHook</span>
+<span class="kn">import</span> <span class="nn">pdb</span>
+
+<span class="c"># plugin specific python modules</span>
+<span class="c">#from single_calc import Ui_SingleCalcDialog</span>
+<span class="kn">from</span> <span class="nn">single_dialog</span> <span class="kn">import</span> <span class="n">SingleDialog</span>
+<span class="c">#from traverse_calc import Ui_TraverseCalcDialog</span>
+<span class="kn">from</span> <span class="nn">traverse_dialog</span> <span class="kn">import</span> <span class="n">TraverseDialog</span>
+<span class="c">#from network_calc import Ui_NetworkCalcDialog</span>
+<span class="kn">from</span> <span class="nn">network_dialog</span> <span class="kn">import</span> <span class="n">NetworkDialog</span>
+<span class="kn">from</span> <span class="nn">transformation_dialog</span> <span class="kn">import</span> <span class="n">TransformationDialog</span>
+<span class="kn">from</span> <span class="nn">totalstations</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">surveying_util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">calculation</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">resultlog</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c">#sys.path.append(r&#39;C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc&#39;)</span>
+<span class="c">#import pydevd</span>
+
+
+<span class="k">class</span> <span class="nc">SurveyingCalculation</span><span class="p">:</span>
+<div class="viewcode-block" id="SurveyingCalculation"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation">[docs]</a>    <span class="sd">&quot;&quot;&quot;QGIS Plugin Implementation.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iface</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor.</span>
+
+<span class="sd">        :param iface: An interface instance that will be passed to this class</span>
+<span class="sd">            which provides the hook by which you can manipulate the QGIS</span>
+<span class="sd">            application at run time.</span>
+<span class="sd">        :type iface: QgsInterface</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+<span class="c">#        pydevd.settrace()</span>
+        <span class="c"># Save reference to the QGIS interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iface</span> <span class="o">=</span> <span class="n">iface</span>
+        <span class="c"># initialize plugin directory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+        <span class="c"># initialize locale</span>
+        <span class="n">locale</span> <span class="o">=</span> <span class="n">QSettings</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s">&#39;locale/userLocale&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">locale_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span>
+            <span class="s">&#39;i18n&#39;</span><span class="p">,</span>
+            <span class="s">&#39;surveying_calculation_{}.qm&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">locale</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">locale_path</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">translator</span> <span class="o">=</span> <span class="n">QTranslator</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">translator</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">locale_path</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">qVersion</span><span class="p">()</span> <span class="o">&gt;</span> <span class="s">&#39;4.3.3&#39;</span><span class="p">:</span>
+                <span class="n">QCoreApplication</span><span class="o">.</span><span class="n">installTranslator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">translator</span><span class="p">)</span>
+
+        <span class="c"># init result log</span>
+        <span class="n">log_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span><span class="s">&#39;log&#39;</span><span class="p">,</span><span class="s">&#39;log.txt&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">ResultLog</span><span class="p">(</span><span class="n">log_path</span><span class="p">)</span>
+
+        <span class="c">#self.single_dlg = QDialog()</span>
+        <span class="c">#Ui_SingleCalcDialog().setupUi(self.single_dlg)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">single_dlg</span> <span class="o">=</span> <span class="n">SingleDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">)</span>
+        <span class="c">#self.traverse_dlg = QDialog()</span>
+        <span class="c">#Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">traverse_dlg</span> <span class="o">=</span> <span class="n">TraverseDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">)</span>
+        <span class="c">#self.network_dlg = QDialog()</span>
+        <span class="c">#Ui_NetworkCalcDialog().setupUi(self.network_dlg)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">network_dlg</span> <span class="o">=</span> <span class="n">NetworkDialog</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformation_dlg</span> <span class="o">=</span> <span class="n">TransformationDialog</span><span class="p">()</span>
+
+        <span class="c"># Declare instance attributes</span>
+
+    <span class="c"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+<div class="viewcode-block" id="SurveyingCalculation.tr"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.tr">[docs]</a>        <span class="sd">&quot;&quot;&quot;Get the translation for a string using Qt translation API.</span>
+<span class="sd">        We implement this ourselves since we do not inherit QObject.</span>
+<span class="sd">        :param message: String for translation.</span>
+<span class="sd">        :type message: str, QString</span>
+<span class="sd">        :returns: Translated version of message.</span>
+<span class="sd">        :rtype: QString</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># noinspection PyTypeChecker,PyArgumentList,PyCallByClass</span>
+        <span class="k">return</span> <span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&#39;SurveyingCalculation&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">icon_path</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">enabled_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span></div>
+<div class="viewcode-block" id="SurveyingCalculation.add_action"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.add_action">[docs]</a>        <span class="n">add_to_menu</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">add_to_toolbar</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">status_tip</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+        <span class="n">whats_this</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a toolbar icon to the InaSAFE toolbar.</span>
+<span class="sd">        :param icon_path: Path to the icon for this action. Can be a resource</span>
+<span class="sd">            path (e.g. &#39;:/plugins/foo/bar.png&#39;) or a normal file system path.</span>
+<span class="sd">        :type icon_path: str</span>
+<span class="sd">        :param text: Text that should be shown in menu items for this action.</span>
+<span class="sd">        :type text: str</span>
+<span class="sd">        :param callback: Function to be called when the action is triggered.</span>
+<span class="sd">        :type callback: function</span>
+<span class="sd">        :param enabled_flag: A flag indicating if the action should be enabled</span>
+<span class="sd">            by default. Defaults to True.</span>
+<span class="sd">        :type enabled_flag: bool</span>
+<span class="sd">        :param add_to_menu: Flag indicating whether the action should also</span>
+<span class="sd">            be added to the menu. Defaults to True.</span>
+<span class="sd">        :type add_to_menu: bool</span>
+<span class="sd">        :param add_to_toolbar: Flag indicating whether the action should also</span>
+<span class="sd">            be added to the toolbar. Defaults to True.</span>
+<span class="sd">        :type add_to_toolbar: bool</span>
+<span class="sd">        :param status_tip: Optional text to show in a popup when mouse pointer</span>
+<span class="sd">            hovers over the action.</span>
+<span class="sd">        :type status_tip: str</span>
+<span class="sd">        :param parent: Parent widget for the new action. Defaults None.</span>
+<span class="sd">        :type parent: QWidget</span>
+<span class="sd">        :param whats_this: Optional text to show in the status bar when the</span>
+<span class="sd">            mouse pointer hovers over the action.</span>
+<span class="sd">        :returns: The action that was created. Note that the action is also</span>
+<span class="sd">            added to self.actions list.</span>
+<span class="sd">        :rtype: QAction</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">icon</span> <span class="o">=</span> <span class="n">QIcon</span><span class="p">(</span><span class="n">icon_path</span><span class="p">)</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">icon</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+        <span class="n">action</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span>
+        <span class="n">action</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="n">enabled_flag</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">status_tip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">action</span><span class="o">.</span><span class="n">setStatusTip</span><span class="p">(</span><span class="n">status_tip</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">whats_this</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">action</span><span class="o">.</span><span class="n">setWhatsThis</span><span class="p">(</span><span class="n">whats_this</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">add_to_toolbar</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">add_to_menu</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">addPluginToMenu</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">menu</span><span class="p">,</span>
+                <span class="n">action</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">action</span>
+
+    <span class="k">def</span> <span class="nf">initGui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SurveyingCalculation.initGui"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.initGui">[docs]</a>        <span class="sd">&quot;&quot;&quot;Create the menu entries and toolbar icons inside the QGIS GUI.&quot;&quot;&quot;</span>
+
+        <span class="n">icon_path</span> <span class="o">=</span> <span class="s">&#39;:/plugins/SurveyingCalculation/icon.png&#39;</span>
+        <span class="c"># build menu</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu</span> <span class="o">=</span> <span class="n">QMenu</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">u&#39;&amp;SurveyingCalculation&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_coord</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">QIcon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span><span class="s">&#39;icons&#39;</span><span class="p">,</span><span class="s">&#39;new_coord.png&#39;</span><span class="p">)),</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&quot;New coordinate list ...&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_load</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">QIcon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span><span class="s">&#39;icons&#39;</span><span class="p">,</span><span class="s">&#39;open_fieldbook.png&#39;</span><span class="p">)),</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&quot;Load fieldbook ...&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_calc</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">QIcon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span><span class="s">&#39;icons&#39;</span><span class="p">,</span><span class="s">&#39;single_calc.png&#39;</span><span class="p">)),</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&quot;Single point calculations ...&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_trav</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">QIcon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span><span class="s">&#39;icons&#39;</span><span class="p">,</span><span class="s">&#39;traverse_calc.png&#39;</span><span class="p">)),</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&quot;Traverse calculations ...&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_netw</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">QIcon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span><span class="s">&#39;icons&#39;</span><span class="p">,</span><span class="s">&#39;network_calc.png&#39;</span><span class="p">)),</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&quot;Network adjustment ...&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_tran</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">QIcon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span><span class="s">&#39;icons&#39;</span><span class="p">,</span><span class="s">&#39;coord_calc.png&#39;</span><span class="p">)),</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&quot;Coordinate transformation ...&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_help</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&quot;Help&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_about</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&quot;About&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu</span><span class="o">.</span><span class="n">addActions</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sc_coord</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_load</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_calc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sc_trav</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_netw</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_tran</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_help</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_about</span><span class="p">])</span>
+        <span class="n">menu_bar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">()</span><span class="o">.</span><span class="n">menuBar</span><span class="p">()</span>
+        <span class="n">actions</span> <span class="o">=</span> <span class="n">menu_bar</span><span class="o">.</span><span class="n">actions</span><span class="p">()</span>
+        <span class="n">lastAction</span> <span class="o">=</span> <span class="n">actions</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">menu_bar</span><span class="o">.</span><span class="n">insertMenu</span><span class="p">(</span><span class="n">lastAction</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">menu</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_coord</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_coordlist</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_load</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load_fieldbook</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_calc</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calculations</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_trav</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">traverses</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_netw</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_tran</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_about</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">about</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_help</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">help</span><span class="p">)</span>
+
+        <span class="c"># add icons to toolbar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">addToolBar</span><span class="p">(</span><span class="s">u&#39;SurveyingCalculation&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s">u&#39;SurveyingCalculation&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">addActions</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sc_load</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_calc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_trav</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sc_netw</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_tran</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_help</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SurveyingCalculation.unload"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.unload">[docs]</a>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Removes the plugin menu item and icon from QGIS GUI.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">removePluginMenu</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">u&#39;&amp;SurveyingCalculation&#39;</span><span class="p">),</span>
+                <span class="n">action</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">removeToolBarIcon</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">menu</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span>
+
+    <span class="k">def</span> <span class="nf">create_coordlist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SurveyingCalculation.create_coordlist"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.create_coordlist">[docs]</a>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Create a new coordinate list from template and add to</span>
+<span class="sd">            layer list</span>
+<span class="sd">            layer/file name changed to start with &#39;coord_&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ofname</span> <span class="o">=</span> <span class="n">QFileDialog</span><span class="o">.</span><span class="n">getSaveFileName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;QGIS co-ordinate list&#39;</span><span class="p">),</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;Shape file (*.shp)&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ofname</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;coord_&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">ofname</span><span class="p">)):</span>
+            <span class="n">ofname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">ofname</span><span class="p">),</span>
+                <span class="s">&#39;coord_&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">ofname</span><span class="p">))</span>
+        <span class="n">ofbase</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">ofname</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">tempbase</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span> <span class="s">&#39;template&#39;</span><span class="p">,</span> <span class="s">&#39;coord_template&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;.shp&#39;</span><span class="p">,</span> <span class="s">&#39;.shx&#39;</span><span class="p">,</span> <span class="s">&#39;.dbf&#39;</span><span class="p">]:</span>
+            <span class="n">copyfile</span><span class="p">(</span><span class="n">tempbase</span><span class="o">+</span><span class="n">ext</span><span class="p">,</span> <span class="n">ofbase</span><span class="o">+</span><span class="n">ext</span><span class="p">)</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="n">QgsVectorLayer</span><span class="p">(</span><span class="n">ofname</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">ofname</span><span class="p">),</span> <span class="s">&quot;ogr&quot;</span><span class="p">)</span>
+        <span class="n">QgsMapLayerRegistry</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">addMapLayer</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_fieldbook</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SurveyingCalculation.load_fieldbook"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.load_fieldbook">[docs]</a>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Load an electric fieldbook form file (GSI, JOB/ARE, ...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">QFileDialog</span><span class="o">.</span><span class="n">getOpenFileName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;Electric fieldbook&#39;</span><span class="p">),</span>
+            <span class="nb">filter</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd)&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">fname</span><span class="p">:</span>
+            <span class="c"># file selected</span>
+            <span class="c"># ask for table name</span>
+            <span class="n">ofname</span> <span class="o">=</span> <span class="n">QFileDialog</span><span class="o">.</span><span class="n">getSaveFileName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">(),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;QGIS fieldbook&#39;</span><span class="p">),</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="nb">filter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;DBF file (*.dbf)&#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ofname</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;fb_&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">ofname</span><span class="p">)):</span>
+                <span class="n">ofname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">ofname</span><span class="p">),</span>
+                    <span class="s">&#39;fb_&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">ofname</span><span class="p">))</span>
+            <span class="c"># make a copy of dbf template</span>
+            <span class="n">copyfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span> <span class="s">&#39;template&#39;</span><span class="p">,</span> <span class="s">&#39;fb_template.dbf&#39;</span><span class="p">),</span> <span class="n">ofname</span><span class="p">)</span>
+            <span class="n">fb_dbf</span> <span class="o">=</span> <span class="n">QgsVectorLayer</span><span class="p">(</span><span class="n">ofname</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">ofname</span><span class="p">))[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&quot;ogr&quot;</span><span class="p">)</span>
+            <span class="n">QgsMapLayerRegistry</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">addMapLayer</span><span class="p">(</span><span class="n">fb_dbf</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;\.gsi$&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+                <span class="n">fb</span> <span class="o">=</span> <span class="n">LeicaGsi</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;\.job$&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;\.are$&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+                <span class="n">fb</span> <span class="o">=</span> <span class="n">JobAre</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;\.crd$&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+                <span class="n">fb</span> <span class="o">=</span> <span class="n">Sdr</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">(),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;File warning&#39;</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;Unknown fieldbook type&#39;</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;OK&#39;</span><span class="p">))</span>
+                <span class="k">return</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span>    <span class="c"># ordinal number for fieldbook records</span>
+            <span class="c">#fb_dbf.startEditing()</span>
+            <span class="n">fb</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+            <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="c"># get next observation/station data from fieldbook</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">fb</span><span class="o">.</span><span class="n">parse_next</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">r</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">break</span>    <span class="c"># end of file</span>
+                <span class="k">if</span> <span class="s">&#39;station&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                    <span class="c"># add row to fieldbook table</span>
+                    <span class="n">record</span> <span class="o">=</span> <span class="n">QgsFeature</span><span class="p">()</span>
+                    <span class="c"># add &amp; initialize attributes</span>
+                    <span class="n">record</span><span class="o">.</span><span class="n">setFields</span><span class="p">(</span><span class="n">fb_dbf</span><span class="o">.</span><span class="n">pendingFields</span><span class="p">(),</span> <span class="bp">True</span><span class="p">)</span>
+                    <span class="n">j</span> <span class="o">=</span> <span class="n">fb_dbf</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">record</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                        <span class="n">j</span> <span class="o">=</span> <span class="n">fb_dbf</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">fieldNameIndex</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                            <span class="n">record</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                    <span class="n">fb_dbf</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">addFeatures</span><span class="p">([</span><span class="n">record</span><span class="p">])</span>
+                <span class="k">if</span> <span class="s">&#39;station_e&#39;</span> <span class="ow">in</span> <span class="n">r</span> <span class="ow">or</span> <span class="s">&#39;station_z&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                    <span class="c"># store coordinates too</span>
+                    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">if</span> <span class="s">&#39;station_z&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                        <span class="n">dimension</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">r</span><span class="p">[</span><span class="s">&#39;station_z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+                    <span class="k">if</span> <span class="s">&#39;station_e&#39;</span> <span class="ow">in</span> <span class="n">r</span> <span class="ow">and</span> <span class="s">&#39;station_n&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                        <span class="n">dimension</span> <span class="o">+=</span> <span class="mi">2</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">r</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+                        <span class="n">r</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;station_e&#39;</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;station_n&#39;</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;station_z&#39;</span><span class="p">])</span>
+                    <span class="n">qp</span> <span class="o">=</span> <span class="n">ScPoint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                    <span class="n">qp</span><span class="o">.</span><span class="n">store_coord</span><span class="p">(</span><span class="n">dimension</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s">&#39;e&#39;</span> <span class="ow">in</span> <span class="n">r</span> <span class="ow">or</span> <span class="s">&#39;z&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                    <span class="c"># store coordinates too</span>
+                    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">if</span> <span class="s">&#39;z&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                        <span class="n">dimension</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">r</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+                    <span class="k">if</span> <span class="s">&#39;e&#39;</span> <span class="ow">in</span> <span class="n">r</span> <span class="ow">and</span> <span class="s">&#39;n&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                        <span class="n">dimension</span> <span class="o">+=</span> <span class="mi">2</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">r</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+                        <span class="n">r</span><span class="p">[</span><span class="s">&#39;n&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;point_id&#39;</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;n&#39;</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">])</span>
+                    <span class="n">qp</span> <span class="o">=</span> <span class="n">ScPoint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                    <span class="n">qp</span><span class="o">.</span><span class="n">store_coord</span><span class="p">(</span><span class="n">dimension</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">10</span>
+            <span class="c">#fb_dbf.commitChanges()</span>
+        <span class="k">return</span>
+    
+    <span class="k">def</span> <span class="nf">calculations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SurveyingCalculation.calculations"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.calculations">[docs]</a>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Single point calculation (orientation, intersection,</span>
+<span class="sd">            resection, freestation)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># show the dialog</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">single_dlg</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="c"># Run the dialog event loop</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">single_dlg</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">traverses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SurveyingCalculation.traverses"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.traverses">[docs]</a>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Various traverse claculations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># show the dialog</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">traverse_dlg</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="c"># Run the dialog event loop</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">traverse_dlg</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">networks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SurveyingCalculation.networks"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.networks">[docs]</a>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Various network adjustments (1D/2D/3D)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># show the dialog</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">network_dlg</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="c"># Run the dialog event loop</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">network_dlg</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">transformation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SurveyingCalculation.transformation"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.transformation">[docs]</a>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Various coordinate transformation (orthogonal, polinom)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># show the dialog</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformation_dlg</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="c"># Run the dialog event loop</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformation_dlg</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">about</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SurveyingCalculation.about"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.surveying_calculation.SurveyingCalculation.about">[docs]</a>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            About box of the plugin</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iface</span><span class="o">.</span><span class="n">mainWindow</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;About&#39;</span><span class="p">),</span>    
+            <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;Surveying Calculation Plugin</span><span class="se">\n\n</span><span class="s"> (c) DigiKom Kft 2014 http://digikom.hu mail (at) digikom.hu</span><span class="se">\n</span><span class="s">Version 0.1a&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+        <span class="c"># TODO</span>
+        <span class="k">pass</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" >SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Dec 01, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

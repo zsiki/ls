@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation.transformation_dialog &mdash; Land Surveying Calculation v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Land Surveying Calculation v0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="SurveyingCalculation" href="../SurveyingCalculation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" accesskey="U">SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for SurveyingCalculation.transformation_dialog</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GNU Gama interface classes for Land Surveying Plug-in for QGIS</span>
+<span class="sd">    GPL v2.0 license</span>
+<span class="sd">    Copyright (C) 2014-  DigiKom Kft. http://digikom.hu</span>
+<span class="sd">    .. moduleauthor::Zoltan Siki &lt;siki@agt.bme.hu&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">PyQt4.QtGui</span> <span class="kn">import</span> <span class="n">QDialog</span><span class="p">,</span> <span class="n">QFileDialog</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">SIGNAL</span><span class="p">,</span> <span class="n">QCoreApplication</span>
+<span class="kn">from</span> <span class="nn">transformation_calc</span> <span class="kn">import</span> <span class="n">Ui_TransformationCalcDialog</span>
+
+<span class="kn">from</span> <span class="nn">surveying_util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">calculation</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">TransformationDialog</span><span class="p">(</span><span class="n">QDialog</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TransformationDialog"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog">[docs]</a><span class="sd">        Class for transformation calculation dialog</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TransformationDialog</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_TransformationCalcDialog</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">from_points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">common</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">used</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CloseButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onCloseButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResetButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onResetButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ToFileButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onToFileButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AddButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onAddButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">RemoveButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onRemoveButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CalcButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onCalcButton</span><span class="p">)</span>
+        <span class="c"># coordinate list changed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FromLayerComboBox</span><span class="p">,</span> <span class="n">SIGNAL</span><span class="p">(</span><span class="s">&quot;currentIndexChanged(const QString&amp;)&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">fill_common</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">showEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TransformationDialog.showEvent"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.showEvent">[docs]</a><span class="sd">            set up initial state of dialog</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.reset"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.reset">[docs]</a><span class="sd">            Reset dialog to initial state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># fill from list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FromLayerComboBox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">clist</span> <span class="o">=</span> <span class="n">get_coordlist</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">clist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FromLayerComboBox</span><span class="o">.</span><span class="n">addItems</span><span class="p">(</span><span class="n">clist</span><span class="p">)</span>
+        <span class="c"># clear to file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ToShapeEdit</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="c"># clear comon &amp; used list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CommonList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">UsedList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="c"># select orthogonal transformation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrthogonalRadio</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AffineRadio</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ThirdRadio</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FourthRadio</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FifthRadio</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrthogonalRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AffineRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ThirdRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FourthRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FifthRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onCloseButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.onCloseButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.onCloseButton">[docs]</a><span class="sd">            Close dialog after Close button pressed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onResetButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.onResetButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.onResetButton">[docs]</a><span class="sd">            Reset dialog to initial state after Reset button pressed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onToFileButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.onToFileButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.onToFileButton">[docs]</a><span class="sd">            Select target shape file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">QFileDialog</span><span class="o">.</span><span class="n">getOpenFileName</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;Coordinate list&#39;</span><span class="p">),</span>
+            <span class="nb">filter</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s">&#39;Coordinate list file (*.shp);;&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">fname</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ToShapeEdit</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FromLayerComboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">()):</span>
+                <span class="c"># fill common list</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fill_common</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ToShapeEdit</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+            <span class="c"># clear comon &amp; used list</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CommonList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">UsedList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onAddButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.onAddButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.onAddButton">[docs]</a><span class="sd">            Add selected points to used points in transformation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CommonList</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
+            <span class="n">i</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CommonList</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">UsedList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CommonList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">common</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">common</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="c">#i = self.ui.CommonList.currentRow()</span>
+        <span class="c">#if i &lt; 0:</span>
+        <span class="c">#    return</span>
+        <span class="c">#item = self.ui.CommonList.takeItem(i)</span>
+        <span class="c">#self.ui.UsedList.addItem(item)</span>
+        <span class="c">#self.used.append(self.common[i])</span>
+        <span class="c">#del self.common[i]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrthogonalRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AffineRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ThirdRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">14</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FourthRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FifthRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">onRemoveButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.onRemoveButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.onRemoveButton">[docs]</a><span class="sd">            Remove selected points from used points</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">UsedList</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
+            <span class="n">i</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">UsedList</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CommonList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">UsedList</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="c">#i = self.ui.UsedList.currentRow()</span>
+        <span class="c">#if i &lt; 0:</span>
+        <span class="c">#    return</span>
+        <span class="c">#item = self.ui.UsedList.takeItem(i)</span>
+        <span class="c">#self.ui.CommonList.addItem(item)</span>
+        <span class="c">#self.common.append(self.used[i])</span>
+        <span class="c">#del self.used[i]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrthogonalRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AffineRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ThirdRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FourthRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">21</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FifthRadio</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fill_common</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.fill_common"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.fill_common">[docs]</a><span class="sd">            Find common points in coordinate lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">UsedList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CommonList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">from_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FromLayerComboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="n">to_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ToShapeEdit</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">from_name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">to_shp</span> <span class="o">=</span> <span class="n">QgsVectorLayer</span><span class="p">(</span><span class="n">to_name</span><span class="p">,</span> <span class="s">&quot;tmp_to_shape&quot;</span><span class="p">,</span> <span class="s">&quot;ogr&quot;</span><span class="p">)</span> 
+        <span class="n">QgsMapLayerRegistry</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">addMapLayer</span><span class="p">(</span><span class="n">to_shp</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="n">to_points</span> <span class="o">=</span> <span class="n">get_known</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">&quot;tmp_to_shape&quot;</span><span class="p">)</span>
+        <span class="n">QgsMapLayerRegistry</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">removeMapLayer</span><span class="p">(</span><span class="s">&quot;tmp_to_shape&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">from_points</span> <span class="o">=</span> <span class="n">get_known</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">from_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">common</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">used</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">from_p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_points</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">from_p</span> <span class="ow">in</span> <span class="n">to_points</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">from_p</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">common</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">CommonList</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">onCalcButton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.onCalcButton"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.onCalcButton">[docs]</a><span class="sd">            Start transformation calculation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">from_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FromLayerComboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+        <span class="n">to_list</span> <span class="o">=</span> <span class="s">&#39;tmp_to_shape&#39;</span>
+        <span class="n">p_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">to_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ToShapeEdit</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">to_shp</span> <span class="o">=</span> <span class="n">QgsVectorLayer</span><span class="p">(</span><span class="n">to_name</span><span class="p">,</span> <span class="s">&quot;tmp_to_shape&quot;</span><span class="p">,</span> <span class="s">&quot;ogr&quot;</span><span class="p">)</span> 
+        <span class="n">QgsMapLayerRegistry</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">addMapLayer</span><span class="p">(</span><span class="n">to_shp</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">point_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">used</span><span class="p">:</span>
+            <span class="c"># get coords of points</span>
+            <span class="n">p_from</span> <span class="o">=</span> <span class="n">get_coord</span><span class="p">(</span><span class="n">point_id</span><span class="p">,</span> <span class="n">from_list</span><span class="p">)</span>
+            <span class="n">p_to</span> <span class="o">=</span> <span class="n">get_coord</span><span class="p">(</span><span class="n">point_id</span><span class="p">,</span> <span class="n">to_list</span><span class="p">)</span>
+            <span class="n">p_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">p_from</span><span class="p">,</span> <span class="n">p_to</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">OrthogonalRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="n">tr</span> <span class="o">=</span> <span class="n">Calculation</span><span class="o">.</span><span class="n">orthogonal_transformation</span><span class="p">(</span><span class="n">p_list</span><span class="p">)</span>
+            <span class="n">tr_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ortho_tr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&#39;SurveyingCalculation&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">Orthogonal transformation&#39;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AffineRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="n">tr</span> <span class="o">=</span> <span class="n">Calculation</span><span class="o">.</span><span class="n">affine_transformation</span><span class="p">(</span><span class="n">p_list</span><span class="p">)</span>
+            <span class="n">tr_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_tr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&#39;SurveyingCalculation&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">Affine transformation&#39;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ThirdRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="n">tr</span> <span class="o">=</span> <span class="n">Calculation</span><span class="o">.</span><span class="n">polynomial_transformation</span><span class="p">(</span><span class="n">p_list</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">tr_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly3_tr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&#39;SurveyingCalculation&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">3rd order polynomial transformation&#39;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FourthRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="n">tr</span> <span class="o">=</span> <span class="n">Calculation</span><span class="o">.</span><span class="n">polynomial_transformation</span><span class="p">(</span><span class="n">p_list</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="n">tr_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly4_tr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&#39;SurveyingCalculation&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">4th order polynomial transformation&#39;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">FifthRadio</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="n">tr</span> <span class="o">=</span> <span class="n">Calculation</span><span class="o">.</span><span class="n">polynomial_transformation</span><span class="p">(</span><span class="n">p_list</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+            <span class="n">tr_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly5_tr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&#39;SurveyingCalculation&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">5th order polynomial transformation&#39;</span><span class="p">))</span>
+
+        <span class="c"># calculate transformed coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&#39;SurveyingCalculation&#39;</span><span class="p">,</span> <span class="s">&#39;Point num                E from       N from       E to         N to      dE     dN&#39;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">p_from</span><span class="p">,</span> <span class="n">p_to</span><span class="p">)</span> <span class="ow">in</span> <span class="n">p_list</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">tr_func</span><span class="p">(</span><span class="n">p_from</span><span class="p">,</span> <span class="n">tr</span><span class="p">)</span>
+            <span class="n">de</span> <span class="o">=</span> <span class="n">p_to</span><span class="o">.</span><span class="n">e</span> <span class="o">-</span> <span class="n">e</span>
+            <span class="n">dn</span> <span class="o">=</span> <span class="n">p_to</span><span class="o">.</span><span class="n">n</span> <span class="o">-</span> <span class="n">n</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%-20s</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">p_from</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> \
+                <span class="s">&#39;</span><span class="si">%12.3f</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">p_from</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%12.3f</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">p_from</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> \
+                <span class="s">&#39;</span><span class="si">%12.3f</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">p_to</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%12.3f</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">p_to</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> \
+                <span class="s">&#39;</span><span class="si">%6.3f</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">de</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%6.3f</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">dn</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+        <span class="c"># transform and store </span>
+        <span class="k">for</span> <span class="n">p_num</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_points</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">p_num</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">common</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">get_coord</span><span class="p">(</span><span class="n">p_num</span><span class="p">,</span> <span class="n">from_list</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">tr_func</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">tr</span><span class="p">)</span>
+                <span class="n">buf</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%-20s</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> \
+                    <span class="s">&#39;</span><span class="si">%12.3f</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%12.3f</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> \
+                    <span class="s">&#39;</span><span class="si">%12.3f</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">e</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%12.3f</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">n</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">ResultTextBrowser</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+                <span class="n">pp</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">p_num</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">pc</span><span class="o">=</span><span class="s">&#39;transformed&#39;</span><span class="p">)</span>
+                <span class="n">ScPoint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">store_coord</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">&quot;tmp_to_shape&quot;</span><span class="p">)</span>
+        <span class="n">QgsMapLayerRegistry</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">removeMapLayer</span><span class="p">(</span><span class="s">&quot;tmp_to_shape&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">ortho_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">tr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.ortho_tr"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.ortho_tr">[docs]</a><span class="sd">            Calculate orthogonal transformation for a point</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">-</span> <span class="n">tr</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">affine_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">tr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.affine_tr"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.affine_tr">[docs]</a><span class="sd">            Calculate affine transformation for a point</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">poly3_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">tr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.poly3_tr"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.poly3_tr">[docs]</a><span class="sd">            Calculate 3rd order polynomial transformation for a point</span>
+<span class="sd">            :param p: point to transform (Point)</span>
+<span class="sd">            :param tr: transformation parameters</span>
+<span class="sd">            :return (e, n) transformed coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">de</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">e</span> <span class="o">-</span> <span class="n">tr</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">dn</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">n</span> <span class="o">-</span> <span class="n">tr</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span> <span class="o">**</span><span class="mi">3</span> <span class="o">+</span> \
+            <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">+</span> \
+            <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">8</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span> <span class="o">*</span> <span class="n">dn</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">9</span><span class="p">]</span> <span class="o">*</span> <span class="n">dn</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> \
+            <span class="n">tr</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span> <span class="o">**</span><span class="mi">3</span> <span class="o">+</span> \
+            <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">+</span> \
+            <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="n">dn</span> <span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">8</span><span class="p">]</span> <span class="o">*</span> <span class="n">de</span> <span class="o">*</span> <span class="n">dn</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">tr</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">9</span><span class="p">]</span> <span class="o">*</span> <span class="n">dn</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> \
+            <span class="n">tr</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">poly4_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">tr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.poly4_tr"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.poly4_tr">[docs]</a><span class="sd">            Calculate 4th order polynomial transformation for a point</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">poly5_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">tr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="TransformationDialog.poly5_tr"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.transformation_dialog.TransformationDialog.poly5_tr">[docs]</a><span class="sd">            Calculate 5th order polynomial transformation for a point</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Land Surveying Calculation v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" >SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Dec 01, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>
