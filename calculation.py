@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-    Surveying calculation for Land Surveying Plug-in for QGIS
-    GPL v2.0 license
-    Copyright (C) 2014-  DgiKom Kft. http://digikom.hu
-    .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
+.. module: calculation
+    :platform: Linux, Windows
+	:synopsis: pure calculation class
+
+.. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
+
 """
 
 import math
@@ -12,19 +14,18 @@ from base_classes import *
 from resultlog import *
 
 class Calculation(object):
-    """ container class for all calculations """
+    """ Container class for calculations. Pure static class. """
     
     def __init__(self):
         pass
 
     @staticmethod
     def orientation(st, ref_list):
-        """
-            Orientation calculation for a station
+        """ Orientation calculation for a station
+
             :param st: station (Station)
-            :param ref_list list of [Point, PolarObservation] lists
-            :return average orientation angle (Angle)
-                None if no reference direction at all or in case of error
+            :param ref_list: list of [Point, PolarObservation] lists
+            :returns: average orientation angle (Angle) None if no reference direction at all or in case of error
         """
         ResultLog.resultlog_message = ""
         try:
@@ -78,11 +79,11 @@ class Calculation(object):
 
     @staticmethod
     def polarpoint(st, obs):
-        """
-            Calculate coordinates of a point measured by an independent radial measurement
+        """ Calculate coordinates of a point measured by an independent radial measurement
+
             :param st: station (Station)
             :param obs: observation from station to the unknown point (PolarObservation)
-            :return the polar point with new coordinates (Point)
+            :returns: the polar point with new coordinates (Point)
         """
         ResultLog.resultlog_message = ""
         try:
@@ -111,12 +112,13 @@ class Calculation(object):
 
     @staticmethod
     def intersection(s1, obs1, s2, obs2):
-        """
-            Calculate intersection
+        """ Calculate intersection
+
             :param s1: station 1 (Station)
             :param obs1: observation from station 1 (PolarObservation)
             :param s2: station 2 (Station)
             :param obs2: observation from station 2 (PolarObservation)
+            :returns: intersection point (Point)
         """
         ResultLog.resultlog_message = ""
         # If the two observation are the same.
@@ -141,8 +143,8 @@ class Calculation(object):
 
     @staticmethod
     def resection(st, p1, p2, p3, obs1, obs2, obs3):
-        """
-            Calculate resection
+        """ Calculate resection
+
             :param st: station (Station)
             :param p1: first control point (Point)
             :param p2: second control point (Point)
@@ -150,7 +152,7 @@ class Calculation(object):
             :param obs1: observation from st to p1 (PolarObservation)
             :param obs2: observation from st to p2 (PolarObservation)
             :param obs3: observation from st to p3 (PolarObservation)
-            :return coordinates of the resection point (st) if it can be calculated; otherwise None
+            :returns: coordinates of the resection point (Point) if it can be calculated; otherwise None
         """
         ResultLog.resultlog_message = ""
         try:
@@ -196,20 +198,16 @@ class Calculation(object):
 
     @staticmethod
     def traverse(trav_obs, forceFree=False):
-        """
-            Calculate traverse line. This method can compute the following types of travesres>
+        """ Calculate traverse line. This method can compute the following types of travesres
+
             1. open traverse (free): originates at a known position with known bearings and ends at an unknown position
             2. closed traverse at both ends and the start point has known bearings
             3. closed traverse at both ends and both endpoints has known bearings
             4. inserted traverse: closed at both ends but no bearings
-            :param trav_obs a list of sublists consists of a Point and two PolarObservations
-            If the station member is not None the point is a station.
-            Start point must have coordinates in case of type 1-4 and 
-            end points must have coordinates in case of type 2-4.
-            Two observations are needed at the angle points. At the start point the second observation 
-            is required in case of type 1-3. At the end point the first observation is required in case of type 3.
-            :param forceFree force free traverse calculation (for node)
-            :return a list of points which's coordinates has been computed.
+
+            :param trav_obs: a list of sublists consists of a Point and two PolarObservations, If the station member is not None the point is a station. Start point must have coordinates in case of type 1-4 and end points must have coordinates in case of type 2-4.  Two observations are needed at the angle points. At the start point the second observation is required in case of type 1-3. At the end point the first observation is required in case of type 3.
+            :param forceFree: force free traverse calculation (Boole)
+            :returns: a list of points which's coordinates has been computed.
         """
         ResultLog.resultlog_message = ""
         n = len(trav_obs)
@@ -482,14 +480,14 @@ class Calculation(object):
 
     @staticmethod
     def __GaussElimination(self, a, b, size):
-        """
-            Solve a linear equation system
+        """ Solve a linear equation system::
                 a * x = b
                 a & b are changed!
-            :param a name of matrix of the equation system
-            :param b name of vector of pure term of equations
-            :param size size of the matrix
-            :return x will be in vector b, the inverse will be in matrix a
+
+            :param a: matrix of the equation system
+            :param b: vector of pure term of equations
+            :param size: size of the matrix
+            :returns: will be in vector b, the inverse will be in matrix a
         """
         for i in range(0,size):
             q = 1.0 / a[i,i]
@@ -512,13 +510,12 @@ class Calculation(object):
     
     @staticmethod
     def orthogonal_transformation(plist):
-        """
-            Calculate parameters of orthogonal transformation. Four parameters
-            scale, rotation and offset.
+        """ Calculate parameters of orthogonal transformation. Four parameters scale, rotation and offset.::
             E = E0 + c * e - d * n
             N = N0 + d * e + c * n
-            :param plist a list of common points used in the transormation plist[i]==[srci,desti]
-            :return the list of parameters {E0 N0 c d}
+
+            :param plist: a list of common points used in the transormation plist[i]==[srci,desti]
+            :returns: the list of transformation parameters {E0 N0 c d}
         """
         es = 0.0    # sum of source coordinates
         ns = 0.0
@@ -555,12 +552,13 @@ class Calculation(object):
         return [E0, N0, c, d]
 
     def ____orthogonal3tr(self, plist):
-        """
-            Calculate parameters of orthogonal transformation. Three parameters
+        """ Calculate parameters of orthogonal transformation. Three parameters::
+
             E = E0 + cos(alpha) * e - sin(alpha) * n
             N = N0 + sin(alpha) * e + cos(alpha) * n
-            :param plist a list of common points used in the transormation plist[i]==[srci,desti]
-            :return the list of parameters {E0 N0 alpha}
+
+            :param plist: a list of common points used in the transormation plist[i]==[srci,desti]
+            :returns: the list of transformation parameters {E0 N0 alpha}
         """
         # approximate values from Helmert4
         appr = self.__orthogonaltr4tr(plist)
@@ -618,12 +616,12 @@ class Calculation(object):
 
     @staticmethod
     def affine_transformation(plist):
-        """
-            Calculate parameters of affine transformation. Six parameters
+        """ Calculate parameters of affine transformation. Six parameters::
             E = E0 + a * e + b * n
             N = N0 + c * e + d * n
-            :param plist a list of common points used in the transormation plist[i]==[srci,desti]
-            :return the list of parameters {E0 N0 a b c d}
+
+            :param plist: a list of common points used in the transormation plist[i]==[srci,desti]
+            :returns: the list of transformation parameters {E0 N0 a b c d}
         """
         # calculate weight point in point list
         es = 0.0    # sum of source coordinates
@@ -672,14 +670,14 @@ class Calculation(object):
 
     @staticmethod
     def polynomial_transformation(plist, degree = 3):
-        """
-            Calculate parameters of polynomial (rubber sheet) transformation.
+        """ Calculate parameters of polynomial (rubber sheet) transformation.::
+
             X = X0 + a1 * x + a2 * y + a3 * xy + a4 * x^2 + a5 * y^2 + ...
             Y = Y0 + b1 * x + b2 * y + b3 * xy + b4 * x^2 + b5 * y^2 + ...
-            :param plist a list of common points used in the transormation plist[i]==[srci,desti]
-            :param degree
-            :return the list of parameters X0 Y0 a1 b1 a2 b2 a3 b3 ...
-                    and the weight point coordinates in source and target system
+
+            :param plist: a list of common points used in the transformation plist[i]==[srci,desti]
+            :param degree: degree of transformation 3/4/5
+            :returns: the list of parameters X0 Y0 a1 b1 a2 b2 a3 b3 ...  and the weight point coordinates in source and target system
         """
         # set up A matrix (a1 for x, a2 for y)
         n = len(plist)     # number of points
