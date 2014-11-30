@@ -1,24 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-/***************************************************************************
- SurveyingCalculation
-                                 A QGIS plugin
- To solve surveying calculations
-                              -------------------
-        begin                : 2014-10-17
-        git sha              : $Format:%H$
-        copyright            : (C) 2014 by DigiKom Kft.
-        email                : mail@digikom.hu
- ***************************************************************************/
+.. module:: surveying_calculation
+	:platform: Linux, Windows
+	:synopsis: main module
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+.. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
+
 """
 # generic python modules
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, QFile
@@ -34,11 +21,8 @@ from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
 # plugin specific python modules
-#from single_calc import Ui_SingleCalcDialog
 from single_dialog import SingleDialog
-#from traverse_calc import Ui_TraverseCalcDialog
 from traverse_dialog import TraverseDialog
-#from network_calc import Ui_NetworkCalcDialog
 from network_dialog import NetworkDialog
 from transformation_dialog import TransformationDialog
 from totalstations import *
@@ -50,17 +34,15 @@ import sys
 #sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
 #import pydevd
 
-
 class SurveyingCalculation:
-    """QGIS Plugin Implementation."""
+    """SurveyingCalculation QGIS Plugin Implementation."""
 
     def __init__(self, iface):
         """Constructor.
 
-        :param iface: An interface instance that will be passed to this class
+        :param iface: an interface instance that will be passed to this class
             which provides the hook by which you can manipulate the QGIS
-            application at run time.
-        :type iface: QgsInterface
+            application at run time (QgsInterface)
         """
 #        pydevd.settrace()
         # Save reference to the QGIS interface
@@ -100,12 +82,10 @@ class SurveyingCalculation:
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
-        """Get the translation for a string using Qt translation API.
-        We implement this ourselves since we do not inherit QObject.
-        :param message: String for translation.
-        :type message: str, QString
-        :returns: Translated version of message.
-        :rtype: QString
+        """Get the translation for a string using Qt translation API. We implement this ourselves since we do not inherit QObject.
+
+        :param message: string for translation (str, QString)
+        :returns: translated version of message (QString)
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('SurveyingCalculation', message)
@@ -114,32 +94,17 @@ class SurveyingCalculation:
         add_to_menu=True, add_to_toolbar=True, status_tip=None,
         whats_this=None, parent=None):
         """Add a toolbar icon to the InaSAFE toolbar.
-        :param icon_path: Path to the icon for this action. Can be a resource
-            path (e.g. ':/plugins/foo/bar.png') or a normal file system path.
-        :type icon_path: str
-        :param text: Text that should be shown in menu items for this action.
-        :type text: str
-        :param callback: Function to be called when the action is triggered.
-        :type callback: function
-        :param enabled_flag: A flag indicating if the action should be enabled
-            by default. Defaults to True.
-        :type enabled_flag: bool
-        :param add_to_menu: Flag indicating whether the action should also
-            be added to the menu. Defaults to True.
-        :type add_to_menu: bool
-        :param add_to_toolbar: Flag indicating whether the action should also
-            be added to the toolbar. Defaults to True.
-        :type add_to_toolbar: bool
-        :param status_tip: Optional text to show in a popup when mouse pointer
-            hovers over the action.
-        :type status_tip: str
-        :param parent: Parent widget for the new action. Defaults None.
-        :type parent: QWidget
-        :param whats_this: Optional text to show in the status bar when the
-            mouse pointer hovers over the action.
-        :returns: The action that was created. Note that the action is also
-            added to self.actions list.
-        :rtype: QAction
+
+        :param icon_path: path to the icon for this action. Can be a resource path (e.g. ':/plugins/foo/bar.png') or a normal file system path (str)
+        :param text: text that should be shown in menu items for this action (str)
+        :param callback: function to be called when the action is triggered (function)
+        :param enabled_flag: a flag indicating if the action should be enabled by default (bool). Defaults to True.
+        :param add_to_menu: flag indicating whether the action should also be added to the menu (bool). Defaults to True.
+        :param add_to_toolbar: flag indicating whether the action should also be added to the toolbar (bool). Defaults to True.
+        :param status_tip: optional text to show in a popup when mouse pointer hovers over the action (str)
+        :param parent: parent widget for the new action (QWidget). Defaults None.
+        :param whats_this: optional text to show in the status bar when the mouse pointer hovers over the action (str)
+        :returns: the action that was created (Qaction). Note that the action is also added to self.actions list.
         """
         icon = QIcon(icon_path)
         action = QAction(icon, text, parent)
@@ -201,8 +166,7 @@ class SurveyingCalculation:
             self.sc_netw, self.sc_tran, self.sc_help])
 
     def unload(self):
-        """
-            Removes the plugin menu item and icon from QGIS GUI.
+        """ Removes the plugin menu item and icon from QGIS GUI.
         """
         for action in self.actions:
             self.iface.removePluginMenu(
@@ -213,10 +177,7 @@ class SurveyingCalculation:
         del self.toolbar
 
     def create_coordlist(self):
-        """
-            Create a new coordinate list from template and add to
-            layer list
-            layer/file name changed to start with 'coord_'
+        """ Create a new coordinate list from template and add to layer list. Layer/file name changed to start with 'coord\_' if neccessary.
         """
         ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
             self.tr('QGIS co-ordinate list'),
@@ -234,8 +195,7 @@ class SurveyingCalculation:
         QgsMapLayerRegistry.instance().addMapLayer(coord)
 
     def load_fieldbook(self):
-        """
-            Load an electric fieldbook form file (GSI, JOB/ARE, ...)
+        """ Load an electric fieldbook from file (GSI, JOB/ARE, ...)
         """
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(),
             self.tr('Electric fieldbook'),
@@ -325,8 +285,7 @@ class SurveyingCalculation:
         return
     
     def calculations(self):
-        """
-            Single point calculation (orientation, intersection,
+        """ Single point calculations (orientation, intersection,
             resection, freestation)
         """
         # show the dialog
@@ -335,8 +294,7 @@ class SurveyingCalculation:
         result = self.single_dlg.exec_()
 
     def traverses(self):
-        """
-            Various traverse claculations
+        """ Various traverse claculations
         """
         # show the dialog
         self.traverse_dlg.show()
@@ -344,8 +302,7 @@ class SurveyingCalculation:
         result = self.traverse_dlg.exec_()
 
     def networks(self):
-        """
-            Various network adjustments (1D/2D/3D)
+        """ Various network adjustments (1D/2D/3D)
         """
         # show the dialog
         self.network_dlg.show()
@@ -353,8 +310,7 @@ class SurveyingCalculation:
         result = self.network_dlg.exec_()
 
     def transformation(self):
-        """
-            Various coordinate transformation (orthogonal, polinom)
+        """ Various coordinate transformations (orthogonal, affine, polynomial)
         """
         # show the dialog
         self.transformation_dlg.show()
@@ -362,12 +318,11 @@ class SurveyingCalculation:
         result = self.transformation_dlg.exec_()
 
     def about(self):
-        """
-            About box of the plugin
+        """ About box of the plugin
         """
         QMessageBox.information(self.iface.mainWindow(),
             self.tr('About'),    
-            self.tr('Surveying Calculation Plugin\n\n (c) DigiKom Kft 2014 http://digikom.hu mail (at) digikom.hu\nVersion 0.1a'))
+            self.tr('Surveying Calculation Plugin\n\n (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu\nVersion 0.1a'))
 
     def help(self):
         # TODO

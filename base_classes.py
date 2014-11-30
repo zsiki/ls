@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-    Basic classes for Land Surveying Plug-in for QGIS
-    GPL v2.0 license
-    Copyright (C) 2014-  DigiKom Kft. http://digikom.hu
-    .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
+.. module:: base_classes
+	:platform: Linux, Windows
+	:synopsis: Basic classes for Land Surveying Plug-in for QGIS GPL v2.0 license Copyright (C) 2014-  DigiKom Kft. http://digikom.hu
+
+.. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 
 import re
@@ -15,22 +16,21 @@ PISEC = 180 * 60 * 60
 FOOT2M = 0.3048
 
 class Angle(object):
-    """
-        Angle class, value stored in radian internally
+    """ Angle class, value stored in radian internally
     """
     def __init__(self, value, unit='RAD'):
-        """
-            Create 
+        """ Constructor for an angle instance.
+
             :param value: angle value
-            :param unit: angle unit (RAD/DMS/DEG/GON/NMEA/PDEG/SEC/MIL)
+            :param unit: angle unit (available units RAD/DMS/DEG/GON/NMEA/PDEG/SEC/MIL)
         """
         self.set_angle(value, unit)
 
     def get_angle(self, out='RAD'):
-        """
-            Get angle value in diffferent units
-            :param out: output unit (RAD/DMS/DEG/GON/NMEA/PDEG/SEC)
-            :returns float or string 
+        """ Get angle value in different units
+
+            :param out: output unit (str RAD/DMS/DEG/GON/NMEA/PDEG/SEC/MIL)
+            :returns: value (float or string)
         """
         if self.value is None:
             output = None
@@ -56,11 +56,11 @@ class Angle(object):
         return output
 
     def set_angle(self, value, unit='RAD'):
-        """
-            Change value of angle
+        """ Set or change value of angle.
+
             :param value: new value for angle
             :param unit: unit for the new value
-            :return: none
+            :returns: none
         """
         if unit == 'RAD' or value is None:
             self.value = value
@@ -217,8 +217,8 @@ class Point(object):
     """
 
     def __init__(self, id, e=None, n=None, z=None, pc=None, pt=None):
-        """
-            initialize new Point object
+        """ Initialize a new Point instance.
+
             :param id: point name (string), use '@' for temporary points
             :param e: easting coordinate (float)
             :param n: northing coordinate (float)
@@ -239,27 +239,24 @@ class Distance(object):
     """
 
     def __init__(self, d, m='SD'):
-        """
-            :param d: distance value
-            :param m: slope/horizontal/vertical distance SD/HD/VD
+        """ Initialize a new Distance instance.
+
+            :param d: distance value (float)
+            :param m: slope/horizontal/vertical distance SD/HD/VD (string)
         """
         self.d = d
         self.mode = m
 
 class PolarObservation(object):
     """
-        Polar observation classs
+        Polar observation class
     """
 
     def __init__(self, tp, station=None, hz=None, v=None, d=None, th=None, pc=None):
-        """
-            Initialize new Polar observation object.
-            There are two types of PolarObservation, station record and
-            observation record. In station record
-            instrument height is stored in th field,
-            orientation angle stored in hz, v and d must be None
+        """ Initialize new Polar observation object. There are two types of PolarObservation, station record and observation record. In station record instrument height is stored in th field, orientation angle stored in hz, v and d must be None
+
             :param tp: target point id/station point id (string)
-            :param station: if not None, this is a station record
+            :param station: 'station' or None, in case of 'station' this is a station record (string)
             :param hz: horizontal angle/orientation angle (Angle)
             :param v: zenith angle (Angle)
             :param d: slope distance (Distance)
@@ -290,14 +287,13 @@ class PolarObservation(object):
         return None
 
 class Station(object):
-    """
-        station data
+    """ station data
     """
     def __init__(self, p, o):
-        """
+        """ Initialize a new station instance.
+
             :param p point data (Point)
-            :param o observation data (PolarObservation)
-            orientation angle in hz field, instrument height in th field
+            :param o observation data (PolarObservation), orientation angle in hz field, instrument height in th field
         """
         self.p = p
         self.o = o
@@ -307,24 +303,27 @@ class Circle(object):
         circle object
     """
     def __init__(self, p1, p2, p3=None):
-        """
-            Multiple initialize signatures
+        """ Initialize a new circle instance. 
+
+            Multiple initialize signatures are available.
+
             1. Center and radius given
+
             :param p1 center point (Point)
             :param p2 radius (float)
             :param p3 None
 
-            2. Calculate circle parameters from three points
-            center is the intersection of orthogonals at the midpoints
+            2. Calculate circle parameters from three points center is the intersection of orthogonals at the midpoints
+
             :param p1: first point (Point)
             :param p2: second point (Point)
             :param p3: third point (Point)
 
             3 Calculate circle parameters defined by two points and included angle
+
             :param p1: first point (Point)
             :param p2: second point (Point)
             :param p3: included angle (radian) (Angle)
-
         """
         if isinstance(p1, Point) and isinstance(p2, float):
             self.p = p1
@@ -395,15 +394,15 @@ def bearing(p1, p2):
     return Angle(wcb)
 
 def intersecLL(pa, pb, dap, dbp):
-    """
-        Calculate intersection of two lines solving
+    """ Calculate intersection of two lines solving::
             xa + t1 * sin dap = xb + t2 * sin dbp
             ya + t1 * cos dap = yb + t2 * cos dbp
+
         :param pa first point
         :param pb  second point
         :param dap direction (bearing) from first point to new point
         :param dbp direction (bearing) from second point to new point
-        :return xp yp as a list or an empty list if lines are near paralel
+        :returns: xp yp as a list or an empty list if lines are near paralel
     """
     try:
         sdap = math.sin(dap)
@@ -421,14 +420,13 @@ def intersecLL(pa, pb, dap, dbp):
         return None
 
 def intersecCC(circle1, circle2):
-    """
-        Calculate intersection of two circles solving 
-            (x - x01)^2 + (y - y01)^2 = r1^2
-            (x - x02)^2 + (y - y02)^2 = r2^2
+    """ Calculate intersection of two circles solving::
+            (x - x01)**2 + (y - y01)**2 = r1**2
+            (x - x02)**2 + (y - y02)**2 = r2**2
+
         :param circle1: center coordinates and radius of first circle (Circle)
         :param circle2: center coordinates and radius of first circle (Circle)
-
-        :return two, one or none intersection as a list
+        :returns: two, one or none intersection as a list
     """
     try:
         swap = False
@@ -459,8 +457,8 @@ def intersecCC(circle1, circle2):
         return None
     
 def compare (a, b, tol=0.001):
-    """
-        compare to objects for equality
+    """ Compare to objects for equality. Only for testing purposes.
+
         :param a: first instance
         :param b: second instance
     """
