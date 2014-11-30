@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-    Result log for Land Surveying Plug-in for QGIS
-    GPL v2.0 license
-    Copyright (C) 2014-  DgiKom Kft. http://digikom.hu
-    .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
+.. module:: resultlog
+    :platform: Linux, Windows
+    :synopsis: main module
+
+.. moduleauthor:: Zoltan Siki <siki@agt.bme.hu>
 """
 import os
 import tempfile
@@ -12,14 +13,13 @@ import datetime
 import time
 
 class ResultLog(object):
-    """
-        File based logging for Surveying Calculations
-        Events & calculation results are logged into this file
+    """ File based logging for Surveying Calculations. Events & calculation results are logged into this file.
     """
     resultlog_lessage = ""
     
     def __init__(self, logfile):
         """ initialize log file if neccessary
+
             :param logfile: name of the log file it will be created if neccessary, messages are appended to the end
         """
         try:
@@ -31,8 +31,7 @@ class ResultLog(object):
         self.logfile = logfile
 
     def reset(self):
-        """
-            Delete log file
+        """ Delete content of log file
         """
         try:
             os.remove(self.logfile)
@@ -40,8 +39,8 @@ class ResultLog(object):
             pass
 
     def write(self, msg = ""):
-        """
-            Write simple message to log
+        """ Write a  simple message to log
+
             :param msg: message to write
         """
         try:
@@ -59,8 +58,8 @@ class ResultLog(object):
             pass
 
     def write_log(self, msg):
-        """
-            Write log message with date & time
+        """ Write log message with date & time
+
             :param msg: message to write
         """
         d = time.strftime("%Y-%m-%d %H:%M:%S",
