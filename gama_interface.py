@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-    GNU Gama interface classes for Land Surveying Plug-in for QGIS
-    GPL v2.0 license
-    Copyright (C) 2014-  DgiKom Kft. http://digikom.hu
-    .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
+.. module:: gama_interface
+    :platform: Linux, Windows
+    :synopsis: interface modul to GNU Gama
+
+.. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 
 import re
@@ -20,10 +21,17 @@ from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
 class GamaInterface(object):
-    """
-        interface class to GNU Gama
+    """ Interface class to GNU Gama
     """
     def __init__(self, dimension=2, probability=0.95, stdev_angle=3, stdev_dist=3, stdev_dist1=3):
+        """ Initialize a new GamaInterface instance.
+
+            :param dimension: dimension of network (int), 1/2/3
+            :param probability: porbability for statistical tests (float)
+            :param stdev_angle: standard deviation for directions in cc (float)
+            :param stdev_dist: base standard deviation for distances mm (float)
+            :param stdev_dist1: standard deviation for distances mm/km (float)
+        """
         self.dimension = dimension
         self.probability = probability
         self.stdev_angle = stdev_angle
@@ -41,10 +49,10 @@ class GamaInterface(object):
         self.gama_prog = gama_prog
 
     def add_point(self, point, state='ADJ'):
-        """
-            Add point to adjustment
-            :param point Point
-            :state FIX or ADJ
+        """ Add point to adjustment
+
+            :param point: point to ad network (Point)
+            :param state: FIXi or ADJ (str)
         """
         for p, s in self.points:
             # avoid duplicated points
@@ -53,16 +61,16 @@ class GamaInterface(object):
         self.points.append([point, state])
 
     def add_observation(self, obs):
-        """
-            Add observation to adjustment
-            :param obs PolarObservation
+        """ Add observation to adjustment
+
+            :param obs: observation to add (PolarObservation)
         """
         self.observations.append(obs)
 
     def remove_last_observation(self, st=False):
-        """
-            remove last observation or station data
-            :param st: False - remove single observation, True remove station
+        """ remove last observation or station data
+
+            :param st: False remove single observation, True remove station (Bool)
         """
         if len(self.observations):
             if st:
@@ -73,9 +81,9 @@ class GamaInterface(object):
                 self.observations.pop()
 
     def adjust(self):
-        """
-            Export data to GNU Gama xml, adjust the network and read result
-            :return None/0 failure/success
+        """ Export data to GNU Gama xml, adjust the network and read result
+
+            :returns: result list of adjusment from GNU Gama
         """
         # fix = 0 free network
         fix = 0
@@ -238,8 +246,8 @@ class GamaInterface(object):
         #    pass
         # remove input xml and output xml
         try:
-            #os.remove(tmp_name + '.txt') # TODO remove comment after testing
-            #os.remove(tmp_name + '.xml')
+            os.remove(tmp_name + '.txt')
+            os.remove(tmp_name + '.xml')
             os.remove(tmp_name + 'out.xml')
         except OSError:
             pass
