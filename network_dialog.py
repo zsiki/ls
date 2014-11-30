@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+.. module:: network_dialog
+    :platform: Linux, Windows
+    :synopsis: GUI for adjusment calculation
+
+.. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
+"""
 from PyQt4.QtGui import QDialog
 from network_calc import Ui_NetworkCalcDialog
 from surveying_util import *
@@ -8,12 +16,10 @@ import pdb
 
 
 class NetworkDialog(QDialog):
-    """
-        Class for network calculation dialog
+    """ Class for network calculation dialog
     """
     def __init__(self):
-        """
-            Initialize dialog data and event handlers
+        """ Initialize dialog data and event handlers
         """
         super(NetworkDialog, self).__init__()
         self.ui = Ui_NetworkCalcDialog()
@@ -32,14 +38,14 @@ class NetworkDialog(QDialog):
 
 
     def showEvent(self, event):
-        """
-            set up initial state of dialog widgets
+        """ Set up initial state of dialog widgets
+
+            :param event: NOT USED
         """
         self.reset()
 
     def reset(self):
-        """
-            Reset dialog to initial state
+        """ Reset dialog to initial state
         """
         self.points = get_measured()
         self.fix = []
@@ -54,20 +60,17 @@ class NetworkDialog(QDialog):
                 self.ui.PointsList.addItem(p[0])
 
     def onCloseButton(self):
-        """
-            Close dialog after Close button pressed
+        """ Close dialog after Close button pressed
         """
         self.accept()
 
     def onResetButton(self):
-        """
-            Reset dialog to initial state after Reset button pressed
+        """ Reset dialog to initial state after Reset button pressed
         """
         self.reset()
 
     def onAddFixButton(self):
-        """
-            Move selected points to fix point list
+        """ Move selected points to fix point list
         """
         selected = self.ui.PointsList.selectedItems()
         for item in selected:
@@ -76,19 +79,9 @@ class NetworkDialog(QDialog):
                 self.ui.FixList.addItem(self.ui.PointsList.takeItem(i))
                 self.fix.append(self.points[i])
                 del self.points[i]
-        #i = self.ui.PointsList.currentRow()
-        #if i < 0:
-        #    return
-        #if self.points[i][1]:
-        #    # has coordinates
-        #    item = self.ui.PointsList.takeItem(i)
-        #    self.ui.FixList.addItem(item)
-        #    self.fix.append(self.points[i])
-        #    del self.points[i]
 
     def onAddAdjButton(self):
-        """
-            Move selected points to adjusted list
+        """ Move selected points to adjusted list
         """
         selected = self.ui.PointsList.selectedItems()
         for item in selected:
@@ -96,17 +89,9 @@ class NetworkDialog(QDialog):
             self.ui.AdjustedList.addItem(self.ui.PointsList.takeItem(i))
             self.adj.append(self.points[i])
             del self.points[i]
-        #i = self.ui.PointsList.currentRow()
-        #if i < 0:
-        #    return
-        #item = self.ui.PointsList.takeItem(i)
-        #self.ui.AdjustedList.addItem(item)
-        #self.adj.append(self.points[i])
-        #del self.points[i]
 
     def onRemoveFixButton(self):
-        """
-            Move back selected points from fixed list
+        """ Move back selected points from fixed list
         """
         selected = self.ui.FixList.selectedItems()
         for item in selected:
@@ -114,17 +99,9 @@ class NetworkDialog(QDialog):
             self.ui.PointsList.addItem(self.ui.FixList.takeItem(i))
             self.points.append(self.fix[i])
             del self.fix[i]
-        #i = self.ui.FixList.currentRow()
-        #if i < 0:
-        #    return
-        #item = self.ui.FixList.takeItem(i)
-        #self.ui.PointsList.addItem(item)
-        #self.points.append(self.fix[i])
-        #del self.fix[i]
 
     def onRemoveAdjButton(self):
-        """
-            Move back selected points from adjusted list
+        """ Move back selected points from adjusted list
         """
         selected = self.ui.AdjustedList.selectedItems()
         for item in selected:
@@ -132,17 +109,9 @@ class NetworkDialog(QDialog):
             self.ui.PointsList.addItem(self.ui.AdjustedList.takeItem(i))
             self.points.append(self.adj[i])
             del self.adj[i]
-        #i = self.ui.AdjustedList.currentRow()
-        #if i < 0:
-        #    return
-        #item = self.ui.AdjustedList.takeItem(i)
-        #self.ui.PointsList.addItem(item)
-        #self.points.append(self.adj[i])
-        #del self.adj[i]
 
     def onCalcButton(self):
-        """
-            Collect observations and adjust network
+        """ Collect observations and adjust network
         """
         if len(self.adj):
             dimension = int(self.ui.DimensionComboBox.currentText())
