@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+.. module:: traverse_dialog
+    :platform: Linux, Windows
+    :synopsis: GUI for traverse calculation
+
+.. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
+"""
 from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem, QMessageBox
 from PyQt4.QtCore import Qt
 from traverse_calc import Ui_TraverseCalcDialog
@@ -6,10 +14,11 @@ from calculation import Calculation
 from resultlog import *
 
 class TraverseDialog(QDialog):
-    """
-        Class for traverse calculation dialog
+    """ Class for traverse calculation dialog
     """
     def __init__(self, log):
+        """ Initialize dialog data and event handlers
+        """
         super(TraverseDialog, self).__init__()
         self.ui = Ui_TraverseCalcDialog()
         self.ui.setupUi(self)
@@ -30,14 +39,12 @@ class TraverseDialog(QDialog):
         self.ui.TargetList.setSortingEnabled(True)
 
     def showEvent(self, event):
-        """
-            Reset dialog when receives a show event.
+        """ Reset dialog when receives a show event.
         """
         self.reset()
 
     def reset(self):
-        """
-            Reset dialog to initial state
+        """ Reset dialog to initial state
         """
         # reset radio buttons
         self.ui.buttonGroup.setExclusive(False)
@@ -58,8 +65,7 @@ class TraverseDialog(QDialog):
         self.ui.ResultTextBrowser.clear()
 
     def fillStartEndPointsCombos(self):
-        """
-            Change start and end point combo when an other traversing type selected.
+        """ Change start and end point combo when an other traversing type selected.
         """
         # get selected stations
         oldStartPoint = self.ui.StartPointComboBox.itemData( self.ui.StartPointComboBox.currentIndex() )
@@ -128,8 +134,7 @@ class TraverseDialog(QDialog):
             self.ui.EndPointComboBox.setCurrentIndex(self.ui.StartPointComboBox.currentIndex())
     
     def fillTargetList(self):
-        """
-            Change Target List when an other calculation type selected.
+        """ Change Target List when an other calculation type selected.
         """
         self.ui.TargetList.clear()
         self.ui.OrderList.clear()
@@ -334,13 +339,11 @@ class TraverseDialog(QDialog):
 
     
     def onResetButton(self):
-        """
-            Reset dialog when the Reset button pushed.
+        """ Reset dialog when the Reset button pushed.
         """
         self.reset()
     
     def onCloseButton(self):
-        """
-            Close the dialog when the Close button pushed.
+        """ Close the dialog when the Close button pushed.
         """
         self.accept()

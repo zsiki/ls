@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 .. module:: surveying_calculation
-	:platform: Linux, Windows
-	:synopsis: main module
+    :platform: Linux, Windows
+    :synopsis: main module
 
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 

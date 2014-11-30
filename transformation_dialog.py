@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-    GNU Gama interface classes for Land Surveying Plug-in for QGIS
-    GPL v2.0 license
-    Copyright (C) 2014-  DigiKom Kft. http://digikom.hu
-    .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
+.. module:: transformation_dialog
+    :platform: Linux, Windows
+    :synopsis: GUI for coordinate transformation
+
+.. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 
 from PyQt4.QtGui import QDialog, QFileDialog
@@ -15,10 +16,11 @@ from surveying_util import *
 from calculation import *
 
 class TransformationDialog(QDialog):
-    """
-        Class for transformation calculation dialog
+    """ Class for transformation calculation dialog
     """
     def __init__(self):
+        """ Initialize dialog data and event handlers
+        """
         super(TransformationDialog, self).__init__()
         self.ui = Ui_TransformationCalcDialog()
         self.ui.setupUi(self)
@@ -35,14 +37,14 @@ class TransformationDialog(QDialog):
         self.connect(self.ui.FromLayerComboBox, SIGNAL("currentIndexChanged(const QString&)"), self.fill_common)
 
     def showEvent(self, event):
-        """
-            set up initial state of dialog
+        """ set up initial state of dialog
+
+            :param event: NOT USED
         """
         self.reset()
 
     def reset(self):
-        """
-            Reset dialog to initial state
+        """ Reset dialog to initial state
         """
         # fill from list
         self.ui.FromLayerComboBox.clear()
@@ -68,20 +70,17 @@ class TransformationDialog(QDialog):
         self.ui.ResultTextBrowser.clear()
 
     def onCloseButton(self):
-        """
-            Close dialog after Close button pressed
+        """ Close dialog after Close button pressed
         """
         self.accept()
 
     def onResetButton(self):
-        """
-            Reset dialog to initial state after Reset button pressed
+        """ Reset dialog to initial state after Reset button pressed
         """
         self.reset()
 
     def onToFileButton(self):
-        """
-            Select target shape file
+        """ Select target shape file
         """
         fname = QFileDialog.getOpenFileName(None, self.tr('Coordinate list'),
             filter= self.tr('Coordinate list file (*.shp);;'))
@@ -97,8 +96,7 @@ class TransformationDialog(QDialog):
             self.ui.UsedList.clear()
 
     def onAddButton(self):
-        """
-            Add selected points to used points in transformation
+        """ Add selected points to used points in transformation
         """
         selected = self.ui.CommonList.selectedItems()
         for item in selected:
@@ -106,13 +104,6 @@ class TransformationDialog(QDialog):
             self.ui.UsedList.addItem(self.ui.CommonList.takeItem(i))
             self.used.append(self.common[i])
             del self.common[i]
-        #i = self.ui.CommonList.currentRow()
-        #if i < 0:
-        #    return
-        #item = self.ui.CommonList.takeItem(i)
-        #self.ui.UsedList.addItem(item)
-        #self.used.append(self.common[i])
-        #del self.common[i]
         if len(self.used) > 1:
             self.ui.OrthogonalRadio.setEnabled(True)
         if len(self.used) > 2:
@@ -125,8 +116,7 @@ class TransformationDialog(QDialog):
             self.ui.FifthRadio.setEnabled(True)
     
     def onRemoveButton(self):
-        """
-            Remove selected points from used points
+        """ Remove selected points from used points
         """
         selected = self.ui.UsedList.selectedItems()
         for item in selected:
@@ -134,13 +124,6 @@ class TransformationDialog(QDialog):
             self.ui.CommonList.addItem(self.ui.UsedList.takeItem(i))
             self.common.append(self.used[i])
             del self.used[i]
-        #i = self.ui.UsedList.currentRow()
-        #if i < 0:
-        #    return
-        #item = self.ui.UsedList.takeItem(i)
-        #self.ui.CommonList.addItem(item)
-        #self.common.append(self.used[i])
-        #del self.used[i]
         if len(self.used) < 2:
             self.ui.OrthogonalRadio.setEnabled(False)
         if len(self.used) < 3:
@@ -153,8 +136,7 @@ class TransformationDialog(QDialog):
             self.ui.FifthRadio.setEnabled(False)
 
     def fill_common(self):
-        """
-            Find common points in coordinate lists
+        """ Find common points in coordinate lists
         """
         self.ui.UsedList.clear()
         self.ui.CommonList.clear()
@@ -176,8 +158,7 @@ class TransformationDialog(QDialog):
             self.ui.CommonList.addItem(p)
 
     def onCalcButton(self):
-        """
-            Start transformation calculation
+        """ Start transformation calculation
         """
         from_list = self.ui.FromLayerComboBox.currentText()
         to_list = 'tmp_to_shape'
@@ -236,27 +217,33 @@ class TransformationDialog(QDialog):
         QgsMapLayerRegistry.instance().removeMapLayer("tmp_to_shape")
 
     def ortho_tr(self, p, tr):
-        """
-            Calculate orthogonal transformation for a point
+        """ Calculate orthogonal transformation for a point
+
+            :param p: point to transform (Point)
+            :param tr: transformation parameters
+            :returns: list of easting and northin of transformed coordinates
         """
         e = tr[0] + tr[2] * p.e - tr[3] * p.n
         n = tr[1] + tr[3] * p.e + tr[2] * p.n
         return [e, n]
 
     def affine_tr(self, p, tr):
-        """
-            Calculate affine transformation for a point
+        """ Calculate affine transformation for a point
+
+            :param p: point to transform (Point)
+            :param tr: transformation parameters
+            :returns: list of easting and northin of transformed coordinates
         """
         e = tr[0] + tr[2] * p.e + tr[3] * p.n
         n = tr[1] + tr[4] * p.e + tr[5] * p.n
         return [e, n]
 
     def poly3_tr(self, p, tr):
-        """
-            Calculate 3rd order polynomial transformation for a point
+        """ Calculate 3rd order polynomial transformation for a point
+
             :param p: point to transform (Point)
             :param tr: transformation parameters
-            :return (e, n) transformed coordinates
+            :returns: list of easting and northin of transformed coordinates
         """
         de = p.e - tr[2][0]
         dn = p.n - tr[2][1]
@@ -271,13 +258,19 @@ class TransformationDialog(QDialog):
         return [e, n]
 
     def poly4_tr(self, p, tr):
-        """
-            Calculate 4th order polynomial transformation for a point
+        """ Calculate 4th order polynomial transformation for a point
+
+            :param p: point to transform (Point)
+            :param tr: transformation parameters
+            :returns: list of easting and northin of transformed coordinates
         """
         pass
 
     def poly5_tr(self, p, tr):
-        """
-            Calculate 5th order polynomial transformation for a point
+        """ Calculate 5th order polynomial transformation for a point
+
+            :param p: point to transform (Point)
+            :param tr: transformation parameters
+            :returns: list of easting and northin of transformed coordinates
         """
         pass

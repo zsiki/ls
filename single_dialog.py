@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+.. module:: single_dialog
+    :platform: Linux, Windows
+    :synopsis: GUI for single point calculations
+
+.. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
+"""
 from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox,\
     QStandardItem
 from PyQt4.QtCore import Qt
@@ -12,10 +20,11 @@ from resultlog import *
 from gama_interface import *
 
 class SingleDialog(QDialog):
-    """
-        Class for single point calculation dialog (intersection, resection, ...)
+    """ Class for single point calculation dialog (intersection, resection, ...)
     """
     def __init__(self, log):
+        """ Initialize dialog data and event handlers
+        """
         super(SingleDialog, self).__init__()
         self.ui = Ui_SingleCalcDialog()
         self.ui.setupUi(self)
@@ -39,14 +48,14 @@ class SingleDialog(QDialog):
         self.ui.SourceList.setSortingEnabled(True)
 
     def showEvent(self, event):
-        """
-            Reset dialog when receives a show event.
+        """ Reset dialog when receives a show event.
+
+            :param event: NOT USED
         """
         self.reset()
         
     def reset(self):
-        """
-            Reset dialog to initial state
+        """ Reset dialog to initial state
         """
         # reset radio buttons
         self.ui.radioButtonGroup.setExclusive(False)
@@ -69,8 +78,7 @@ class SingleDialog(QDialog):
         self.ui.ResultTextBrowser.clear()
 
     def fillStationCombos(self):
-        """
-            Change dialog controls when an other calculation type selected.
+        """ Change dialog controls when an other calculation type selected.
         """
         # get selected stations
         oldStation1 = self.ui.Station1Combo.itemData( self.ui.Station1Combo.currentIndex() )
@@ -136,8 +144,7 @@ class SingleDialog(QDialog):
         self.ui.Station2Combo.setCurrentIndex( self.ui.Station2Combo.findData(oldStation2) )
         
     def fillSourceList(self):
-        """
-            Change dialog controls when an other calculation type selected.
+        """ Change dialog controls when an other calculation type selected.
         """
         # get the selected stations
         stn1 = self.ui.Station1Combo.itemData( self.ui.Station1Combo.currentIndex() )
@@ -185,51 +192,44 @@ class SingleDialog(QDialog):
                 self.ui.SourceList.addItem( item )
 
     def radioClicked(self):
-        """
-            Change dialog controls when an other calculation type selected.
+        """ Change dialog controls when an other calculation type selected.
         """
         self.fillStationCombos()
         self.fillSourceList()
         
     def stationComboChanged(self):
-        """
-            Init source and target list when one of two station combobox changed.
+        """ Init source and target list when one of two station combobox changed.
         """
         self.fillSourceList()
         
     def onAddButton(self):
-        """
-            Add selected target points to used points list.
+        """ Add selected target points to used points list.
         """
         selected = self.ui.SourceList.selectedItems()
         for item in selected:
             self.ui.TargetList.addItem( self.ui.SourceList.takeItem( self.ui.SourceList.row(item) ) )
             
     def onAddAllButton(self):
-        """
-            Add all target points to used points list.
+        """ Add all target points to used points list.
         """
         while self.ui.SourceList.count():
             self.ui.TargetList.addItem( self.ui.SourceList.takeItem( 0 ) )
 
     def onRemoveButton(self):
-        """
-            Remove selected used points and add to target points list.
+        """ Remove selected used points and add to target points list.
         """
         selected = self.ui.TargetList.selectedItems()
         for item in selected:
             self.ui.SourceList.addItem( self.ui.TargetList.takeItem( self.ui.TargetList.row(item) ) )
 
     def onRemoveAllButton(self):
-        """
-            Remove all used points and add to target points list.
+        """ Remove all used points and add to target points list.
         """
         while self.ui.TargetList.count():
             self.ui.SourceList.addItem( self.ui.TargetList.takeItem( 0 ) )
     
     def onCalcButton(self):
-        """
-            Start a calculation when the Calculate button pushed.
+        """ Start a calculation when the Calculate button pushed.
         """
         if self.ui.radioButtonGroup.checkedId() == -1:
             QMessageBox.warning(self,u"Warning",u"Select the type of calculation!")
@@ -396,13 +396,11 @@ class SingleDialog(QDialog):
                 self.ui.ResultTextBrowser.append(t)
         
     def onResetButton(self):
-        """
-            Reset dialog when the Reset button pushed.
+        """ Reset dialog when the Reset button pushed.
         """
         self.reset()
     
     def onCloseButton(self):
-        """
-            Close the dialog when the Close button pushed.
+        """ Close the dialog when the Close button pushed.
         """
         self.accept()

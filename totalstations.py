@@ -1,24 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-    Total station file loader classes for Land Surveying Plug-in for QGIS
-    GPL v2.0 license
-    Copyright (C) 2014-  DgiKom Kft. http://digikom.hu
-    .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
+.. module:: totalstations
+    :platform: Linux, Windows
+    :synopsis: Total station file loader
+
+.. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 
 import re
 from base_classes import Angle
 
 class TotalStation(object):
-    """
-        base class to load different total station data format
+    """ Base class to load different total station data format
     """
 
     def __init__(self, fname, separator):
-        """
+        """ Initialize dialog data and event handlers
+
             :param fname: input file name (string)
-            :param separator: field separator in input (string/regexp???)
+            :param separator: field separator in input (string/regexp)
         """
         self.fname = fname
         if separator is not None:
@@ -28,9 +29,9 @@ class TotalStation(object):
         self.fp = None
 
     def open(self):
-        """
-            open data set
-            return 0 on success -1 on failure
+        """ Open data set
+
+            :returns: 0 on success/1 on failure
         """
         if self.fp is None:
             try:
@@ -41,8 +42,7 @@ class TotalStation(object):
         return 0
 
     def close(self):
-        """
-            close dataset
+        """ Close dataset
         """
         if not self.fp is None:
             try:
@@ -52,8 +52,7 @@ class TotalStation(object):
                 pass
 
     def get_line(self):
-        """
-            read & split a single line
+        """ Read & split a single line
         """
         buf = self.fp.readline()
         if buf == '':
@@ -64,11 +63,11 @@ class TotalStation(object):
         return buf.strip('\n')
 
     def trim_left(self, s, ch):
-        """
-            strip left part of a string
-            :param s: string to legt trim
+        """ Strip left part of a string
+
+            :param s: string to left trim
             :param ch: character to trim
-            :return left trimmed string
+            :returns: left trimmed string
         """
         s = re.sub('^' + ch + '+', '', s)
         if len(s) == 0:
@@ -76,25 +75,28 @@ class TotalStation(object):
         return s
 
     def parse_next(self):
-        """
-            parse one line/logical unit of input, implemented in derives classes
+        """ Parse one line/logical unit of input, implemented in derived classes
         """
         pass
 
 class LeicaGsi(TotalStation):
-    """
-        read leica GSI 8/16 data
+    """ Class to read leica GSI 8/16 data
     """
     
     def __init__(self, fname, separator=' '):
+        """ Initialize a new instance
+
+            :param fname: file name to open (str)
+            :param separator: field separator (str)
+        """
         super(LeicaGsi, self).__init__(fname, separator)
 
     def convert(self, val, unit):
-        """
-            convert angle to radian, distance to meter
+        """ Convert angle to radian, distance to meter
+
             :param val: value to convert (float)
             :param unit: unit & decimals (int)
-            :return converted value
+            :returns: converted value (float)
         """
         res = None
         if unit == 0:
@@ -127,8 +129,9 @@ class LeicaGsi(TotalStation):
         return res
             
     def parse_next(self):
-        """
-            parse single line from input
+        """ Parse single line from input
+
+            :returns: list of values
         """
         if self.fp is None:
             return None
@@ -207,19 +210,24 @@ class LeicaGsi(TotalStation):
         return res
 
 class JobAre(TotalStation):
-    """
-        Class to import JOB/ARE data from file
+    """ Class to import JOB/ARE data from file
     """
     def __init__(self, fname, separator='='):
+        """ Initialize a new instance
+
+            :param fname: file name to open (str)
+            :param separator: field separator (str)
+        """
         super(JobAre, self).__init__(fname, separator)
         self.angle_unit = 'PDEG'
         self.distance_unit = 'm'
         self.res = {}
 
     def dist_conv(self, dist):
-        """
-            Convert distance/coordinate to meter using distance_unit
+        """ Convert distance/coordinate to meter using distance_unit
+
             :param dist: value to convert
+            :returns: distance in meters
         """
         if self.distance_unit == 'f':
             return dist * FOOT2M
@@ -227,8 +235,9 @@ class JobAre(TotalStation):
             return dist
 
     def parse_next(self):
-        """
-            parse an observation/station from input
+        """ Parse an observation/station from input
+
+            :returns: list of observation data
         """
         if self.fp is None:
             return None
@@ -302,11 +311,14 @@ class JobAre(TotalStation):
                 self.res['station_z'] = self.dist_conv(float(buf[1].strip()))
 
 class Sdr(TotalStation):
+    """ Class to import Sokkia field books
     """
-        Class to import Sokkia field books
-    """
-
     def __init__(self, fname, separator=None):
+        """ Initialize dialog data and event handlers
+
+            :param fname: input file name (string)
+            :param separator: field separator in input (string/regexp)
+        """
         super(Sdr, self).__init__(fname, separator)
         self.angle_unit = 'DEG'     # 1-DEG, 2-GON, 3-MIL
         self.distance_unit = 1        # 1-meter, 2-feet
@@ -316,8 +328,10 @@ class Sdr(TotalStation):
         self.th = None                # default target height
 
     def dist(self, value):
-        """
-            return distance in meters
+        """ Change distance to meters
+
+            :param value: value to convert
+            :returns: distance in meters
         """
 
         if self.distance_unit == 2:
@@ -325,12 +339,18 @@ class Sdr(TotalStation):
         return value
     
     def angle(self, value):
+        """ Convert angle to Gon
+
+            :param value: angle to convert
+            :returns: angle in Gon
+        """
         return Angle(value, self.angle_unit).get_angle('GON')
 
     def pn(self, pbuf):
-        """
-            get point id from input buffer
-            :param buf: input buffer
+        """ Get point id from input buffer removing leading zeros
+
+            :param pbuf: input buffer
+            :returns: point id
         """
         p = pbuf[0:self.pn_length].strip()
         while p[0] == '0' and len(p) > 0:
@@ -338,8 +358,9 @@ class Sdr(TotalStation):
         return p
 
     def parse_next(self):
-        """
-            Load next observation, station
+        """ Load next observation, station
+
+            :returns: observation data
         """
         res = {}
         while True:
