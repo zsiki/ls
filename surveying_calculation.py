@@ -134,6 +134,7 @@ class SurveyingCalculation:
         self.menu = QMenu()
         self.menu.setTitle(self.tr(u'&SurveyingCalculation'))
         self.sc_coord = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_coord.png')),self.tr("New coordinate list ..."), self.iface.mainWindow())
+        self.sc_fb = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_fb.png')),self.tr("New fieldbook ..."), self.iface.mainWindow())
         self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')),self.tr("Load fieldbook ..."), self.iface.mainWindow())
         self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','single_calc.png')),self.tr("Single point calculations ..."), self.iface.mainWindow())
         self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')),self.tr("Traverse calculations ..."), self.iface.mainWindow())
@@ -141,14 +142,16 @@ class SurveyingCalculation:
         self.sc_tran = QAction(QIcon(os.path.join(self.plugin_dir,'icons','coord_calc.png')),self.tr("Coordinate transformation ..."), self.iface.mainWindow())
         self.sc_help = QAction(self.tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(self.tr("About"), self.iface.mainWindow())
-        self.menu.addActions([self.sc_coord, self.sc_load, self.sc_calc,
-            self.sc_trav, self.sc_netw, self.sc_tran, self.sc_help, self.sc_about])
+        self.menu.addActions([self.sc_coord, self.sc_fb, self.sc_load,
+            self.sc_calc, self.sc_trav, self.sc_netw, self.sc_tran, self.sc_help,
+            self.sc_about])
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
         lastAction = actions[len(actions) - 1]
         menu_bar.insertMenu(lastAction, self.menu)
 
         self.sc_coord.triggered.connect(self.create_coordlist)
+        self.sc_fb.triggered.connect(self.create_fb)
         self.sc_load.triggered.connect(self.load_fieldbook)
         self.sc_calc.triggered.connect(self.calculations)
         self.sc_trav.triggered.connect(self.traverses)
@@ -191,6 +194,26 @@ class SurveyingCalculation:
             copyfile(tempbase+ext, ofbase+ext)
         coord = QgsVectorLayer(ofname, os.path.basename(ofname), "ogr")
         QgsMapLayerRegistry.instance().addMapLayer(coord)
+
+    def create_fb(self):
+        """ Create a new empty fieldbook from template and add to layer list. Layer/file name changed to start with 'fb\_' if neccessary.
+        """
+        ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
+            self.tr('New fieldbook'),
+            filter=self.tr('Fieldbook file (*.dbf)'))
+        if not ofname:
+            return
+        pyqtRemoveInputHook()
+        pdb.set_trace()
+        if not re.match('fb_', os.path.basename(ofname)):
+            ofname = os.path.join(os.path.dirname(ofname),
+                'fb_' + os.path.basename(ofname))
+        ofbase = os.path.splitext(ofname)[0]
+        tempbase = os.path.join(self.plugin_dir, 'template', 'fb_template')
+        for ext in ['.dbf']:
+            copyfile(tempbase+ext, ofbase+ext)
+        fb = QgsVectorLayer(ofname, os.path.basename(ofname), "ogr")
+        QgsMapLayerRegistry.instance().addMapLayer(fb)
 
     def load_fieldbook(self):
         """ Load an electric fieldbook from file (GSI, JOB/ARE, ...)
