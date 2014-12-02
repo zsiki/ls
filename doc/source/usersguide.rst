@@ -4,27 +4,40 @@ SurveyingCalculation plugin for QGIS 2.x
 User's Guide
 ------------
 
-| `SurveyingCalculation plugin install`_
-| `Settings before use`_
-| `Loading fieldbooks`_
-|   `Geodimeter JOB/ARE`_
-|   `Leica GSI`_
-|   `Sokkia CRD`_
-    
-| `Single Point Calculations`_
-|   `Orientation`_
-|   `Radial Survey (Polar Point)`_
-|   `Intersection`_
-|   `Resection`_
-|   `Free Station`_
-| `Traverse Calculations`_
-|   `Closed traverse`_
-|   `Link traverse`_
-|   `Open traverse`_
-| `Network adjustment`_
-| `Coordinate transformation`_
+`SurveyingCalculation plugin install`_
 
-Typogrphical conventions
+`Settings before use`_
+
+`Loading fieldbooks`_
+    `Geodimeter JOB/ARE`_
+
+    `Leica GSI`_
+
+    `Sokkia CRD`_
+    
+`Single Point Calculations`_
+    `Orientation`_
+
+    `Radial Survey (Polar Point)`_
+
+    `Intersection`_
+
+    `Resection`_
+
+    `Free Station`_
+
+`Traverse Calculations`_
+    `Closed traverse`_
+
+    `Link traverse`_
+
+    `Open traverse`_
+
+`Network adjustment`_
+
+`Coordinate transformation`_
+
+Typographical conventions
 ::::::::::::::::::::::::
 
 **TODO**
@@ -32,7 +45,9 @@ Typogrphical conventions
 Hardware and software requirements
 ::::::::::::::::::::::::::::::::::
 
-**TODO**
+The SurveyingCalculation plug-in can be used on any computer on which QGIS 
+can run. It was tested on Windows 7 and Fedora Linux, but on any other Windows 
+versions or Linux distros is should work.
 
 SurveyingCalculation plugin install
 :::::::::::::::::::::::::::::::::::
@@ -44,7 +59,7 @@ If you have Git Client (Git Bash or other clients)
 #. git clone from https://github.com/zsiki/ls to *~/.qgis2/python/plugins/SurveyingCalculation* (~ is your home directory on Linux, replace it on Windows)
 #. Open QGIS Desktop.
 
-If you dont have Git Clone
+If you don't have Git Clone
 
 #. Download the ZIP file from https://github.com/zsiki/ls to your computer.
 #. Unzip to *~/.qgis2/python/plugins/SurveyingCalculation*.
@@ -56,9 +71,9 @@ If you dont have Git Clone
 #. In the the plug-in dialog enable experiental plugins
 #. Look for SurveyingCalculation plug-in and press Install button
 
-    | In the QGIS Desktop you must enable the SurveyingCalculation plug-in in 
-    | the plug-in dialog. After it the menu and the toolbar of the plug-in
-    | will be visible.
+After installing the plug-in you must enable it in the *Manage and Install 
+Plugins* dialog. After it the menu and the toolbar of the plug-in
+will be visible.
 
 .. figure:: images/01.jpg
    :scale: 80 %
