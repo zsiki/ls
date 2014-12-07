@@ -74,7 +74,7 @@ class Calculation(object):
                 (ref[1].point_id, (ref[1].pc if ref[1].pc is not None else "-"), \
                 ref[4].get_angle("GON"), ref[5].get_angle("GON"), \
                 ref[3].get_angle("GON"), ref[2], int(e), E)
-        ResultLog.resultlog_message +=u"%-48s %8.4f\n" % (QCoreApplication.translate("Average orientation angle"),Angle(za).get_angle("GON"))
+        ResultLog.resultlog_message +=u"%-48s %8.4f\n" % (QCoreApplication.translate('SurveyingCalculation', "Average orientation angle"), Angle(za).get_angle("GON"))
         
         return Angle(za)
 
