@@ -12,6 +12,8 @@
 import math
 from base_classes import *
 from resultlog import *
+#from surveying_calculation import SurveyingCalculation
+from PyQt4.QtCore import QCoreApplication
 
 class Calculation(object):
     """ Container class for calculations. Pure static class. """
@@ -69,11 +71,11 @@ class Calculation(object):
             if e<-PISEC:
                 e = e + 2*PISEC
             E = e / RO * ref[2]
-            ResultLog.resultlog_message += "%-10s %-10s    %8.4f    %8.4f    %8.4f   %8.3f %4d %8.3f\n" % \
+            ResultLog.resultlog_message += u"%-10s %-10s    %8.4f    %8.4f    %8.4f   %8.3f %4d %8.3f\n" % \
                 (ref[1].point_id, (ref[1].pc if ref[1].pc is not None else "-"), \
                 ref[4].get_angle("GON"), ref[5].get_angle("GON"), \
                 ref[3].get_angle("GON"), ref[2], int(e), E)
-        ResultLog.resultlog_message +="%-48s %8.4f\n" % ("Average orientation angle",Angle(za).get_angle("GON"))
+        ResultLog.resultlog_message +=u"%-48s %8.4f\n" % (QCoreApplication.translate("Average orientation angle"),Angle(za).get_angle("GON"))
         
         return Angle(za)
 
@@ -101,10 +103,10 @@ class Calculation(object):
             p = Point(obs.point_id, e, n, z, obs.pc)
             if p.z is None:
                 # no z calculated
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f          %8.4f %8.3f" % \
+                ResultLog.resultlog_message += u"%-10s %-10s %12.3f %12.3f          %8.4f %8.3f" % \
                         (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n,Angle(b).get_angle("GON"),obs.horiz_dist())
             else:
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f %8.3f %8.4f %8.3f" % \
+                ResultLog.resultlog_message += u"%-10s %-10s %12.3f %12.3f %8.3f %8.4f %8.3f" % \
                         (p.id,(p.pc if p.pc is not None else "-"),p.e,p.n,p.z,Angle(b).get_angle("GON"),obs.horiz_dist())
             return p
         except (ValueError, TypeError, AttributeError):
@@ -137,7 +139,7 @@ class Calculation(object):
             pc = obs1.pc
         pp.id = obs1.point_id
         pp.pc = pc
-        ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f %8.4f %8.4f" % \
+        ResultLog.resultlog_message += u"%-10s %-10s %12.3f %12.3f %8.4f %8.4f" % \
                   (pp.id, (pp.pc if pp.pc is not None else "-"), pp.e, pp.n, b1, b2)
         return pp
 
@@ -179,16 +181,16 @@ class Calculation(object):
                 else :
                     p = Point(st.p.id, points[0].e, points[0].n, st.p.z, st.p.pc, st.p.pt)
 
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f     %8.4f  %8.4f\n" % \
+                ResultLog.resultlog_message += u"%-10s %-10s %12.3f %12.3f     %8.4f  %8.4f\n" % \
                           (obs1.point_id, (obs1.pc if obs1.pc is not None else "-"), p1.e, p1.n, \
                            obs1.hz.get_angle("GON"), alpha.get_angle("GON") )
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f     %8.4f  %8.4f\n" % \
+                ResultLog.resultlog_message += u"%-10s %-10s %12.3f %12.3f     %8.4f  %8.4f\n" % \
                           (obs2.point_id, (obs2.pc if obs2.pc is not None else "-"), p2.e, p2.n, \
                            obs2.hz.get_angle("GON"), beta.get_angle("GON") )
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f     %8.4f\n" % \
+                ResultLog.resultlog_message += u"%-10s %-10s %12.3f %12.3f     %8.4f\n" % \
                           (obs3.point_id, (obs3.pc if obs3.pc is not None else "-"), p3.e, p3.n, \
                            obs3.hz.get_angle("GON") )
-                ResultLog.resultlog_message += "%-10s %-10s %12.3f %12.3f\n" % \
+                ResultLog.resultlog_message += u"%-10s %-10s %12.3f %12.3f\n" % \
                           (p.id, (p.pc if p.pc is not None else "-"), p.e, p.n)
                 return p
             else:
@@ -213,14 +215,16 @@ class Calculation(object):
         n = len(trav_obs)
         # at least 3 points must be
         if n<3:
-            ResultLog.resultlog_message += "Error: At least 3 points must be added to traverse line!\n"
+            ResultLog.resultlog_message += \
+                QCoreApplication.translate("Error: At least 3 points must be added to traverse line!") + "\n"
             return None
         # start point and end point
         startp = trav_obs[0][0]
         endp = trav_obs[n-1][0]
         # no coord for startpoint
         if startp is None or startp.p is None or startp.p.e is None or startp.p.n is None:
-            ResultLog.resultlog_message += "Error: No coordinates on start point!\n"
+            ResultLog.resultlog_message += \
+                QCoreApplication.translate("Error: No coordinates on start point!") + "\n"
             return None
         
         free = False
@@ -231,7 +235,8 @@ class Calculation(object):
             endp.p.n = None
         elif endp is None or endp.p is None or endp.p.e is None or endp.p.n is None:
             # no coordinate for endpoint            
-            ResultLog.resultlog_message += "Warning: No coordinates for end point -> Free traverse.\n" 
+            ResultLog.resultlog_message += \
+                QCoreApplication.translate("Warning: No coordinates for end point -> Free traverse.") + "\n" 
             free = True # free traverse
 
         #collect measurements in traverse
@@ -249,20 +254,24 @@ class Calculation(object):
                 if beta[0] is None:
                     # no orientation on start
                     if free is True:
-                        ResultLog.resultlog_message += "Error: No orientation on start point and no coordinates on end point!\n"
+                        ResultLog.resultlog_message += \
+                            QCoreApplication.translate("Error: No orientation on start point and no coordinates on end point!") + "\n"
                         return None
                     else:
-                        ResultLog.resultlog_message += "Warning: No orientation on start point - inserted traverse.\n"
+                        ResultLog.resultlog_message += \
+                            QCoreApplication.translate("Warning: No orientation on start point - inserted traverse.") + "\n"
                 
             if i==n-1:
                 beta[i] = st.o.hz
                 if beta[i] is None:
                     # no orientation on end
-                    ResultLog.resultlog_message +=  "Warning: No orientation on end point.\n"
+                    ResultLog.resultlog_message += \
+                        QCoreApplication.translate("Warning: No orientation on end point.") + "\n"
             
             if i!=0 and i!=n-1 and (obsprev is None or obsnext is None or obsprev.hz is None or obsnext.hz is None):
                 # no angle at angle point
-                ResultLog.resultlog_message += "Error: No angle at point %s!\n" % trav_obs[i][0].p.id
+                ResultLog.resultlog_message += \
+                    QCoreApplication.translate("Error: No angle at point %s!") % trav_obs[i][0].p.id + "\n"
                 return None
 
             if i == 0:
@@ -296,8 +305,9 @@ class Calculation(object):
                     t[i] = Distance(obsprev.horiz_dist(),"HD")
             elif i>0 and t[i] is None:
                 # no distance between points
-                ResultLog.resultlog_message += "Error: No distance between points %s and %s!\n" % \
-                    (trav_obs[i-1][0].p.id,trav_obs[i][0].p.id)
+                ResultLog.resultlog_message += \
+                    QCoreApplication.translate("Error: No distance between points %s and %s!") % \
+                    (trav_obs[i-1][0].p.id,trav_obs[i][0].p.id) + "\n"
                 return None
             
             if obsnext is not None and obsnext.d is not None:
@@ -405,19 +415,19 @@ class Calculation(object):
 
             if i > 0:
                 if beta[i] is None:
-                    ResultLog.resultlog_message += "%-10s %10s %8.3f %8.3f %8.3f %10.3f %10.3f\n" % \
+                    ResultLog.resultlog_message += u"%-10s %10s %8.3f %8.3f %8.3f %10.3f %10.3f\n" % \
                              (trav_obs[i][0].p.id, "", t[i].d, \
                              de[i], dn[i], de[i]+ve[i],dn[i]+vn[i])
                 else:
-                    ResultLog.resultlog_message += "%-10s %10.4f %8.3f %8.3f %8.3f %10.3f %10.3f\n" % \
+                    ResultLog.resultlog_message += u"%-10s %10.4f %8.3f %8.3f %8.3f %10.3f %10.3f\n" % \
                              (trav_obs[i][0].p.id, beta[i].get_angle('GON'), t[i].d, \
                              de[i], dn[i], de[i]+ve[i],dn[i]+vn[i])
             else:
                 if beta[i] is None:
-                    ResultLog.resultlog_message += "%-10s %10s\n" % \
+                    ResultLog.resultlog_message += u"%-10s %10s\n" % \
                              (trav_obs[i][0].p.id, "")
                 else:
-                    ResultLog.resultlog_message += "%-10s %10.4f\n" % \
+                    ResultLog.resultlog_message += u"%-10s %10.4f\n" % \
                              (trav_obs[i][0].p.id, beta[i].get_angle('GON'))
             
             if i > 0:
@@ -428,17 +438,17 @@ class Calculation(object):
                     w1 = "%8.3f" % ve[i]
                     w2 = "%8.3f" % vn[i]
                 if beta[0] is None or beta[n-1] is None:
-                    ResultLog.resultlog_message += "%-10s %10s %8s %8s %8s %10.3f %10.3f\n" % \
+                    ResultLog.resultlog_message += u"%-10s %10s %8s %8s %8s %10.3f %10.3f\n" % \
                              (pcode, "", t_2, w1, w2, ee[i], nn[i])
                 else:
-                    ResultLog.resultlog_message += "%-10s %10.4f %8s %8.3f %8.3f %10.3f %10.3f\n" % \
+                    ResultLog.resultlog_message += u"%-10s %10.4f %8s %8.3f %8.3f %10.3f %10.3f\n" % \
                              (pcode, Angle(vbeta[i]).get_angle('GON'), t_2, ve[i], vn[i], ee[i], nn[i])
             else:
                 if beta[0] is None or beta[n-1] is None:
-                    ResultLog.resultlog_message += "%-10s %10s                           %10.3f %10.3f\n" % \
+                    ResultLog.resultlog_message += u"%-10s %10s                           %10.3f %10.3f\n" % \
                              (pcode, "", ee[i], nn[i])
                 else:
-                    ResultLog.resultlog_message += "%-10s %10.4s                           %10.3f %10.3f\n" % \
+                    ResultLog.resultlog_message += u"%-10s %10.4s                           %10.3f %10.3f\n" % \
                              (pcode, Angle(vbeta[i]).get_angle('GON'), ee[i], nn[i])
             pass
 
