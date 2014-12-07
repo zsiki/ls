@@ -59,9 +59,16 @@ class NetworkDialog(QDialog):
         self.ui.FixList.clear()
         self.ui.AdjustedList.clear()
         self.ui.ResultTextBrowser.clear()
+        i = 0
         if self.points is not None:
             for p in self.points:
                 self.ui.PointsList.addItem(p[0])
+                if p[1]:
+                    item = self.ui.PointsList.item(i)
+                    itemfont = item.font()
+                    itemfont.setWeight(QFont.Bold)
+                    item.setFont(itemfont)
+                i += 1
 
     def onCloseButton(self):
         """ Close dialog after Close button pressed
