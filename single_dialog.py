@@ -6,6 +6,7 @@
 
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
+import platform
 from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox,\
     QStandardItem
 from PyQt4.QtCore import Qt
@@ -28,6 +29,9 @@ class SingleDialog(QDialog):
         super(SingleDialog, self).__init__()
         self.ui = Ui_SingleCalcDialog()
         self.ui.setupUi(self)
+        if platform.system() == 'Linux':
+            # change font
+            self.ui.ResultTextBrowser.setFont(QFont("DejaVu Sans Mono", 9))
         self.log = log
 
         # event handlers

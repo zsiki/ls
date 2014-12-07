@@ -7,11 +7,11 @@
 
 .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
-
-from PyQt4.QtGui import QDialog, QFileDialog
+import platform
+from PyQt4.QtGui import QDialog, QFileDialog, QFont
 from PyQt4.QtCore import SIGNAL, QCoreApplication
-from transformation_calc import Ui_TransformationCalcDialog
 
+from transformation_calc import Ui_TransformationCalcDialog
 from surveying_util import *
 from calculation import *
 
@@ -24,6 +24,9 @@ class TransformationDialog(QDialog):
         super(TransformationDialog, self).__init__()
         self.ui = Ui_TransformationCalcDialog()
         self.ui.setupUi(self)
+        if platform.system() == 'Linux':
+            # change font
+            self.ui.ResultTextBrowser.setFont(QFont("DejaVu Sans Mono", 9))
         self.from_points = []
         self.common = []
         self.used = []

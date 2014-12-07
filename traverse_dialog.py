@@ -6,7 +6,8 @@
 
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
-from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem, QMessageBox
+import platform
+from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem, QMessageBox, QFont
 from PyQt4.QtCore import Qt
 from traverse_calc import Ui_TraverseCalcDialog
 from surveying_util import *
@@ -22,6 +23,10 @@ class TraverseDialog(QDialog):
         super(TraverseDialog, self).__init__()
         self.ui = Ui_TraverseCalcDialog()
         self.ui.setupUi(self)
+        if platform.system() == 'Linux':
+            # change font
+            self.ui.ResultTextBrowser.setFont(QFont("DejaVu Sans Mono", 9))
+
         self.log = log
 
         # event handlers

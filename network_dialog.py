@@ -6,7 +6,9 @@
 
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
-from PyQt4.QtGui import QDialog
+import platform
+from PyQt4.QtGui import QDialog, QFont
+
 from network_calc import Ui_NetworkCalcDialog
 from surveying_util import *
 from gama_interface import *
@@ -24,6 +26,9 @@ class NetworkDialog(QDialog):
         super(NetworkDialog, self).__init__()
         self.ui = Ui_NetworkCalcDialog()
         self.ui.setupUi(self)
+        if platform.system() == 'Linux':
+            # change font
+            self.ui.ResultTextBrowser.setFont(QFont("DejaVu Sans Mono", 9))
         self.points = []
         self.fix = []
         self.adj = []
@@ -35,7 +40,6 @@ class NetworkDialog(QDialog):
         self.ui.RemoveFixButton.clicked.connect(self.onRemoveFixButton)
         self.ui.RemoveAdjButton.clicked.connect(self.onRemoveAdjButton)
         self.ui.CalcButton.clicked.connect(self.onCalcButton)
-
 
     def showEvent(self, event):
         """ Set up initial state of dialog widgets
