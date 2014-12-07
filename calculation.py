@@ -12,7 +12,6 @@
 import math
 from base_classes import *
 from resultlog import *
-#from surveying_calculation import SurveyingCalculation
 from PyQt4.QtCore import QCoreApplication
 
 class Calculation(object):
