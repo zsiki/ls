@@ -21,6 +21,7 @@ from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
 # plugin specific python modules
+from base_classes import tr
 from single_dialog import SingleDialog
 from traverse_dialog import TraverseDialog
 from network_dialog import NetworkDialog
@@ -86,7 +87,8 @@ class SurveyingCalculation:
         :returns: translated version of message (QString)
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('SurveyingCalculation', message)
+        #return QCoreApplication.translate('SurveyingCalculation', message)
+        return tr(message)
 
     def add_action(self, icon_path, text, callback, enabled_flag=True,
         add_to_menu=True, add_to_toolbar=True, status_tip=None,

@@ -11,6 +11,8 @@
 import re
 import math
 
+from PyQt4.QtCore import QCoreApplication
+
 RO = 180 * 60 * 60 / math.pi
 PISEC = 180 * 60 * 60
 FOOT2M = 0.3048
@@ -455,7 +457,16 @@ def intersecCC(circle1, circle2):
             return [ Point("@",np1,ep1), Point("@",np2,ep2) ]
     except (ValueError, TypeError, ZeroDivisionError):
         return None
-    
+
+def tr(message):
+    """Get the translation for a string using Qt translation API. We implement this ourselves since we do not inherit QObject.
+
+    :param message: string for translation (str, QString)
+    :returns: translated version of message (QString)
+    """
+    # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
+    return QCoreApplication.translate('SurveyingCalculation', message)
+
 def compare (a, b, tol=0.001):
     """ Compare to objects for equality. Only for testing purposes.
 
