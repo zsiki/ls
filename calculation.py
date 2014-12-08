@@ -74,8 +74,7 @@ class Calculation(object):
                 (ref[1].point_id, (ref[1].pc if ref[1].pc is not None else "-"), \
                 ref[4].get_angle("GON"), ref[5].get_angle("GON"), \
                 ref[3].get_angle("GON"), ref[2], int(e), E)
-        ResultLog.resultlog_message +=u"%-48s %8.4f\n" % (QCoreApplication.translate('SurveyingCalculation', "Average orientation angle"), Angle(za).get_angle("GON"))
-        
+        ResultLog.resultlog_message +=u"%-48s %8.4f\n" % (tr("Average orientation angle"), Angle(za).get_angle("GON"))
         return Angle(za)
 
     @staticmethod
@@ -215,7 +214,7 @@ class Calculation(object):
         # at least 3 points must be
         if n<3:
             ResultLog.resultlog_message += \
-                QCoreApplication.translate("Error: At least 3 points must be added to traverse line!") + "\n"
+                tr("Error: At least 3 points must be added to traverse line!") + "\n"
             return None
         # start point and end point
         startp = trav_obs[0][0]
@@ -223,7 +222,7 @@ class Calculation(object):
         # no coord for startpoint
         if startp is None or startp.p is None or startp.p.e is None or startp.p.n is None:
             ResultLog.resultlog_message += \
-                QCoreApplication.translate("Error: No coordinates on start point!") + "\n"
+                tr("Error: No coordinates on start point!") + "\n"
             return None
         
         free = False
@@ -235,7 +234,7 @@ class Calculation(object):
         elif endp is None or endp.p is None or endp.p.e is None or endp.p.n is None:
             # no coordinate for endpoint            
             ResultLog.resultlog_message += \
-                QCoreApplication.translate("Warning: No coordinates for end point -> Free traverse.") + "\n" 
+                tr("Warning: No coordinates for end point -> Free traverse.") + "\n" 
             free = True # free traverse
 
         #collect measurements in traverse
@@ -254,23 +253,23 @@ class Calculation(object):
                     # no orientation on start
                     if free is True:
                         ResultLog.resultlog_message += \
-                            QCoreApplication.translate("Error: No orientation on start point and no coordinates on end point!") + "\n"
+                            tr("Error: No orientation on start point and no coordinates on end point!") + "\n"
                         return None
                     else:
                         ResultLog.resultlog_message += \
-                            QCoreApplication.translate("Warning: No orientation on start point - inserted traverse.") + "\n"
+                            tr("Warning: No orientation on start point - inserted traverse.") + "\n"
                 
             if i==n-1:
                 beta[i] = st.o.hz
                 if beta[i] is None:
                     # no orientation on end
                     ResultLog.resultlog_message += \
-                        QCoreApplication.translate("Warning: No orientation on end point.") + "\n"
+                        tr("Warning: No orientation on end point.") + "\n"
             
             if i!=0 and i!=n-1 and (obsprev is None or obsnext is None or obsprev.hz is None or obsnext.hz is None):
                 # no angle at angle point
                 ResultLog.resultlog_message += \
-                    QCoreApplication.translate("Error: No angle at point %s!") % trav_obs[i][0].p.id + "\n"
+                    tr("Error: No angle at point %s!") % trav_obs[i][0].p.id + "\n"
                 return None
 
             if i == 0:
@@ -305,7 +304,7 @@ class Calculation(object):
             elif i>0 and t[i] is None:
                 # no distance between points
                 ResultLog.resultlog_message += \
-                    QCoreApplication.translate("Error: No distance between points %s and %s!") % \
+                    tr("Error: No distance between points %s and %s!") % \
                     (trav_obs[i-1][0].p.id,trav_obs[i][0].p.id) + "\n"
                 return None
             

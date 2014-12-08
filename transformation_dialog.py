@@ -177,26 +177,26 @@ class TransformationDialog(QDialog):
         if self.ui.OrthogonalRadio.isChecked():
             tr = Calculation.orthogonal_transformation(p_list)
             tr_func = self.ortho_tr
-            self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\nOrthogonal transformation'))
+            self.ui.ResultTextBrowser.append(tr('\nOrthogonal transformation'))
         elif self.ui.AffineRadio.isChecked():
             tr = Calculation.affine_transformation(p_list)
             tr_func = self.affine_tr
-            self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\nAffine transformation'))
+            self.ui.ResultTextBrowser.append(tr('\nAffine transformation'))
         elif self.ui.ThirdRadio.isChecked():
             tr = Calculation.polynomial_transformation(p_list, 3)
             tr_func = self.poly3_tr
-            self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\n3rd order polynomial transformation'))
+            self.ui.ResultTextBrowser.append(tr('\n3rd order polynomial transformation'))
         elif self.ui.FourthRadio.isChecked():
             tr = Calculation.polynomial_transformation(p_list, 4)
             tr_func = self.poly4_tr
-            self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\n4th order polynomial transformation'))
+            self.ui.ResultTextBrowser.append(tr('\n4th order polynomial transformation'))
         elif self.ui.FifthRadio.isChecked():
             tr = Calculation.polynomial_transformation(p_list, 5)
             tr_func = self.poly5_tr
-            self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', '\n5th order polynomial transformation'))
+            self.ui.ResultTextBrowser.append(tr('\n5th order polynomial transformation'))
 
         # calculate transformed coordinates
-        self.ui.ResultTextBrowser.append(QCoreApplication.translate('SurveyingCalculation', 'Point num                E from       N from       E to         N to      dE     dN'))
+        self.ui.ResultTextBrowser.append(tr('Point num                E from       N from       E to         N to      dE     dN'))
         for (p_from, p_to) in p_list:
             (e, n) = tr_func(p_from, tr)
             de = p_to.e - e
