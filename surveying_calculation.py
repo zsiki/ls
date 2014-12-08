@@ -21,6 +21,7 @@ from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
 # plugin specific python modules
+import config
 from base_classes import tr
 from single_dialog import SingleDialog
 from traverse_dialog import TraverseDialog
@@ -63,7 +64,10 @@ class SurveyingCalculation:
                 QCoreApplication.installTranslator(self.translator)
 
         # init result log
-        log_path = os.path.join(self.plugin_dir,'log','log.txt')
+        if hasattr(config, 'log_path') and len(config.log_path) > 0:
+            log_path = config.log_path
+        else:
+            log_path = os.path.join(self.plugin_dir,'log','log.txt')
         self.log = ResultLog(log_path)
 
         #self.single_dlg = QDialog()
