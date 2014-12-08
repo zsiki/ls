@@ -15,7 +15,7 @@ import time
 class ResultLog(object):
     """ File based logging for Surveying Calculations. Events & calculation results are logged into this file.
     """
-    resultlog_lessage = ""
+    resultlog_message = ""
     
     def __init__(self, logfile):
         """ initialize log file if neccessary
