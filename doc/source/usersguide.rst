@@ -38,7 +38,7 @@ User's Guide
 `Coordinate transformation`_
 
 Typographical conventions
-::::::::::::::::::::::::
+:::::::::::::::::::::::::
 
 **TODO**
 
@@ -166,7 +166,7 @@ Any number of electric fieldbooks can be opened/loaded into a QGIS project.
 You can even create a new empty fieldbook and fill it manually.
 
 #. There must be az open coordinate list in your actual project (a point layer which name starts with coord\_). Otherwise coordinates read from the filedbook will be lost
-# Click on the Load fieldbook icon or select it from the menu
+#. Click on the Load fieldbook icon or select it from the menu
 #. Choose the type of fieldbook (`Geodimeter JOB/ARE`_; `Leica GSI`_; `Sokkia CRD`_)
 
 The loader adds an extra column to the observations, the id column, sorting the
@@ -278,6 +278,7 @@ Radial Survey (Polar Point)
 
 Elevation is calculated for polar points if the instrument height and the
 station elevation are given.
+
 #. Click the Single Point Calculations icon.
 #. Select the Radial Survey from the type of Calculations.
 #. Select the Station from the list. You can calculate several polar point from the same station at a time.
