@@ -30,7 +30,7 @@ class ResultLog(object):
             except(IOError):
                 f = None
                 if i == repeat_count:
-                logfile = os.path.join(tempfile.gettempdir(), "SurveyingCalculation.log")
+                    logfile = os.path.join(tempfile.gettempdir(), "SurveyingCalculation.log")
         f.close()
         self.logfile = logfile
 
