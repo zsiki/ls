@@ -16,20 +16,20 @@ class ResultLog(object):
     """ File based logging for Surveying Calculations. Events & calculation results are logged into this file.
     """
     resultlog_message = ""
-    repeat_count = 3        # retry count for i/o operations
     
-    def __init__(self, logfile):
+    def __init__(self, logfile, repeat_count=3):
         """ initialize log file if the given file cannot be opened for output then a SurveyingCalculation.log file in the temperary directory will be used
 
             :param logfile: name of the log file it will be created if neccessary, messages will be appended to the end
         """
-        for i in range(repeat_count * 2):
+        self.repeat_count = repeat_count   # retry count for i/o operations
+        for i in range(self.repeat_count * 2):
             try:
                 f = open(logfile, "a")
                 break
             except(IOError):
                 f = None
-                if i == repeat_count:
+                if i == self.repeat_count:
                     logfile = os.path.join(tempfile.gettempdir(), "SurveyingCalculation.log")
         f.close()
         self.logfile = logfile
@@ -37,7 +37,7 @@ class ResultLog(object):
     def reset(self):
         """ Delete content of log file
         """
-        for i in range(repeat_count):
+        for i in range(self.repeat_count):
             try:
                 os.remove(self.logfile)
                 break
@@ -49,10 +49,10 @@ class ResultLog(object):
 
             :param msg: message to write
         """
-        for i in range(repeat_count):
+        for i in range(self.repeat_count):
             try:
                 f = open(self.logfile, "a")
-                for i in range(repeat_count):
+                for i in range(self.repeat_count):
                     try:
                         f.write(msg + '\n')
                         break
