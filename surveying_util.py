@@ -253,7 +253,12 @@ def get_targets(point_id, fieldbook, fid, known=False, polar=False):
         return None
     if known:
         known_list = get_known()
-    for feat in lay.getFeatures():
+    #pyqtRemoveInputHook()
+    #pdb.set_trace()
+    #for feat in lay.getFeatures():
+    # TODO binary search?
+    sorted_features = sorted(lay.getFeatures(), key=lambda x: x["id"])
+    for feat in sorted_features:
         if feat['id'] == fid and feat['station'] == 'station' and feat['point_id'] == point_id:
             found = True
             continue
@@ -276,7 +281,7 @@ def get_targets(point_id, fieldbook, fid, known=False, polar=False):
     return None
 
 def get_station(point_id, fieldbook, fid):
-    """ Create a Station instance from a fildbook row and from the coord table.
+    """ Create a Station instance from a fieldbook row and from the coord table.
 
         :param point_id: station number/name (str)
         :param fieldbook: name of fieldbook (str)
@@ -308,7 +313,10 @@ def get_fieldbookrow(point_id, fieldbook, fid):
     lay = get_layer_by_name(fieldbook)
     if lay is None:
         return None
-    for feat in lay.getFeatures():
+    #for feat in lay.getFeatures():
+    # TODO binary search
+    sorted_features = sorted(lay.getFeatures(), key=lambda x: x["id"])
+    for feat in sorted_features:
         if feat['id'] == fid and feat['point_id'] == point_id:
             if type(feat['sd']) is float:
                 if type(feat['v']) is not float:
@@ -340,7 +348,10 @@ def set_orientationangle(point_id, fieldbook, fid, angle):
     lay = get_layer_by_name(fieldbook)
     if lay is None:
         return False
-    for feat in lay.getFeatures():
+    #for feat in lay.getFeatures():
+    # TODO binary search
+    sorted_features = sorted(lay.getFeatures(), key=lambda x: x["id"])
+    for feat in sorted_features:
         if feat['id'] == fid and feat['point_id'] == point_id:
             fid = feat.id()
             attrs = {feat.fieldNameIndex('hz') : angle}
