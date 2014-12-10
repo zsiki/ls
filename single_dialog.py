@@ -251,7 +251,7 @@ class SingleDialog(QDialog):
             self.ui.Station2Combo.setFocus()
             return
         if self.ui.TargetList.count()==0:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Add points to target list!"))
+            QMessageBox.warning(self,self.tr("Warning"),self.tr("Add points to Used Points list!"))
             self.ui.TargetList.setFocus()
             return
 
