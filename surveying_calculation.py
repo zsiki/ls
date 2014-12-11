@@ -27,6 +27,7 @@ from single_dialog import SingleDialog
 from traverse_dialog import TraverseDialog
 from network_dialog import NetworkDialog
 from transformation_dialog import TransformationDialog
+from batch_plotting_dialog import BatchPlottingDialog
 from totalstations import *
 from surveying_util import *
 from calculation import *
@@ -80,6 +81,7 @@ class SurveyingCalculation:
         #Ui_NetworkCalcDialog().setupUi(self.network_dlg)
         self.network_dlg = NetworkDialog()
         self.transformation_dlg = TransformationDialog()
+        self.batchplotting_dlg = BatchPlottingDialog()
 
         # Declare instance attributes
 
@@ -146,11 +148,15 @@ class SurveyingCalculation:
         self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')),self.tr("Traverse calculations ..."), self.iface.mainWindow())
         self.sc_netw = QAction(QIcon(os.path.join(self.plugin_dir,'icons','network_calc.png')),self.tr("Network adjustment ..."), self.iface.mainWindow())
         self.sc_tran = QAction(QIcon(os.path.join(self.plugin_dir,'icons','coord_calc.png')),self.tr("Coordinate transformation ..."), self.iface.mainWindow())
+        self.sc_batchplot = QAction(QIcon(os.path.join(self.plugin_dir,'icons','batch_plotting.png')),self.tr("Batch plotting ..."), self.iface.mainWindow())
         self.sc_help = QAction(self.tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(self.tr("About"), self.iface.mainWindow())
         self.menu.addActions([self.sc_coord, self.sc_fb, self.sc_load,
-            self.sc_calc, self.sc_trav, self.sc_netw, self.sc_tran, self.sc_help,
+            self.sc_calc, self.sc_trav, self.sc_netw, self.sc_tran, self.sc_batchplot, self.sc_help,
             self.sc_about])
+        self.menu.insertSeparator(self.sc_calc)
+        self.menu.insertSeparator(self.sc_batchplot)
+        self.menu.insertSeparator(self.sc_help)
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
         lastAction = actions[len(actions) - 1]
@@ -163,6 +169,7 @@ class SurveyingCalculation:
         self.sc_trav.triggered.connect(self.traverses)
         self.sc_netw.triggered.connect(self.networks)
         self.sc_tran.triggered.connect(self.transformation)
+        self.sc_batchplot.triggered.connect(self.batch_plotting)
         self.sc_about.triggered.connect(self.about)
         self.sc_help.triggered.connect(self.help)
 
@@ -341,6 +348,14 @@ class SurveyingCalculation:
         self.transformation_dlg.show()
         # Run the dialog event loop
         result = self.transformation_dlg.exec_()
+
+    def batch_plotting(self):
+        """ Batch plots selected geometry items using the selected template and scale.
+        """
+        # show the dialog
+        self.batchplotting_dlg.show()
+        # Run the dialog event loop
+        result = self.batchplotting_dlg.exec_()
 
     def about(self):
         """ About box of the plugin
