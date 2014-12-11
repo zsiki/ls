@@ -29,10 +29,10 @@ class BatchPlottingDialog(QDialog):
         plugin_dir = os.path.dirname(os.path.abspath(__file__))
         self.dirpath = os.path.join(plugin_dir, 'template')
 
-        self.fillTemplateCombo()
+        self.fillTemplateList()
         
-    def fillTemplateCombo(self):
-        """ Fill the combobox of composer template files.
+    def fillTemplateList(self):
+        """ Fill the listbox of composer template files.
         """
         self.ui.TemplateList.clear()
         if  os.path.exists(self.dirpath):
@@ -46,7 +46,7 @@ class BatchPlottingDialog(QDialog):
         dirpath = str(QFileDialog.getExistingDirectory(self, "Select Directory",self.dirpath))
         if dirpath!="":
             self.dirpath = dirpath 
-        self.fillTemplateCombo()
+        self.fillTemplateList()
 
     def onPrintButton(self):
         """ Batch plots selected geometry items using the selected template and scale.
