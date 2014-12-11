@@ -8,8 +8,9 @@
 
 """
 # generic python modules
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, QFile
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, QFile, QIODevice
 from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox, QFileDialog, QDialog
+from PyQt4.QtXml import QDomDocument
 from qgis.core import *
 # Initialize Qt resources from file resources.py
 import resources_rc
@@ -45,7 +46,7 @@ class SurveyingCalculation:
 
         :param iface: an interface instance that will be passed to this class which provides the hook by which you can manipulate the QGIS application at run time (QgsInterface)
         """
-#        pydevd.settrace()
+        #pydevd.settrace()
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
@@ -352,10 +353,39 @@ class SurveyingCalculation:
     def batch_plotting(self):
         """ Batch plots selected geometry items using the selected template and scale.
         """
+        #TODO check if there are selected items on a polygon layer
+        
         # show the dialog
         self.batchplotting_dlg.show()
         # Run the dialog event loop
         result = self.batchplotting_dlg.exec_()
+        
+        if result:
+            #TODO collect selected items
+            fname = self.batchplotting_dlg.template_file
+            scale = self.batchplotting_dlg.scale
+        
+            # create composition from a template file
+            try:
+                self.composition
+            except (AttributeError):
+                canvas = self.iface.mapCanvas() 
+                renderer = canvas.mapRenderer() 
+                self.composition = QgsComposition(renderer)
+            
+            # read template file
+            template_file = QFile( fname )
+            template_file.open(QIODevice.ReadOnly | QIODevice.Text)
+            template_content = template_file.readAll()
+            template_file.close()
+            document = QDomDocument()
+            document.setContent(template_content)
+            status_load = self.composition.loadFromTemplate(document)
+
+            #TODO set QgsComposerMap to polygon
+            self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp","aaa.pdf"))
+            #composer = self.iface.createNewComposer() 
+            #composer.setComposition(self.composition)
 
     def about(self):
         """ About box of the plugin
