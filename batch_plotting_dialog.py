@@ -27,13 +27,6 @@ class BatchPlottingDialog(QDialog):
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
         self.ui.TemplateList.setSortingEnabled(True)
 
-    def showEvent(self, event):
-        """ Reset dialog when receives a show event.
-
-            :param event: NOT USED
-        """
-        pass
-
     def onTempDirButton(self):
         """ Change the directory that contains print composer templates.
         """
