@@ -205,7 +205,7 @@ class SurveyingCalculation:
         tempbase = os.path.join(self.plugin_dir, 'template', 'coord_template')
         for ext in ['.shp', '.shx', '.dbf']:
             copyfile(tempbase+ext, ofbase+ext)
-        coord = QgsVectorLayer(ofname, os.path.basename(ofname), "ogr")
+        coord = QgsVectorLayer(ofname, os.path.splitext(os.path.basename(ofname))[0], "ogr")
         QgsMapLayerRegistry.instance().addMapLayer(coord)
 
     def create_fb(self):
@@ -223,7 +223,7 @@ class SurveyingCalculation:
         tempbase = os.path.join(self.plugin_dir, 'template', 'fb_template')
         for ext in ['.dbf']:
             copyfile(tempbase+ext, ofbase+ext)
-        fb = QgsVectorLayer(ofname, os.path.basename(ofname), "ogr")
+        fb = QgsVectorLayer(ofname, os.path.splitext(os.path.basename(ofname))[0], "ogr")
         QgsMapLayerRegistry.instance().addMapLayer(fb)
 
     def load_fieldbook(self):
