@@ -205,8 +205,9 @@ class SurveyingCalculation:
         tempbase = os.path.join(self.plugin_dir, 'template', 'coord_template')
         for ext in ['.shp', '.shx', '.dbf']:
             copyfile(tempbase+ext, ofbase+ext)
-        coord = QgsVectorLayer(ofname, os.path.splitext(os.path.basename(ofname))[0], "ogr")
-        QgsMapLayerRegistry.instance().addMapLayer(coord)
+        coord = QgsVectorLayer(ofbase+'.shp', os.path.splitext(os.path.basename(ofname))[0], "ogr")
+        if coord.isValid():
+            QgsMapLayerRegistry.instance().addMapLayer(coord)
 
     def create_fb(self):
         """ Create a new empty fieldbook from template and add to layer list. Layer/file name changed to start with 'fb\_' if neccessary.
@@ -223,8 +224,9 @@ class SurveyingCalculation:
         tempbase = os.path.join(self.plugin_dir, 'template', 'fb_template')
         for ext in ['.dbf']:
             copyfile(tempbase+ext, ofbase+ext)
-        fb = QgsVectorLayer(ofname, os.path.splitext(os.path.basename(ofname))[0], "ogr")
-        QgsMapLayerRegistry.instance().addMapLayer(fb)
+        fb = QgsVectorLayer(ofbase+ext, os.path.splitext(os.path.basename(ofname))[0], "ogr")
+        if fb.isValid():
+            QgsMapLayerRegistry.instance().addMapLayer(fb)
 
     def load_fieldbook(self):
         """ Load an electric fieldbook from file (GSI, JOB/ARE, ...)
