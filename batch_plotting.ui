@@ -36,7 +36,7 @@
     <string>Available templates:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="PrintButton">
+  <widget class="QPushButton" name="PlotButton">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -52,7 +52,7 @@
     </sizepolicy>
    </property>
    <property name="text">
-    <string>Print</string>
+    <string>Plot</string>
    </property>
   </widget>
   <widget class="QPushButton" name="CloseButton">
@@ -95,6 +95,9 @@
      <width>81</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhDigitsOnly</set>
    </property>
    <property name="editable">
     <bool>true</bool>
@@ -199,7 +202,7 @@
  <tabstops>
   <tabstop>TemplateList</tabstop>
   <tabstop>ScaleCombo</tabstop>
-  <tabstop>PrintButton</tabstop>
+  <tabstop>PlotButton</tabstop>
   <tabstop>CloseButton</tabstop>
  </tabstops>
  <resources/>
