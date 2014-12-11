@@ -7,7 +7,7 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import os, glob
-from PyQt4.QtGui import QDialog, QFileDialog
+from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox
 from batch_plotting import Ui_BatchPlottingDialog
 
 class BatchPlottingDialog(QDialog):
@@ -21,7 +21,7 @@ class BatchPlottingDialog(QDialog):
         self.ui.setupUi(self)
 
         # event handlers
-        self.ui.PrintButton.clicked.connect(self.onPrintButton)
+        self.ui.PlotButton.clicked.connect(self.onPlotButton)
         self.ui.TempDirButton.clicked.connect(self.onTempDirButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
         self.ui.TemplateList.setSortingEnabled(True)
@@ -37,24 +37,41 @@ class BatchPlottingDialog(QDialog):
         self.ui.TemplateList.clear()
         if  os.path.exists(self.dirpath):
             pattern = os.path.join(self.dirpath,'*.qpt')
-            templates = glob.glob(pattern)
-            self.ui.TemplateList.addItems(templates)
+            for temp in glob.iglob(pattern):
+                tname = os.path.basename(temp)
+                self.ui.TemplateList.addItem(tname)
 
     def onTempDirButton(self):
         """ Change the directory that contains print composer templates.
         """
-        dirpath = str(QFileDialog.getExistingDirectory(self, "Select Directory",self.dirpath))
+        dirpath = str(QFileDialog.getExistingDirectory(self, 
+                        "Select Directory",self.dirpath))
         if dirpath!="":
             self.dirpath = dirpath 
         self.fillTemplateList()
 
-    def onPrintButton(self):
+    def onPlotButton(self):
         """ Batch plots selected geometry items using the selected template and scale.
         """
-        pass
+        if self.ui.TemplateList.selectedItems() == []:
+            QMessageBox.warning(self,self.tr("Warning"),self.tr("Select a composer template!"))
+            self.ui.TemplateList.setFocus()
+            return
+        #if not len(self.ui.ScaleCombo.currentText()):
+        
+        self.template_file = os.path.join(self.dirpath,
+            self.ui.TemplateList.currentItem().text())
+        try:
+            self.scale = int(self.ui.ScaleCombo.currentText())
+        except (ValueError):
+            QMessageBox.warning(self,self.tr("Warning"),self.tr("Scale must be an integer value!"))
+            self.ui.ScaleCombo.setFocus()
+            return
 
+        self.accept()
+        
     def onCloseButton(self):
         """ Close the dialog when the Close button pushed.
         """
-        self.accept()
+        self.reject()
     
