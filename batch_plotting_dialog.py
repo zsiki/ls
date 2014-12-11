@@ -6,9 +6,8 @@
 
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
-from PyQt4.QtGui import QDialog
-#from PyQt4.QtCore import Qt
-
+import os, glob
+from PyQt4.QtGui import QDialog, QFileDialog
 from batch_plotting import Ui_BatchPlottingDialog
 
 class BatchPlottingDialog(QDialog):
@@ -26,11 +25,28 @@ class BatchPlottingDialog(QDialog):
         self.ui.TempDirButton.clicked.connect(self.onTempDirButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
         self.ui.TemplateList.setSortingEnabled(True)
+        
+        plugin_dir = os.path.dirname(os.path.abspath(__file__))
+        self.dirpath = os.path.join(plugin_dir, 'template')
+
+        self.fillTemplateCombo()
+        
+    def fillTemplateCombo(self):
+        """ Fill the combobox of composer template files.
+        """
+        self.ui.TemplateList.clear()
+        if  os.path.exists(self.dirpath):
+            pattern = os.path.join(self.dirpath,'*.qpt')
+            templates = glob.glob(pattern)
+            self.ui.TemplateList.addItems(templates)
 
     def onTempDirButton(self):
         """ Change the directory that contains print composer templates.
         """
-        pass
+        dirpath = str(QFileDialog.getExistingDirectory(self, "Select Directory",self.dirpath))
+        if dirpath!="":
+            self.dirpath = dirpath 
+        self.fillTemplateCombo()
 
     def onPrintButton(self):
         """ Batch plots selected geometry items using the selected template and scale.
