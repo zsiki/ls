@@ -209,8 +209,6 @@ class SurveyingCalculation:
             filter=self.tr('Fieldbook file (*.dbf)'))
         if not ofname:
             return
-        pyqtRemoveInputHook()
-        pdb.set_trace()
         if not re.match('fb_', os.path.basename(ofname)):
             ofname = os.path.join(os.path.dirname(ofname),
                 'fb_' + os.path.basename(ofname))
