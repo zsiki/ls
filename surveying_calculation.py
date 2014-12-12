@@ -362,7 +362,9 @@ class SurveyingCalculation:
                 self.tr("This utility needs at least one polygon type layer!"))
             return
         
-        #self.batchplotting_dlg.LayersList.clear
+        # fill polygon layers combobox
+        self.batchplotting_dlg.ui.LayersComboBox.clear()
+        self.batchplotting_dlg.ui.LayersComboBox.addItems(polygon_layers)
         
         # show the dialog
         self.batchplotting_dlg.show()
@@ -371,7 +373,7 @@ class SurveyingCalculation:
         
         if result:
             #check if there are selected items on polygon layers
-            selected_layer = polygon_layers[0]
+            selected_layer = self.batchplotting_dlg.ui.LayersComboBox.currentText()
             selected_polygons = get_features(selected_layer,QGis.Polygon,True)
             if selected_polygons is None:
                 QMessageBox.warning(self.iface.mainWindow(),self.tr("Warning"),
