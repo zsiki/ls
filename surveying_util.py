@@ -76,6 +76,7 @@ def get_polygon_layers():
 def get_selected_polygons(layernames):
     """ Create a list of selected polygons from all polygon layer
 
+        :param layernames: list of names of polygon layers 
         :returns: list of polygon geometries (QgsGeometry list)
     """
     w = []
@@ -85,7 +86,7 @@ def get_selected_polygons(layernames):
         lay = get_layer_by_name(layername)
         if lay is None:
             continue
-        for feat in lay.getFeatures():
+        for feat in lay.selectedFeatures():
             geom = feat.geometry()
             if geom.type() == QGis.Polygon:
                 w.append(geom)
