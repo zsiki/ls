@@ -177,14 +177,15 @@ class TraverseDialog(QDialog):
         # fill end point combo        
         combomodel = self.ui.EndPointComboBox.model()
         known_list = get_known()
-        for target in targets:
-            item = QStandardItem(u"%s (id:%s)"% (target[0],target[2]))
-            item.setData(target,Qt.UserRole)
-            if known_list is not None and target[0] in known_list:
-                itemfont = item.font()
-                itemfont.setWeight(QFont.Bold)
-                item.setFont(itemfont)
-            combomodel.appendRow( item )
+        if targets is not None:
+            for target in targets:
+                item = QStandardItem(u"%s (id:%s)"% (target[0],target[2]))
+                item.setData(target,Qt.UserRole)
+                if known_list is not None and target[0] in known_list:
+                    itemfont = item.font()
+                    itemfont.setWeight(QFont.Bold)
+                    item.setFont(itemfont)
+                combomodel.appendRow( item )
 
         self.ui.EndPointComboBox.setCurrentIndex( self.ui.EndPointComboBox.findData(oldEndPoint) )
     
@@ -282,22 +283,23 @@ class TraverseDialog(QDialog):
             targets = get_targets(stations[i][0], stations[i][1], stations[i][2])
             obs1 = None
             obs2 = None
-            for target in targets:
-                if i>0 and target[0]==stations[i-1][0]:
-                    if obs1 is None:
-                        obs1 = get_target(target[0],target[1],target[2])
-                    if not self.ui.OpenRadio.isChecked() and (obs2 is not None or i==len(stations)-1):
-                        break
-                elif i<len(stations)-1 and target[0]==stations[i+1][0]:
-                    if obs2 is None:
-                        obs2 = get_target(target[0],target[1],target[2])
-                    if obs1 is not None or i==0:
-                        break
-                elif self.ui.OpenRadio.isChecked() and i==len(stations)-1 and target[0]==endpoint[0]:
-                    if obs2 is None:
-                        obs2 = get_target(target[0],target[1],target[2])
-                    if obs1 is not None:
-                        break
+            if targets is not None:
+                for target in targets:
+                    if i>0 and target[0]==stations[i-1][0]:
+                        if obs1 is None:
+                            obs1 = get_target(target[0],target[1],target[2])
+                        if not self.ui.OpenRadio.isChecked() and (obs2 is not None or i==len(stations)-1):
+                            break
+                    elif i<len(stations)-1 and target[0]==stations[i+1][0]:
+                        if obs2 is None:
+                            obs2 = get_target(target[0],target[1],target[2])
+                        if obs1 is not None or i==0:
+                            break
+                    elif self.ui.OpenRadio.isChecked() and i==len(stations)-1 and target[0]==endpoint[0]:
+                        if obs2 is None:
+                            obs2 = get_target(target[0],target[1],target[2])
+                        if obs1 is not None:
+                            break
                     
             trav_obs.append([st,obs1,obs2])
             
