@@ -73,6 +73,26 @@ def get_polygon_layers():
         return w
     return None
 
+def get_selected_polygons(layernames):
+    """ Create a list of selected polygons from all polygon layer
+
+        :returns: list of polygon geometries (QgsGeometry list)
+    """
+    w = []
+    if layernames is None:
+        return None
+    for layername in layernames:
+        lay = get_layer_by_name(layername)
+        if lay is None:
+            continue
+        for feat in lay.getFeatures():
+            geom = feat.geometry()
+            if geom.type() == QGis.Polygon:
+                w.append(geom)
+    if len(w):
+        return w
+    return None
+
 def get_fieldlist(vlayer):
     """ Create a list of fields
 
