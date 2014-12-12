@@ -355,7 +355,18 @@ class SurveyingCalculation:
     def batch_plotting(self):
         """ Batch plots selected geometry items using the selected template and scale.
         """
-        #TODO check if there are selected items on a polygon layer
+        #check if there are polygon layers in the project
+        polygon_layers = get_polygon_layers()
+        if polygon_layers is None:
+            QMessageBox.warning(self.iface.mainWindow(),self.tr("Warning"),
+                self.tr("This utility needs at least one polygon type layer!"))
+            return
+        #check if there are selected items on polygon layers
+        selected_polygons = get_selected_polygons(polygon_layers)
+        if selected_polygons is None:
+            QMessageBox.warning(self.iface.mainWindow(),self.tr("Warning"),
+                self.tr("Select at least one polygon on any polygon type layer!"))
+            return
         
         # show the dialog
         self.batchplotting_dlg.show()
@@ -385,6 +396,11 @@ class SurveyingCalculation:
             status_load = self.composition.loadFromTemplate(document)
 
             #TODO set QgsComposerMap to polygon
+            mapItems = self.composition.composerMapItems()
+            for map in mapItems:
+                extent = map.extent()
+                pass
+            
             self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp","aaa.pdf"))
             #composer = self.iface.createNewComposer() 
             #composer.setComposition(self.composition)
