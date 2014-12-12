@@ -356,17 +356,13 @@ class SurveyingCalculation:
         """ Batch plots selected geometry items using the selected template and scale.
         """
         #check if there are polygon layers in the project
-        polygon_layers = get_polygon_layers()
+        polygon_layers = get_vector_layers_by_type(QGis.Polygon)
         if polygon_layers is None:
             QMessageBox.warning(self.iface.mainWindow(),self.tr("Warning"),
                 self.tr("This utility needs at least one polygon type layer!"))
             return
-        #check if there are selected items on polygon layers
-        selected_polygons = get_selected_polygons(polygon_layers)
-        if selected_polygons is None:
-            QMessageBox.warning(self.iface.mainWindow(),self.tr("Warning"),
-                self.tr("Select at least one polygon on any polygon type layer!"))
-            return
+        
+        #self.batchplotting_dlg.LayersList.clear
         
         # show the dialog
         self.batchplotting_dlg.show()
@@ -374,6 +370,14 @@ class SurveyingCalculation:
         result = self.batchplotting_dlg.exec_()
         
         if result:
+            #check if there are selected items on polygon layers
+            selected_layer = polygon_layers[0]
+            selected_polygons = get_features(selected_layer,QGis.Polygon,True)
+            if selected_polygons is None:
+                QMessageBox.warning(self.iface.mainWindow(),self.tr("Warning"),
+                    self.tr("Select at least one polygon on any polygon type layer!"))
+                return
+
             fname = self.batchplotting_dlg.template_file
             scale = self.batchplotting_dlg.scale
         
