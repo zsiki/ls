@@ -57,7 +57,10 @@ class BatchPlottingDialog(QDialog):
             QMessageBox.warning(self,self.tr("Warning"),self.tr("Select a composer template!"))
             self.ui.TemplateList.setFocus()
             return
-        #if not len(self.ui.ScaleCombo.currentText()):
+        if self.ui.LayersComboBox.currentIndex() == -1:
+            QMessageBox.warning(self,self.tr("Warning"),self.tr("Select a layer!"))
+            self.ui.LayersComboBox.setFocus()
+            return
         
         self.template_file = os.path.join(self.dirpath,
             self.ui.TemplateList.currentItem().text())
