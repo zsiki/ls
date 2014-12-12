@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'batch_plotting.ui'
 #
-# Created: Fri Dec 12 00:04:02 2014
+# Created: Fri Dec 12 22:09:47 2014
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -28,10 +28,10 @@ class Ui_BatchPlottingDialog(object):
         BatchPlottingDialog.setObjectName(_fromUtf8("BatchPlottingDialog"))
         BatchPlottingDialog.resize(291, 300)
         self.TemplateList = QtGui.QListWidget(BatchPlottingDialog)
-        self.TemplateList.setGeometry(QtCore.QRect(10, 30, 271, 101))
+        self.TemplateList.setGeometry(QtCore.QRect(10, 70, 271, 101))
         self.TemplateList.setObjectName(_fromUtf8("TemplateList"))
         self.TemplateLabel = QtGui.QLabel(BatchPlottingDialog)
-        self.TemplateLabel.setGeometry(QtCore.QRect(10, 10, 111, 16))
+        self.TemplateLabel.setGeometry(QtCore.QRect(10, 50, 111, 16))
         self.TemplateLabel.setObjectName(_fromUtf8("TemplateLabel"))
         self.PlotButton = QtGui.QPushButton(BatchPlottingDialog)
         self.PlotButton.setGeometry(QtCore.QRect(50, 260, 81, 23))
@@ -50,10 +50,10 @@ class Ui_BatchPlottingDialog(object):
         self.CloseButton.setSizePolicy(sizePolicy)
         self.CloseButton.setObjectName(_fromUtf8("CloseButton"))
         self.ScaleLabel = QtGui.QLabel(BatchPlottingDialog)
-        self.ScaleLabel.setGeometry(QtCore.QRect(10, 140, 51, 21))
+        self.ScaleLabel.setGeometry(QtCore.QRect(10, 180, 111, 21))
         self.ScaleLabel.setObjectName(_fromUtf8("ScaleLabel"))
         self.ScaleCombo = QtGui.QComboBox(BatchPlottingDialog)
-        self.ScaleCombo.setGeometry(QtCore.QRect(60, 140, 81, 22))
+        self.ScaleCombo.setGeometry(QtCore.QRect(120, 180, 81, 22))
         self.ScaleCombo.setInputMethodHints(QtCore.Qt.ImhDigitsOnly)
         self.ScaleCombo.setEditable(True)
         self.ScaleCombo.setObjectName(_fromUtf8("ScaleCombo"))
@@ -70,7 +70,7 @@ class Ui_BatchPlottingDialog(object):
         self.ScaleCombo.addItem(_fromUtf8(""))
         self.ScaleCombo.addItem(_fromUtf8(""))
         self.TempDirButton = QtGui.QPushButton(BatchPlottingDialog)
-        self.TempDirButton.setGeometry(QtCore.QRect(200, 10, 81, 21))
+        self.TempDirButton.setGeometry(QtCore.QRect(200, 50, 81, 21))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -78,12 +78,23 @@ class Ui_BatchPlottingDialog(object):
         self.TempDirButton.setSizePolicy(sizePolicy)
         self.TempDirButton.setObjectName(_fromUtf8("TempDirButton"))
         self.TODOLabel = QtGui.QLabel(BatchPlottingDialog)
-        self.TODOLabel.setGeometry(QtCore.QRect(70, 200, 111, 16))
+        self.TODOLabel.setGeometry(QtCore.QRect(60, 220, 151, 16))
         self.TODOLabel.setObjectName(_fromUtf8("TODOLabel"))
+        self.LayersLabel = QtGui.QLabel(BatchPlottingDialog)
+        self.LayersLabel.setGeometry(QtCore.QRect(10, 10, 111, 21))
+        self.LayersLabel.setObjectName(_fromUtf8("LayersLabel"))
+        self.LayersComboBox = QtGui.QComboBox(BatchPlottingDialog)
+        self.LayersComboBox.setGeometry(QtCore.QRect(120, 10, 161, 22))
+        self.LayersComboBox.setInputMethodHints(QtCore.Qt.ImhDigitsOnly)
+        self.LayersComboBox.setEditable(False)
+        self.LayersComboBox.setObjectName(_fromUtf8("LayersComboBox"))
 
         self.retranslateUi(BatchPlottingDialog)
         self.ScaleCombo.setCurrentIndex(3)
+        self.LayersComboBox.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(BatchPlottingDialog)
+        BatchPlottingDialog.setTabOrder(self.LayersComboBox, self.TempDirButton)
+        BatchPlottingDialog.setTabOrder(self.TempDirButton, self.TemplateList)
         BatchPlottingDialog.setTabOrder(self.TemplateList, self.ScaleCombo)
         BatchPlottingDialog.setTabOrder(self.ScaleCombo, self.PlotButton)
         BatchPlottingDialog.setTabOrder(self.PlotButton, self.CloseButton)
@@ -93,7 +104,7 @@ class Ui_BatchPlottingDialog(object):
         self.TemplateLabel.setText(_translate("BatchPlottingDialog", "Available templates:", None))
         self.PlotButton.setText(_translate("BatchPlottingDialog", "Plot", None))
         self.CloseButton.setText(_translate("BatchPlottingDialog", "Close", None))
-        self.ScaleLabel.setText(_translate("BatchPlottingDialog", "Scale:", None))
+        self.ScaleLabel.setText(_translate("BatchPlottingDialog", "Map Scale:", None))
         self.ScaleCombo.setItemText(0, _translate("BatchPlottingDialog", "100", None))
         self.ScaleCombo.setItemText(1, _translate("BatchPlottingDialog", "250", None))
         self.ScaleCombo.setItemText(2, _translate("BatchPlottingDialog", "500", None))
@@ -107,5 +118,6 @@ class Ui_BatchPlottingDialog(object):
         self.ScaleCombo.setItemText(10, _translate("BatchPlottingDialog", "50000", None))
         self.ScaleCombo.setItemText(11, _translate("BatchPlottingDialog", "100000", None))
         self.TempDirButton.setText(_translate("BatchPlottingDialog", "Change Dir ...", None))
-        self.TODOLabel.setText(_translate("BatchPlottingDialog", "TODO anything?", None))
+        self.TODOLabel.setText(_translate("BatchPlottingDialog", "TODO anything output?", None))
+        self.LayersLabel.setText(_translate("BatchPlottingDialog", "Polygon layers:", None))
 

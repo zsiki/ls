@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>30</y>
+     <y>70</y>
      <width>271</width>
      <height>101</height>
     </rect>
@@ -27,7 +27,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>50</y>
      <width>111</width>
      <height>16</height>
     </rect>
@@ -78,20 +78,20 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>140</y>
-     <width>51</width>
+     <y>180</y>
+     <width>111</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Scale:</string>
+    <string>Map Scale:</string>
    </property>
   </widget>
   <widget class="QComboBox" name="ScaleCombo">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>140</y>
+     <x>120</x>
+     <y>180</y>
      <width>81</width>
      <height>22</height>
     </rect>
@@ -170,7 +170,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>10</y>
+     <y>50</y>
      <width>81</width>
      <height>21</height>
     </rect>
@@ -188,18 +188,52 @@
   <widget class="QLabel" name="TODOLabel">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>200</y>
-     <width>111</width>
+     <x>60</x>
+     <y>220</y>
+     <width>151</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>TODO anything?</string>
+    <string>TODO anything output?</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LayersLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Polygon layers:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="LayersComboBox">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>10</y>
+     <width>161</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhDigitsOnly</set>
+   </property>
+   <property name="editable">
+    <bool>false</bool>
+   </property>
+   <property name="currentIndex">
+    <number>-1</number>
    </property>
   </widget>
  </widget>
  <tabstops>
+  <tabstop>LayersComboBox</tabstop>
+  <tabstop>TempDirButton</tabstop>
   <tabstop>TemplateList</tabstop>
   <tabstop>ScaleCombo</tabstop>
   <tabstop>PlotButton</tabstop>
