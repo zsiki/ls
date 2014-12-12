@@ -58,6 +58,21 @@ def get_layer_by_name(name):
                 return None
     return None
 
+def get_polygon_layers():
+    """ Find layers with type of polygon
+
+        :returns: list of names of polygon layers or None
+    """
+    w = []
+    layermap = QgsMapLayerRegistry.instance().mapLayers()
+    for n, layer in layermap.iteritems():
+        if layer.type() == QgsMapLayer.VectorLayer:
+            if layer.geometryType() == QGis.Polygon:
+                w.append(layer.name())
+    if len(w):
+        return w
+    return None
+
 def get_fieldlist(vlayer):
     """ Create a list of fields
 
