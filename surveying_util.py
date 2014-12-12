@@ -58,38 +58,43 @@ def get_layer_by_name(name):
                 return None
     return None
 
-def get_polygon_layers():
+def get_vector_layers_by_type(ftype):
     """ Find layers with type of polygon
 
+        :param ftype: type of layer (point, line, polygon)
         :returns: list of names of polygon layers or None
     """
     w = []
     layermap = QgsMapLayerRegistry.instance().mapLayers()
     for n, layer in layermap.iteritems():
         if layer.type() == QgsMapLayer.VectorLayer:
-            if layer.geometryType() == QGis.Polygon:
+            if layer.geometryType() == ftype:
                 w.append(layer.name())
     if len(w):
         return w
     return None
 
-def get_selected_polygons(layernames):
-    """ Create a list of selected polygons from all polygon layer
+def get_features(layername, ftype=None, selected=False):
+    """ Create a list of selected or all features 
+        from a given layer possibly with given type.
 
-        :param layernames: list of names of polygon layers 
-        :returns: list of polygon geometries (QgsGeometry list)
+        :param layername: name of the layer 
+        :param ftype: type of features to add to the list (if None - all features)
+        :param selected: if True only selected features will be added to the list 
+        :returns: list of feature geometries (QgsGeometry list)
     """
     w = []
-    if layernames is None:
+    lay = get_layer_by_name(layername)
+    if lay is None:
         return None
-    for layername in layernames:
-        lay = get_layer_by_name(layername)
-        if lay is None:
-            continue
-        for feat in lay.selectedFeatures():
-            geom = QgsGeometry(feat.geometry())
-            if geom.type() == QGis.Polygon:
-                w.append(geom)
+    if selected:
+        features = lay.selectedFeatures()
+    else:
+        features = lay.getFeatures()
+    for feat in features:
+        geom = QgsGeometry(feat.geometry())
+        if type is None or geom.type() == ftype:
+            w.append(geom)
     if len(w):
         return w
     return None
