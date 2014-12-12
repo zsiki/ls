@@ -374,7 +374,6 @@ class SurveyingCalculation:
         result = self.batchplotting_dlg.exec_()
         
         if result:
-            #TODO collect selected items
             fname = self.batchplotting_dlg.template_file
             scale = self.batchplotting_dlg.scale
         
@@ -395,15 +394,28 @@ class SurveyingCalculation:
             document.setContent(template_content)
             status_load = self.composition.loadFromTemplate(document)
 
-            #TODO set QgsComposerMap to polygon
-            mapItems = self.composition.composerMapItems()
-            for map in mapItems:
-                extent = map.extent()
-                pass
+            # plot all selected polygon
+            for polygon in selected_polygons:
+                bbox = polygon.boundingBox()
+                cmapItems = self.composition.composerMapItems()
+                for cmap in cmapItems:
+                    extent = cmap.extent()
+                    polygon_ratio = bbox.width()/bbox.height()
+                    map_ratio = extent.width()/extent.height()
+                    if map_ratio < polygon_ratio:
+                        dh = bbox.width() / map_ratio - bbox.height()
+                        bbox.setYMinimum( bbox.yMinimum() - dh / 2 );
+                        bbox.setYMaximum( bbox.yMaximum() + dh / 2 );
+                    else:
+                        dw = map_ratio * bbox.height() - bbox.width()
+                        bbox.setXMinimum( bbox.xMinimum() - dw / 2 );
+                        bbox.setXMaximum( bbox.xMaximum() + dw / 2 );
+                    cmap.setNewExtent(bbox)
+                    cmap.setNewScale(scale)
             
-            self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp","aaa.pdf"))
-            #composer = self.iface.createNewComposer() 
-            #composer.setComposition(self.composition)
+            #self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp","aaa.pdf"))
+            composer = self.iface.createNewComposer() 
+            composer.setComposition(self.composition)
 
     def about(self):
         """ About box of the plugin
