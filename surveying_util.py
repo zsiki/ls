@@ -87,7 +87,7 @@ def get_selected_polygons(layernames):
         if lay is None:
             continue
         for feat in lay.selectedFeatures():
-            geom = feat.geometry()
+            geom = QgsGeometry(feat.geometry())
             if geom.type() == QGis.Polygon:
                 w.append(geom)
     if len(w):
