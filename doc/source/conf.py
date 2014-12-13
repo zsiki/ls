@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Land Surveying Calculation'
+project = u'Surveying Calculation'
 copyright = u'2014, DigiKom Ltd'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -178,7 +178,7 @@ htmlhelp_basename = 'LandSurveyingCalculationdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'LandSurveyingCalculation.tex', u'Land Surveying Calculation Documentation',
+  ('index', 'SurveyingCalculation.tex', u'Surveying Calculation Documentation',
    u'DigiKom Ltd', 'manual'),
 ]
 
@@ -211,7 +211,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'landsurveyingcalculation', u'Land Surveying Calculation Documentation',
+    ('index', 'surveyingcalculation', u'Surveying Calculation Documentation',
      [u'DigiKom Ltd'], 1)
 ]
 
@@ -219,7 +219,7 @@ man_pages = [
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'Land Surveying Calculation'
+epub_title = u'Surveying Calculation'
 epub_author = u'DigiKom Ltd'
 epub_publisher = u'DigiKom Ltd'
 epub_copyright = u'2014, DigiKom Ltd'

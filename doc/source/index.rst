@@ -61,13 +61,20 @@ Totalstation data import
    :members:
 
 Transformation calculation GUI
-=================================
+==============================
 
 .. automodule:: SurveyingCalculation.transformation_dialog
    :members:
 
 Traverse calculation GUI
-=================================
+========================
 
 .. automodule:: SurveyingCalculation.traverse_dialog
    :members:
+
+Batch plotting GUI
+==================
+
+.. automodule:: SurveyingCalculation.batch_plotting_dialog
+   :members:
+
