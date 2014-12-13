@@ -9,6 +9,7 @@
 import os, glob
 from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox
 from batch_plotting import Ui_BatchPlottingDialog
+from base_classes import *
 
 class BatchPlottingDialog(QDialog):
     """ Class for batch plotting dialog
@@ -54,11 +55,11 @@ class BatchPlottingDialog(QDialog):
         """ Batch plots selected geometry items using the selected template and scale.
         """
         if self.ui.TemplateList.selectedItems() == []:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Select a composer template!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Select a composer template!"))
             self.ui.TemplateList.setFocus()
             return
         if self.ui.LayersComboBox.currentIndex() == -1:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Select a layer!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Select a layer!"))
             self.ui.LayersComboBox.setFocus()
             return
         
@@ -67,7 +68,7 @@ class BatchPlottingDialog(QDialog):
         try:
             self.scale = int(self.ui.ScaleCombo.currentText())
         except (ValueError):
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Scale must be an integer value!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Scale must be an integer value!"))
             self.ui.ScaleCombo.setFocus()
             return
 

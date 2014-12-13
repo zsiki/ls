@@ -90,15 +90,15 @@ class SurveyingCalculation:
         # Declare instance attributes
 
     # noinspection PyMethodMayBeStatic
-    def tr(self, message):
-        """Get the translation for a string using Qt translation API. We implement this ourselves since we do not inherit QObject.
+    #def tr(self, message):
+    #    """Get the translation for a string using Qt translation API. We implement this ourselves since we do not inherit QObject.
 
-        :param message: string for translation (str, QString)
-        :returns: translated version of message (QString)
-        """
+    #    :param message: string for translation (str, QString)
+    #    :returns: translated version of message (QString)
+    #    """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         #return QCoreApplication.translate('SurveyingCalculation', message)
-        return tr(message)
+    #    return tr(message)
 
     def add_action(self, icon_path, text, callback, enabled_flag=True,
         add_to_menu=True, add_to_toolbar=True, status_tip=None,
@@ -144,17 +144,17 @@ class SurveyingCalculation:
         # build menu
         self.actions = []
         self.menu = QMenu()
-        self.menu.setTitle(self.tr(u'&SurveyingCalculation'))
-        self.sc_coord = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_coord.png')),self.tr("New coordinate list ..."), self.iface.mainWindow())
-        self.sc_fb = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_fb.png')),self.tr("New fieldbook ..."), self.iface.mainWindow())
-        self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')),self.tr("Load fieldbook ..."), self.iface.mainWindow())
-        self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','single_calc.png')),self.tr("Single point calculations ..."), self.iface.mainWindow())
-        self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')),self.tr("Traverse calculations ..."), self.iface.mainWindow())
-        self.sc_netw = QAction(QIcon(os.path.join(self.plugin_dir,'icons','network_calc.png')),self.tr("Network adjustment ..."), self.iface.mainWindow())
-        self.sc_tran = QAction(QIcon(os.path.join(self.plugin_dir,'icons','coord_calc.png')),self.tr("Coordinate transformation ..."), self.iface.mainWindow())
-        self.sc_batchplot = QAction(QIcon(os.path.join(self.plugin_dir,'icons','batch_plotting.png')),self.tr("Batch plotting ..."), self.iface.mainWindow())
-        self.sc_help = QAction(self.tr("Help"), self.iface.mainWindow())
-        self.sc_about = QAction(self.tr("About"), self.iface.mainWindow())
+        self.menu.setTitle(tr(u'&SurveyingCalculation'))
+        self.sc_coord = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_coord.png')), tr("New coordinate list ..."), self.iface.mainWindow())
+        self.sc_fb = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_fb.png')),tr("New fieldbook ..."), self.iface.mainWindow())
+        self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')), tr("Load fieldbook ..."), self.iface.mainWindow())
+        self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','single_calc.png')), tr("Single point calculations ..."), self.iface.mainWindow())
+        self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')), tr("Traverse calculations ..."), self.iface.mainWindow())
+        self.sc_netw = QAction(QIcon(os.path.join(self.plugin_dir,'icons','network_calc.png')), tr("Network adjustment ..."), self.iface.mainWindow())
+        self.sc_tran = QAction(QIcon(os.path.join(self.plugin_dir,'icons','coord_calc.png')), tr("Coordinate transformation ..."), self.iface.mainWindow())
+        self.sc_batchplot = QAction(QIcon(os.path.join(self.plugin_dir,'icons','batch_plotting.png')), tr("Batch plotting ..."), self.iface.mainWindow())
+        self.sc_help = QAction(tr("Help"), self.iface.mainWindow())
+        self.sc_about = QAction(tr("About"), self.iface.mainWindow())
         self.menu.addActions([self.sc_coord, self.sc_fb, self.sc_load,
             self.sc_calc, self.sc_trav, self.sc_netw, self.sc_tran, self.sc_batchplot, self.sc_help,
             self.sc_about])
@@ -188,7 +188,7 @@ class SurveyingCalculation:
         """
         for action in self.actions:
             self.iface.removePluginMenu(
-                self.tr(u'&SurveyingCalculation'),
+                tr(u'&SurveyingCalculation'),
                 action)
             self.iface.removeToolBarIcon(action)
         del self.menu
@@ -198,8 +198,8 @@ class SurveyingCalculation:
         """ Create a new coordinate list from template and add to layer list. Layer/file name changed to start with 'coord\_' if neccessary.
         """
         ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
-            self.tr('QGIS co-ordinate list'),
-            filter=self.tr('Shape file (*.shp)'))
+            tr('QGIS co-ordinate list'),
+            filter = tr('Shape file (*.shp)'))
         if not ofname:
             return
         if not re.match('coord_', os.path.basename(ofname)):
@@ -217,8 +217,8 @@ class SurveyingCalculation:
         """ Create a new empty fieldbook from template and add to layer list. Layer/file name changed to start with 'fb\_' if neccessary.
         """
         ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
-            self.tr('New fieldbook'),
-            filter=self.tr('Fieldbook file (*.dbf)'))
+            tr('New fieldbook'),
+            filter = tr('Fieldbook file (*.dbf)'))
         if not ofname:
             return
         if not re.match('fb_', os.path.basename(ofname)):
@@ -236,15 +236,15 @@ class SurveyingCalculation:
         """ Load an electric fieldbook from file (GSI, JOB/ARE, ...)
         """
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(),
-            self.tr('Electric fieldbook'),
-            filter= self.tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd)'))
+            tr('Electric fieldbook'),
+            filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd)'))
         if fname:
             # file selected
             # ask for table name
             ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
-                self.tr('QGIS fieldbook'),
+                tr('QGIS fieldbook'),
                 os.path.split(fname)[0],
-                filter=self.tr('DBF file (*.dbf)'))
+                filter = tr('DBF file (*.dbf)'))
             if not ofname:
                 return
             if not re.match('fb_', os.path.basename(ofname)):
@@ -263,9 +263,9 @@ class SurveyingCalculation:
                 fb = Sdr(fname)
             else:
                 QMessageBox.warning(self.iface.mainWindow(),
-                    self.tr('File warning'),
-                    self.tr('Unknown fieldbook type'),
-                    self.tr('OK'))
+                    tr('File warning'),
+                    tr('Unknown fieldbook type'),
+                    tr('OK'))
                 return
             i = 10    # ordinal number for fieldbook records
             #fb_dbf.startEditing()
@@ -361,8 +361,8 @@ class SurveyingCalculation:
         #check if there are polygon layers in the project
         polygon_layers = get_vector_layers_by_type(QGis.Polygon)
         if polygon_layers is None:
-            QMessageBox.warning(self.iface.mainWindow(),self.tr("Warning"),
-                self.tr("This utility needs at least one polygon type layer!"))
+            QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),
+                tr("This utility needs at least one polygon type layer!"))
             return
         
         # fill polygon layers combobox
@@ -379,8 +379,8 @@ class SurveyingCalculation:
             selected_layer = self.batchplotting_dlg.ui.LayersComboBox.currentText()
             selected_polygons = get_features(selected_layer,QGis.Polygon,True)
             if selected_polygons is None:
-                QMessageBox.warning(self.iface.mainWindow(),self.tr("Warning"),
-                    self.tr("Select at least one polygon on any polygon type layer!"))
+                QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),
+                    tr("Select at least one polygon on any polygon type layer!"))
                 return
 
             fname = self.batchplotting_dlg.template_file
@@ -431,8 +431,8 @@ class SurveyingCalculation:
         """ About box of the plugin
         """
         QMessageBox.information(self.iface.mainWindow(),
-            self.tr('About'),    
-            self.tr('Surveying Calculation Plugin\n\n (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu\nVersion 0.1a'))
+            tr('About'),    
+            tr('Surveying Calculation Plugin\n\n (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu\nVersion 0.1a'))
 
     def help(self):
         # TODO

@@ -15,6 +15,7 @@ from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
 from single_calc import Ui_SingleCalcDialog
+from base_classes import *
 from surveying_util import *
 from calculation import Calculation
 from resultlog import *
@@ -236,22 +237,22 @@ class SingleDialog(QDialog):
         """ Start a calculation when the Calculate button pushed.
         """
         if self.ui.radioButtonGroup.checkedId() == -1:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Select the type of calculation!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Select the type of calculation!"))
             return
 
         # get the selected stations
         stn1 = self.ui.Station1Combo.itemData( self.ui.Station1Combo.currentIndex() )
         if stn1 is None:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Select station point 1!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Select station point 1!"))
             self.ui.Station1Combo.setFocus()
             return
         stn2 = self.ui.Station2Combo.itemData( self.ui.Station2Combo.currentIndex() )
         if stn2 is None and self.ui.IntersectRadio.isChecked():
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Select station point 2!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Select station point 2!"))
             self.ui.Station2Combo.setFocus()
             return
         if self.ui.TargetList.count()==0:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Add points to Used Points list!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Add points to Used Points list!"))
             self.ui.TargetList.setFocus()
             return
 
@@ -267,16 +268,16 @@ class SingleDialog(QDialog):
             z = Calculation.orientation(s, ref_list)
             if z is not None:
                 set_orientationangle(stn1[0], stn1[1], stn1[2], z.get_angle("GON"))
-                self.ui.ResultTextBrowser.append("\n" + self.tr("Orientation") + " - %s" % s.p.id)
+                self.ui.ResultTextBrowser.append("\n" + tr("Orientation") + " - %s" % s.p.id)
                 self.ui.ResultTextBrowser.append(
-                    self.tr("Point num  Code         Direction    Bearing   Orient ang   Distance   e\"    E(m)"))
+                    tr("Point num  Code         Direction    Bearing   Orient ang   Distance   e\"    E(m)"))
                 self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
                 self.log.write()
-                self.log.write_log(self.tr("Orientation") + " - %s" % s.p.id)
-                self.log.write(self.tr("Point num  Code         Direction    Bearing   Orient ang   Distance   e\"    E(m)"))
+                self.log.write_log(tr("Orientation") + " - %s" % s.p.id)
+                self.log.write(tr("Point num  Code         Direction    Bearing   Orient ang   Distance   e\"    E(m)"))
                 self.log.write(ResultLog.resultlog_message)
             else:
-                QMessageBox.warning(self,self.tr("Warning"),self.tr("Orientation angle cannot be calculated!"))
+                QMessageBox.warning(self, tr("Warning"), tr("Orientation angle cannot be calculated!"))
 
         elif self.ui.RadialRadio.isChecked():
             # radial surveys (polar point)
@@ -290,11 +291,11 @@ class SingleDialog(QDialog):
                 if p is not None:
                     # log results
                     if log_header is False:
-                        self.ui.ResultTextBrowser.append("\n" + self.tr("Radial Survey"))
-                        self.ui.ResultTextBrowser.append(self.tr("Point num  Code              E            N        Z     Bearing  H.Distance"))
+                        self.ui.ResultTextBrowser.append("\n" + tr("Radial Survey"))
+                        self.ui.ResultTextBrowser.append(tr("Point num  Code              E            N        Z     Bearing  H.Distance"))
                         self.log.write()
-                        self.log.write_log(self.tr("Radial Survey"))
-                        self.log.write(self.tr("Point num  Code              E            N        Z     Bearing  H.Distance"))
+                        self.log.write_log(tr("Radial Survey"))
+                        self.log.write(tr("Point num  Code              E            N        Z     Bearing  H.Distance"))
                         log_stn = u"%-10s %-10s %12.3f %12.3f %8.3s     <station>" % \
                             (s.p.id, (s.p.pc if s.p.pc is not None else "-"), s.p.e, s.p.n, \
                             ("%8.3f"%s.p.z if s.p.z is not None and not s.p.z.isNull() else "") )
@@ -312,14 +313,14 @@ class SingleDialog(QDialog):
                         self.log.write(ResultLog.resultlog_message)
                         tp.store_coord(3)
                 else:
-                    QMessageBox.warning(self,self.tr("Warning"),self.tr("Radial survey on %s cannot be calculated!") % targetp[0])
+                    QMessageBox.warning(self, tr("Warning"), tr("Radial survey on %s cannot be calculated!") % targetp[0])
 
         elif self.ui.IntersectRadio.isChecked():
             # intersection
             s1 = get_station(stn1[0], stn1[1], stn1[2])
             s2 = get_station(stn2[0], stn2[1], stn2[2])
             if stn1 == stn2:
-                QMessageBox.warning(self,self.tr("Warning"),self.tr("Station 1 and station 2 are the same!"))
+                QMessageBox.warning(self, tr("Warning"), tr("Station 1 and station 2 are the same!"))
                 self.ui.Station1Combo.setFocus()
                 return
             log_header = False
@@ -335,11 +336,11 @@ class SingleDialog(QDialog):
                 if p is not None:
                     # log results
                     if log_header is False:
-                        self.ui.ResultTextBrowser.append("\n" + self.tr("Intersection"))
-                        self.ui.ResultTextBrowser.append(self.tr("Point num  Code              E            N     Bearing1 Bearing2"))
+                        self.ui.ResultTextBrowser.append("\n" + tr("Intersection"))
+                        self.ui.ResultTextBrowser.append(tr("Point num  Code              E            N     Bearing1 Bearing2"))
                         self.log.write()
-                        self.log.write_log(self.tr("Intersection"))
-                        self.log.write(self.tr("Point num  Code              E            N     Bearing1 Bearing2"))
+                        self.log.write_log(tr("Intersection"))
+                        self.log.write(tr("Point num  Code              E            N     Bearing1 Bearing2"))
 
                         log_stn = u"%-10s %-10s %12.3f %12.3f     <station>\n" % \
                             (s1.p.id, (s1.p.pc if s1.p.pc is not None else "-"), s1.p.e, s1.p.n)
@@ -353,13 +354,13 @@ class SingleDialog(QDialog):
                     self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
                     self.log.write(ResultLog.resultlog_message)
                 else:
-                    QMessageBox.warning(self,self.tr("Warning"),self.tr("Intersecion on %s cannot be calculated!") % targetp1[0])
+                    QMessageBox.warning(self, tr("Warning"), tr("Intersecion on %s cannot be calculated!") % targetp1[0])
 
         elif self.ui.ResectionRadio.isChecked():
             # resection
             s = get_station(stn1[0], stn1[1], stn1[2])
             if self.ui.TargetList.count()!=3:
-                QMessageBox.warning(self,self.tr("Warning"),self.tr("Select exactly 3 used points for resection!"))
+                QMessageBox.warning(self, tr("Warning"), tr("Select exactly 3 used points for resection!"))
                 self.ui.TargetList.setFocus()
                 return
             targetp1 = self.ui.TargetList.item(0).data(Qt.UserRole)
@@ -374,12 +375,12 @@ class SingleDialog(QDialog):
             p = Calculation.resection(s, tp1, tp2, tp3, to1, to2, to3)
             ScPoint(p).store_coord(2)
             # result log
-            self.ui.ResultTextBrowser.append("\n" + self.tr("Resection"))
-            self.ui.ResultTextBrowser.append(self.tr("Point num  Code                E            N      Direction  Angle"))
+            self.ui.ResultTextBrowser.append("\n" + tr("Resection"))
+            self.ui.ResultTextBrowser.append(tr("Point num  Code                E            N      Direction  Angle"))
             self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
             self.log.write()
-            self.log.write_log(self.tr("Resection"))
-            self.log.write(self.tr("Point num  Code                E            N      Direction  Angle"))
+            self.log.write_log(tr("Resection"))
+            self.log.write(tr("Point num  Code                E            N      Direction  Angle"))
             self.log.write(ResultLog.resultlog_message)
         elif self.ui.FreeRadio.isChecked():
             # free station
@@ -396,7 +397,7 @@ class SingleDialog(QDialog):
             t = g.adjust()
             if t is None:
                 # adjustment failed
-                self.ui.ResultTextBrowser.append(self.tr('gama-local not installed or other runtime error'))
+                self.ui.ResultTextBrowser.append(tr('gama-local not installed or other runtime error'))
             else:
                 self.ui.ResultTextBrowser.append(t)
         

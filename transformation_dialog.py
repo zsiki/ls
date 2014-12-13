@@ -86,8 +86,8 @@ class TransformationDialog(QDialog):
     def onToFileButton(self):
         """ Select target shape file
         """
-        fname = QFileDialog.getOpenFileName(None, self.tr('Coordinate list'),
-            filter= self.tr('Coordinate list file (*.shp);;'))
+        fname = QFileDialog.getOpenFileName(None, tr('Coordinate list'),
+            filter= tr('Coordinate list file (*.shp);;'))
         if fname:
             self.ui.ToShapeEdit.setText(fname)
             if len(self.ui.FromLayerComboBox.currentText()):

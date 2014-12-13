@@ -10,6 +10,7 @@ import platform
 from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem, QMessageBox, QFont
 from PyQt4.QtCore import Qt
 from traverse_calc import Ui_TraverseCalcDialog
+from base_classes import *
 from surveying_util import *
 from calculation import Calculation
 from resultlog import *
@@ -245,22 +246,22 @@ class TraverseDialog(QDialog):
             Start a traverse calculation when the Calculate button pushed.
         """
         if self.ui.buttonGroup.checkedId() == -1:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Select the type of traverse line!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Select the type of traverse line!"))
             return
 
         # get the selected stations
         startpoint = self.ui.StartPointComboBox.itemData( self.ui.StartPointComboBox.currentIndex() )
         if startpoint is None:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Select start point!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Select start point!"))
             self.ui.StartPointComboBox.setFocus()
             return
         endpoint = self.ui.EndPointComboBox.itemData( self.ui.EndPointComboBox.currentIndex() )
         if endpoint is None:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Select end point!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Select end point!"))
             self.ui.EndPointComboBox.setFocus()
             return
         if self.ui.OrderList.count()==0:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Add points to angle point list!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Add points to angle point list!"))
             self.ui.OrderList.setFocus()
             return
 
@@ -311,8 +312,8 @@ class TraverseDialog(QDialog):
             # if end point is a known point -> question
             known_list = get_known()
             if known_list is not None and endpoint[0] in known_list:
-                reply = QMessageBox.question(self,self.tr("Question"), \
-                    self.tr("End point has coordinates.\nAre you sure you want to calculate an open traverse?"), \
+                reply = QMessageBox.question(self, tr("Question"), \
+                    tr("End point has coordinates.\nAre you sure you want to calculate an open traverse?"), \
                     QMessageBox.Yes, QMessageBox.No)
                 if reply == QMessageBox.No:
                     return
@@ -328,19 +329,19 @@ class TraverseDialog(QDialog):
                 tp.set_coord(pt)
                 tp.store_coord(2)
             traversing_type = self.ui.buttonGroup.checkedButton().text()
-            self.ui.ResultTextBrowser.append("\n" + self.tr("Traversing") + " - %s" % traversing_type)
-            self.ui.ResultTextBrowser.append(self.tr("            bearing    bw dist"))
-            self.ui.ResultTextBrowser.append(self.tr("Point        angle     distance  (dE)     (dN)       dE         dN"))
-            self.ui.ResultTextBrowser.append(self.tr("           correction  fw dist    corrections      Easting    Northing"))
+            self.ui.ResultTextBrowser.append("\n" + tr("Traversing") + " - %s" % traversing_type)
+            self.ui.ResultTextBrowser.append(tr("            bearing    bw dist"))
+            self.ui.ResultTextBrowser.append(tr("Point        angle     distance  (dE)     (dN)       dE         dN"))
+            self.ui.ResultTextBrowser.append(tr("           correction  fw dist    corrections      Easting    Northing"))
             self.log.write()
-            self.log.write_log(self.tr("Traversing") + " - %s" % traversing_type)
-            self.log.write(self.tr("            bearing    bw dist"))
-            self.log.write(self.tr("Point        angle     distance  (dE)     (dN)       dE         dN"))
-            self.log.write(self.tr("           correction  fw dist    corrections      Easting    Northing"))
+            self.log.write_log(tr("Traversing") + " - %s" % traversing_type)
+            self.log.write(tr("            bearing    bw dist"))
+            self.log.write(tr("Point        angle     distance  (dE)     (dN)       dE         dN"))
+            self.log.write(tr("           correction  fw dist    corrections      Easting    Northing"))
             self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
             self.log.write(ResultLog.resultlog_message)
         else:
-            QMessageBox.warning(self,self.tr("Warning"),self.tr("Traverse line cannot be calculated!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Traverse line cannot be calculated!"))
             self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
             self.log.write(ResultLog.resultlog_message)
 
