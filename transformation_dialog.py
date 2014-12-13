@@ -12,6 +12,7 @@ from PyQt4.QtGui import QDialog, QFileDialog, QFont
 from PyQt4.QtCore import SIGNAL, QCoreApplication
 
 from transformation_calc import Ui_TransformationCalcDialog
+from base_classes import *
 from surveying_util import *
 from calculation import *
 
@@ -175,30 +176,30 @@ class TransformationDialog(QDialog):
             p_to = get_coord(point_id, to_list)
             p_list.append([p_from, p_to])
         if self.ui.OrthogonalRadio.isChecked():
-            tr = Calculation.orthogonal_transformation(p_list)
+            tr_res = Calculation.orthogonal_transformation(p_list)
             tr_func = self.ortho_tr
             self.ui.ResultTextBrowser.append(tr('\nOrthogonal transformation'))
         elif self.ui.AffineRadio.isChecked():
-            tr = Calculation.affine_transformation(p_list)
+            tr_res = Calculation.affine_transformation(p_list)
             tr_func = self.affine_tr
             self.ui.ResultTextBrowser.append(tr('\nAffine transformation'))
         elif self.ui.ThirdRadio.isChecked():
-            tr = Calculation.polynomial_transformation(p_list, 3)
+            tr_res = Calculation.polynomial_transformation(p_list, 3)
             tr_func = self.poly3_tr
             self.ui.ResultTextBrowser.append(tr('\n3rd order polynomial transformation'))
         elif self.ui.FourthRadio.isChecked():
-            tr = Calculation.polynomial_transformation(p_list, 4)
+            tr_res = Calculation.polynomial_transformation(p_list, 4)
             tr_func = self.poly4_tr
             self.ui.ResultTextBrowser.append(tr('\n4th order polynomial transformation'))
         elif self.ui.FifthRadio.isChecked():
-            tr = Calculation.polynomial_transformation(p_list, 5)
+            tr_res = Calculation.polynomial_transformation(p_list, 5)
             tr_func = self.poly5_tr
             self.ui.ResultTextBrowser.append(tr('\n5th order polynomial transformation'))
 
         # calculate transformed coordinates
         self.ui.ResultTextBrowser.append(tr('Point num                E from       N from       E to         N to      dE     dN'))
         for (p_from, p_to) in p_list:
-            (e, n) = tr_func(p_from, tr)
+            (e, n) = tr_func(p_from, tr_res)
             de = p_to.e - e
             dn = p_to.n - n
             buf = '%-20s ' % p_from.id + \
@@ -210,7 +211,7 @@ class TransformationDialog(QDialog):
         for p_num in self.from_points:
             if not p_num in self.common:
                 p = get_coord(p_num, from_list)
-                (e, n) = tr_func(p, tr)
+                (e, n) = tr_func(p, tr_res)
                 buf = '%-20s ' % p.id + \
                     '%12.3f ' % p.e + '%12.3f ' % p.n + \
                     '%12.3f ' % e + '%12.3f ' % n
