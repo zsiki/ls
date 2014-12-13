@@ -83,6 +83,9 @@ class SurveyingCalculation:
         self.network_dlg = NetworkDialog()
         self.transformation_dlg = TransformationDialog()
         self.batchplotting_dlg = BatchPlottingDialog()
+        
+        self.composer = None
+        self.composition = None
 
         # Declare instance attributes
 
@@ -382,15 +385,7 @@ class SurveyingCalculation:
 
             fname = self.batchplotting_dlg.template_file
             scale = self.batchplotting_dlg.scale
-        
-            # create composition from a template file
-            try:
-                self.composition
-            except (AttributeError):
-                canvas = self.iface.mapCanvas() 
-                renderer = canvas.mapRenderer() 
-                self.composition = QgsComposition(renderer)
-            
+
             # read template file
             template_file = QFile( fname )
             template_file.open(QIODevice.ReadOnly | QIODevice.Text)
@@ -398,10 +393,16 @@ class SurveyingCalculation:
             template_file.close()
             document = QDomDocument()
             document.setContent(template_content)
-            status_load = self.composition.loadFromTemplate(document)
 
             # plot all selected polygon
+            i = 1
             for polygon in selected_polygons:
+                # get map renderer of map canvas        
+                renderer = self.iface.mapCanvas().mapRenderer()
+                self.composition = QgsComposition(renderer)
+                self.composition.loadFromTemplate(document)
+
+                #adjust polygon size to map
                 bbox = polygon.boundingBox()
                 cmapItems = self.composition.composerMapItems()
                 for cmap in cmapItems:
@@ -419,9 +420,12 @@ class SurveyingCalculation:
                     cmap.setNewExtent(bbox)
                     cmap.setNewScale(scale)
             
-            #self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp","aaa.pdf"))
-            composer = self.iface.createNewComposer() 
-            composer.setComposition(self.composition)
+                # create pdf
+                fname = "composition_%03d.pdf" % i
+                self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp",fname))
+                i = i + 1
+                #self.composer = self.iface.createNewComposer() 
+                #self.composer.setComposition(self.composition)
 
     def about(self):
         """ About box of the plugin
