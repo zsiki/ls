@@ -249,7 +249,8 @@ class SurveyingCalculation:
                 return
             if not re.match('fb_', os.path.basename(ofname)):
                 ofname = os.path.join(os.path.dirname(ofname),
-                    'fb_' + os.path.basename(ofname))
+                    'fb_' + os.path.basename(ofname) + '.dbf')
+            print ofname
             # make a copy of dbf template
             copyfile(os.path.join(self.plugin_dir, 'template', 'fb_template.dbf'), ofname)
             fb_dbf = QgsVectorLayer(ofname, os.path.splitext(os.path.basename(ofname))[0], "ogr")
