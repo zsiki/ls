@@ -390,20 +390,35 @@ class Sdr(TotalStation):
                 # station record
                 res['point_id'] = self.pn(buf[4:])
                 if self.pn_length == 16:
-                    res['station_e'] = self.dist(float(buf[20:36].strip()))
-                    res['station_n'] = self.dist(float(buf[36:52].strip()))
-                    res['station_z'] = self.dist(float(buf[52:68].strip()))
+                    w = buf[20:36].strip()
+                    if len(w):
+                        res['station_e'] = self.dist(float(w))
+                    w = buf[36:52].strip()
+                    if len(w):
+                        res['station_n'] = self.dist(float(w))
+                    w = buf[52:68].strip()
+                    if len(w):
+                        res['station_z'] = self.dist(float(w))
                     res['th'] = self.dist(float(buf[68:84].strip()))
                     res['pc'] = buf[84:90].strip()
                 else:
-                    res['station_e'] = self.dist(float(buf[8:18].strip()))
-                    res['station_n'] = self.dist(float(buf[18:28].strip()))
-                    res['station_z'] = self.dist(float(buf[28:38].strip()))
+                    w = buf[8:18].strip()
+                    if len(w):
+                        res['station_e'] = self.dist(float(w))
+                    w = buf[18:28].strip()
+                    if len(w):
+                        res['station_n'] = self.dist(float(w))
+                    w = buf[28:38].strip()
+                    if len(w):
+                        res['station_z'] = self.dist(float(w))
                     res['th'] = self.dist(float(buf[38:48].strip()))
                     res['pc'] = buf[48:64].strip()
                 if self.coord_order == 1:
-                    res['station_e'], res['station_n'] = \
-                        res['station_n'], res['station_e']
+                    try:
+                        res['station_e'], res['station_n'] = \
+                            res['station_n'], res['station_e']
+                    except KeyError:
+                        pass
                 res['station'] = 'station'
                 return res
             elif line_code == '03':
@@ -417,18 +432,33 @@ class Sdr(TotalStation):
                 # coordinate
                 res['point_id'] = self.pn(buf[4:])
                 if self.pn_length == 16:
-                    res['station_e'] = self.dist(float(buf[20:36].strip()))
-                    res['station_n'] = self.dist(float(buf[36:52].strip()))
-                    res['station_z'] = self.dist(float(buf[52:68].strip()))
+                    w = buf[20:36].strip()
+                    if len(w):
+                        res['station_e'] = self.dist(float(w))
+                    w = buf[36:52].strip()
+                    if len(w):
+                        res['station_n'] = self.dist(float(w))
+                    w = buf[52:68].strip()
+                    if len(w):
+                        res['station_z'] = self.dist(float(w))
                     res['pc'] = buf[68:84].strip()
                 else:
-                    res['station_e'] = self.dist(float(buf[8:18].strip()))
-                    res['station_n'] = self.dist(float(buf[18:28].strip()))
-                    res['station_z'] = self.dist(float(buf[28:38].strip()))
+                    w = buf[8:18].strip()
+                    if len(w):
+                        res['station_e'] = self.dist(float(w))
+                    w = buf[18:28].strip()
+                    if len(w):
+                        res['station_n'] = self.dist(float(w))
+                    w = buf[28:38].strip()
+                    if len(w):
+                        res['station_z'] = self.dist(float(w))
                     res['pc'] = buf[38:54].strip()
                 if self.coord_order == 1:
-                    res['station_e'], res['station_n'] = \
-                        res['station_n'], res['station_e']
+                    try:
+                        res['station_e'], res['station_n'] = \
+                            res['station_n'], res['station_e']
+                    except KeyError:
+                        pass
                 return res
             elif line_code == '09':
                 # observation
@@ -436,13 +466,17 @@ class Sdr(TotalStation):
                     # face left only
                     if self.pn_length == 16:
                         res['point_id'] = self.pn(buf[20:])
-                        res['sd'] = self.dist(float(buf[36:52].strip()))
+                        w = buf[36:52].strip()
+                        if len(w):
+                            res['sd'] = self.dist(float(w))
                         res['v'] = self.angle(float(buf[52:68].strip()))
                         res['hz'] = self.angle(float(buf[68:84].strip()))
                         res['pc'] = buf[84:100].strip()
                     else:
                         res['point_id'] = self.pn(buf[8:])
-                        res['sd'] = self.dist(float(buf[12:22].strip()))
+                        w = buf[12:22].strip()
+                        if len(w):
+                            res['sd'] = self.dist(float(w))
                         res['v'] = self.angle(float(buf[22:32].strip()))
                         res['hz'] = self.angle(float(buf[32:42].strip()))
                         res['pc'] = buf[42:58].strip()
