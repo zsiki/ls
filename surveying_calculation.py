@@ -18,12 +18,13 @@ import os.path
 import re
 from shutil import copyfile
 # debugging
-from PyQt4.QtCore import pyqtRemoveInputHook
-import pdb
+#from PyQt4.QtCore import pyqtRemoveInputHook
+#import pdb
 
 # plugin specific python modules
 import config
 from base_classes import tr
+from new_point_dialog import NewPointDialog
 from single_dialog import SingleDialog
 from traverse_dialog import TraverseDialog
 from network_dialog import NetworkDialog
@@ -72,14 +73,9 @@ class SurveyingCalculation:
             log_path = os.path.join(self.plugin_dir,'log','log.txt')
         self.log = ResultLog(log_path)
 
-        #self.single_dlg = QDialog()
-        #Ui_SingleCalcDialog().setupUi(self.single_dlg)
+        self.newp_dlg = NewPointDialog()
         self.single_dlg = SingleDialog(self.log)
-        #self.traverse_dlg = QDialog()
-        #Ui_TraverseCalcDialog().setupUi(self.traverse_dlg)
         self.traverse_dlg = TraverseDialog(self.log)
-        #self.network_dlg = QDialog()
-        #Ui_NetworkCalcDialog().setupUi(self.network_dlg)
         self.network_dlg = NetworkDialog()
         self.transformation_dlg = TransformationDialog()
         self.batchplotting_dlg = BatchPlottingDialog()
@@ -148,6 +144,7 @@ class SurveyingCalculation:
         self.sc_coord = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_coord.png')), tr("New coordinate list ..."), self.iface.mainWindow())
         self.sc_fb = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_fb.png')),tr("New fieldbook ..."), self.iface.mainWindow())
         self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')), tr("Load fieldbook ..."), self.iface.mainWindow())
+        self.sc_addp = QAction(QIcon(os.path.join(self.plugin_dir,'icons','addp.png')), tr("Add new point ..."), self.iface.mainWindow())
         self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','single_calc.png')), tr("Single point calculations ..."), self.iface.mainWindow())
         self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')), tr("Traverse calculations ..."), self.iface.mainWindow())
         self.sc_netw = QAction(QIcon(os.path.join(self.plugin_dir,'icons','network_calc.png')), tr("Network adjustment ..."), self.iface.mainWindow())
@@ -156,8 +153,8 @@ class SurveyingCalculation:
         self.sc_help = QAction(tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(tr("About"), self.iface.mainWindow())
         self.menu.addActions([self.sc_coord, self.sc_fb, self.sc_load,
-            self.sc_calc, self.sc_trav, self.sc_netw, self.sc_tran, self.sc_batchplot, self.sc_help,
-            self.sc_about])
+            self.sc_addp, self.sc_calc, self.sc_trav, self.sc_netw,
+            self.sc_tran, self.sc_batchplot, self.sc_help, self.sc_about])
         self.menu.insertSeparator(self.sc_calc)
         self.menu.insertSeparator(self.sc_batchplot)
         self.menu.insertSeparator(self.sc_help)
@@ -169,6 +166,7 @@ class SurveyingCalculation:
         self.sc_coord.triggered.connect(self.create_coordlist)
         self.sc_fb.triggered.connect(self.create_fb)
         self.sc_load.triggered.connect(self.load_fieldbook)
+        self.sc_addp.triggered.connect(self.addp)
         self.sc_calc.triggered.connect(self.calculations)
         self.sc_trav.triggered.connect(self.traverses)
         self.sc_netw.triggered.connect(self.networks)
@@ -322,6 +320,14 @@ class SurveyingCalculation:
             #fb_dbf.commitChanges()
         return
     
+    def addp(self):
+        """ Add point(s) to coordinate list entering coordinates
+        """
+        # show the dialog
+        self.newp_dlg.show()
+        # Run the dialog event loop
+        result = self.newp_dlg.exec_()
+
     def calculations(self):
         """ Single point calculations (orientation, intersection,
             resection, freestation)
