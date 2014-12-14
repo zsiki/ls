@@ -19,12 +19,13 @@ from calculation import *
 class TransformationDialog(QDialog):
     """ Class for transformation calculation dialog
     """
-    def __init__(self):
+    def __init__(self, log):
         """ Initialize dialog data and event handlers
         """
         super(TransformationDialog, self).__init__()
         self.ui = Ui_TransformationCalcDialog()
         self.ui.setupUi(self)
+        self.log = log
         if platform.system() == 'Linux':
             # change font
             self.ui.ResultTextBrowser.setFont(QFont("DejaVu Sans Mono", 9))
@@ -175,29 +176,35 @@ class TransformationDialog(QDialog):
             p_from = get_coord(point_id, from_list)
             p_to = get_coord(point_id, to_list)
             p_list.append([p_from, p_to])
+        w = ''
         if self.ui.OrthogonalRadio.isChecked():
             tr_res = Calculation.orthogonal_transformation(p_list)
             tr_func = self.ortho_tr
-            self.ui.ResultTextBrowser.append(tr('\nOrthogonal transformation'))
+            w = tr('\nOrthogonal transformation')
         elif self.ui.AffineRadio.isChecked():
             tr_res = Calculation.affine_transformation(p_list)
             tr_func = self.affine_tr
-            self.ui.ResultTextBrowser.append(tr('\nAffine transformation'))
+            w = tr('\nAffine transformation')
         elif self.ui.ThirdRadio.isChecked():
             tr_res = Calculation.polynomial_transformation(p_list, 3)
             tr_func = self.poly3_tr
-            self.ui.ResultTextBrowser.append(tr('\n3rd order polynomial transformation'))
+            w = tr('\n3rd order polynomial transformation')
         elif self.ui.FourthRadio.isChecked():
             tr_res = Calculation.polynomial_transformation(p_list, 4)
             tr_func = self.poly4_tr
-            self.ui.ResultTextBrowser.append(tr('\n4th order polynomial transformation'))
+            w = tr('\n4th order polynomial transformation')
         elif self.ui.FifthRadio.isChecked():
             tr_res = Calculation.polynomial_transformation(p_list, 5)
             tr_func = self.poly5_tr
-            self.ui.ResultTextBrowser.append(tr('\n5th order polynomial transformation'))
+            w = tr('\n5th order polynomial transformation')
+        self.ui.ResultTextBrowser.append(w)
+        self.log.write()
+        self.log.write_log(w)
 
         # calculate transformed coordinates
-        self.ui.ResultTextBrowser.append(tr('Point num                E from       N from       E to         N to      dE     dN'))
+        w = tr('Point num                E from       N from       E to         N to      dE     dN')
+        self.ui.ResultTextBrowser.append(w)
+        self.log.write(w)
         for (p_from, p_to) in p_list:
             (e, n) = tr_func(p_from, tr_res)
             de = p_to.e - e
@@ -207,15 +214,17 @@ class TransformationDialog(QDialog):
                 '%12.3f ' % p_to.e + '%12.3f ' % p_to.n + \
                 '%6.3f ' % de + '%6.3f ' % dn
             self.ui.ResultTextBrowser.append(buf)
+            self.log.write(buf)
         # transform and store 
         for p_num in self.from_points:
-            if not p_num in self.common:
+            if not p_num in self.used:
                 p = get_coord(p_num, from_list)
                 (e, n) = tr_func(p, tr_res)
                 buf = '%-20s ' % p.id + \
                     '%12.3f ' % p.e + '%12.3f ' % p.n + \
                     '%12.3f ' % e + '%12.3f ' % n
                 self.ui.ResultTextBrowser.append(buf)
+                self.log.write(buf)
                 pp = Point(p_num, e, n, pc='transformed')
                 ScPoint(p).store_coord(2, "tmp_to_shape")
         QgsMapLayerRegistry.instance().removeMapLayer("tmp_to_shape")
