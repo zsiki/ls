@@ -7,9 +7,10 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import platform
-from PyQt4.QtGui import QDialog, QFont
+from PyQt4.QtGui import QDialog, QFont, QMessageBox
 
 from network_calc import Ui_NetworkCalcDialog
+from base_classes import *
 from surveying_util import *
 from gama_interface import *
 # debugging
@@ -20,10 +21,11 @@ import pdb
 class NetworkDialog(QDialog):
     """ Class for network calculation dialog
     """
-    def __init__(self):
+    def __init__(self, log):
         """ Initialize dialog data and event handlers
         """
         super(NetworkDialog, self).__init__()
+        self.log = log
         self.ui = Ui_NetworkCalcDialog()
         self.ui.setupUi(self)
         if platform.system() == 'Linux':
@@ -201,6 +203,9 @@ class NetworkDialog(QDialog):
             t = g.adjust()
             if t is None:
                 # adjustment failed
-                self.ui.ResultTextBrowser.append('gama-local not installed or other runtime error')
+                QMessageBox.warning(self, tr("Warning"),
+                    tr('gama-local not installed or other runtime error'))
             else:
                 self.ui.ResultTextBrowser.append(t)
+                self.log.write_log(tr("Network adjustment"))
+                self.log.write(t)

@@ -76,7 +76,7 @@ class SurveyingCalculation:
         self.newp_dlg = NewPointDialog()
         self.single_dlg = SingleDialog(self.log)
         self.traverse_dlg = TraverseDialog(self.log)
-        self.network_dlg = NetworkDialog()
+        self.network_dlg = NetworkDialog(self.log)
         self.transformation_dlg = TransformationDialog()
         self.batchplotting_dlg = BatchPlottingDialog()
         
