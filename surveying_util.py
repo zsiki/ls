@@ -459,7 +459,7 @@ class ScPoint(Point):
         # e, n coordinates must be given (geometry)
         if self.e is None or self.n is None:
             # TODO error report
-            return
+            return False
         lay = get_layer_by_name(self.coo)
         if lay is None:
             return False
@@ -501,6 +501,7 @@ class ScPoint(Point):
         feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(self.e, self.n)))
         lay.dataProvider().addFeatures([feat])
         # TODO refresh canvas
+        return True
     
     def set_coord(self, p):
         """ Set the coordinates
