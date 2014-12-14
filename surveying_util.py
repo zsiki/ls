@@ -15,7 +15,7 @@ from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
 def get_namelist(pattern):
-    """ Find layers matching name with the pattern
+    """ Find layers matching name with the pattern.
 
         :param pattern: regexp pattern for layer name (str)
         :returns: list of matching names or None
@@ -30,21 +30,21 @@ def get_namelist(pattern):
     return None
 
 def get_coordlist():
-    """ Find the coordinate list point shape in the actual project
+    """ Find the coordinate list point shape in the actual project.
 
         :returns: layer name or None
     """
     return get_namelist('^coord_')
 
 def get_fblist():
-    """ Find the fieldbook tables in the actual project
+    """ Find the fieldbook tables in the actual project.
 
         :returns: layer name or None
     """
     return get_namelist('^fb_')
 
 def get_layer_by_name(name):
-    """ Look for a layer object by name
+    """ Look for a layer object by name.
 
         :param name: name of the layer (str)
         :returns: layer object 
@@ -59,7 +59,7 @@ def get_layer_by_name(name):
     return None
 
 def get_vector_layers_by_type(ftype):
-    """ Find layers with type of polygon
+    """ Find layers by the geometry type.
 
         :param ftype: type of layer (point, line, polygon)
         :returns: list of names of polygon layers or None
@@ -100,7 +100,7 @@ def get_features(layername, ftype=None, selected=False):
     return None
 
 def get_fieldlist(vlayer):
-    """ Create a list of fields
+    """ Create a list of fields.
 
         :param vlayer: vector layer
         :returns: list of fields
@@ -112,7 +112,7 @@ def get_fieldlist(vlayer):
     return myFields
 
 def get_fieldnames(vlayer):
-    """ Create a list from column names of a vector layer
+    """ Create a list from column names of a vector layer.
 
         :paramter vlayer: vector layer
         :returns: sorted list of field names
@@ -125,7 +125,7 @@ def get_fieldnames(vlayer):
     return sorted(fieldlist)
 
 def get_coord(p, clist=None):
-    """ Get the coordinates of a point 
+    """ Get the coordinates of a point.
 
         :param p: point number (str)
         :param clist: coordinate list to search for (str), optional
@@ -158,7 +158,7 @@ def get_coord(p, clist=None):
     return None
 
 def get_known(dimension=2, clist=None):
-    """ Get list of known points
+    """ Get list of known points.
 
         :param dimension: 1/2/3 point dimension, default: 2
         :param clist: single coordinate list to search, default None (all lists)
@@ -186,7 +186,7 @@ def get_known(dimension=2, clist=None):
     return None
     
 def get_measured(dimension=2):
-    """ Get list of unknown points
+    """ Get list of unknown points.
 
         :param dimension: 1/2/3 point dimension
         :returns: list of point ids
@@ -219,7 +219,7 @@ def get_measured(dimension=2):
     return None
 
 def get_unknown(dimension=2):
-    """ Get list of measured points
+    """ Get list of measured points.
 
         :param dimension: 1/2/3 point dimension
         :returns: list of [point id, True/False], second element marks if point have coordinates of dimension
@@ -246,7 +246,7 @@ def get_unknown(dimension=2):
     return None
 
 def get_stations(known=False, oriented=False):
-    """ Get list of stations from fieldbooks
+    """ Get list of stations from fieldbooks.
 
         :param known: If True only known points get into list.
         :param oriented: If True only oriented stations get into list.
@@ -279,7 +279,7 @@ def get_stations(known=False, oriented=False):
     return None
 
 def get_targets(point_id, fieldbook, fid, known=False, polar=False):
-    """ Collect observation data from one station
+    """ Collect observation data from one station.
 
         :param point_id: station number/name (str)
         :param fieldbook: name of fieldbook (str)
@@ -401,7 +401,7 @@ def set_orientationangle(point_id, fieldbook, fid, angle):
 
 class ScPoint(Point):
     """
-        Extended point class to store table position
+        Extended point class to store table position.
     """
 
     def __init__(self, p, coo=None):
@@ -421,7 +421,7 @@ class ScPoint(Point):
         self.coo = coo
 
     def get_coord(self):
-        """ Get the coordinates of the point from coord table and update coordinate fields
+        """ Get the coordinates of the point from coord table and update coordinate fields.
         """
         p = get_coord(self.id)
         if p is None:
@@ -442,7 +442,7 @@ class ScPoint(Point):
         return
 
     def store_coord(self, dimension=3, clist=None):
-        """ Update coordinates in coord table, insert new point if coo is None or point not found
+        """ Update coordinates in coord table, insert new point if coo is None or point not found.
 
             :param dimension: 1/2/3D coordinates to store (int)
             :param clist: name of layer to add (str)
@@ -504,7 +504,7 @@ class ScPoint(Point):
         return True
     
     def set_coord(self, p):
-        """ Set the coordinates
+        """ Set the coordinates.
 
             :param p: Point
         """
