@@ -8,7 +8,7 @@
 .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 import platform
-from PyQt4.QtGui import QDialog, QFileDialog, QFont
+from PyQt4.QtGui import QDialog, QFileDialog, QFont, QMessageBox
 from PyQt4.QtCore import SIGNAL, QCoreApplication
 
 from transformation_calc import Ui_TransformationCalcDialog
@@ -166,9 +166,15 @@ class TransformationDialog(QDialog):
         """ Start transformation calculation
         """
         from_list = self.ui.FromLayerComboBox.currentText()
+        if len(from_list) == 0:
+            QMessageBox.warning(self, tr("Warning"), tr("Select from layer!"))
+            return
         to_list = 'tmp_to_shape'
         p_list = []
         to_name = self.ui.ToShapeEdit.text()
+        if len(to_name) == 0:
+            QMessageBox.warning(self, tr("Warning"), tr("Select to shape file!"))
+            return
         to_shp = QgsVectorLayer(to_name, "tmp_to_shape", "ogr") 
         QgsMapLayerRegistry.instance().addMapLayer(to_shp, False)
         for point_id in self.used:
@@ -197,6 +203,10 @@ class TransformationDialog(QDialog):
             tr_res = Calculation.polynomial_transformation(p_list, 5)
             tr_func = self.poly5_tr
             w = tr('\n5th order polynomial transformation')
+        else:
+            QMessageBox.warning(self, tr("Warning"), tr("Select transformation type!"))
+            return
+
         self.ui.ResultTextBrowser.append(w)
         self.log.write()
         self.log.write_log(w)
@@ -215,9 +225,9 @@ class TransformationDialog(QDialog):
                 '%6.3f ' % de + '%6.3f ' % dn
             self.ui.ResultTextBrowser.append(buf)
             self.log.write(buf)
-        # transform and store 
+        # transform and store new points
         for p_num in self.from_points:
-            if not p_num in self.used:
+            if not p_num in self.used and not p_num in self.common:
                 p = get_coord(p_num, from_list)
                 (e, n) = tr_func(p, tr_res)
                 buf = '%-20s ' % p.id + \
