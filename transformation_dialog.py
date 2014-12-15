@@ -15,6 +15,9 @@ from transformation_calc import Ui_TransformationCalcDialog
 from base_classes import *
 from surveying_util import *
 from calculation import *
+# debugging
+from PyQt4.QtCore import pyqtRemoveInputHook
+import pdb
 
 class TransformationDialog(QDialog):
     """ Class for transformation calculation dialog
@@ -226,6 +229,8 @@ class TransformationDialog(QDialog):
             self.ui.ResultTextBrowser.append(buf)
             self.log.write(buf)
         # transform and store new points
+        pyqtRemoveInputHook()
+        pdb.set_trace()
         for p_num in self.from_points:
             if not p_num in self.used and not p_num in self.common:
                 p = get_coord(p_num, from_list)
@@ -236,7 +241,7 @@ class TransformationDialog(QDialog):
                 self.ui.ResultTextBrowser.append(buf)
                 self.log.write(buf)
                 pp = Point(p_num, e, n, pc='transformed')
-                ScPoint(p).store_coord(2, "tmp_to_shape")
+                ScPoint(pp).store_coord(2, "tmp_to_shape")
         QgsMapLayerRegistry.instance().removeMapLayer("tmp_to_shape")
 
     def ortho_tr(self, p, tr):
