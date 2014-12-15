@@ -143,7 +143,7 @@ class SurveyingCalculation:
         self.menu.setTitle(tr(u'&SurveyingCalculation'))
         self.sc_coord = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_coord.png')), tr("New coordinate list ..."), self.iface.mainWindow())
         self.sc_fb = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_fb.png')),tr("New fieldbook ..."), self.iface.mainWindow())
-        self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')), tr("Load fieldbook ..."), self.iface.mainWindow())
+        self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','open_fieldbook.png')), tr("Import fieldbook ..."), self.iface.mainWindow())
         self.sc_addp = QAction(QIcon(os.path.join(self.plugin_dir,'icons','addp.png')), tr("Add new point ..."), self.iface.mainWindow())
         self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','single_calc.png')), tr("Single point calculations ..."), self.iface.mainWindow())
         self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')), tr("Traverse calculations ..."), self.iface.mainWindow())
@@ -231,7 +231,7 @@ class SurveyingCalculation:
             QgsMapLayerRegistry.instance().addMapLayer(fb)
 
     def load_fieldbook(self):
-        """ Load an electric fieldbook from file (GSI, JOB/ARE, ...)
+        """ Import an electric fieldbook from file (GSI, JOB/ARE, ...)
         """
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(),
             tr('Electric fieldbook'),
