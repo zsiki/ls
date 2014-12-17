@@ -8,9 +8,8 @@
 
 """
 # generic python modules
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, QFile, QIODevice
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant
 from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox, QFileDialog, QDialog
-from PyQt4.QtXml import QDomDocument
 from qgis.core import *
 # Initialize Qt resources from file resources.py
 import resources_rc
@@ -36,8 +35,8 @@ from calculation import *
 from resultlog import *
 
 import sys
-#sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
-#import pydevd
+sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
+import pydevd
 
 class SurveyingCalculation:
     """SurveyingCalculation QGIS Plugin Implementation."""
@@ -47,7 +46,7 @@ class SurveyingCalculation:
 
         :param iface: an interface instance that will be passed to this class which provides the hook by which you can manipulate the QGIS application at run time (QgsInterface)
         """
-        #pydevd.settrace()
+        pydevd.settrace()
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
@@ -78,11 +77,8 @@ class SurveyingCalculation:
         self.traverse_dlg = TraverseDialog(self.log)
         self.network_dlg = NetworkDialog(self.log)
         self.transformation_dlg = TransformationDialog(self.log)
-        self.batchplotting_dlg = BatchPlottingDialog()
+        self.batchplotting_dlg = BatchPlottingDialog(self.iface)
         
-        self.composer = None
-        self.composition = None
-
         # Declare instance attributes
 
     # noinspection PyMethodMayBeStatic
@@ -370,69 +366,12 @@ class SurveyingCalculation:
             QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),
                 tr("This utility needs at least one polygon type layer!"))
             return
-        
-        # fill polygon layers combobox
-        self.batchplotting_dlg.ui.LayersComboBox.clear()
-        self.batchplotting_dlg.ui.LayersComboBox.addItems(polygon_layers)
-        
+
         # show the dialog
         self.batchplotting_dlg.show()
         # Run the dialog event loop
         result = self.batchplotting_dlg.exec_()
         
-        if result:
-            #check if there are selected items on polygon layers
-            selected_layer = self.batchplotting_dlg.ui.LayersComboBox.currentText()
-            selected_polygons = get_features(selected_layer,QGis.Polygon,True)
-            if selected_polygons is None:
-                QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),
-                    tr("Select at least one polygon on any polygon type layer!"))
-                return
-
-            fname = self.batchplotting_dlg.template_file
-            scale = self.batchplotting_dlg.scale
-
-            # read template file
-            template_file = QFile( fname )
-            template_file.open(QIODevice.ReadOnly | QIODevice.Text)
-            template_content = template_file.readAll()
-            template_file.close()
-            document = QDomDocument()
-            document.setContent(template_content)
-
-            # plot all selected polygon
-            i = 1
-            for polygon in selected_polygons:
-                # get map renderer of map canvas        
-                renderer = self.iface.mapCanvas().mapRenderer()
-                self.composition = QgsComposition(renderer)
-                self.composition.loadFromTemplate(document)
-
-                #adjust polygon size to map
-                bbox = polygon.boundingBox()
-                cmapItems = self.composition.composerMapItems()
-                for cmap in cmapItems:
-                    extent = cmap.extent()
-                    polygon_ratio = bbox.width()/bbox.height()
-                    map_ratio = extent.width()/extent.height()
-                    if map_ratio < polygon_ratio:
-                        dh = bbox.width() / map_ratio - bbox.height()
-                        bbox.setYMinimum( bbox.yMinimum() - dh / 2 );
-                        bbox.setYMaximum( bbox.yMaximum() + dh / 2 );
-                    else:
-                        dw = map_ratio * bbox.height() - bbox.width()
-                        bbox.setXMinimum( bbox.xMinimum() - dw / 2 );
-                        bbox.setXMaximum( bbox.xMaximum() + dw / 2 );
-                    cmap.setNewExtent(bbox)
-                    cmap.setNewScale(scale)
-            
-                # create pdf
-                fname = "composition_%03d.pdf" % i
-                self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp",fname))
-                i = i + 1
-                #self.composer = self.iface.createNewComposer() 
-                #self.composer.setComposition(self.composition)
-
     def about(self):
         """ About box of the plugin
         """
