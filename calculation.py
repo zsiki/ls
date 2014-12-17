@@ -3,7 +3,7 @@
 """
 .. module: calculation
     :platform: Linux, Windows
-	:synopsis: pure calculation class
+    :synopsis: pure calculation class
 
 .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 
@@ -487,34 +487,34 @@ class Calculation(object):
         return plist
 
     @staticmethod
-    def __GaussElimination(self, a, b, size):
+    def gauss_elimination(a, b):
         """ Solve a linear equation system::
                 a * x = b
-                a & b are changed!
 
-            :param a: matrix of the equation system
-            :param b: vector of pure term of equations
-            :param size: size of the matrix
-            :returns: will be in vector b, the inverse will be in matrix a
+            :param a: coefficients of the equation system (list of lists)
+            :param b: list of pure term of equations
+            :returns: (unknowns, inverse_matrix)
         """
+        size = len(b)
         for i in range(0,size):
-            q = 1.0 / a[i,i]
+            q = 1.0 / a[i][i]
             for k in range(0,size):
                 if i != k:
-                    a[i,k] = q * a[i,k]
+                    a[i][k] = q * a[i][k]
                 else:
-                    a[i,k] = q
+                    a[i][k] = q
         
             b[i] = q * b[i]
             for j in range(0,size):
                 if j != i:
-                    t = a[j,i]
+                    t = a[j][i]
                     for k in range(0,size):
                         if i != k :
-                            a[j,k] =a[j,k] - t * a[i,k]
+                            a[j][k] =a[j][k] - t * a[i][k]
                         else:
-                            a[j,k] = -t * q
+                            a[j][k] = -t * q
                     b[j] = b[j] - t * b[i]
+        return (b, a)
     
     @staticmethod
     def orthogonal_transformation(plist):
@@ -559,7 +559,8 @@ class Calculation(object):
         N0 = (Ns - c * ns - d * es) / float(len(plist))
         return [E0, N0, c, d]
 
-    def ____orthogonal3tr(self, plist):
+    @staticmethod
+    def orthogonal3tr(plist):
         """ Calculate parameters of orthogonal transformation. Three parameters::
 
             E = E0 + cos(alpha) * e - sin(alpha) * n
@@ -569,7 +570,7 @@ class Calculation(object):
             :returns: the list of transformation parameters {E0 N0 alpha}
         """
         # approximate values from Helmert4
-        appr = self.__orthogonaltr4tr(plist)
+        appr = Calculation.orthogonal_transformation(plist)
         E0 = appr[0]
         N0 = appr[1]
         alpha = math.atan2(appr[3], appr[2])
@@ -603,22 +604,22 @@ class Calculation(object):
 
         # set matrix of normal equation
         ata = []
-        ata[0,0] = len(plist)
-        ata[0,1] = 0.0
-        ata[0,2] = s1
-        ata[1,0] = 0.0
-        ata[1,1] = len(plist)
-        ata[1,2] = s2
-        ata[2,0] = s1
-        ata[2,1] = s2
-        ata[2,2] = s3
+        ata[0][0] = len(plist)
+        ata[0][1] = 0.0
+        ata[0][2] = s1
+        ata[1][0] = 0.0
+        ata[1][1] = len(plist)
+        ata[1][2] = s2
+        ata[2][0] = s1
+        ata[2][1] = s2
+        ata[2][2] = s3
         # set A*l
         al = []
         al[0] = s4
         al[1] = s5
         al[2] = s6
         # solve the normal equation
-        self.__GaussElimination(ata, al, 3)
+        Calculation.gauss_elimination(ata, al)
 
         return [ E0 + al[0], N0 + al[1], alpha + al[2] ]
 
@@ -687,9 +688,9 @@ class Calculation(object):
             :param degree: degree of transformation 3/4/5
             :returns: the list of parameters X0 Y0 a1 b1 a2 b2 a3 b3 ...  and the weight point coordinates in source and target system
         """
-        # set up A matrix (a1 for x, a2 for y)
+        # set up A matrix (a1 for e, a2 for n)
         n = len(plist)     # number of points
-        m = (degree + 1) * (degree + 2) / 2    # number of unknowns
+        m = (degree + 1) * (degree + 2) // 2    # number of unknowns
         # calculate average x and y to reduce rounding errors
         s1 = 0.0
         s2 = 0.0
@@ -709,10 +710,10 @@ class Calculation(object):
         avgE = S1 / n
         avgN = S2 / n
         i = 0
-        a1 = []
-        a2 = []
-        l1 = []
-        l2 = []
+        a1 = [[0 for x in range(m)] for x in range(n)]
+        a2 = [[0 for x in range(m)] for x in range(n)]
+        l1 = [0 for x in range(n)]
+        l2 = [0 for x in range(n)]
         for p in plist:
             e = p[0].e - avge
             n = p[0].n - avgn
@@ -722,8 +723,8 @@ class Calculation(object):
             for j in range(0,degree+1):
                 for k in range(0,degree+1):
                     if j + k <= degree:
-                        a1[i,l] = math.pow(e,k) * math.pow(n,j)
-                        a2[i,l] = math.pow(e,k) * math.pow(n,j)
+                        a1[i][l] = math.pow(e,k) * math.pow(n,j)
+                        a2[i][l] = math.pow(e,k) * math.pow(n,j)
                         l = l + 1
             l1[i] = E
             l2[i] = N
@@ -731,41 +732,35 @@ class Calculation(object):
             
         # set matrix of normal equation
         # N1 = a1T*a1, N2 = a2T * a2, n1 = a1T * l1, n2 = a2T * l2
-        N1 = []
-        N2 = []
-        n1 = []
-        n2 = []
+        N1 = [[0 for x in range(m)] for x in range(m)]
+        N2 = [[0 for x in range(m)] for x in range(m)]
+        n1 = [0 for x in range(m)]
+        n2 = [0 for x in range(m)]
         for i in range(0,m):
             for j in range(i,m):
                 s1 = 0.0
                 s2 = 0.0
                 for k in range(0,n):
-                    s1 = s1 + a1[k,i] * a1[k,j]
-                    s2 = s2 + a2[k,i] * a2[k,j]
-                N1[i,j] = s1
-                N1[j,i] = s1
-                N2[i,j] = s2
-                N2[j,i] = s2
+                    s1 = s1 + a1[k][i] * a1[k][j]
+                    s2 = s2 + a2[k][i] * a2[k][j]
+                N1[i][j] = s1
+                N1[j][i] = s1
+                N2[i][j] = s2
+                N2[j][i] = s2
         for i in range(0,m):
             s1 = 0.0
             s2 = 0.0
             for k in range(0,n):
-                s1 = s1 + a1[k,i] * l1[k]
-                s2 = s2 + a2[k,i] * l2[k]
+                s1 = s1 + a1[k][i] * l1[k]
+                s2 = s2 + a2[k][i] * l2[k]
             n1[i] = s1
             n2[i] = s2
 
         # solve the normal equation
-        self.__GaussElimination(N1, n1, m)
-        self.__GaussElimination(N2, n2, m)
-        res = []
-        res.append(n1)
-        res.append(n2)
-        #for i in range(0,m):
-        #    res.append(n1[i], n2[i])
-        #res.append(avge, avgn, avgE, avgN)
+        x1 = Calculation.gauss_elimination(N1, n1)
+        x2 = Calculation.gauss_elimination(N2, n2)
         res.append([avge, avgn, avgE, avgN])
-        return res
+        return (x1, x2, [avge, avgn, avgE, avgN])
 
 if __name__ == "__main__":
     """
