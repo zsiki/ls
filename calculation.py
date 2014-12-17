@@ -689,7 +689,7 @@ class Calculation(object):
             :returns: the list of parameters X0 Y0 a1 b1 a2 b2 a3 b3 ...  and the weight point coordinates in source and target system
         """
         # set up A matrix (a1 for e, a2 for n)
-        n = len(plist)     # number of points
+        np = len(plist)     # number of points
         m = (degree + 1) * (degree + 2) // 2    # number of unknowns
         # calculate average x and y to reduce rounding errors
         s1 = 0.0
@@ -705,15 +705,15 @@ class Calculation(object):
             N = p[1].n
             S1 = S1 + E
             S2 = S2 + N
-        avge = s1 / n
-        avgn = s2 / n
-        avgE = S1 / n
+        avge = s1 / np
+        avgn = s2 / np
+        avgE = S1 / np
         avgN = S2 / n
         i = 0
-        a1 = [[0 for x in range(m)] for x in range(n)]
-        a2 = [[0 for x in range(m)] for x in range(n)]
-        l1 = [0 for x in range(n)]
-        l2 = [0 for x in range(n)]
+        a1 = [[0 for x in range(m)] for x in range(np)]
+        a2 = [[0 for x in range(m)] for x in range(np)]
+        l1 = [0 for x in range(np)]
+        l2 = [0 for x in range(np)]
         for p in plist:
             e = p[0].e - avge
             n = p[0].n - avgn
@@ -740,7 +740,7 @@ class Calculation(object):
             for j in range(i,m):
                 s1 = 0.0
                 s2 = 0.0
-                for k in range(0,n):
+                for k in range(0,np):
                     s1 = s1 + a1[k][i] * a1[k][j]
                     s2 = s2 + a2[k][i] * a2[k][j]
                 N1[i][j] = s1
@@ -750,16 +750,15 @@ class Calculation(object):
         for i in range(0,m):
             s1 = 0.0
             s2 = 0.0
-            for k in range(0,n):
+            for k in range(0,np):
                 s1 = s1 + a1[k][i] * l1[k]
                 s2 = s2 + a2[k][i] * l2[k]
             n1[i] = s1
             n2[i] = s2
 
         # solve the normal equation
-        x1 = Calculation.gauss_elimination(N1, n1)
-        x2 = Calculation.gauss_elimination(N2, n2)
-        res.append([avge, avgn, avgE, avgN])
+        (x1, inv1) = Calculation.gauss_elimination(N1, n1)
+        (x2, inv2) = Calculation.gauss_elimination(N2, n2)
         return (x1, x2, [avge, avgn, avgE, avgN])
 
 if __name__ == "__main__":

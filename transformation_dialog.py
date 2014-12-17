@@ -270,14 +270,16 @@ class TransformationDialog(QDialog):
         """ Calculate 3rd order polynomial transformation for a point
 
             :param p: point to transform (Point)
-            :param tr: transformation parameters
-            :returns: list of easting and northin of transformed coordinates
+            :param tr: transformation parameters (list of lists)
+            :returns: list of easting and northing of transformed coordinates
         """
+        pyqtRemoveInputHook()
+        pdb.set_trace()
         de = p.e - tr[2][0]
         dn = p.n - tr[2][1]
         e = tr[0][0] + tr[0][1] * de + tr[0][2] * de**2 + tr[0][3] * de **3 + \
             tr[0][4] * dn + tr[0][5] * de * dn + tr[0][6] * de**2 * dn + \
-            tr[0][7] * dn **2 + tr[0][8] * de * dn**2 + tr[0][9] * dn**3 + \
+            tr[0][7] * dn**2 + tr[0][8] * de * dn**2 + tr[0][9] * dn**3 + \
             tr[2][2]
         n = tr[1][0] + tr[1][1] * de + tr[1][2] * de**2 + tr[1][3] * de **3 + \
             tr[1][4] * dn + tr[1][5] * de * dn + tr[1][6] * de**2 * dn + \
