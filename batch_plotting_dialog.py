@@ -8,7 +8,7 @@
 """
 import os, glob, ctypes
 from PyQt4.QtCore import QFile, QIODevice
-from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox
+from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox, QListWidgetItem
 from PyQt4.QtXml import QDomDocument
 from batch_plotting import Ui_BatchPlottingDialog
 from base_classes import *
@@ -39,8 +39,13 @@ class BatchPlottingDialog(QDialog):
     def showEvent(self, event):
         """ Reset dialog when receives a show event.
         """
+        self.fillLayersCombo()
+        self.fillTemplateList()
+
+    def fillLayersCombo(self):
+        """ Fill the polygon layers combobox.
+        """
         oldSelectedLayer = self.ui.LayersComboBox.itemText( self.ui.LayersComboBox.currentIndex() )
-        # fill polygon layers combobox
         self.ui.LayersComboBox.clear()
         polygon_layers = get_vector_layers_by_type(QGis.Polygon)
         self.ui.LayersComboBox.addItems(polygon_layers)
@@ -49,12 +54,19 @@ class BatchPlottingDialog(QDialog):
     def fillTemplateList(self):
         """ Fill the listbox of composer template files.
         """
+        if self.ui.TemplateList.currentItem() is not None:
+            oldSelectedTemplate = self.ui.TemplateList.currentItem().text()
+        else:
+            oldSelectedTemplate = ""
         self.ui.TemplateList.clear()
         if  os.path.exists(self.dirpath):
             pattern = os.path.join(self.dirpath,'*.qpt')
             for temp in glob.iglob(pattern):
                 tname = os.path.basename(temp)
-                self.ui.TemplateList.addItem(tname)
+                item = QListWidgetItem(tname)
+                self.ui.TemplateList.addItem(item)
+                if tname == oldSelectedTemplate:
+                    self.ui.TemplateList.setCurrentItem( item )
 
     def onTempDirButton(self):
         """ Change the directory that contains print composer templates.
@@ -133,6 +145,7 @@ class BatchPlottingDialog(QDialog):
             #self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp",fname))
             #i = i + 1
             composer = self.iface.createNewComposer() 
+            composer.composerWindow().hide()
             composer.setComposition(self.composition)
             # Increase the reference count of the composer object 
             # for not being garbage collected.
