@@ -19,6 +19,12 @@ Base classes, functions
 .. automodule:: SurveyingCalculation.base_classes
    :members:
 
+Batch plotting GUI
+==================
+
+.. automodule:: SurveyingCalculation.batch_plotting_dialog
+   :members:
+
 Mathematical calculations
 =========================
 
@@ -34,6 +40,11 @@ Network adjusment calculation GUI
 =================================
 
 .. automodule:: SurveyingCalculation.network_dialog
+   :members:
+
+Add new point GUI
+=================
+.. automodule:: SurveyingCalculation.new_point_dialog
    :members:
 
 Text file loging
@@ -70,11 +81,5 @@ Traverse calculation GUI
 ========================
 
 .. automodule:: SurveyingCalculation.traverse_dialog
-   :members:
-
-Batch plotting GUI
-==================
-
-.. automodule:: SurveyingCalculation.batch_plotting_dialog
    :members:
 
