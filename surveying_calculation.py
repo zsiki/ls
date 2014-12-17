@@ -325,6 +325,9 @@ class SurveyingCalculation:
     def addp(self):
         """ Add point(s) to coordinate list entering coordinates
         """
+        if get_coordlist() is None:
+            QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("A coordinate list must be opened!"))
+            return
         # show the dialog
         self.newp_dlg.show()
         # Run the dialog event loop
