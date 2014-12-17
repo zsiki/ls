@@ -6,7 +6,7 @@
 
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
-import os, glob
+import os, glob, ctypes
 from PyQt4.QtCore import QFile, QIODevice
 from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox
 from PyQt4.QtXml import QDomDocument
@@ -36,9 +36,6 @@ class BatchPlottingDialog(QDialog):
 
         self.fillTemplateList()
         
-        self.composer = None
-        self.composition = None
-
     def showEvent(self, event):
         """ Reset dialog when receives a show event.
         """
@@ -132,11 +129,16 @@ class BatchPlottingDialog(QDialog):
                 cmap.setNewScale(scale)
             
             # create pdf
-            fname = "composition_%03d.pdf" % i
-            self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp",fname))
-            i = i + 1
-            #self.composer = self.iface.createNewComposer() 
-            #self.composer.setComposition(self.composition)
+            #fname = "composition_%03d.pdf" % i
+            #self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp",fname))
+            #i = i + 1
+            composer = self.iface.createNewComposer() 
+            composer.setComposition(self.composition)
+            # Increase the reference count of the composer object 
+            # for not being garbage collected.
+            # If not doing this composer would lost reference and qgis would crash 
+            # when referring to this composer object or at quit.
+            ctypes.c_long.from_address( id(composer) ).value += 1
 
         self.accept()
         
