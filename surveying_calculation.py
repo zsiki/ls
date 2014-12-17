@@ -180,6 +180,8 @@ class SurveyingCalculation:
         self.toolbar.setObjectName(u'SurveyingCalculation')
         self.toolbar.addActions([self.sc_load, self.sc_addp, self.sc_calc, self.sc_trav,
             self.sc_netw, self.sc_tran, self.sc_pdiv, self.sc_plot, self.sc_batchplot])
+        self.toolbar.insertSeparator(self.sc_calc)
+        self.toolbar.insertSeparator(self.sc_plot)
 
     def unload(self):
         """ Removes the plugin menu item and icon from QGIS GUI.
