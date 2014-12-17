@@ -303,27 +303,52 @@
     <attribute name="title">
      <string>To Printer</string>
     </attribute>
-    <widget class="QComboBox" name="PrinterCombo">
+    <widget class="QPushButton" name="PrintSetupButton">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
-       <width>241</width>
-       <height>22</height>
+       <y>20</y>
+       <width>81</width>
+       <height>23</height>
       </rect>
      </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Print setup ...</string>
+     </property>
     </widget>
-    <widget class="QLabel" name="PrinterLabel">
+    <widget class="QLineEdit" name="PrinterEdit">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
+       <y>80</y>
+       <width>241</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
        <width>81</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>Printers:</string>
+      <string>Printer:</string>
      </property>
     </widget>
    </widget>

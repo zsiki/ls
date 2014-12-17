@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'batch_plotting.ui'
 #
-# Created: Wed Dec 17 21:22:57 2014
+# Created: Wed Dec 17 21:49:30 2014
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -113,12 +113,22 @@ class Ui_BatchPlottingDialog(object):
         self.OutputTab.addTab(self.toPDF, _fromUtf8(""))
         self.toPrinter = QtGui.QWidget()
         self.toPrinter.setObjectName(_fromUtf8("toPrinter"))
-        self.PrinterCombo = QtGui.QComboBox(self.toPrinter)
-        self.PrinterCombo.setGeometry(QtCore.QRect(10, 30, 241, 22))
-        self.PrinterCombo.setObjectName(_fromUtf8("PrinterCombo"))
-        self.PrinterLabel = QtGui.QLabel(self.toPrinter)
-        self.PrinterLabel.setGeometry(QtCore.QRect(10, 10, 81, 16))
-        self.PrinterLabel.setObjectName(_fromUtf8("PrinterLabel"))
+        self.PrintSetupButton = QtGui.QPushButton(self.toPrinter)
+        self.PrintSetupButton.setGeometry(QtCore.QRect(10, 20, 81, 23))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.PrintSetupButton.sizePolicy().hasHeightForWidth())
+        self.PrintSetupButton.setSizePolicy(sizePolicy)
+        self.PrintSetupButton.setObjectName(_fromUtf8("PrintSetupButton"))
+        self.PrinterEdit = QtGui.QLineEdit(self.toPrinter)
+        self.PrinterEdit.setEnabled(False)
+        self.PrinterEdit.setGeometry(QtCore.QRect(10, 80, 241, 20))
+        self.PrinterEdit.setReadOnly(False)
+        self.PrinterEdit.setObjectName(_fromUtf8("PrinterEdit"))
+        self.label = QtGui.QLabel(self.toPrinter)
+        self.label.setGeometry(QtCore.QRect(10, 60, 81, 16))
+        self.label.setObjectName(_fromUtf8("label"))
         self.OutputTab.addTab(self.toPrinter, _fromUtf8(""))
         self.toComposerView = QtGui.QWidget()
         self.toComposerView.setObjectName(_fromUtf8("toComposerView"))
@@ -165,7 +175,8 @@ class Ui_BatchPlottingDialog(object):
         self.OutDirButton.setText(_translate("BatchPlottingDialog", "...", None))
         self.PrefixLabel.setText(_translate("BatchPlottingDialog", "Fiename prefix: [prefix]_0001.pdf)", None))
         self.OutputTab.setTabText(self.OutputTab.indexOf(self.toPDF), _translate("BatchPlottingDialog", "To PDF", None))
-        self.PrinterLabel.setText(_translate("BatchPlottingDialog", "Printers:", None))
+        self.PrintSetupButton.setText(_translate("BatchPlottingDialog", "Print setup ...", None))
+        self.label.setText(_translate("BatchPlottingDialog", "Printer:", None))
         self.OutputTab.setTabText(self.OutputTab.indexOf(self.toPrinter), _translate("BatchPlottingDialog", "To Printer", None))
         self.ComposerLabel.setText(_translate("BatchPlottingDialog", "Composer name:", None))
         self.OutputTab.setTabText(self.OutputTab.indexOf(self.toComposerView), _translate("BatchPlottingDialog", "To Composer View", None))
