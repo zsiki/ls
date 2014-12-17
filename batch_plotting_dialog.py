@@ -8,7 +8,8 @@
 """
 import os, glob, ctypes
 from PyQt4.QtCore import QFile, QIODevice
-from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox, QListWidgetItem
+from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox, QListWidgetItem, \
+                        QPrintDialog, QPrinter
 from PyQt4.QtXml import QDomDocument
 from batch_plotting import Ui_BatchPlottingDialog
 from base_classes import *
@@ -29,12 +30,13 @@ class BatchPlottingDialog(QDialog):
         self.ui.PlotButton.clicked.connect(self.onPlotButton)
         self.ui.TempDirButton.clicked.connect(self.onTempDirButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
+        self.ui.PrintSetupButton.clicked.connect(self.onPrinterSetupButton)
         self.ui.TemplateList.setSortingEnabled(True)
         
         self.plugin_dir = os.path.dirname(os.path.abspath(__file__))
         self.dirpath = os.path.join(self.plugin_dir, 'template')
 
-        self.fillTemplateList()
+        self.printer = None
         
     def showEvent(self, event):
         """ Reset dialog when receives a show event.
@@ -76,6 +78,15 @@ class BatchPlottingDialog(QDialog):
         if dirpath!="":
             self.dirpath = dirpath 
         self.fillTemplateList()
+        
+    def onPrinterSetupButton(self):
+        """ Set up printer for batch plotting.
+        """
+        self.printer = QPrinter()
+        pdlg = QPrintDialog(self.printer)
+        pdlg.setModal(True)
+        if pdlg.exec_() == QDialog.Accepted:
+            self.ui.PrinterEdit.setText( self.printer.printerName() )
 
     def onPlotButton(self):
         """ Batch plots selected geometry items using the selected template and scale.
@@ -105,6 +116,19 @@ class BatchPlottingDialog(QDialog):
             QMessageBox.warning(self, tr("Warning"),
                 tr("Select at least one polygon on layer '%s'!"%selected_layer))
             return
+        
+        # check output setting
+        if self.ui.OutputTab.currentIndex() == 0:    # to PDF
+            # TODO checkings
+            pass
+        elif self.ui.OutputTab.currentIndex() == 1:  # to Printer 
+            if self.printer is None:
+                QMessageBox.warning(self, tr("Warning"),
+                    tr("Set up the printer!"))
+                return
+        elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
+            # TODO checkings
+            pass
 
         # read template file
         template_file = QFile( self.template_file )
@@ -115,7 +139,7 @@ class BatchPlottingDialog(QDialog):
         document.setContent(template_content)
 
         # plot all selected polygon
-        i = 1
+        i = 0
         for polygon in selected_polygons:
             # get map renderer of map canvas        
             renderer = self.iface.mapCanvas().mapRenderer()
@@ -140,18 +164,27 @@ class BatchPlottingDialog(QDialog):
                 cmap.setNewExtent(bbox)
                 cmap.setNewScale(scale)
             
-            # create pdf
-            #fname = "composition_%03d.pdf" % i
-            #self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp",fname))
-            #i = i + 1
-            composer = self.iface.createNewComposer() 
-            composer.composerWindow().hide()
-            composer.setComposition(self.composition)
-            # Increase the reference count of the composer object 
-            # for not being garbage collected.
-            # If not doing this composer would lost reference and qgis would crash 
-            # when referring to this composer object or at quit.
-            ctypes.c_long.from_address( id(composer) ).value += 1
+            if self.ui.OutputTab.currentIndex() == 0:    # to PDF
+                # create pdf
+                i += 1
+                fname = "composition_%03d.pdf" % i
+                self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp",fname))
+            elif self.ui.OutputTab.currentIndex() == 1:  # to Printer
+                # TODO send to printer
+                pass
+            elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
+                composer = self.iface.createNewComposer() 
+                composer.composerWindow().hide()
+                composer.setComposition(self.composition)
+                # Increase the reference count of the composer object 
+                # for not being garbage collected.
+                # If not doing this composer would lost reference and qgis would crash 
+                # when referring to this composer object or at quit.
+                ctypes.c_long.from_address( id(composer) ).value += 1
+
+        if self.ui.OutputTab.currentIndex() == 0:    # to PDF
+            QMessageBox.information(self, tr("Batch plotting"),
+                tr("%d PDF files were successfully created!"%i))
 
         self.accept()
         
