@@ -273,8 +273,6 @@ class TransformationDialog(QDialog):
             :param tr: transformation parameters (list of lists)
             :returns: list of easting and northing of transformed coordinates
         """
-        pyqtRemoveInputHook()
-        pdb.set_trace()
         de = p.e - tr[2][0]
         dn = p.n - tr[2][1]
         e = tr[0][0] + tr[0][1] * de + tr[0][2] * de**2 + tr[0][3] * de **3 + \
