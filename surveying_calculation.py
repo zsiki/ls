@@ -145,14 +145,16 @@ class SurveyingCalculation:
         self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')), tr("Traverse calculations ..."), self.iface.mainWindow())
         self.sc_netw = QAction(QIcon(os.path.join(self.plugin_dir,'icons','network_calc.png')), tr("Network adjustment ..."), self.iface.mainWindow())
         self.sc_tran = QAction(QIcon(os.path.join(self.plugin_dir,'icons','coord_calc.png')), tr("Coordinate transformation ..."), self.iface.mainWindow())
-        self.sc_batchplot = QAction(QIcon(os.path.join(self.plugin_dir,'icons','batch_plotting.png')), tr("Batch plotting ..."), self.iface.mainWindow())
+        self.sc_pdiv = QAction(QIcon(os.path.join(self.plugin_dir,'icons','poly_div.png')), tr("Polygon division ..."), self.iface.mainWindow())
+        self.sc_plot = QAction(QIcon(os.path.join(self.plugin_dir,'icons','plot.png')), tr("Plot by template ..."), self.iface.mainWindow())
+        self.sc_batchplot = QAction(QIcon(os.path.join(self.plugin_dir,'icons','batch_plot.png')), tr("Batch plotting ..."), self.iface.mainWindow())
         self.sc_help = QAction(tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(tr("About"), self.iface.mainWindow())
         self.menu.addActions([self.sc_coord, self.sc_fb, self.sc_load,
             self.sc_addp, self.sc_calc, self.sc_trav, self.sc_netw,
-            self.sc_tran, self.sc_batchplot, self.sc_help, self.sc_about])
+            self.sc_tran, self.sc_pdiv, self.sc_plot, self.sc_batchplot, self.sc_help, self.sc_about])
         self.menu.insertSeparator(self.sc_calc)
-        self.menu.insertSeparator(self.sc_batchplot)
+        self.menu.insertSeparator(self.sc_plot)
         self.menu.insertSeparator(self.sc_help)
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
@@ -167,6 +169,8 @@ class SurveyingCalculation:
         self.sc_trav.triggered.connect(self.traverses)
         self.sc_netw.triggered.connect(self.networks)
         self.sc_tran.triggered.connect(self.transformation)
+        self.sc_pdiv.triggered.connect(self.polygon_division)
+        self.sc_plot.triggered.connect(self.plot_by_temp)
         self.sc_batchplot.triggered.connect(self.batch_plotting)
         self.sc_about.triggered.connect(self.about)
         self.sc_help.triggered.connect(self.help)
@@ -174,8 +178,8 @@ class SurveyingCalculation:
         # add icons to toolbar
         self.toolbar = self.iface.addToolBar(u'SurveyingCalculation')
         self.toolbar.setObjectName(u'SurveyingCalculation')
-        self.toolbar.addActions([self.sc_load, self.sc_calc, self.sc_trav,
-            self.sc_netw, self.sc_tran, self.sc_addp])
+        self.toolbar.addActions([self.sc_load, self.sc_addp, self.sc_calc, self.sc_trav,
+            self.sc_netw, self.sc_tran, self.sc_pdiv, self.sc_plot, self.sc_batchplot])
 
     def unload(self):
         """ Removes the plugin menu item and icon from QGIS GUI.
@@ -356,6 +360,12 @@ class SurveyingCalculation:
         self.transformation_dlg.show()
         # Run the dialog event loop
         result = self.transformation_dlg.exec_()
+        
+    def polygon_division(self):
+        pass
+
+    def plot_by_temp(self):
+        pass
 
     def batch_plotting(self):
         """ Batch plots selected geometry items using the selected template and scale.
