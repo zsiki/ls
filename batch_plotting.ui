@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>291</width>
-    <height>300</height>
+    <height>413</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,7 +40,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>260</y>
+     <y>380</y>
      <width>81</width>
      <height>23</height>
     </rect>
@@ -59,7 +59,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>260</y>
+     <y>380</y>
      <width>81</width>
      <height>23</height>
     </rect>
@@ -185,19 +185,6 @@
     <string>Change Dir ...</string>
    </property>
   </widget>
-  <widget class="QLabel" name="TODOLabel">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>220</y>
-     <width>151</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>TODO anything output?</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="LayersLabel">
    <property name="geometry">
     <rect>
@@ -229,6 +216,145 @@
    <property name="currentIndex">
     <number>-1</number>
    </property>
+  </widget>
+  <widget class="QTabWidget" name="OutputTab">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>220</y>
+     <width>271</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="toPDF">
+    <attribute name="title">
+     <string>To PDF</string>
+    </attribute>
+    <widget class="QLabel" name="OutDirLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Output Directory:</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="OutDirButton">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>30</y>
+       <width>31</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="OutDirEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="PrefixEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>241</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="PrefixLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>221</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Fiename prefix: [prefix]_0001.pdf)</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="toPrinter">
+    <attribute name="title">
+     <string>To Printer</string>
+    </attribute>
+    <widget class="QComboBox" name="PrinterCombo">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>241</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="PrinterLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Printers:</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="toComposerView">
+    <attribute name="title">
+     <string>To Composer View</string>
+    </attribute>
+    <widget class="QLabel" name="ComposerLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>121</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Composer name:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="ComposerEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>241</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <tabstops>
