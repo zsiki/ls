@@ -9,7 +9,7 @@
 import os, glob, ctypes
 from PyQt4.QtCore import QFile, QIODevice
 from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox, QListWidgetItem, \
-                        QPrintDialog, QPrinter
+                        QPrintDialog, QPrinter, QWidget, QAbstractPrintDialog
 from PyQt4.QtXml import QDomDocument
 from batch_plotting import Ui_BatchPlottingDialog
 from base_classes import *
@@ -30,7 +30,6 @@ class BatchPlottingDialog(QDialog):
         self.ui.PlotButton.clicked.connect(self.onPlotButton)
         self.ui.TempDirButton.clicked.connect(self.onTempDirButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
-        self.ui.PrintSetupButton.clicked.connect(self.onPrinterSetupButton)
         self.ui.TemplateList.setSortingEnabled(True)
         
         self.plugin_dir = os.path.dirname(os.path.abspath(__file__))
@@ -79,15 +78,6 @@ class BatchPlottingDialog(QDialog):
             self.dirpath = dirpath 
         self.fillTemplateList()
         
-    def onPrinterSetupButton(self):
-        """ Set up printer for batch plotting.
-        """
-        self.printer = QPrinter()
-        pdlg = QPrintDialog(self.printer)
-        pdlg.setModal(True)
-        if pdlg.exec_() == QDialog.Accepted:
-            self.ui.PrinterEdit.setText( self.printer.printerName() )
-
     def onPlotButton(self):
         """ Batch plots selected geometry items using the selected template and scale.
         """
@@ -121,11 +111,8 @@ class BatchPlottingDialog(QDialog):
         if self.ui.OutputTab.currentIndex() == 0:    # to PDF
             # TODO checkings
             pass
-        elif self.ui.OutputTab.currentIndex() == 1:  # to Printer 
-            if self.printer is None:
-                QMessageBox.warning(self, tr("Warning"),
-                    tr("Set up the printer!"))
-                return
+        elif self.ui.OutputTab.currentIndex() == 1:  # to Printer
+            pass 
         elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
             # TODO checkings
             pass
@@ -140,6 +127,7 @@ class BatchPlottingDialog(QDialog):
 
         # plot all selected polygon
         i = 0
+        composer = None
         for polygon in selected_polygons:
             # get map renderer of map canvas        
             renderer = self.iface.mapCanvas().mapRenderer()
@@ -163,15 +151,24 @@ class BatchPlottingDialog(QDialog):
                     bbox.setXMaximum( bbox.xMaximum() + dw / 2 );
                 cmap.setNewExtent(bbox)
                 cmap.setNewScale(scale)
+                cmap.setGridIntervalX(scale/10)
+                cmap.setGridIntervalY(scale/10)
             
+            # plot polygons according to the selected output type
             if self.ui.OutputTab.currentIndex() == 0:    # to PDF
                 # create pdf
                 i += 1
                 fname = "composition_%03d.pdf" % i
                 self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp",fname))
             elif self.ui.OutputTab.currentIndex() == 1:  # to Printer
-                # TODO send to printer
-                pass
+                if self.printer is None:
+                    self.printer = QPrinter()
+                pdlg = QPrintDialog(self.printer,self)
+                pdlg.setModal(True)
+                pdlg.setOptions(QAbstractPrintDialog.None)
+                if pdlg.exec_() == QDialog.Accepted:
+                    # TODO send to printer
+                    pass
             elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
                 composer = self.iface.createNewComposer() 
                 composer.composerWindow().hide()
@@ -181,6 +178,9 @@ class BatchPlottingDialog(QDialog):
                 # If not doing this composer would lost reference and qgis would crash 
                 # when referring to this composer object or at quit.
                 ctypes.c_long.from_address( id(composer) ).value += 1
+        
+        if composer is not None:
+            composer.composerWindow().show()
 
         if self.ui.OutputTab.currentIndex() == 0:    # to PDF
             QMessageBox.information(self, tr("Batch plotting"),
