@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'batch_plotting.ui'
 #
-# Created: Wed Dec 17 21:49:30 2014
+# Created: Thu Dec 18 21:22:49 2014
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -113,22 +113,6 @@ class Ui_BatchPlottingDialog(object):
         self.OutputTab.addTab(self.toPDF, _fromUtf8(""))
         self.toPrinter = QtGui.QWidget()
         self.toPrinter.setObjectName(_fromUtf8("toPrinter"))
-        self.PrintSetupButton = QtGui.QPushButton(self.toPrinter)
-        self.PrintSetupButton.setGeometry(QtCore.QRect(10, 20, 81, 23))
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.PrintSetupButton.sizePolicy().hasHeightForWidth())
-        self.PrintSetupButton.setSizePolicy(sizePolicy)
-        self.PrintSetupButton.setObjectName(_fromUtf8("PrintSetupButton"))
-        self.PrinterEdit = QtGui.QLineEdit(self.toPrinter)
-        self.PrinterEdit.setEnabled(False)
-        self.PrinterEdit.setGeometry(QtCore.QRect(10, 80, 241, 20))
-        self.PrinterEdit.setReadOnly(False)
-        self.PrinterEdit.setObjectName(_fromUtf8("PrinterEdit"))
-        self.label = QtGui.QLabel(self.toPrinter)
-        self.label.setGeometry(QtCore.QRect(10, 60, 81, 16))
-        self.label.setObjectName(_fromUtf8("label"))
         self.OutputTab.addTab(self.toPrinter, _fromUtf8(""))
         self.toComposerView = QtGui.QWidget()
         self.toComposerView.setObjectName(_fromUtf8("toComposerView"))
@@ -143,7 +127,7 @@ class Ui_BatchPlottingDialog(object):
         self.retranslateUi(BatchPlottingDialog)
         self.ScaleCombo.setCurrentIndex(3)
         self.LayersComboBox.setCurrentIndex(-1)
-        self.OutputTab.setCurrentIndex(0)
+        self.OutputTab.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(BatchPlottingDialog)
         BatchPlottingDialog.setTabOrder(self.LayersComboBox, self.TempDirButton)
         BatchPlottingDialog.setTabOrder(self.TempDirButton, self.TemplateList)
@@ -152,7 +136,7 @@ class Ui_BatchPlottingDialog(object):
         BatchPlottingDialog.setTabOrder(self.PlotButton, self.CloseButton)
 
     def retranslateUi(self, BatchPlottingDialog):
-        BatchPlottingDialog.setWindowTitle(_translate("BatchPlottingDialog", "Dialog", None))
+        BatchPlottingDialog.setWindowTitle(_translate("BatchPlottingDialog", "Batch Plotting", None))
         self.TemplateLabel.setText(_translate("BatchPlottingDialog", "Available templates:", None))
         self.PlotButton.setText(_translate("BatchPlottingDialog", "Plot", None))
         self.CloseButton.setText(_translate("BatchPlottingDialog", "Close", None))
@@ -175,8 +159,6 @@ class Ui_BatchPlottingDialog(object):
         self.OutDirButton.setText(_translate("BatchPlottingDialog", "...", None))
         self.PrefixLabel.setText(_translate("BatchPlottingDialog", "Fiename prefix: [prefix]_0001.pdf)", None))
         self.OutputTab.setTabText(self.OutputTab.indexOf(self.toPDF), _translate("BatchPlottingDialog", "To PDF", None))
-        self.PrintSetupButton.setText(_translate("BatchPlottingDialog", "Print setup ...", None))
-        self.label.setText(_translate("BatchPlottingDialog", "Printer:", None))
         self.OutputTab.setTabText(self.OutputTab.indexOf(self.toPrinter), _translate("BatchPlottingDialog", "To Printer", None))
         self.ComposerLabel.setText(_translate("BatchPlottingDialog", "Composer name:", None))
         self.OutputTab.setTabText(self.OutputTab.indexOf(self.toComposerView), _translate("BatchPlottingDialog", "To Composer View", None))

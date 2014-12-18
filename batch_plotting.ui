@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Batch Plotting</string>
   </property>
   <widget class="QListWidget" name="TemplateList">
    <property name="geometry">
@@ -227,7 +227,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="toPDF">
     <attribute name="title">
@@ -303,54 +303,6 @@
     <attribute name="title">
      <string>To Printer</string>
     </attribute>
-    <widget class="QPushButton" name="PrintSetupButton">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>81</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Print setup ...</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="PrinterEdit">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>241</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="readOnly">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>60</y>
-       <width>81</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Printer:</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="toComposerView">
     <attribute name="title">
