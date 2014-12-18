@@ -725,10 +725,10 @@ class Calculation(object):
                     if j + k <= degree:
                         a1[i][l] = math.pow(e,k) * math.pow(n,j)
                         a2[i][l] = math.pow(e,k) * math.pow(n,j)
-                        l = l + 1
+                        l += 1
             l1[i] = E
             l2[i] = N
-            i = i + 1
+            i += 1
             
         # set matrix of normal equation
         # N1 = a1T*a1, N2 = a2T * a2, n1 = a1T * l1, n2 = a2T * l2
