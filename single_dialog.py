@@ -298,7 +298,7 @@ class SingleDialog(QDialog):
                         self.log.write(tr("Point num  Code              E            N        Z     Bearing  H.Distance"))
                         log_stn = u"%-10s %-10s %12.3f %12.3f %8.3s     <station>" % \
                             (s.p.id, (s.p.pc if s.p.pc is not None else "-"), s.p.e, s.p.n, \
-                            ("%8.3f"%s.p.z if s.p.z is not None and not s.p.z.isNull() else "") )
+                            ("%8.3f"%s.p.z if s.p.z is not None else "") )
                         self.log.write(log_stn)
                         self.ui.ResultTextBrowser.append(log_stn)
                         log_header = True
