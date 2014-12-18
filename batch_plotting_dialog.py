@@ -9,7 +9,7 @@
 import os, glob, ctypes
 from PyQt4.QtCore import QFile, QIODevice
 from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox, QListWidgetItem, \
-                        QPrintDialog, QPrinter, QWidget, QAbstractPrintDialog
+                        QPrintDialog, QPrinter, QAbstractPrintDialog, QPainter
 from PyQt4.QtXml import QDomDocument
 from batch_plotting import Ui_BatchPlottingDialog
 from base_classes import *
@@ -168,7 +168,7 @@ class BatchPlottingDialog(QDialog):
                 pdlg.setOptions(QAbstractPrintDialog.None)
                 if pdlg.exec_() == QDialog.Accepted:
                     # TODO send to printer
-                    pass
+                    self.composition.doPrint(self.printer,QPainter(self.printer))
             elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
                 composer = self.iface.createNewComposer() 
                 composer.composerWindow().hide()
@@ -179,9 +179,11 @@ class BatchPlottingDialog(QDialog):
                 # when referring to this composer object or at quit.
                 ctypes.c_long.from_address( id(composer) ).value += 1
         
+        # the last created composer will be shown
         if composer is not None:
             composer.composerWindow().show()
 
+        # in case of PDF output get a message about successfully creation
         if self.ui.OutputTab.currentIndex() == 0:    # to PDF
             QMessageBox.information(self, tr("Batch plotting"),
                 tr("%d PDF files were successfully created!"%i))
