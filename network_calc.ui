@@ -682,10 +682,14 @@
   </widget>
  </widget>
  <tabstops>
+  <tabstop>PointsList</tabstop>
   <tabstop>AddFixButton</tabstop>
   <tabstop>RemoveFixButton</tabstop>
   <tabstop>AddAdjButton</tabstop>
   <tabstop>RemoveAdjButton</tabstop>
+  <tabstop>FixList</tabstop>
+  <tabstop>AdjustedList</tabstop>
+  <tabstop>DimensionComboBox</tabstop>
   <tabstop>AngleDevComboBox</tabstop>
   <tabstop>DistDevMMComboBox</tabstop>
   <tabstop>DistDevMMKMComboBox</tabstop>
