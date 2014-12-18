@@ -247,9 +247,15 @@
   </widget>
  </widget>
  <tabstops>
+  <tabstop>PointNumberLineEdit</tabstop>
+  <tabstop>EastCoordLineEdit</tabstop>
+  <tabstop>NorthCoordLineEdit</tabstop>
+  <tabstop>ZCoordLineEdit</tabstop>
+  <tabstop>PointCodeLineEdit</tabstop>
+  <tabstop>PointTypeLineEdit</tabstop>
   <tabstop>AddButton</tabstop>
-  <tabstop>CloseButton</tabstop>
   <tabstop>ResetButton</tabstop>
+  <tabstop>CloseButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
