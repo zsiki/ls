@@ -235,25 +235,28 @@ class SurveyingCalculation:
     def load_fieldbook(self):
         """ Import an electric fieldbook from file (GSI, JOB/ARE, ...)
         """
+        if get_coordlist() is None:
+            QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("No coordinate list is opened, coordinates will be lost from the fieldbook"))
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(),
             tr('Electric fieldbook'),
             filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd)'))
         if fname:
             # file selected
-            # ask for table name
-            ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
-                tr('QGIS fieldbook'),
-                os.path.split(fname)[0],
-                filter = tr('DBF file (*.dbf)'))
-            if not ofname:
-                return
-            if not re.match('fb_', os.path.basename(ofname)):
-                ofname = os.path.join(os.path.dirname(ofname),
-                    'fb_' + os.path.basename(ofname) + '.dbf')
-            # make a copy of dbf template
-            copyfile(os.path.join(self.plugin_dir, 'template', 'fb_template.dbf'), ofname)
-            fb_dbf = QgsVectorLayer(ofname, os.path.splitext(os.path.basename(ofname))[0], "ogr")
-            QgsMapLayerRegistry.instance().addMapLayer(fb_dbf)
+            # make a copy of dbf template if not are is loaded
+            if not re.search('\.are$', fname, re.IGNORECASE):
+                # ask for table name
+                ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
+                    tr('QGIS fieldbook'),
+                    os.path.split(fname)[0],
+                    filter = tr('DBF file (*.dbf)'))
+                if not ofname:
+                    return
+                if not re.match('fb_', os.path.basename(ofname)):
+                    ofname = os.path.join(os.path.dirname(ofname),
+                        'fb_' + os.path.basename(ofname) + '.dbf')
+                copyfile(os.path.join(self.plugin_dir, 'template', 'fb_template.dbf'), ofname)
+                fb_dbf = QgsVectorLayer(ofname, os.path.splitext(os.path.basename(ofname))[0], "ogr")
+                QgsMapLayerRegistry.instance().addMapLayer(fb_dbf)
             if re.search('\.gsi$', fname, re.IGNORECASE):
                 fb = LeicaGsi(fname)
             elif re.search('\.job$', fname, re.IGNORECASE) or \
@@ -270,6 +273,8 @@ class SurveyingCalculation:
             i = 10    # ordinal number for fieldbook records
             #fb_dbf.startEditing()
             fb.open()
+            n_fb = 0    # fieldbook records stored
+            n_co = 0    # points stored in coordinate list
             while True:
                 # get next observation/station data from fieldbook
                 r = fb.parse_next()
@@ -288,8 +293,9 @@ class SurveyingCalculation:
                         if j != -1:
                             record.setAttribute(j, r[key])
                     fb_dbf.dataProvider().addFeatures([record])
+                    n_fb += 1
                 if 'station_e' in r or 'station_z' in r:
-                    # store coordinates too
+                    # store station coordinates too
                     dimension = 0
                     if 'station_z' in r:
                         dimension += 1
@@ -303,6 +309,7 @@ class SurveyingCalculation:
                     p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
                     qp = ScPoint(p)
                     qp.store_coord(dimension)
+                    n_co += 1
                 if 'e' in r or 'z' in r:
                     # store coordinates too
                     dimension = 0
@@ -318,8 +325,11 @@ class SurveyingCalculation:
                     p = Point(r['point_id'], r['e'], r['n'], r['z'])
                     qp = ScPoint(p)
                     qp.store_coord(dimension)
+                    n_co += 1
                 i += 10
             #fb_dbf.commitChanges()
+            self.log.write()
+            self.log.write_log(tr("Fieldbook loaded: ") + fname)
         return
     
     def addp(self):
