@@ -7,7 +7,7 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import os, glob, ctypes
-from PyQt4.QtCore import QFile, QIODevice
+from PyQt4.QtCore import QFile, QIODevice, QSizeF
 from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox, QListWidgetItem, \
                         QPrintDialog, QPrinter, QAbstractPrintDialog, QPainter
 from PyQt4.QtXml import QDomDocument
@@ -124,6 +124,19 @@ class BatchPlottingDialog(QDialog):
         template_file.close()
         document = QDomDocument()
         document.setContent(template_content)
+        
+        if self.ui.OutputTab.currentIndex() == 1:  # to Printer
+            # setting up printer
+            if self.printer is None:
+                self.printer = QPrinter()
+                self.printer.setFullPage(True)
+                self.printer.setColorMode(QPrinter.Color)
+            # open printer setting dialog
+            pdlg = QPrintDialog(self.printer,self)
+            pdlg.setModal(True)
+            pdlg.setOptions(QAbstractPrintDialog.None)
+            if not pdlg.exec_() == QDialog.Accepted:
+                return
 
         # plot all selected polygon
         i = 0
@@ -161,15 +174,31 @@ class BatchPlottingDialog(QDialog):
                 fname = "composition_%03d.pdf" % i
                 self.composition.exportAsPDF( os.path.join(self.plugin_dir,"temp",fname))
             elif self.ui.OutputTab.currentIndex() == 1:  # to Printer
-                if self.printer is None:
-                    self.printer = QPrinter()
-                pdlg = QPrintDialog(self.printer,self)
-                pdlg.setModal(True)
-                pdlg.setOptions(QAbstractPrintDialog.None)
-                if pdlg.exec_() == QDialog.Accepted:
-                    # TODO send to printer
-                    self.composition.doPrint(self.printer,QPainter(self.printer))
+                # setting up printer
+                if self.composition.paperWidth() > self.composition.paperHeight():
+                    self.printer.setOrientation(QPrinter.Landscape)
+                    self.printer.setPaperSize(
+                        QSizeF(self.composition.paperHeight(), self.composition.paperWidth()),
+                        QPrinter.Millimeter)
+                else:
+                    self.printer.setOrientation(QPrinter.Portrait)
+                    self.printer.setPaperSize(
+                        QSizeF(self.composition.paperWidth(), self.composition.paperHeight()),
+                        QPrinter.Millimeter)
+                self.printer.setResolution(self.composition.printResolution())
+
+                # send composition to printer
+                self.composition.beginPrint(self.printer)
+                p = QPainter()
+                ready = p.begin(self.printer);
+                if not ready:
+                    # error beginning print
+                    return
+                self.composition.doPrint(self.printer, p);
+                p.end()
             elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
+                # create new composer (show composer window then hide)
+                # (later last composer window will be shown)
                 composer = self.iface.createNewComposer() 
                 composer.composerWindow().hide()
                 composer.setComposition(self.composition)
