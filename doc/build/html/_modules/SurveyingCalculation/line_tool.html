@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurveyingCalculation.line_tool &mdash; Surveying Calculation v0.0.1a1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Surveying Calculation v0.0.1a1 documentation" href="../../index.html" />
+    <link rel="up" title="SurveyingCalculation" href="../SurveyingCalculation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Surveying Calculation v0.0.1a1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" accesskey="U">SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for SurveyingCalculation.line_tool</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: line_tool</span>
+<span class="sd">    :platform: Linux, Windows</span>
+<span class="sd">    :synopsis: rubber line drawing</span>
+
+<span class="sd">.. moduleauthor: Zoltan Siki &lt;siki@agt.bme.hu&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span><span class="p">,</span> <span class="n">SIGNAL</span>
+<span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qgis.gui</span> <span class="kn">import</span> <span class="n">QgsMapToolEmitPoint</span><span class="p">,</span> <span class="n">QgsRubberBand</span><span class="p">,</span> <span class="n">QgsMapTool</span>
+
+<span class="k">class</span> <span class="nc">LineMapTool</span><span class="p">(</span><span class="n">QgsMapToolEmitPoint</span><span class="p">):</span>
+<div class="viewcode-block" id="LineMapTool"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.line_tool.LineMapTool">[docs]</a>    <span class="sd">&quot;&quot;&quot; Class implements rubberband line tool for polygon division</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; initialize rubberband line drawing</span>
+<span class="sd">            :param canvas: canvas to draw on</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">canvas</span>
+        <span class="n">QgsMapToolEmitPoint</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rubberBand</span> <span class="o">=</span> <span class="n">QgsRubberBand</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">,</span> <span class="n">QGis</span><span class="o">.</span><span class="n">Line</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rubberBand</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">red</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rubberBand</span><span class="o">.</span><span class="n">setWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LineMapTool.reset"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.line_tool.LineMapTool.reset">[docs]</a>        <span class="sd">&quot;&quot;&quot; reset rubberband line tool to original state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startPoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endPoint</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isEmittingPoint</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rubberBand</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">QGis</span><span class="o">.</span><span class="n">Line</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">canvasPressEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span></div>
+<div class="viewcode-block" id="LineMapTool.canvasPressEvent"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.line_tool.LineMapTool.canvasPressEvent">[docs]</a>        <span class="sd">&quot;&quot;&quot; handler to handle left button down, start rubberband line</span>
+<span class="sd">            :param e: event</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startPoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">toMapCoordinates</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">pos</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endPoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">startPoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isEmittingPoint</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">showLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">startPoint</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endPoint</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">canvasReleaseEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span></div>
+<div class="viewcode-block" id="LineMapTool.canvasReleaseEvent"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.line_tool.LineMapTool.canvasReleaseEvent">[docs]</a>        <span class="sd">&quot;&quot;&quot; Handler to handle left button up, end rubberband line</span>
+<span class="sd">            :param e: event</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isEmittingPoint</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="c"># print &quot;Line:&quot;, self.startPoint.x(), self.startPoint.y(), self.endPoint.x(), self.endPoint.y()</span>
+
+    <span class="k">def</span> <span class="nf">canvasMoveEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span></div>
+<div class="viewcode-block" id="LineMapTool.canvasMoveEvent"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.line_tool.LineMapTool.canvasMoveEvent">[docs]</a>        <span class="sd">&quot;&quot;&quot; handler to handle mouse move event</span>
+<span class="sd">            :param e: event</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isEmittingPoint</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">endPoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">toMapCoordinates</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">pos</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">showLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">startPoint</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endPoint</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">showLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startPoint</span><span class="p">,</span> <span class="n">endPoint</span><span class="p">):</span></div>
+<div class="viewcode-block" id="LineMapTool.showLine"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.line_tool.LineMapTool.showLine">[docs]</a>        <span class="sd">&quot;&quot;&quot; Draw rubberband line</span>
+<span class="sd">            :param startPoint: start point of line</span>
+<span class="sd">            :param endPoint: end point of line</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rubberBand</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">QGis</span><span class="o">.</span><span class="n">Line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">startPoint</span><span class="o">.</span><span class="n">x</span><span class="p">()</span> <span class="o">==</span> <span class="n">endPoint</span><span class="o">.</span><span class="n">x</span><span class="p">()</span> <span class="ow">or</span> <span class="n">startPoint</span><span class="o">.</span><span class="n">y</span><span class="p">()</span> <span class="o">==</span> <span class="n">endPoint</span><span class="o">.</span><span class="n">y</span><span class="p">():</span>
+            <span class="k">return</span>
+        <span class="n">point1</span> <span class="o">=</span> <span class="n">QgsPoint</span><span class="p">(</span><span class="n">startPoint</span><span class="o">.</span><span class="n">x</span><span class="p">(),</span> <span class="n">startPoint</span><span class="o">.</span><span class="n">y</span><span class="p">())</span>
+        <span class="n">point2</span> <span class="o">=</span> <span class="n">QgsPoint</span><span class="p">(</span><span class="n">endPoint</span><span class="o">.</span><span class="n">x</span><span class="p">(),</span> <span class="n">endPoint</span><span class="o">.</span><span class="n">y</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rubberBand</span><span class="o">.</span><span class="n">addPoint</span><span class="p">(</span><span class="n">point1</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rubberBand</span><span class="o">.</span><span class="n">addPoint</span><span class="p">(</span><span class="n">point2</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rubberBand</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">deactivate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="LineMapTool.deactivate"><a class="viewcode-back" href="../../index.html#SurveyingCalculation.line_tool.LineMapTool.deactivate">[docs]</a>        <span class="sd">&quot;&quot;&quot; deactivate line tool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&quot;deactivated()&quot;</span><span class="p">))</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Surveying Calculation v0.0.1a1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../SurveyingCalculation.html" >SurveyingCalculation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, DigiKom Ltd.
+      Last updated on Dec 22, 2014.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>
