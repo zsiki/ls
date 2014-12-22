@@ -7,13 +7,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SurveyingCalculation developer’s documentation &mdash; Surveying Calculation v0.0.1 documentation</title>
+    <title>SurveyingCalculation developer’s documentation &mdash; Surveying Calculation v0.0.1a1 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.1',
+        VERSION:     '0.0.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,7 +22,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Surveying Calculation v0.0.1 documentation" href="#" /> 
+    <link rel="top" title="Surveying Calculation v0.0.1a1 documentation" href="#" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">Surveying Calculation v0.0.1 documentation</a> &raquo;</li> 
+        <li><a href="#">Surveying Calculation v0.0.1a1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -160,6 +160,13 @@ resection, freestation)</p>
 <dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.networks">
 <tt class="descname">networks</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.networks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.networks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Various network adjustments (1D/2D/3D)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.polygon_division">
+<tt class="descname">polygon_division</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.polygon_division" title="Permalink to this definition">¶</a></dt>
+<dd><p>accept a line from the user to divide the selected polygon on 
+active layer</p>
 </dd></dl>
 
 <dl class="method">
@@ -384,12 +391,6 @@ ya + t1 * cos dap = yb + t2 * cos dbp</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="SurveyingCalculation.batch_plotting_dialog.BatchPlottingDialog.onPrinterSetupButton">
-<tt class="descname">onPrinterSetupButton</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.batch_plotting_dialog.BatchPlottingDialog.onPrinterSetupButton" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set up printer for batch plotting.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="SurveyingCalculation.batch_plotting_dialog.BatchPlottingDialog.onTempDirButton">
 <tt class="descname">onTempDirButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/batch_plotting_dialog.html#BatchPlottingDialog.onTempDirButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.batch_plotting_dialog.BatchPlottingDialog.onTempDirButton" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the directory that contains print composer templates.</p>
@@ -477,8 +478,59 @@ ya + t1 * cos dap = yb + t2 * cos dbp</dd>
 </dd></dl>
 
 </div>
+<div class="section" id="module-SurveyingCalculation.line_tool">
+<span id="rubberband-line-tool"></span><h2>Rubberband line tool<a class="headerlink" href="#module-SurveyingCalculation.line_tool" title="Permalink to this headline">¶</a></h2>
+<p id="module-line_tool"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.line_tool.LineMapTool">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.line_tool.</tt><tt class="descname">LineMapTool</tt><big>(</big><em>canvas</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class implements rubberband line tool for polygon division</p>
+<dl class="method">
+<dt id="SurveyingCalculation.line_tool.LineMapTool.canvasMoveEvent">
+<tt class="descname">canvasMoveEvent</tt><big>(</big><em>e</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.canvasMoveEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.canvasMoveEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>handler to handle mouse move event
+:param e: event</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.line_tool.LineMapTool.canvasPressEvent">
+<tt class="descname">canvasPressEvent</tt><big>(</big><em>e</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.canvasPressEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.canvasPressEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>handler to handle left button down, start rubberband line
+:param e: event</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.line_tool.LineMapTool.canvasReleaseEvent">
+<tt class="descname">canvasReleaseEvent</tt><big>(</big><em>e</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.canvasReleaseEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.canvasReleaseEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handler to handle left button up, end rubberband line
+:param e: event</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.line_tool.LineMapTool.deactivate">
+<tt class="descname">deactivate</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.deactivate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.deactivate" title="Permalink to this definition">¶</a></dt>
+<dd><p>deactivate line tool</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.line_tool.LineMapTool.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>reset rubberband line tool to original state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.line_tool.LineMapTool.showLine">
+<tt class="descname">showLine</tt><big>(</big><em>startPoint</em>, <em>endPoint</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.showLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.showLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw rubberband line
+:param startPoint: start point of line
+:param endPoint: end point of line</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-SurveyingCalculation.network_dialog">
-<span id="network-adjusment-calculation-gui"></span><h2>Network adjusment calculation GUI<a class="headerlink" href="#module-SurveyingCalculation.network_dialog" title="Permalink to this headline">¶</a></h2>
+<span id="network-adjustment-calculation-gui"></span><h2>Network adjustment calculation GUI<a class="headerlink" href="#module-SurveyingCalculation.network_dialog" title="Permalink to this headline">¶</a></h2>
 <p id="module-network_dialog"><em>Platforms: </em>Linux, Windows</p>
 <dl class="class">
 <dt id="SurveyingCalculation.network_dialog.NetworkDialog">
@@ -642,7 +694,7 @@ ya + t1 * cos dap = yb + t2 * cos dbp</dd>
 
 </div>
 <div class="section" id="module-SurveyingCalculation.single_dialog">
-<span id="single-point-calcultions"></span><h2>Single point calcultions<a class="headerlink" href="#module-SurveyingCalculation.single_dialog" title="Permalink to this headline">¶</a></h2>
+<span id="single-point-calculations"></span><h2>Single point calculations<a class="headerlink" href="#module-SurveyingCalculation.single_dialog" title="Permalink to this headline">¶</a></h2>
 <p id="module-single_dialog"><em>Platforms: </em>Linux, Windows</p>
 <dl class="class">
 <dt id="SurveyingCalculation.single_dialog.SingleDialog">
@@ -1634,10 +1686,11 @@ if open traverse is chosen.</p>
 <li><a class="reference internal" href="#module-SurveyingCalculation.batch_plotting_dialog">Batch plotting GUI</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.calculation">Mathematical calculations</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.gama_interface">Interface to GNU Gama</a></li>
-<li><a class="reference internal" href="#module-SurveyingCalculation.network_dialog">Network adjusment calculation GUI</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.line_tool">Rubberband line tool</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.network_dialog">Network adjustment calculation GUI</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.new_point_dialog">Add new point GUI</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.resultlog">Text file loging</a></li>
-<li><a class="reference internal" href="#module-SurveyingCalculation.single_dialog">Single point calcultions</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.single_dialog">Single point calculations</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.surveying_util">Utility functions to QGIS interface</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.totalstations">Totalstation data import</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.transformation_dialog">Transformation calculation GUI</a></li>
@@ -1677,12 +1730,12 @@ if open traverse is chosen.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">Surveying Calculation v0.0.1 documentation</a> &raquo;</li> 
+        <li><a href="#">Surveying Calculation v0.0.1a1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Dec 18, 2014.
+      Last updated on Dec 22, 2014.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>

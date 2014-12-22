@@ -36,8 +36,14 @@ Interface to GNU Gama
 .. automodule:: SurveyingCalculation.gama_interface
    :members:
 
-Network adjusment calculation GUI
-=================================
+Rubberband line tool
+====================
+
+.. automodule:: SurveyingCalculation.line_tool
+   :members:
+
+Network adjustment calculation GUI
+==================================
 
 .. automodule:: SurveyingCalculation.network_dialog
    :members:
@@ -53,8 +59,8 @@ Text file loging
 .. automodule:: SurveyingCalculation.resultlog
    :members:
 
-Single point calcultions
-========================
+Single point calculations
+=========================
 
 .. automodule:: SurveyingCalculation.single_dialog
    :members:
