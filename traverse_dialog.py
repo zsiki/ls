@@ -9,6 +9,8 @@
 import platform
 from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem, QMessageBox, QFont
 from PyQt4.QtCore import Qt
+
+import config
 from traverse_calc import Ui_TraverseCalcDialog
 from base_classes import *
 from surveying_util import *
@@ -26,7 +28,7 @@ class TraverseDialog(QDialog):
         self.ui.setupUi(self)
         if platform.system() == 'Linux':
             # change font
-            self.ui.ResultTextBrowser.setFont(QFont("DejaVu Sans Mono", 9))
+            self.ui.ResultTextBrowser.setFont(QFont(config.fontname, config.fontsize))
 
         self.log = log
 

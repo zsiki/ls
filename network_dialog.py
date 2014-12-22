@@ -9,6 +9,7 @@
 import platform
 from PyQt4.QtGui import QDialog, QFont, QMessageBox
 
+import config
 from network_calc import Ui_NetworkCalcDialog
 from base_classes import *
 from surveying_util import *
@@ -30,7 +31,7 @@ class NetworkDialog(QDialog):
         self.ui.setupUi(self)
         if platform.system() == 'Linux':
             # change font
-            self.ui.ResultTextBrowser.setFont(QFont("DejaVu Sans Mono", 9))
+            self.ui.ResultTextBrowser.setFont(QFont(config.fontname, config.fontsize))
         self.points = []
         self.fix = []
         self.adj = []

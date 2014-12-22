@@ -7,13 +7,14 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import platform
-from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox,\
+from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox, \
     QStandardItem
 from PyQt4.QtCore import Qt
 # debugging
 from PyQt4.QtCore import pyqtRemoveInputHook
 import pdb
 
+import config
 from single_calc import Ui_SingleCalcDialog
 from base_classes import *
 from surveying_util import *
@@ -32,7 +33,7 @@ class SingleDialog(QDialog):
         self.ui.setupUi(self)
         if platform.system() == 'Linux':
             # change font
-            self.ui.ResultTextBrowser.setFont(QFont("DejaVu Sans Mono", 9))
+            self.ui.ResultTextBrowser.setFont(QFont(config.fontname, config.fontsize))
         self.log = log
 
         # event handlers

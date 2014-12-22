@@ -11,6 +11,7 @@ import platform
 from PyQt4.QtGui import QDialog, QFileDialog, QFont, QMessageBox
 from PyQt4.QtCore import SIGNAL, QCoreApplication
 
+import config
 from transformation_calc import Ui_TransformationCalcDialog
 from base_classes import *
 from surveying_util import *
@@ -31,7 +32,7 @@ class TransformationDialog(QDialog):
         self.log = log
         if platform.system() == 'Linux':
             # change font
-            self.ui.ResultTextBrowser.setFont(QFont("DejaVu Sans Mono", 9))
+            self.ui.ResultTextBrowser.setFont(QFont(config.fontname, config.fontsize))
         self.from_points = []
         self.common = []
         self.used = []
