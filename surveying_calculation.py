@@ -382,6 +382,17 @@ class SurveyingCalculation:
         result = self.transformation_dlg.exec_()
         
     def polygon_division(self):
+        """ accept a line from the user to divide the selected polygon on 
+            active layer
+        """
+        al = self.iface.activeLayer()
+        if al is None or al.type() != QgsMapLayer.VectorLayer or \
+            al.geometryType() != QGis.Polygon:
+            QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Actual layer contains no polygons"))
+            return
+        if len(al.selectedFeatures()) != 1:
+            QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Not a single polygon is selected in active layer"))
+            return
         self.iface.mapCanvas().setMapTool(self.tool_pdiv)
 
     def plot_by_temp(self):
