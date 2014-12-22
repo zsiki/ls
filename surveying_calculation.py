@@ -33,6 +33,7 @@ from totalstations import *
 from surveying_util import *
 from calculation import *
 from resultlog import *
+from line_tool import LineMapTool
 
 import sys
 #sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
@@ -152,7 +153,8 @@ class SurveyingCalculation:
         self.sc_about = QAction(tr("About"), self.iface.mainWindow())
         self.menu.addActions([self.sc_coord, self.sc_fb, self.sc_load,
             self.sc_addp, self.sc_calc, self.sc_trav, self.sc_netw,
-            self.sc_tran, self.sc_pdiv, self.sc_plot, self.sc_batchplot, self.sc_help, self.sc_about])
+            self.sc_tran, self.sc_plot, self.sc_batchplot, self.sc_help,
+            self.sc_about])
         self.menu.insertSeparator(self.sc_calc)
         self.menu.insertSeparator(self.sc_plot)
         self.menu.insertSeparator(self.sc_help)
@@ -169,6 +171,9 @@ class SurveyingCalculation:
         self.sc_trav.triggered.connect(self.traverses)
         self.sc_netw.triggered.connect(self.networks)
         self.sc_tran.triggered.connect(self.transformation)
+        self.sc_pdiv.setCheckable(True)
+        self.tool_pdiv = LineMapTool(self.iface.mapCanvas())
+        self.tool_pdiv.setAction(self.sc_pdiv)
         self.sc_pdiv.triggered.connect(self.polygon_division)
         self.sc_plot.triggered.connect(self.plot_by_temp)
         self.sc_batchplot.triggered.connect(self.batch_plotting)
@@ -377,7 +382,7 @@ class SurveyingCalculation:
         result = self.transformation_dlg.exec_()
         
     def polygon_division(self):
-        pass
+        self.iface.mapCanvas().setMapTool(self.tool_pdiv)
 
     def plot_by_temp(self):
         pass
