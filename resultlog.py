@@ -21,6 +21,7 @@ class ResultLog(object):
         """ initialize log file if the given file cannot be opened for output then a SurveyingCalculation.log file in the temperary directory will be used
 
             :param logfile: name of the log file it will be created if neccessary, messages will be appended to the end
+            :param repeat_count: retry count on fail accessing log file
         """
         self.repeat_count = repeat_count   # retry count for i/o operations
         for i in range(self.repeat_count * 2):
