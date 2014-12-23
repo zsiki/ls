@@ -41,6 +41,7 @@ class LineMapTool(QgsMapToolEmitPoint):
 
     def canvasPressEvent(self, e):
         """ handler to handle left button down, start rubberband line
+
             :param e: event
         """
         al = self.iface.activeLayer()
@@ -61,6 +62,7 @@ class LineMapTool(QgsMapToolEmitPoint):
 
     def canvasReleaseEvent(self, e):
         """ Handler to handle left button up, end rubberband line
+
             :param e: event
         """
         self.isEmittingPoint = False
@@ -68,6 +70,7 @@ class LineMapTool(QgsMapToolEmitPoint):
 
     def canvasMoveEvent(self, e):
         """ handler to handle mouse move event
+
             :param e: event
         """
         if not self.isEmittingPoint:
@@ -79,6 +82,7 @@ class LineMapTool(QgsMapToolEmitPoint):
 
     def showLine(self, startPoint, endPoint):
         """ Draw rubberband line
+
             :param startPoint: start point of line
             :param endPoint: end point of line
         """
