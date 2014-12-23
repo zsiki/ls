@@ -114,7 +114,7 @@ def get_fieldlist(vlayer):
 def get_fieldnames(vlayer):
     """ Create a list from column names of a vector layer.
 
-        :paramter vlayer: vector layer
+        :param vlayer: vector layer
         :returns: sorted list of field names
     """
     fieldmap = get_fieldlist(vlayer)
