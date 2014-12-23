@@ -15,7 +15,8 @@ from resultlog import *
 from PyQt4.QtCore import QCoreApplication
 
 class Calculation(object):
-    """ Container class for calculations. Pure static class. """
+    """ Container class for calculations. Pure static class.
+    """
     
     def __init__(self):
         pass
@@ -562,7 +563,6 @@ class Calculation(object):
     @staticmethod
     def orthogonal3tr(plist):
         """ Calculate parameters of orthogonal transformation. Three parameters::
-
             E = E0 + cos(alpha) * e - sin(alpha) * n
             N = N0 + sin(alpha) * e + cos(alpha) * n
 
@@ -680,7 +680,6 @@ class Calculation(object):
     @staticmethod
     def polynomial_transformation(plist, degree = 3):
         """ Calculate parameters of polynomial (rubber sheet) transformation.::
-
             X = X0 + a1 * x + a2 * y + a3 * xy + a4 * x^2 + a5 * y^2 + ...
             Y = Y0 + b1 * x + b2 * y + b3 * xy + b4 * x^2 + b5 * y^2 + ...
 
