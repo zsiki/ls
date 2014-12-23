@@ -29,6 +29,13 @@ Mathematical calculations
 =========================
 
 .. automodule:: SurveyingCalculation.calculation
+   :members:
+
+Config
+======
+
+.. automodule:: SurveyingCalculation.config
+   :members:
 
 Interface to GNU Gama
 =====================

@@ -221,13 +221,10 @@ active layer</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>value</strong> &#8211; new value for angle</li>
-<li><strong>unit</strong> &#8211; unit for the new value</li>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>value</strong> &#8211; new value for angle (str or float)</li>
+<li><strong>unit</strong> &#8211; unit for the new value (str)</li>
 </ul>
-</td>
-</tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">none</p>
 </td>
 </tr>
 </tbody>
@@ -269,7 +266,10 @@ active layer</p>
 <dl class="function">
 <dt id="SurveyingCalculation.base_classes.bearing">
 <tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">bearing</tt><big>(</big><em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#bearing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.bearing" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate whole circle bearing</p>
+<dd><p>Calculate whole circle bearing
+:param p1: station point
+:param p2: target point
+:returns: bearing (Angle)</p>
 </dd></dl>
 
 <dl class="function">
@@ -293,13 +293,19 @@ active layer</p>
 <dl class="function">
 <dt id="SurveyingCalculation.base_classes.distance2d">
 <tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">distance2d</tt><big>(</big><em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#distance2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.distance2d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate horizontal distance between two points</p>
+<dd><p>Calculate horizontal distance between two points
+:param p1: start point (Point)
+:param p2: end point (Point)
+:returns: distance (Distance)</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="SurveyingCalculation.base_classes.distance3d">
 <tt class="descclassname">SurveyingCalculation.base_classes.</tt><tt class="descname">distance3d</tt><big>(</big><em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/base_classes.html#distance3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.base_classes.distance3d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate 3D distance between two points</p>
+<dd><p>Calculate 3D distance between two points
+:param p1: start point (Point)
+:param p2: end point (Point)
+:returns: distance (Distance)</p>
 </dd></dl>
 
 <dl class="function">
@@ -335,11 +341,23 @@ active layer</p>
 <dd>xa + t1 * sin dap = xb + t2 * sin dbp
 ya + t1 * cos dap = yb + t2 * cos dbp</dd>
 </dl>
-<p>:param pa first point
-:param pb  second point
-:param dap direction (bearing) from first point to new point
-:param dbp direction (bearing) from second point to new point
-:returns: xp yp as a list or an empty list if lines are near paralel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pa</strong> &#8211; first point</li>
+<li><strong>pb</strong> &#8211; second point</li>
+<li><strong>dap</strong> &#8211; direction (bearing) from first point to new point</li>
+<li><strong>dbp</strong> &#8211; direction (bearing) from second point to new point</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">xp yp as a list or an empty list if lines are near paralel</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -407,6 +425,243 @@ ya + t1 * cos dap = yb + t2 * cos dbp</dd>
 </div>
 <div class="section" id="module-SurveyingCalculation.calculation">
 <span id="mathematical-calculations"></span><h2>Mathematical calculations<a class="headerlink" href="#module-SurveyingCalculation.calculation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="SurveyingCalculation.calculation.Calculation">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.calculation.</tt><tt class="descname">Calculation</tt><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Container class for calculations. Pure static class.</p>
+<dl class="staticmethod">
+<dt id="SurveyingCalculation.calculation.Calculation.affine_transformation">
+<em class="property">static </em><tt class="descname">affine_transformation</tt><big>(</big><em>plist</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation.affine_transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation.affine_transformation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate parameters of affine transformation. Six parameters::
+E = E0 + a * e + b * n
+N = N0 + c * e + d * n</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plist</strong> &#8211; a list of common points used in the transormation plist[i]==[srci,desti]</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the list of transformation parameters {E0 N0 a b c d}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="SurveyingCalculation.calculation.Calculation.gauss_elimination">
+<em class="property">static </em><tt class="descname">gauss_elimination</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation.gauss_elimination"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation.gauss_elimination" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Solve a linear equation system::</dt>
+<dd>a * x = b</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> &#8211; coefficients of the equation system (list of lists)</li>
+<li><strong>b</strong> &#8211; list of pure term of equations</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(unknowns, inverse_matrix)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="SurveyingCalculation.calculation.Calculation.intersection">
+<em class="property">static </em><tt class="descname">intersection</tt><big>(</big><em>s1</em>, <em>obs1</em>, <em>s2</em>, <em>obs2</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation.intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation.intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate intersection</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s1</strong> &#8211; station 1 (Station)</li>
+<li><strong>obs1</strong> &#8211; observation from station 1 (PolarObservation)</li>
+<li><strong>s2</strong> &#8211; station 2 (Station)</li>
+<li><strong>obs2</strong> &#8211; observation from station 2 (PolarObservation)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">intersection point (Point)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="SurveyingCalculation.calculation.Calculation.orientation">
+<em class="property">static </em><tt class="descname">orientation</tt><big>(</big><em>st</em>, <em>ref_list</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation.orientation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation.orientation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Orientation calculation for a station</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>st</strong> &#8211; station (Station)</li>
+<li><strong>ref_list</strong> &#8211; list of [Point, PolarObservation] lists</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">average orientation angle (Angle) None if no reference direction at all or in case of error</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="SurveyingCalculation.calculation.Calculation.orthogonal3tr">
+<em class="property">static </em><tt class="descname">orthogonal3tr</tt><big>(</big><em>plist</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation.orthogonal3tr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation.orthogonal3tr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate parameters of orthogonal transformation. Three parameters::
+E = E0 + cos(alpha) * e - sin(alpha) * n
+N = N0 + sin(alpha) * e + cos(alpha) * n</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plist</strong> &#8211; a list of common points used in the transormation plist[i]==[srci,desti]</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the list of transformation parameters {E0 N0 alpha}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="SurveyingCalculation.calculation.Calculation.orthogonal_transformation">
+<em class="property">static </em><tt class="descname">orthogonal_transformation</tt><big>(</big><em>plist</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation.orthogonal_transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation.orthogonal_transformation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate parameters of orthogonal transformation. Four parameters scale, rotation and offset.::
+E = E0 + c * e - d * n
+N = N0 + d * e + c * n</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plist</strong> &#8211; a list of common points used in the transormation plist[i]==[srci,desti]</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the list of transformation parameters {E0 N0 c d}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="SurveyingCalculation.calculation.Calculation.polarpoint">
+<em class="property">static </em><tt class="descname">polarpoint</tt><big>(</big><em>st</em>, <em>obs</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation.polarpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation.polarpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate coordinates of a point measured by an independent radial measurement</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>st</strong> &#8211; station (Station)</li>
+<li><strong>obs</strong> &#8211; observation from station to the unknown point (PolarObservation)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the polar point with new coordinates (Point)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="SurveyingCalculation.calculation.Calculation.polynomial_transformation">
+<em class="property">static </em><tt class="descname">polynomial_transformation</tt><big>(</big><em>plist</em>, <em>degree=3</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation.polynomial_transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation.polynomial_transformation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate parameters of polynomial (rubber sheet) transformation.::
+X = X0 + a1 * x + a2 * y + a3 * xy + a4 * x^2 + a5 * y^2 + ...
+Y = Y0 + b1 * x + b2 * y + b3 * xy + b4 * x^2 + b5 * y^2 + ...</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>plist</strong> &#8211; a list of common points used in the transformation plist[i]==[srci,desti]</li>
+<li><strong>degree</strong> &#8211; degree of transformation 3/4/5</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the list of parameters X0 Y0 a1 b1 a2 b2 a3 b3 ...  and the weight point coordinates in source and target system</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="SurveyingCalculation.calculation.Calculation.resection">
+<em class="property">static </em><tt class="descname">resection</tt><big>(</big><em>st</em>, <em>p1</em>, <em>p2</em>, <em>p3</em>, <em>obs1</em>, <em>obs2</em>, <em>obs3</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation.resection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation.resection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate resection</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>st</strong> &#8211; station (Station)</li>
+<li><strong>p1</strong> &#8211; first control point (Point)</li>
+<li><strong>p2</strong> &#8211; second control point (Point)</li>
+<li><strong>p3</strong> &#8211; third control point (Point)</li>
+<li><strong>obs1</strong> &#8211; observation from st to p1 (PolarObservation)</li>
+<li><strong>obs2</strong> &#8211; observation from st to p2 (PolarObservation)</li>
+<li><strong>obs3</strong> &#8211; observation from st to p3 (PolarObservation)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">coordinates of the resection point (Point) if it can be calculated; otherwise None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="SurveyingCalculation.calculation.Calculation.traverse">
+<em class="property">static </em><tt class="descname">traverse</tt><big>(</big><em>trav_obs</em>, <em>forceFree=False</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/calculation.html#Calculation.traverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.calculation.Calculation.traverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate traverse line. This method can compute the following types of travesres</p>
+<ol class="arabic simple">
+<li>open traverse (free): originates at a known position with known bearings and ends at an unknown position</li>
+<li>closed traverse at both ends and the start point has known bearings</li>
+<li>closed traverse at both ends and both endpoints has known bearings</li>
+<li>inserted traverse: closed at both ends but no bearings</li>
+</ol>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>trav_obs</strong> &#8211; a list of sublists consists of a Point and two PolarObservations, If the station member is not None the point is a station. Start point must have coordinates in case of type 1-4 and end points must have coordinates in case of type 2-4.  Two observations are needed at the angle points. At the start point the second observation is required in case of type 1-3. At the end point the first observation is required in case of type 3.</li>
+<li><strong>forceFree</strong> &#8211; force free traverse calculation (Boole)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of points which&#8217;s coordinates has been computed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-SurveyingCalculation.config">
+<span id="config"></span><h2>Config<a class="headerlink" href="#module-SurveyingCalculation.config" title="Permalink to this headline">¶</a></h2>
+<p id="module-config"><em>Platforms: </em>Linux, Windows</p>
+<p>Variables set:</p>
+<div class="highlight-python"><pre>appname: name of the plugin
+fontname: monospace font used in calculation results widgets
+fontsize: font size used in calculation results widgets
+homedir: start dir used for loading fieldbooks
+log_path: path to log file
+tolerance: snapping tolerance to line tool</pre>
+</div>
 </div>
 <div class="section" id="module-SurveyingCalculation.gama_interface">
 <span id="interface-to-gnu-gama"></span><h2>Interface to GNU Gama<a class="headerlink" href="#module-SurveyingCalculation.gama_interface" title="Permalink to this headline">¶</a></h2>
@@ -439,7 +694,7 @@ ya + t1 * cos dap = yb + t2 * cos dbp</dd>
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>point</strong> &#8211; point to ad network (Point)</li>
-<li><strong>state</strong> &#8211; FIXi or ADJ (str)</li>
+<li><strong>state</strong> &#8211; FIX or ADJ (str)</li>
 </ul>
 </td>
 </tr>
@@ -483,27 +738,48 @@ ya + t1 * cos dap = yb + t2 * cos dbp</dd>
 <p id="module-line_tool"><em>Platforms: </em>Linux, Windows</p>
 <dl class="class">
 <dt id="SurveyingCalculation.line_tool.LineMapTool">
-<em class="property">class </em><tt class="descclassname">SurveyingCalculation.line_tool.</tt><tt class="descname">LineMapTool</tt><big>(</big><em>canvas</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.line_tool.</tt><tt class="descname">LineMapTool</tt><big>(</big><em>iface</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class implements rubberband line tool for polygon division</p>
 <dl class="method">
 <dt id="SurveyingCalculation.line_tool.LineMapTool.canvasMoveEvent">
 <tt class="descname">canvasMoveEvent</tt><big>(</big><em>e</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.canvasMoveEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.canvasMoveEvent" title="Permalink to this definition">¶</a></dt>
-<dd><p>handler to handle mouse move event
-:param e: event</p>
+<dd><p>handler to handle mouse move event</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>e</strong> &#8211; event</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="SurveyingCalculation.line_tool.LineMapTool.canvasPressEvent">
 <tt class="descname">canvasPressEvent</tt><big>(</big><em>e</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.canvasPressEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.canvasPressEvent" title="Permalink to this definition">¶</a></dt>
-<dd><p>handler to handle left button down, start rubberband line
-:param e: event</p>
+<dd><p>handler to handle left button down, start rubberband line</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>e</strong> &#8211; event</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="SurveyingCalculation.line_tool.LineMapTool.canvasReleaseEvent">
 <tt class="descname">canvasReleaseEvent</tt><big>(</big><em>e</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.canvasReleaseEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.canvasReleaseEvent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Handler to handle left button up, end rubberband line
-:param e: event</p>
+<dd><p>Handler to handle left button up, end rubberband line</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>e</strong> &#8211; event</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -521,9 +797,19 @@ ya + t1 * cos dap = yb + t2 * cos dbp</dd>
 <dl class="method">
 <dt id="SurveyingCalculation.line_tool.LineMapTool.showLine">
 <tt class="descname">showLine</tt><big>(</big><em>startPoint</em>, <em>endPoint</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.showLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.showLine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw rubberband line
-:param startPoint: start point of line
-:param endPoint: end point of line</p>
+<dd><p>Draw rubberband line</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>startPoint</strong> &#8211; start point of line</li>
+<li><strong>endPoint</strong> &#8211; end point of line</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -954,8 +1240,7 @@ from a given layer possibly with given type.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Paramter vlayer:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body">vector layer</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vlayer</strong> &#8211; vector layer</td>
 </tr>
 <tr class="field"><th class="field-name">Returns:</th><td class="field-body">sorted list of field names</td>
 </tr>
@@ -1685,6 +1970,7 @@ if open traverse is chosen.</p>
 <li><a class="reference internal" href="#module-SurveyingCalculation.base_classes">Base classes, functions</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.batch_plotting_dialog">Batch plotting GUI</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.calculation">Mathematical calculations</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.config">Config</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.gama_interface">Interface to GNU Gama</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.line_tool">Rubberband line tool</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.network_dialog">Network adjustment calculation GUI</a></li>
@@ -1735,7 +2021,7 @@ if open traverse is chosen.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Dec 22, 2014.
+      Last updated on Dec 23, 2014.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>
