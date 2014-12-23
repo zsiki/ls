@@ -24,6 +24,8 @@ class NetworkDialog(QDialog):
     """
     def __init__(self, log):
         """ Initialize dialog data and event handlers
+
+            :param log: log instance for log messages
         """
         super(NetworkDialog, self).__init__()
         self.log = log
