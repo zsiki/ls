@@ -13,58 +13,58 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="249"/>
+        <location filename="traverse_dialog.py" line="251"/>
         <source>Select the type of traverse line!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="255"/>
+        <location filename="traverse_dialog.py" line="257"/>
         <source>Select start point!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="260"/>
+        <location filename="traverse_dialog.py" line="262"/>
         <source>Select end point!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="264"/>
+        <location filename="traverse_dialog.py" line="266"/>
         <source>Add points to angle point list!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="315"/>
+        <location filename="traverse_dialog.py" line="317"/>
         <source>Question</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="315"/>
+        <location filename="traverse_dialog.py" line="317"/>
         <source>End point has coordinates.
 Are you sure you want to calculate an open traverse?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="337"/>
+        <location filename="traverse_dialog.py" line="339"/>
         <source>Traversing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="338"/>
+        <location filename="traverse_dialog.py" line="340"/>
         <source>            bearing    bw dist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="339"/>
+        <location filename="traverse_dialog.py" line="341"/>
         <source>Point        angle     distance  (dE)     (dN)       dE         dN</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="340"/>
+        <location filename="traverse_dialog.py" line="342"/>
         <source>           correction  fw dist    corrections      Easting    Northing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="344"/>
+        <location filename="traverse_dialog.py" line="346"/>
         <source>Traverse line cannot be calculated!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -84,182 +84,182 @@ Are you sure you want to calculate an open traverse?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="calculation.py" line="77"/>
+        <location filename="calculation.py" line="78"/>
         <source>Average orientation angle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="calculation.py" line="217"/>
+        <location filename="calculation.py" line="218"/>
         <source>Error: At least 3 points must be added to traverse line!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="calculation.py" line="225"/>
+        <location filename="calculation.py" line="226"/>
         <source>Error: No coordinates on start point!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="calculation.py" line="237"/>
+        <location filename="calculation.py" line="238"/>
         <source>Warning: No coordinates for end point -&gt; Free traverse.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="calculation.py" line="256"/>
+        <location filename="calculation.py" line="257"/>
         <source>Error: No orientation on start point and no coordinates on end point!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="calculation.py" line="260"/>
+        <location filename="calculation.py" line="261"/>
         <source>Warning: No orientation on start point - inserted traverse.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="calculation.py" line="267"/>
+        <location filename="calculation.py" line="268"/>
         <source>Warning: No orientation on end point.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="calculation.py" line="272"/>
+        <location filename="calculation.py" line="273"/>
         <source>Error: No angle at point %s!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="calculation.py" line="308"/>
+        <location filename="calculation.py" line="309"/>
         <source>Error: No distance between points %s and %s!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="93"/>
+        <location filename="transformation_dialog.py" line="94"/>
         <source>Coordinate list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="93"/>
+        <location filename="transformation_dialog.py" line="94"/>
         <source>Coordinate list file (*.shp);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="192"/>
+        <location filename="transformation_dialog.py" line="193"/>
         <source>
 Orthogonal transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="196"/>
+        <location filename="transformation_dialog.py" line="197"/>
         <source>
 Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="200"/>
+        <location filename="transformation_dialog.py" line="201"/>
         <source>
 3rd order polynomial transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="204"/>
+        <location filename="transformation_dialog.py" line="205"/>
         <source>
 4th order polynomial transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="208"/>
+        <location filename="transformation_dialog.py" line="209"/>
         <source>
 5th order polynomial transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="218"/>
+        <location filename="transformation_dialog.py" line="219"/>
         <source>Point num                E from       N from       E to         N to      dE     dN</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="240"/>
+        <location filename="single_dialog.py" line="241"/>
         <source>Select the type of calculation!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="246"/>
+        <location filename="single_dialog.py" line="247"/>
         <source>Select station point 1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="251"/>
+        <location filename="single_dialog.py" line="252"/>
         <source>Select station point 2!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="255"/>
+        <location filename="single_dialog.py" line="256"/>
         <source>Add points to Used Points list!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="276"/>
+        <location filename="single_dialog.py" line="277"/>
         <source>Orientation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="277"/>
+        <location filename="single_dialog.py" line="278"/>
         <source>Point num  Code         Direction    Bearing   Orient ang   Distance   e&quot;    E(m)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="280"/>
+        <location filename="single_dialog.py" line="281"/>
         <source>Orientation angle cannot be calculated!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="297"/>
+        <location filename="single_dialog.py" line="298"/>
         <source>Radial Survey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="298"/>
+        <location filename="single_dialog.py" line="299"/>
         <source>Point num  Code              E            N        Z     Bearing  H.Distance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="316"/>
+        <location filename="single_dialog.py" line="317"/>
         <source>Radial survey on %s cannot be calculated!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="323"/>
+        <location filename="single_dialog.py" line="324"/>
         <source>Station 1 and station 2 are the same!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="342"/>
+        <location filename="single_dialog.py" line="343"/>
         <source>Intersection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="343"/>
+        <location filename="single_dialog.py" line="344"/>
         <source>Point num  Code              E            N     Bearing1 Bearing2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="357"/>
+        <location filename="single_dialog.py" line="358"/>
         <source>Intersecion on %s cannot be calculated!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="363"/>
+        <location filename="single_dialog.py" line="364"/>
         <source>Select exactly 3 used points for resection!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="382"/>
+        <location filename="single_dialog.py" line="383"/>
         <source>Resection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="383"/>
+        <location filename="single_dialog.py" line="384"/>
         <source>Point num  Code                E            N      Direction  Angle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="400"/>
+        <location filename="single_dialog.py" line="401"/>
         <source>gama-local not installed or other runtime error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -428,22 +428,22 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="173"/>
+        <location filename="transformation_dialog.py" line="174"/>
         <source>Select from layer!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="179"/>
+        <location filename="transformation_dialog.py" line="180"/>
         <source>Select to shape file!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="210"/>
+        <location filename="transformation_dialog.py" line="211"/>
         <source>Select transformation type!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_dialog.py" line="210"/>
+        <location filename="network_dialog.py" line="213"/>
         <source>Network adjustment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -485,6 +485,16 @@ Version 0.1a</source>
     <message>
         <location filename="surveying_calculation.py" line="394"/>
         <source>Not a single polygon is selected in active layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="area_dialog.py" line="46"/>
+        <source>Invalid area value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="area_dialog.py" line="49"/>
+        <source>Select division method</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -545,37 +555,32 @@ Version 0.1a</source>
     <name>AreaDivDialog</name>
     <message>
         <location filename="area_div.ui" line="56"/>
-        <source>Reset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="area_div.ui" line="75"/>
         <source>Divide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="area_div.ui" line="94"/>
-        <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="area_div.ui" line="107"/>
+        <location filename="area_div.ui" line="88"/>
         <source>Divide selected area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="area_div.ui" line="129"/>
+        <location filename="area_div.ui" line="110"/>
         <source>Area (in layer units)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="area_div.ui" line="148"/>
-        <source>Through a given point</source>
+        <location filename="area_div.ui" line="75"/>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="area_div.ui" line="167"/>
-        <source>Paralel to given points</source>
+        <location filename="area_div.ui" line="129"/>
+        <source>Through the first given point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="area_div.ui" line="148"/>
+        <source>Paralel to the given line</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
