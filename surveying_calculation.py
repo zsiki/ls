@@ -172,7 +172,7 @@ class SurveyingCalculation:
         self.sc_netw.triggered.connect(self.networks)
         self.sc_tran.triggered.connect(self.transformation)
         self.sc_pdiv.setCheckable(True)
-        self.tool_pdiv = LineMapTool(self.iface.mapCanvas())
+        self.tool_pdiv = LineMapTool(self.iface)
         self.tool_pdiv.setAction(self.sc_pdiv)
         self.sc_pdiv.triggered.connect(self.polygon_division)
         self.sc_plot.triggered.connect(self.plot_by_temp)
@@ -242,8 +242,8 @@ class SurveyingCalculation:
         """
         if get_coordlist() is None:
             QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("No coordinate list is opened, coordinates will be lost from the fieldbook"))
-        fname = QFileDialog.getOpenFileName(self.iface.mainWindow(),
-            tr('Electric fieldbook'),
+        fname = QFileDialog.getOpenFileName(self.iface.mainWindow(), \
+            tr('Electric fieldbook'), config.homedir, \
             filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd)'))
         if fname:
             # file selected
