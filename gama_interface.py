@@ -52,7 +52,7 @@ class GamaInterface(object):
         """ Add point to adjustment
 
             :param point: point to ad network (Point)
-            :param state: FIXi or ADJ (str)
+            :param state: FIX or ADJ (str)
         """
         for p, s in self.points:
             # avoid duplicated points
