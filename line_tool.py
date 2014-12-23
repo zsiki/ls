@@ -9,17 +9,23 @@
 """
 
 from PyQt4.QtCore import Qt, SIGNAL
-from qgis.core import *
+from PyQt4.QtGui import QMessageBox
 from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand, QgsMapTool
+from qgis.core import *
+
+import config
+from base_classes import tr
 
 class LineMapTool(QgsMapToolEmitPoint):
     """ Class implements rubberband line tool for polygon division
     """
-    def __init__(self, canvas):
+    def __init__(self, iface):
         """ initialize rubberband line drawing
-            :param canvas: canvas to draw on
+            :param iface: interface to QGIS
         """
-        self.canvas = canvas
+        self.iface = iface
+        self.layer = None
+        self.canvas = self.iface.mapCanvas()
         QgsMapToolEmitPoint.__init__(self, self.canvas)
         self.rubberBand = QgsRubberBand(self.canvas, QGis.Line)
         self.rubberBand.setColor(Qt.red)
@@ -37,7 +43,18 @@ class LineMapTool(QgsMapToolEmitPoint):
         """ handler to handle left button down, start rubberband line
             :param e: event
         """
+        al = self.iface.activeLayer()
+        if al is None or al.type() != QgsMapLayer.VectorLayer or \
+            al.geometryType() != 2:
+            QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Actual layer contains no polygons"))
+            return
+        if len(al.selectedFeatures()) != 1:
+            QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Not a single polygon is selected in active layer"))
+            return
+        self.layer = al
         self.startPoint = self.toMapCoordinates(e.pos())
+        # snap to point on active layer
+        self.layer.snapPoint(self.startPoint, config.tolerance)
         self.endPoint = self.startPoint
         self.isEmittingPoint = True
         self.showLine(self.startPoint, self.endPoint)
@@ -57,6 +74,7 @@ class LineMapTool(QgsMapToolEmitPoint):
             return
 
         self.endPoint = self.toMapCoordinates(e.pos())
+        self.layer.snapPoint(self.endPoint, config.tolerance)
         self.showLine(self.startPoint, self.endPoint)
 
     def showLine(self, startPoint, endPoint):
@@ -76,5 +94,9 @@ class LineMapTool(QgsMapToolEmitPoint):
     def deactivate(self):
         """ deactivate line tool
         """
-        self.deactivate()
-        self.emit(SIGNAL("deactivated()"))
+        try:
+            # TODO
+            self.deactivate()
+            self.emit(SIGNAL("deactivated()"))
+        except TypeError:
+            pass
