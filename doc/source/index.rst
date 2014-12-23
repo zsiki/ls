@@ -13,6 +13,12 @@ Entry modul for the QGIS plug-in
 .. automodule:: SurveyingCalculation.surveying_calculation
    :members:
 
+Area division dialog
+====================
+
+.. automodule:: SurveyingCalculation.area_dialog
+   :members:
+
 Base classes, functions
 =======================
 

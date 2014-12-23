@@ -190,6 +190,48 @@ active layer</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-SurveyingCalculation.area_dialog">
+<span id="area-division-dialog"></span><h2>Area division dialog<a class="headerlink" href="#module-SurveyingCalculation.area_dialog" title="Permalink to this headline">¶</a></h2>
+<p id="module-area_dialog"><em>Platforms: </em>Linux, Windows</p>
+<dl class="class">
+<dt id="SurveyingCalculation.area_dialog.AreaDialog">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.area_dialog.</tt><tt class="descname">AreaDialog</tt><a class="reference internal" href="_modules/SurveyingCalculation/area_dialog.html#AreaDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.area_dialog.AreaDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for area division dialog</p>
+<dl class="method">
+<dt id="SurveyingCalculation.area_dialog.AreaDialog.onCancelButton">
+<tt class="descname">onCancelButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/area_dialog.html#AreaDialog.onCancelButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.area_dialog.AreaDialog.onCancelButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reject dialog</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.area_dialog.AreaDialog.onDivideButton">
+<tt class="descname">onDivideButton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/area_dialog.html#AreaDialog.onDivideButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.area_dialog.AreaDialog.onDivideButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check input and accept dialog</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.area_dialog.AreaDialog.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/area_dialog.html#AreaDialog.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.area_dialog.AreaDialog.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset dialog to initial state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.area_dialog.AreaDialog.showEvent">
+<tt class="descname">showEvent</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/area_dialog.html#AreaDialog.showEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.area_dialog.AreaDialog.showEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up initial state of dialog widgets</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; NOT USED</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-SurveyingCalculation.base_classes">
 <span id="base-classes-functions"></span><h2>Base classes, functions<a class="headerlink" href="#module-SurveyingCalculation.base_classes" title="Permalink to this headline">¶</a></h2>
 <p id="module-base_classes"><em>Platforms: </em>Linux, Windows</p>
@@ -786,6 +828,24 @@ tolerance: snapping tolerance to line tool</pre>
 <dt id="SurveyingCalculation.line_tool.LineMapTool.deactivate">
 <tt class="descname">deactivate</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.deactivate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.deactivate" title="Permalink to this definition">¶</a></dt>
 <dd><p>deactivate line tool</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.line_tool.LineMapTool.divide">
+<tt class="descname">divide</tt><big>(</big><em>area</em>, <em>rotate</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.divide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide the selected polygon.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>area</strong> &#8211; area to divide (float)</li>
+<li><strong>rotate</strong> &#8211; rotate/offset True/False (bool)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -1967,6 +2027,7 @@ if open traverse is chosen.</p>
   <ul>
 <li><a class="reference internal" href="#">SurveyingCalculation developer&#8217;s documentation</a><ul>
 <li><a class="reference internal" href="#module-SurveyingCalculation.surveying_calculation">Entry modul for the QGIS plug-in</a></li>
+<li><a class="reference internal" href="#module-SurveyingCalculation.area_dialog">Area division dialog</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.base_classes">Base classes, functions</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.batch_plotting_dialog">Batch plotting GUI</a></li>
 <li><a class="reference internal" href="#module-SurveyingCalculation.calculation">Mathematical calculations</a></li>
