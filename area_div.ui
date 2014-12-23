@@ -37,7 +37,7 @@
   <property name="locale">
    <locale language="English" country="UnitedKingdom"/>
   </property>
-  <widget class="QPushButton" name="ResetButton">
+  <widget class="QPushButton" name="DivideButton">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -53,29 +53,10 @@
     </sizepolicy>
    </property>
    <property name="text">
-    <string>Reset</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="DivideButton">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>140</y>
-     <width>81</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="text">
     <string>Divide</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="CloseButton">
+  <widget class="QPushButton" name="CancelButton">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -91,7 +72,7 @@
     </sizepolicy>
    </property>
    <property name="text">
-    <string>Close</string>
+    <string>Cancel</string>
    </property>
   </widget>
   <widget class="QGroupBox" name="AreaDivGroup">
@@ -134,7 +115,7 @@
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>191</width>
+      <width>271</width>
       <height>17</height>
      </rect>
     </property>
@@ -145,7 +126,7 @@
      </sizepolicy>
     </property>
     <property name="text">
-     <string>Through a given point</string>
+     <string>Through the first given point</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="TwoPointRadio">
@@ -153,7 +134,7 @@
      <rect>
       <x>10</x>
       <y>90</y>
-      <width>191</width>
+      <width>271</width>
       <height>17</height>
      </rect>
     </property>
@@ -164,7 +145,7 @@
      </sizepolicy>
     </property>
     <property name="text">
-     <string>Paralel to given points</string>
+     <string>Paralel to the given line</string>
     </property>
    </widget>
   </widget>
@@ -174,8 +155,7 @@
   <tabstop>OnePointRadio</tabstop>
   <tabstop>TwoPointRadio</tabstop>
   <tabstop>DivideButton</tabstop>
-  <tabstop>ResetButton</tabstop>
-  <tabstop>CloseButton</tabstop>
+  <tabstop>CancelButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
