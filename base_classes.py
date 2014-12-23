@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 .. module:: base_classes
-	:platform: Linux, Windows
-	:synopsis: Basic classes for Land Surveying Plug-in for QGIS GPL v2.0 license Copyright (C) 2014-  DigiKom Kft. http://digikom.hu
+    :platform: Linux, Windows
+    :synopsis: Basic classes for Land Surveying Plug-in for QGIS GPL v2.0 license Copyright (C) 2014-  DigiKom Kft. http://digikom.hu
 
 .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
@@ -60,9 +60,8 @@ class Angle(object):
     def set_angle(self, value, unit='RAD'):
         """ Set or change value of angle.
 
-            :param value: new value for angle
-            :param unit: unit for the new value
-            :returns: none
+            :param value: new value for angle (str or float)
+            :param unit: unit for the new value (str)
         """
         if unit == 'RAD' or value is None:
             self.value = value
@@ -364,8 +363,10 @@ class Circle(object):
         return intersecLL( midp12, midp23, d12, d23 )
 
 def distance2d(p1, p2):
-    """
-        Calculate horizontal distance between two points
+    """ Calculate horizontal distance between two points
+        :param p1: start point (Point)
+        :param p2: end point (Point)
+        :returns: distance (Distance)
     """
     try:
         d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2)
@@ -374,8 +375,10 @@ def distance2d(p1, p2):
     return Distance(d, 'HD')
 
 def distance3d(p1, p2):
-    """
-        Calculate 3D distance between two points
+    """ Calculate 3D distance between two points
+        :param p1: start point (Point)
+        :param p2: end point (Point)
+        :returns: distance (Distance)
     """
     try:
         d = math.sqrt((p2.e - p1.e) ** 2 + (p2.n - p1.n) ** 2 + (p2.z - p1.z) ** 2)
@@ -384,8 +387,10 @@ def distance3d(p1, p2):
     return Distance(d, 'SD')
 
 def bearing(p1, p2):
-    """
-        Calculate whole circle bearing
+    """ Calculate whole circle bearing
+        :param p1: station point
+        :param p2: target point
+        :returns: bearing (Angle)
     """
     try:
         wcb = math.atan2(p2.e - p1.e, p2.n - p1.n)
@@ -400,10 +405,10 @@ def intersecLL(pa, pb, dap, dbp):
             xa + t1 * sin dap = xb + t2 * sin dbp
             ya + t1 * cos dap = yb + t2 * cos dbp
 
-        :param pa first point
-        :param pb  second point
-        :param dap direction (bearing) from first point to new point
-        :param dbp direction (bearing) from second point to new point
+        :param pa: first point
+        :param pb:  second point
+        :param dap: direction (bearing) from first point to new point
+        :param dbp: direction (bearing) from second point to new point
         :returns: xp yp as a list or an empty list if lines are near paralel
     """
     try:
@@ -543,4 +548,3 @@ if __name__ == "__main__":
         print "Circle from 2 points and angle test failed by n"
     if not compare(c.r, 57.735026919):
         print "Circle from 2 points and angle test failed by r"
-    
