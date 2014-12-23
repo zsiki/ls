@@ -6,12 +6,14 @@
 
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 
-    :param appname: name of the plugin
-    :param fontname: monospace font used in calculation results widgets
-    :param fontsize: font size used in calculation results widgets
-    :param homedir: start dir used for loading fieldbooks
-    :param log_path: path to log file
-    :param tolerance: snapping tolerance to line tool
+Variables set::
+
+    appname: name of the plugin
+    fontname: monospace font used in calculation results widgets
+    fontsize: font size used in calculation results widgets
+    homedir: start dir used for loading fieldbooks
+    log_path: path to log file
+    tolerance: snapping tolerance to line tool
 """
 
 appname = 'SurveyingCalculation'
