@@ -15,6 +15,7 @@ from qgis.core import *
 
 import config
 from base_classes import tr
+from area_dialog import AreaDialog
 
 class LineMapTool(QgsMapToolEmitPoint):
     """ Class implements rubberband line tool for polygon division
@@ -66,7 +67,13 @@ class LineMapTool(QgsMapToolEmitPoint):
             :param e: event
         """
         self.isEmittingPoint = False
-        # print "Line:", self.startPoint.x(), self.startPoint.y(), self.endPoint.x(), self.endPoint.y()
+        area_dlg = AreaDialog()
+        # show the dialog
+        area_dlg.show()
+        # run the dialog event loop
+        if area_dlg.exec_():
+            self.divide(float(area_dlg.ui.AreaLineEdit.text()), \
+                area_dlg.ui.OnePointRadio.isChecked())
 
     def canvasMoveEvent(self, e):
         """ handler to handle mouse move event
@@ -104,3 +111,11 @@ class LineMapTool(QgsMapToolEmitPoint):
             self.emit(SIGNAL("deactivated()"))
         except TypeError:
             pass
+
+    def divide(self, area, rotate):
+        """ Divide the selected polygon.
+
+            :param area: area to divide (float)
+            :param rotate: rotate/offset True/False (bool)
+        """
+        pass
