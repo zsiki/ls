@@ -25,4 +25,6 @@ homedir = '/tmp'
 # logging
 log_path = '/tmp/log.log'
 # line tool
-tolerance = 1   # tolerance in canvas units?
+line_tolerance = 1   # tolerance in layer units?
+# area division
+area_tolerance = 0.5 # tolerance in layer unirs
