@@ -8,6 +8,10 @@
 .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 
+# debugging
+from PyQt4.QtCore import pyqtRemoveInputHook
+import pdb
+
 import re
 from base_classes import Angle
 
@@ -16,7 +20,7 @@ class TotalStation(object):
     """
 
     def __init__(self, fname, separator):
-        """ Initialize dialog data and event handlers
+        """ Initialize a new instance
 
             :param fname: input file name (string)
             :param separator: field separator in input (string/regexp)
@@ -314,7 +318,7 @@ class Sdr(TotalStation):
     """ Class to import Sokkia field books
     """
     def __init__(self, fname, separator=None):
-        """ Initialize dialog data and event handlers
+        """ Initialize a new instance
 
             :param fname: input file name (string)
             :param separator: field separator in input (string/regexp)
@@ -485,11 +489,69 @@ class Sdr(TotalStation):
                     res['station'] = None
                     return res
 
+class SurvCE(TotalStation):
+    """ Class to import SurvCE rw5 files
+    """
+    def __init__(self, fname, separator=','):
+        """ Initialize a new instance
+
+            :param fname: input file name (string)
+            :param separator: field separator in input (string/regexp)
+        """
+        super(SurvCE, self).__init__(fname, separator)
+        self.angle_unit = 'PDEG'
+        self.distance_unit = 1       # 0-feet 1-meter
+        self.res = {}
+
+    def parse_next(self):
+        """ Load next observation, station
+
+            :returns: observation data
+        """
+        self.res = {}
+        if self.fp is None:
+            return None
+        while True:
+            buf = self.get_line()
+            if buf is None:
+                if len(self.res):
+                    return self.res
+                else:
+                    return None
+            if buf[0] == 'GPS':            # log, lan
+                last_res = self.res
+                self.res = {}
+                for field in buf[1:]:
+                    fcode = field[0:2]
+                    if fcode == 'PN':
+                        self.res['point_id'] = field[2:].strip()
+                    elif fcode == 'LA':
+                        self.res['n'] = float(field[2:].strip())
+                    elif fcode == 'LN':
+                        self.res['e'] = float(field[2:].strip())
+                    elif fcode == 'EL':
+                        self.res['z'] = float(field[2:].strip())
+                return last_res
+            if buf[0] == '--GS':    # projected coordinates overwrite lot,lan
+                for field in buf[1:]:
+                    fcode = field[0:2]
+                    if fcode == 'PN':
+                        self.res['point_id'] = field[2:].strip()
+                    elif fcode == 'N ':
+                        self.res['n'] = float(field[2:].strip())
+                    elif fcode == 'E ':
+                        self.res['e'] = float(field[2:].strip())
+                    elif fcode == 'EL':
+                        self.res['z'] = float(field[2:].strip())
+
+
 if __name__ == "__main__":
     """
         unit test
     """
-    ts = LeicaGsi('samples/test_trafo.gsi', ' ')
+    #pdb.set_trace()
+    ts = SurvCE('samples/JENDELE 84.rw5')
+    #ts = LeicaGsi('samples/test_trafo.gsi', ' ')
     #ts = JobAre('samples/test1.job', '=')
     #ts = Sdr('samples/PAJE04.crd', None)
     if ts.open() != 0:

@@ -14,6 +14,7 @@ from qgis.core import *
 # Initialize Qt resources from file resources.py
 import resources_rc
 import os.path
+from os import unlink
 import re
 from shutil import copyfile
 # debugging
@@ -244,7 +245,7 @@ class SurveyingCalculation:
             QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("No coordinate list is opened, coordinates will be lost from the fieldbook"))
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(), \
             tr('Electric fieldbook'), config.homedir, \
-            filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd)'))
+            filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5)'))
         if fname:
             # file selected
             # make a copy of dbf template if not are is loaded
@@ -269,6 +270,8 @@ class SurveyingCalculation:
                 fb = JobAre(fname)
             elif re.search('\.crd$', fname, re.IGNORECASE):
                 fb = Sdr(fname)
+            elif re.search('\.rw5$', fname, re.IGNORECASE):
+                fb = SurvCE(fname)
             else:
                 QMessageBox.warning(self.iface.mainWindow(),
                     tr('File warning'),
@@ -333,8 +336,19 @@ class SurveyingCalculation:
                     n_co += 1
                 i += 10
             #fb_dbf.commitChanges()
+            if n_fb == 0:        # no observations
+                QgsMapLayerRegistry.instance().removeMapLayer(fb_dbf.id())
+                # remove empty file
+                unlink(ofname)
+                if n_co == 0:    # no coordinates
+                    QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),\
+                        tr("Neither coordinates nor observations found"))
+                else:
+                    QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),\
+                        tr("No observations found"))
             self.log.write()
             self.log.write_log(tr("Fieldbook loaded: ") + fname)
+            self.log.write("    %d observations, %d coordinates" % (n_fb, n_co))
         return
     
     def addp(self):
