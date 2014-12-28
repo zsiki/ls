@@ -257,6 +257,8 @@ class SurveyingCalculation:
                     filter = tr('DBF file (*.dbf)'))
                 if not ofname:
                     return
+				# remember last input dir
+                config.homedir = os.path.dirname(fname)
                 if not re.match('fb_', os.path.basename(ofname)):
                     ofname = os.path.join(os.path.dirname(ofname),
                         'fb_' + os.path.basename(ofname) + '.dbf')
