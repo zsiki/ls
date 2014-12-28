@@ -18,8 +18,8 @@ from os import unlink
 import re
 from shutil import copyfile
 # debugging
-#from PyQt4.QtCore import pyqtRemoveInputHook
-#import pdb
+from PyQt4.QtCore import pyqtRemoveInputHook
+import pdb
 
 # plugin specific python modules
 import config
@@ -245,7 +245,7 @@ class SurveyingCalculation:
             QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("No coordinate list is opened, coordinates will be lost from the fieldbook"))
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(), \
             tr('Electric fieldbook'), config.homedir, \
-            filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5)'))
+            filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat)'))
         if fname:
             # file selected
             # make a copy of dbf template if not are is loaded
@@ -257,7 +257,7 @@ class SurveyingCalculation:
                     filter = tr('DBF file (*.dbf)'))
                 if not ofname:
                     return
-				# remember last input dir
+                # remember last input dir
                 config.homedir = os.path.dirname(fname)
                 if not re.match('fb_', os.path.basename(ofname)):
                     ofname = os.path.join(os.path.dirname(ofname),
@@ -274,6 +274,8 @@ class SurveyingCalculation:
                 fb = Sdr(fname)
             elif re.search('\.rw5$', fname, re.IGNORECASE):
                 fb = SurvCE(fname)
+            elif re.search('\.dat$', fname, re.IGNORECASE):
+                fb = Stonex(fname)
             else:
                 QMessageBox.warning(self.iface.mainWindow(),
                     tr('File warning'),

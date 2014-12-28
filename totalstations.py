@@ -8,10 +8,6 @@
 .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 
-# debugging
-from PyQt4.QtCore import pyqtRemoveInputHook
-import pdb
-
 import re
 from base_classes import Angle
 
@@ -532,7 +528,7 @@ class SurvCE(TotalStation):
                     elif fcode == 'EL':
                         self.res['z'] = float(field[2:].strip())
                 return last_res
-            if buf[0] == '--GS':    # projected coordinates overwrite lot,lan
+            elif buf[0] == '--GS':    # projected coordinates overwrite lot,lan
                 for field in buf[1:]:
                     fcode = field[0:2]
                     if fcode == 'PN':
@@ -544,13 +540,86 @@ class SurvCE(TotalStation):
                     elif fcode == 'EL':
                         self.res['z'] = float(field[2:].strip())
 
+class Stonex(TotalStation):
+    """ Class to import STONEX ascii file
+    """
+    def __init__(self, fname, separator=','):
+        """ Initialize a new instance
+
+            :param fname: input file name (string)
+            :param separator: field separator in input (string/regexp)
+        """
+        super(Stonex, self).__init__(fname, separator)
+        self.angle_unit = 'GON'
+        self.distance_unit = 1       # 0-feet 1-meter
+        self.res = {}
+
+    def parse_next(self):
+        """ Load next observation, station
+
+            :returns: observation data
+        """
+        # TODO units?
+        last_res = {}
+        if self.fp is None:
+            return None
+        while True:
+            buf = self.get_line()
+            if buf is None:
+                if len(self.res):
+                    last_res = self.res
+                    self.res = {}
+                    return last_res
+                else:
+                    return None
+            if not buf[0] in ('K', 'E', 'B', 'C', 'L'):
+                continue    # skip unknown/job lines
+            point_id = buf[1].strip()
+            if 'point_id' in self.res.keys() and self.res['point_id'] != point_id:
+                last_res = self.res    # save previous data to return
+                self.res = {}        # clear for new point
+            if buf[0] == 'K':
+                self.res['point_id'] = point_id
+                self.res['n'] = float(buf[2].strip())
+                self.res['e'] = float(buf[3].strip())
+                self.res['z'] = float(buf[4].strip())
+                # TODO orientation angle???
+                self.res['hz'] = Angle(float(buf[5].strip()) / 10000.0, self.angle_unit).get_angle('GON')
+                self.res['th'] = float(buf[6].strip()) 
+                self.res['station'] = 'station'
+            elif buf[0] == 'E':        # observation
+                self.res['point_id'] = point_id
+                self.res['hz'] = Angle(float(buf[2].strip()) / 10000.0, self.angle_unit).get_angle('GON')
+                self.res['v'] = Angle(float(buf[3].strip()) / 10000.0, self.angle_unit).get_angle('GON')
+                self.res['th'] = float(buf[4].strip())
+                self.res['sd'] = float(buf[6].strip())
+                self.res['station'] = None
+            elif buf[0] == 'B':        # coordinate record
+                self.res['point_id'] = point_id
+                self.res['n'] = float(buf[2].strip())
+                self.res['e'] = float(buf[3].strip())
+                self.res['z'] = float(buf[4].strip())
+            elif buf[0] == 'C':        # coordinate + ???? TODO
+                self.res['point_id'] = point_id
+                self.res['n'] = float(buf[2].strip())
+                self.res['e'] = float(buf[3].strip())
+                self.res['z'] = float(buf[4].strip())
+            elif buf[0] == 'L':        # coordinate + hz ??? TODO
+                self.res['point_id'] = point_id
+                self.res['n'] = float(buf[2].strip())
+                self.res['e'] = float(buf[3].strip())
+                self.res['z'] = float(buf[4].strip())
+                self.res['hz'] = Angle(float(buf[5].strip()) / 10000.0, self.angle_unit).get_angle('GON')
+                self.res['th'] = float(buf[6].strip()) 
+                self.res['station'] = None
+            if len(last_res):
+                return last_res
 
 if __name__ == "__main__":
     """
         unit test
     """
-    #pdb.set_trace()
-    ts = SurvCE('samples/JENDELE 84.rw5')
+    ts = Stonex('samples/PAJE2OB.DAT')
     #ts = LeicaGsi('samples/test_trafo.gsi', ' ')
     #ts = JobAre('samples/test1.job', '=')
     #ts = Sdr('samples/PAJE04.crd', None)
