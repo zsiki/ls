@@ -21,7 +21,7 @@ appname = 'SurveyingCalculation'
 fontname = 'DejaVu Sans Mono'
 fontsize = 9
 #
-homedir = '/tmp'
+homedir = '/home/siki/qgis2/python/plugins/SurveyingCalculation'
 # logging
 log_path = '/tmp/log.log'
 # line tool
