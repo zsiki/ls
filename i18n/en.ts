@@ -8,7 +8,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="407"/>
+        <location filename="surveying_calculation.py" line="427"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
@@ -264,117 +264,112 @@ Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="195"/>
+        <location filename="surveying_calculation.py" line="196"/>
         <source>&amp;SurveyingCalculation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="141"/>
+        <location filename="surveying_calculation.py" line="142"/>
         <source>New coordinate list ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="142"/>
+        <location filename="surveying_calculation.py" line="143"/>
         <source>New fieldbook ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="145"/>
+        <location filename="surveying_calculation.py" line="146"/>
         <source>Single point calculations ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="146"/>
+        <location filename="surveying_calculation.py" line="147"/>
         <source>Traverse calculations ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="147"/>
+        <location filename="surveying_calculation.py" line="148"/>
         <source>Network adjustment ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="148"/>
+        <location filename="surveying_calculation.py" line="149"/>
         <source>Coordinate transformation ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="151"/>
+        <location filename="surveying_calculation.py" line="152"/>
         <source>Batch plotting ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="152"/>
+        <location filename="surveying_calculation.py" line="153"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="419"/>
+        <location filename="surveying_calculation.py" line="439"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="205"/>
+        <location filename="surveying_calculation.py" line="206"/>
         <source>QGIS co-ordinate list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="205"/>
+        <location filename="surveying_calculation.py" line="206"/>
         <source>Shape file (*.shp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="224"/>
+        <location filename="surveying_calculation.py" line="225"/>
         <source>New fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="224"/>
+        <location filename="surveying_calculation.py" line="225"/>
         <source>Fieldbook file (*.dbf)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="245"/>
+        <location filename="surveying_calculation.py" line="246"/>
         <source>Electric fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="245"/>
-        <source>Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="surveying_calculation.py" line="253"/>
+        <location filename="surveying_calculation.py" line="254"/>
         <source>QGIS fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="253"/>
+        <location filename="surveying_calculation.py" line="254"/>
         <source>DBF file (*.dbf)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="273"/>
+        <location filename="surveying_calculation.py" line="280"/>
         <source>File warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="273"/>
+        <location filename="surveying_calculation.py" line="280"/>
         <source>Unknown fieldbook type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="273"/>
+        <location filename="surveying_calculation.py" line="280"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="407"/>
+        <location filename="surveying_calculation.py" line="427"/>
         <source>This utility needs at least one polygon type layer!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="419"/>
+        <location filename="surveying_calculation.py" line="439"/>
         <source>Surveying Calculation Plugin
 
  (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu
@@ -408,7 +403,7 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="144"/>
+        <location filename="surveying_calculation.py" line="145"/>
         <source>Add new point ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -448,42 +443,42 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="143"/>
+        <location filename="surveying_calculation.py" line="144"/>
         <source>Import fieldbook ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="149"/>
+        <location filename="surveying_calculation.py" line="150"/>
         <source>Polygon division ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="150"/>
+        <location filename="surveying_calculation.py" line="151"/>
         <source>Plot by template ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="244"/>
+        <location filename="surveying_calculation.py" line="245"/>
         <source>No coordinate list is opened, coordinates will be lost from the fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="337"/>
+        <location filename="surveying_calculation.py" line="356"/>
         <source>Fieldbook loaded: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="344"/>
+        <location filename="surveying_calculation.py" line="364"/>
         <source>A coordinate list must be opened!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="391"/>
+        <location filename="surveying_calculation.py" line="411"/>
         <source>Actual layer contains no polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="394"/>
+        <location filename="surveying_calculation.py" line="414"/>
         <source>Not a single polygon is selected in active layer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -495,6 +490,31 @@ Version 0.1a</source>
     <message>
         <location filename="area_dialog.py" line="49"/>
         <source>Select division method</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="line_tool.py" line="129"/>
+        <source>Area of polygon is smaller then requested area</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="line_tool.py" line="170"/>
+        <source>Area division failed </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="surveying_calculation.py" line="246"/>
+        <source>Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="surveying_calculation.py" line="350"/>
+        <source>Neither coordinates nor observations found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="surveying_calculation.py" line="353"/>
+        <source>No observations found</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
