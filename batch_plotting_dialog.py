@@ -161,9 +161,18 @@ class BatchPlottingDialog(QDialog):
             pdlg.setOptions(QAbstractPrintDialog.None)
             if not pdlg.exec_() == QDialog.Accepted:
                 return
+        
         # get map renderer of map canvas        
         renderer = self.iface.mapCanvas().mapRenderer()
         self.composition = QgsComposition(renderer)
+
+        # if plot to Composer View the composition must be set 
+        # before loading the template 
+        # otherwise composer's item properties doesn't appear
+        if self.ui.OutputTab.currentIndex() == 2:  # to Composer View
+            composer = self.iface.createNewComposer() 
+            composer.setComposition(self.composition)
+
         self.composition.loadFromTemplate(document)
 
         # if batch_plotting is True create an atlas composition
@@ -201,8 +210,6 @@ class BatchPlottingDialog(QDialog):
             elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
                 # create new composer
                 self.composition.setAtlasMode( QgsComposition.PreviewAtlas )
-                composer = self.iface.createNewComposer() 
-                composer.setComposition(self.composition)
                 composer.composerWindow().on_mActionAtlasPreview_triggered(True)
                 # Increase the reference count of the composer object 
                 # for not being garbage collected.
