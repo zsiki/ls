@@ -25,9 +25,14 @@ class BatchPlottingDialog(QDialog):
         self.ui = Ui_BatchPlottingDialog()
         self.ui.setupUi(self)
         self.iface = iface
+        self.ui.OutputTab.setCurrentIndex(2)
         # if batch_plotting is True -> plotting by selected polygons
         #                     False -> plot map canvas
         self.batch_plotting = batch_plotting
+        if not self.batch_plotting:
+            self.setWindowTitle("Plot by Template")
+            self.ui.OutputTab.setTabEnabled(0,False)
+            self.ui.OutputTab.setTabEnabled(1,False)
 
         # event handlers
         self.ui.PlotButton.clicked.connect(self.onPlotButton)
@@ -45,15 +50,22 @@ class BatchPlottingDialog(QDialog):
         """
         self.fillLayersCombo()
         self.fillTemplateList()
+        if not self.batch_plotting:
+            # set scale to map canvas scale
+            self.ui.ScaleCombo.insertItem(0,"%d" % round(self.iface.mapCanvas().scale()))
+            self.ui.ScaleCombo.setCurrentIndex(0)
 
     def fillLayersCombo(self):
         """ Fill the polygon layers combobox.
         """            
         oldSelectedLayer = self.ui.LayersComboBox.itemText( self.ui.LayersComboBox.currentIndex() )
         self.ui.LayersComboBox.clear()
+        # if batch plotting is false only map canvas will be in the list
         if not self.batch_plotting:
             self.ui.LayersComboBox.addItem("Map canvas")
+            self.ui.LayersComboBox.setCurrentIndex(0)
             return
+        # if batch plotting is true fill layers combo
         polygon_layers = get_vector_layers_by_type(QGis.Polygon)
         if polygon_layers is None:
             return
@@ -90,31 +102,33 @@ class BatchPlottingDialog(QDialog):
     def onPlotButton(self):
         """ Batch plots selected geometry items using the selected template and scale.
         """
+        # check if one layer is selected
         if self.ui.LayersComboBox.currentIndex() == -1:
             QMessageBox.warning(self, tr("Warning"), tr("Select a layer!"))
             self.ui.LayersComboBox.setFocus()
             return
+        # check if one composition template is selected
         if self.ui.TemplateList.selectedItems() == []:
             QMessageBox.warning(self, tr("Warning"), tr("Select a composer template!"))
             self.ui.TemplateList.setFocus()
             return
-        
         self.template_file = os.path.join(self.dirpath,
             self.ui.TemplateList.currentItem().text())
+        # get the scale
         try:
             scale = int(self.ui.ScaleCombo.currentText())
         except (ValueError):
             QMessageBox.warning(self, tr("Warning"), tr("Scale must be an integer value!"))
             self.ui.ScaleCombo.setFocus()
             return
-
         #check if there are selected items on polygon layers
-        selected_layer = self.ui.LayersComboBox.itemData(self.ui.LayersComboBox.currentIndex())
-        selected_polygons = get_features(selected_layer.name(),QGis.Polygon,True)
-        if selected_polygons is None:
-            QMessageBox.warning(self, tr("Warning"),
-                tr("Select at least one polygon on layer '%s'!"%selected_layer.name()))
-            return
+        if self.batch_plotting:
+            selected_layer = self.ui.LayersComboBox.itemData(self.ui.LayersComboBox.currentIndex())
+            selected_polygons = get_features(selected_layer.name(),QGis.Polygon,True)
+            if selected_polygons is None:
+                QMessageBox.warning(self, tr("Warning"),
+                    tr("Select at least one polygon on layer '%s'!"%selected_layer.name()))
+                return
         
         # check output setting
         if self.ui.OutputTab.currentIndex() == 0:    # to PDF
@@ -133,7 +147,8 @@ class BatchPlottingDialog(QDialog):
         template_file.close()
         document = QDomDocument()
         document.setContent(template_content)
-        
+
+        # if To Printer is selected set the printer
         if self.ui.OutputTab.currentIndex() == 1:  # to Printer
             # setting up printer
             if self.printer is None:
@@ -151,49 +166,53 @@ class BatchPlottingDialog(QDialog):
         self.composition = QgsComposition(renderer)
         self.composition.loadFromTemplate(document)
 
-        cmap = self.composition.composerMapItems()[0]
-        #cmap.setNewExtent(bbox)
-        cmap.setNewScale(scale)
-        cmap.setGridIntervalX(scale/10)
-        cmap.setGridIntervalY(scale/10)
-        cmap.setAtlasDriven(True)
-        cmap.setAtlasScalingMode( QgsComposerMap.Fixed )
+        # if batch_plotting is True create an atlas composition
+        if self.batch_plotting:
+            cmap = self.composition.composerMapItems()[0]
+            cmap.setNewScale(scale)
+            cmap.setGridIntervalX(scale/10)
+            cmap.setGridIntervalY(scale/10)
+            cmap.setAtlasDriven(True)
+            cmap.setAtlasScalingMode( QgsComposerMap.Fixed )
 
-        atlas = self.composition.atlasComposition()
-        atlas.setEnabled(True)
-        #layer = get_layer_by_name(selected_layer)
-        atlas.setCoverageLayer( selected_layer )
-        atlas.setHideCoverage(False)
-        atlas.setFilenamePattern("'output_'||$feature")
-        atlas.setSingleFile(False)   # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        atlas.setSortFeatures(False)   # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        atlas.setFilterFeatures(True)
-        selected_ids = [f.id() for f in selected_layer.selectedFeatures()]
-        filter_id_string = ','.join([str(sid) for sid in selected_ids])
-        atlas.setFeatureFilter("$id in (" + filter_id_string + ")")
+            atlas = self.composition.atlasComposition()
+            atlas.setEnabled(True)
+            atlas.setCoverageLayer( selected_layer )
+            atlas.setHideCoverage(False)
+            atlas.setFilenamePattern("'output_'||$feature")
+            atlas.setSingleFile(False)   # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            atlas.setSortFeatures(False)   # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            atlas.setFilterFeatures(True)
+            selected_ids = [f.id() for f in selected_layer.selectedFeatures()]
+            filter_id_string = ','.join([str(sid) for sid in selected_ids])
+            atlas.setFeatureFilter("$id in (" + filter_id_string + ")")
 
-        if self.ui.OutputTab.currentIndex() == 0:    # to PDF
-            self.composition.setAtlasMode( QgsComposition.ExportAtlas )
-            #atlas.beginRender()
-            #for i in range(0, atlas.numFeatures()):
-            #    atlas.prepareForFeature(i)
-            #    myImage = self.composition.printPageAsRaster(0)
-            #    myImage.save(output_jpeg)
-            #atlas.endRender() 
+            if self.ui.OutputTab.currentIndex() == 0:    # to PDF
+                self.composition.setAtlasMode( QgsComposition.ExportAtlas )
+                #atlas.beginRender()
+                #for i in range(0, atlas.numFeatures()):
+                #    atlas.prepareForFeature(i)
+                #    myImage = self.composition.printPageAsRaster(0)
+                #    myImage.save(output_jpeg)
+                #atlas.endRender() 
+                pass
+            elif self.ui.OutputTab.currentIndex() == 1:  # to Printer
+                pass 
+            elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
+                # create new composer
+                self.composition.setAtlasMode( QgsComposition.PreviewAtlas )
+                composer = self.iface.createNewComposer() 
+                composer.setComposition(self.composition)
+                composer.composerWindow().on_mActionAtlasPreview_triggered(True)
+                # Increase the reference count of the composer object 
+                # for not being garbage collected.
+                # If not doing this composer would lost reference and qgis would crash 
+                # when referring to this composer object or at quit.
+                ctypes.c_long.from_address( id(composer) ).value += 1
+                
+        else:
+            # if batch_plotting is False opan a QgsComposerView with current map canvas
             pass
-        elif self.ui.OutputTab.currentIndex() == 1:  # to Printer
-            pass 
-        elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
-            # create new composer
-            self.composition.setAtlasMode( QgsComposition.PreviewAtlas )
-            composer = self.iface.createNewComposer() 
-            composer.setComposition(self.composition)
-            composer.composerWindow().on_mActionAtlasPreview_triggered(True)
-            # Increase the reference count of the composer object 
-            # for not being garbage collected.
-            # If not doing this composer would lost reference and qgis would crash 
-            # when referring to this composer object or at quit.
-            ctypes.c_long.from_address( id(composer) ).value += 1
 
     def onCloseButton(self):
         """ Close the dialog when the Close button pushed.
