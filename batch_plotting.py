@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'batch_plotting.ui'
 #
-# Created: Mon Dec 29 15:08:24 2014
+# Created: Mon Dec 29 20:29:10 2014
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -111,12 +111,19 @@ class Ui_BatchPlottingDialog(object):
         self.ComposerEdit = QtGui.QLineEdit(self.toComposerView)
         self.ComposerEdit.setGeometry(QtCore.QRect(10, 30, 241, 20))
         self.ComposerEdit.setObjectName(_fromUtf8("ComposerEdit"))
+        self.ComposerEmptyLabel = QtGui.QLabel(self.toComposerView)
+        self.ComposerEmptyLabel.setGeometry(QtCore.QRect(10, 50, 241, 21))
+        font = QtGui.QFont()
+        font.setPointSize(7)
+        font.setStrikeOut(False)
+        self.ComposerEmptyLabel.setFont(font)
+        self.ComposerEmptyLabel.setObjectName(_fromUtf8("ComposerEmptyLabel"))
         self.OutputTab.addTab(self.toComposerView, _fromUtf8(""))
 
         self.retranslateUi(BatchPlottingDialog)
         self.ScaleCombo.setCurrentIndex(3)
         self.LayersComboBox.setCurrentIndex(-1)
-        self.OutputTab.setCurrentIndex(0)
+        self.OutputTab.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(BatchPlottingDialog)
         BatchPlottingDialog.setTabOrder(self.LayersComboBox, self.TempDirButton)
         BatchPlottingDialog.setTabOrder(self.TempDirButton, self.TemplateList)
@@ -149,5 +156,6 @@ class Ui_BatchPlottingDialog(object):
         self.OutputTab.setTabText(self.OutputTab.indexOf(self.toPDF), _translate("BatchPlottingDialog", "To PDF", None))
         self.OutputTab.setTabText(self.OutputTab.indexOf(self.toPrinter), _translate("BatchPlottingDialog", "To Printer", None))
         self.ComposerLabel.setText(_translate("BatchPlottingDialog", "Composer name:", None))
+        self.ComposerEmptyLabel.setText(_translate("BatchPlottingDialog", "If empty name will be genrated automatically.", None))
         self.OutputTab.setTabText(self.OutputTab.indexOf(self.toComposerView), _translate("BatchPlottingDialog", "To Composer View", None))
 

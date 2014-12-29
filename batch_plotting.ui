@@ -227,7 +227,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="toPDF">
     <attribute name="title">
@@ -300,6 +300,25 @@
        <width>241</width>
        <height>20</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ComposerEmptyLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>241</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>7</pointsize>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="text">
+      <string>If empty name will be genrated automatically.</string>
      </property>
     </widget>
    </widget>
