@@ -7,7 +7,7 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import os, glob, ctypes
-from PyQt4.QtCore import QFile, QIODevice, Qt, QFileInfo, QDir
+from PyQt4.QtCore import QFile, QIODevice, Qt, QFileInfo, QDir, QSizeF
 from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox, QListWidgetItem, \
                         QPrintDialog, QPrinter, QAbstractPrintDialog, QPainter, \
                         QProgressDialog, QApplication
@@ -256,9 +256,9 @@ class BatchPlottingDialog(QDialog):
                 QApplication.setOverrideCursor( Qt.BusyCursor )
                 
                 for featureI in range(0, atlas.numFeatures()):
-                    progress.setValue( featureI+1 );
+                    progress.setValue( featureI+1 )
                     # process input events in order to allow aborting
-                    QCoreApplication.processEvents();
+                    QCoreApplication.processEvents()
                     if progress.wasCanceled():
                         atlas.endRender()
                         break
@@ -268,7 +268,6 @@ class BatchPlottingDialog(QDialog):
                         progress.cancel()
                         QApplication.restoreOverrideCursor()
                         return
-
                     if not self.ui.SingleFileCheckbox.checkState():
                         multiFilePrinter = QPrinter()
                         outputFileName = QDir( outputDir ).filePath( atlas.currentFilename() ) + ".pdf"
@@ -294,6 +293,7 @@ class BatchPlottingDialog(QDialog):
                 if self.ui.SingleFileCheckbox.checkState():
                     painter.end()
                 QApplication.restoreOverrideCursor()
+
             elif self.ui.OutputTab.currentIndex() == 1:  # to Printer
                 # if To Printer is selected set the printer
                 # setting up printer
@@ -307,6 +307,58 @@ class BatchPlottingDialog(QDialog):
                 pdlg.setOptions(QAbstractPrintDialog.None)
                 if not pdlg.exec_() == QDialog.Accepted:
                     return
+                
+                QApplication.setOverrideCursor(Qt.BusyCursor)
+                #prepare for first feature, so that we know paper size to begin with
+                self.composition.setAtlasMode( QgsComposition.ExportAtlas )
+                atlas.prepareForFeature(0)
+
+                # set orientation                
+                if self.composition.paperWidth() > self.composition.paperHeight():
+                    self.printer.setOrientation(QPrinter.Landscape)
+                    self.printer.setPaperSize(
+                        QSizeF(self.composition.paperHeight(), self.composition.paperWidth()),
+                        QPrinter.Millimeter)
+                else:
+                    self.printer.setOrientation(QPrinter.Portrait)
+                    self.printer.setPaperSize(
+                        QSizeF(self.composition.paperWidth(), self.composition.paperHeight()),
+                        QPrinter.Millimeter)
+                self.printer.setResolution(self.composition.printResolution())
+
+                self.composition.beginPrint( self.printer )
+                painter = QPainter(self.printer)
+                if not len(atlas.featureFilterErrorString()) == 0:
+                    QMessageBox.warning( self, tr( "Atlas processing error" ),
+                        tr( "Feature filter parser error: %s" % atlas.featureFilterErrorString() ) )
+                    QApplication.restoreOverrideCursor()
+                    return
+
+                atlas.beginRender()
+                progress = QProgressDialog( tr( "Rendering maps..." ), tr( "Abort" ), 0, atlas.numFeatures(), self )
+                for featureI in range(0, atlas.numFeatures()):
+                    progress.setValue( featureI+1 )
+                    # process input events in order to allow cancelling
+                    QCoreApplication.processEvents()
+                    if progress.wasCanceled():
+                        atlas.endRender()
+                        break
+                    if not atlas.prepareForFeature( featureI ):
+                        QMessageBox.warning( self, tr( "Atlas processing error" ),
+                              tr( "Atlas processing error" ) )
+                        progress.cancel()
+                        QApplication.restoreOverrideCursor()
+                        return
+
+                    # start print on a new page if we're not on the first feature
+                    if featureI > 0:
+                        self.printer.newPage()
+                    self.composition.doPrint( self.printer, painter )
+                
+                atlas.endRender()
+                painter.end()
+                QApplication.restoreOverrideCursor()
+
             elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
                 # create new composer
                 self.composition.setAtlasMode( QgsComposition.PreviewAtlas )
@@ -319,7 +371,7 @@ class BatchPlottingDialog(QDialog):
                 # when referring to this composer object or at quit.
                 ctypes.c_long.from_address( id(composer) ).value += 1
         else:
-            # if batch_plotting is False opan a QgsComposerView with current map canvas
+            # if batch_plotting is False open a QgsComposerView with current map canvas
             pass
 
         self.accept()
