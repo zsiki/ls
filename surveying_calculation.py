@@ -318,7 +318,9 @@ class SurveyingCalculation:
                     else:
                         r['station_e'] = None
                         r['station_n'] = None
-                    p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'])
+                    if not 'pc' in r:
+                        r['pc'] = None
+                    p = Point(r['point_id'], r['station_e'], r['station_n'], r['station_z'], r['pc'])
                     qp = ScPoint(p)
                     qp.store_coord(dimension)
                     n_co += 1

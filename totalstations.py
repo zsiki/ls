@@ -498,6 +498,9 @@ class SurvCE(TotalStation):
         self.angle_unit = 'PDEG'
         self.distance_unit = 1       # 0-feet 1-meter
         self.res = {}
+        self.ih = None                # instrument height
+        self.th = None                # target height
+        self.dist_mul = 1.0            # distance convert constant to meter
 
     def parse_next(self):
         """ Load next observation, station
@@ -510,13 +513,9 @@ class SurvCE(TotalStation):
         while True:
             buf = self.get_line()
             if buf is None:
-                if len(self.res):
-                    return self.res
-                else:
                     return None
-            if buf[0] == 'GPS':            # log, lan
-                last_res = self.res
-                self.res = {}
+            line_code = buf[0]
+            if line_code == 'GPS':            # log, lan
                 for field in buf[1:]:
                     fcode = field[0:2]
                     if fcode == 'PN':
@@ -527,8 +526,11 @@ class SurvCE(TotalStation):
                         self.res['e'] = float(field[2:].strip())
                     elif fcode == 'EL':
                         self.res['z'] = float(field[2:].strip())
-                return last_res
-            elif buf[0] == '--GS':    # projected coordinates overwrite lot,lan
+                    elif fcode == '--':
+                        self.res['pc'] = field[2:].strip()
+                return self.res
+            elif line_code == '--GS' or line_code == 'SP':
+                # projected coordinates overwrite lot,lan!
                 for field in buf[1:]:
                     fcode = field[0:2]
                     if fcode == 'PN':
@@ -539,6 +541,83 @@ class SurvCE(TotalStation):
                         self.res['e'] = float(field[2:].strip())
                     elif fcode == 'EL':
                         self.res['z'] = float(field[2:].strip())
+                    elif fcode == '--':
+                        self.res['pc'] = field[2:].strip()
+                return self.res
+            elif line_code in ('TR', 'SS', 'BD', 'BR', 'FD', 'FR'):
+                self.res['station'] = None
+                for field in buf[1:]:
+                    fcode = field[0:2]
+                    if fcode == 'OP':
+                        pass    # TODO check last station
+                    elif fcode == 'FP':
+                        self.res['point_id'] = field[2:].strip()
+                    elif fcode == 'AL':
+                        self.res['hz'] = 400 - Angle(float(field[2:].strip()), \
+                            self.angle_unit).get_angle('GON')
+                    elif fcode == 'AR':
+                        self.res['hz'] = Angle(float(field[2:].strip()), \
+                            self.angle_unit).get_angle('GON')
+                    elif fcode == 'ZE':
+                        self.res['v'] = Angle(float(field[2:].strip()), \
+                            self.angle_unit).get_angle('GON')
+                    elif fcode == 'VA':
+                        self.res['hz'] = 100 - Angle(float(field[2:].strip()), \
+                            self.angle_unit).get_angle('GON')
+                    elif fcode == 'SD':
+                        self.res['sd'] = float(field[2:].strip()) * self.dist_mul
+                    elif fcode == '--':
+                        self.res['pc'] = field[2:].strip()
+                    # AZ/BR/DR/DL/CE/HD ignored
+                if self.th is not None:
+                    self.res['th'] = self.th
+                return self.res
+            elif line_code == 'OC':
+                self.res['station'] = 'station'
+                for field in buf[1:]:
+                    fcode = field[0:2]
+                    if fcode == 'OP':
+                        self.res['point_id'] = field[2:].strip()
+                    elif fcode == 'N ':
+                        self.res['n'] = float(field[2:].strip())
+                    elif fcode == 'E ':
+                        self.res['e'] = float(field[2:].strip())
+                    elif fcode == 'EL':
+                        self.res['z'] = float(field[2:].strip())
+                    elif fcode == '--':
+                        self.res['pc'] = field[2:].strip()
+                if self.ih is not None:
+                    self.res['th'] = self.ih
+                return self.res
+            elif line_code == 'BK':
+                self.res['station'] = None
+                for field in buf[1:]:
+                    fcode = field[0:2]
+                    if fcode == 'OP':
+                        pass    # TODO check last station
+                    elif fcode == 'BP':
+                        self.res['point_id'] = field[2:].strip()
+                    elif fcode == 'BS':
+                        self.res['hz'] = Angle(float(field[2:].strip()), \
+                            self.angle_unit).get_angle('GON')
+                    # BC ignored
+                return self.res
+            elif line_code == 'LS':
+                for field in buf[1:]:
+                    fcode = field[0:2]
+                    if fcode == 'HI':
+                        self.ih = float(field[2:].strip())
+                    elif fcode == 'HR':
+                        self.th = float(field[2:].strip())
+            elif line_code == 'MO':
+                for field in buf[1:]:
+                    fcode = field[0:2]
+                    if fcode == 'UN':
+                        if int(field[2:].strip()) == 0:
+                            self.dist_mul = 0.3048
+                        else:
+                            self.dist_mul = 1.0
+                    # other codes are ignored (AD/SF/EC/EO)
 
 class Stonex(TotalStation):
     """ Class to import STONEX ascii file
@@ -619,7 +698,8 @@ if __name__ == "__main__":
     """
         unit test
     """
-    ts = Stonex('samples/PAJE2OB.DAT')
+    ts = SurvCE('samples/sample.rw5')
+    #ts = Stonex('samples/PAJE2OB.DAT')
     #ts = LeicaGsi('samples/test_trafo.gsi', ' ')
     #ts = JobAre('samples/test1.job', '=')
     #ts = Sdr('samples/PAJE04.crd', None)
