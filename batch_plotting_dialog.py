@@ -134,6 +134,10 @@ class BatchPlottingDialog(QDialog):
             QMessageBox.warning(self, tr("Warning"), tr("Scale must be an integer value!"))
             self.ui.ScaleCombo.setFocus()
             return
+        
+        # get composer name
+        composer_name = self.ui.ComposerEdit.text()
+        
         #check if there are selected items on polygon layers
         if self.batch_plotting:
             selected_layer = self.ui.LayersComboBox.itemData(self.ui.LayersComboBox.currentIndex())
@@ -167,7 +171,10 @@ class BatchPlottingDialog(QDialog):
         # before loading the template 
         # otherwise composer's item properties doesn't appear
         if self.ui.OutputTab.currentIndex() == 2:  # to Composer View
-            composer = self.iface.createNewComposer() 
+            if len(composer_name)==0:
+                composer = self.iface.createNewComposer()
+            else: 
+                composer = self.iface.createNewComposer(composer_name)
             composer.setComposition(self.composition)
 
         # read template file and add to composition
