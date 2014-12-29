@@ -7,13 +7,15 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import os, glob, ctypes
-from PyQt4.QtCore import QFile, QIODevice, QSizeF
+from PyQt4.QtCore import QFile, QIODevice, Qt, QFileInfo, QDir
 from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox, QListWidgetItem, \
-                        QPrintDialog, QPrinter, QAbstractPrintDialog, QPainter
+                        QPrintDialog, QPrinter, QAbstractPrintDialog, QPainter, \
+                        QProgressDialog, QApplication
 from PyQt4.QtXml import QDomDocument
 from batch_plotting import Ui_BatchPlottingDialog
 from base_classes import *
 from surveying_util import *
+from PyQt4.Qt import QDockWidget
 
 class BatchPlottingDialog(QDialog):
     """ Class for batch plotting dialog
@@ -30,7 +32,7 @@ class BatchPlottingDialog(QDialog):
         #                     False -> plot map canvas
         self.batch_plotting = batch_plotting
         if not self.batch_plotting:
-            self.setWindowTitle("Plot by Template")
+            self.setWindowTitle(tr("Plot by Template"))
             self.ui.OutputTab.setTabEnabled(0,False)
             self.ui.OutputTab.setTabEnabled(1,False)
 
@@ -41,7 +43,12 @@ class BatchPlottingDialog(QDialog):
         self.ui.TemplateList.setSortingEnabled(True)
         
         self.plugin_dir = os.path.dirname(os.path.abspath(__file__))
-        self.dirpath = os.path.join(self.plugin_dir, 'template')
+        self.templatepath = os.path.join(self.plugin_dir, 'template')
+        self.pdfpath = ""
+        
+        if self.batch_plotting:
+            self.ui.OutputPDFEdit.setText( QgsAtlasComposition(None).filenamePattern() )
+            self.ui.SingleFileCheckbox.stateChanged.connect(self.changedSingleFileCheckbox)
 
         self.printer = None
         
@@ -62,7 +69,7 @@ class BatchPlottingDialog(QDialog):
         self.ui.LayersComboBox.clear()
         # if batch plotting is false only map canvas will be in the list
         if not self.batch_plotting:
-            self.ui.LayersComboBox.addItem("Map canvas")
+            self.ui.LayersComboBox.addItem(tr("Map canvas"))
             self.ui.LayersComboBox.setCurrentIndex(0)
             return
         # if batch plotting is true fill layers combo
@@ -81,8 +88,8 @@ class BatchPlottingDialog(QDialog):
         else:
             oldSelectedTemplate = ""
         self.ui.TemplateList.clear()
-        if  os.path.exists(self.dirpath):
-            pattern = os.path.join(self.dirpath,'*.qpt')
+        if  os.path.exists(self.templatepath):
+            pattern = os.path.join(self.templatepath,'*.qpt')
             for temp in glob.iglob(pattern):
                 tname = os.path.basename(temp)
                 item = QListWidgetItem(tname)
@@ -93,11 +100,14 @@ class BatchPlottingDialog(QDialog):
     def onTempDirButton(self):
         """ Change the directory that contains print composer templates.
         """
-        dirpath = str(QFileDialog.getExistingDirectory(self, 
-                        "Select Directory",self.dirpath))
-        if dirpath!="":
-            self.dirpath = dirpath 
+        templatepath = str(QFileDialog.getExistingDirectory(self, 
+                        tr("Select Directory"),self.templatepath))
+        if templatepath!="":
+            self.templatepath = templatepath 
         self.fillTemplateList()
+        
+    def changedSingleFileCheckbox(self, state):
+        self.ui.OutputPDFEdit.setEnabled(not state)
         
     def onPlotButton(self):
         """ Batch plots selected geometry items using the selected template and scale.
@@ -112,7 +122,7 @@ class BatchPlottingDialog(QDialog):
             QMessageBox.warning(self, tr("Warning"), tr("Select a composer template!"))
             self.ui.TemplateList.setFocus()
             return
-        self.template_file = os.path.join(self.dirpath,
+        self.template_file = os.path.join(self.templatepath,
             self.ui.TemplateList.currentItem().text())
         # get the scale
         try:
@@ -132,36 +142,20 @@ class BatchPlottingDialog(QDialog):
         
         # check output setting
         if self.ui.OutputTab.currentIndex() == 0:    # to PDF
-            # TODO checkings
-            pass
+            if not self.ui.SingleFileCheckbox.checkState():
+                if len( self.ui.OutputPDFEdit.text() ) == 0:
+                    res = QMessageBox.warning(self, tr("Warning"),
+                        tr("The filename pattern is empty. A default one will be used."),
+                        QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Ok)
+                    if res == QMessageBox.Cancel:
+                        return
+                    self.ui.OutputPDFEdit.setText( QgsAtlasComposition(None).filenamePattern() )
         elif self.ui.OutputTab.currentIndex() == 1:  # to Printer
-            pass 
+            pass
         elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
             # TODO checkings
             pass
 
-        # read template file
-        template_file = QFile( self.template_file )
-        template_file.open(QIODevice.ReadOnly | QIODevice.Text)
-        template_content = template_file.readAll()
-        template_file.close()
-        document = QDomDocument()
-        document.setContent(template_content)
-
-        # if To Printer is selected set the printer
-        if self.ui.OutputTab.currentIndex() == 1:  # to Printer
-            # setting up printer
-            if self.printer is None:
-                self.printer = QPrinter()
-                self.printer.setFullPage(True)
-                self.printer.setColorMode(QPrinter.Color)
-            # open printer setting dialog
-            pdlg = QPrintDialog(self.printer,self)
-            pdlg.setModal(True)
-            pdlg.setOptions(QAbstractPrintDialog.None)
-            if not pdlg.exec_() == QDialog.Accepted:
-                return
-        
         # get map renderer of map canvas        
         renderer = self.iface.mapCanvas().mapRenderer()
         self.composition = QgsComposition(renderer)
@@ -173,6 +167,13 @@ class BatchPlottingDialog(QDialog):
             composer = self.iface.createNewComposer() 
             composer.setComposition(self.composition)
 
+        # read template file and add to composition
+        template_file = QFile( self.template_file )
+        template_file.open(QIODevice.ReadOnly | QIODevice.Text)
+        template_content = template_file.readAll()
+        template_file.close()
+        document = QDomDocument()
+        document.setContent(template_content)
         self.composition.loadFromTemplate(document)
 
         # if batch_plotting is True create an atlas composition
@@ -188,38 +189,140 @@ class BatchPlottingDialog(QDialog):
             atlas.setEnabled(True)
             atlas.setCoverageLayer( selected_layer )
             atlas.setHideCoverage(False)
-            atlas.setFilenamePattern("'output_'||$feature")
-            atlas.setSingleFile(False)   # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            atlas.setFilenamePattern( self.ui.OutputPDFEdit.text() )
+            atlas.setSingleFile( self.ui.SingleFileCheckbox.checkState() )
             atlas.setSortFeatures(False)   # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             atlas.setFilterFeatures(True)
             selected_ids = [f.id() for f in selected_layer.selectedFeatures()]
             filter_id_string = ','.join([str(sid) for sid in selected_ids])
             atlas.setFeatureFilter("$id in (" + filter_id_string + ")")
+            #self.composition.updateSettings()
 
             if self.ui.OutputTab.currentIndex() == 0:    # to PDF
                 self.composition.setAtlasMode( QgsComposition.ExportAtlas )
-                #atlas.beginRender()
-                #for i in range(0, atlas.numFeatures()):
-                #    atlas.prepareForFeature(i)
-                #    myImage = self.composition.printPageAsRaster(0)
-                #    myImage.save(output_jpeg)
-                #atlas.endRender() 
-                pass
+                
+                if self.pdfpath=="":
+                    self.pdfpath = QgsProject.instance().homePath()
+                    
+                if self.ui.SingleFileCheckbox.checkState():
+                    #print to single pdf (multi-page)
+                    outputFileName = os.path.join(self.pdfpath,"qgis.pdf")
+                    outputFileName = QFileDialog.getSaveFileName(self,
+                       tr( "Choose a file name to save the map as" ),
+                       outputFileName,
+                       tr( "PDF Format" ) + " (*.pdf *.PDF)" )
+                    if len(outputFileName) == 0:
+                        return
+                    if not outputFileName.lower().endswith(".pdf"):
+                        outputFileName += ".pdf"
+                    self.pdfpath = os.path.dirname(outputFileName)
+                else:
+                    #print to more pdf
+                    outputDir = QFileDialog.getExistingDirectory( self,
+                        tr( "Directory where to save PDF files" ),
+                        self.pdfpath,
+                        QFileDialog.ShowDirsOnly )
+                    if len(outputDir) == 0:
+                        return
+                    # test directory (if it exists and is writable)
+                    if not QDir(outputDir).exists() or not QFileInfo(outputDir).isWritable():
+                        QMessageBox.warning( self, tr( "Unable to write into the directory" ),
+                            tr( "The given output directory is not writable. Cancelling." ) )
+                        return
+                    self.pdfpath = outputDir
+                
+                printer = QPrinter()
+                painter = QPainter()
+                if not len(atlas.featureFilterErrorString()) == 0:
+                    QMessageBox.warning( self, tr( "Atlas processing error" ),
+                        tr( "Feature filter parser error: %s" % atlas.featureFilterErrorString() ) )
+                    return
+
+                atlas.beginRender()
+
+                if self.ui.SingleFileCheckbox.checkState():
+                    #prepare for first feature, so that we know paper size to begin with
+                    atlas.prepareForFeature(0)
+                    self.composition.beginPrintAsPDF(printer, outputFileName)
+                    # set the correct resolution
+                    self.composition.beginPrint(printer)
+                    printReady =  painter.begin(printer)
+                    if not printReady:
+                        QMessageBox.warning( self, tr( "Atlas processing error" ),
+                              tr( "Error creating %s." % outputFileName ) )
+                        return
+                    
+                progress = QProgressDialog( tr( "Rendering maps..." ), tr( "Abort" ), 0, atlas.numFeatures(), self )
+                QApplication.setOverrideCursor( Qt.BusyCursor )
+                
+                for featureI in range(0, atlas.numFeatures()):
+                    progress.setValue( featureI+1 );
+                    # process input events in order to allow aborting
+                    QCoreApplication.processEvents();
+                    if progress.wasCanceled():
+                        atlas.endRender()
+                        break
+                    if not atlas.prepareForFeature( featureI ):
+                        QMessageBox.warning( self, tr( "Atlas processing error" ),
+                              tr( "Atlas processing error" ) )
+                        progress.cancel()
+                        QApplication.restoreOverrideCursor()
+                        return
+
+                    if not self.ui.SingleFileCheckbox.checkState():
+                        multiFilePrinter = QPrinter()
+                        outputFileName = QDir( outputDir ).filePath( atlas.currentFilename() ) + ".pdf"
+                        self.composition.beginPrintAsPDF( multiFilePrinter, outputFileName )
+                        # set the correct resolution
+                        self.composition.beginPrint( multiFilePrinter )
+                        printReady = painter.begin( multiFilePrinter )
+                        if not printReady:
+                            QMessageBox.warning( self, tr( "Atlas processing error" ),
+                                tr( "Error creating %s." % outputFileName ) )
+                            progress.cancel()
+                            QApplication.restoreOverrideCursor()
+                            return
+                        self.composition.doPrint( multiFilePrinter, painter )
+                        painter.end()
+                    else:
+                        # start print on a new page if we're not on the first feature
+                        if featureI > 0:
+                            printer.newPage()
+                        self.composition.doPrint( printer, painter )
+                    
+                atlas.endRender()
+                if self.ui.SingleFileCheckbox.checkState():
+                    painter.end()
+                QApplication.restoreOverrideCursor()
             elif self.ui.OutputTab.currentIndex() == 1:  # to Printer
-                pass 
+                # if To Printer is selected set the printer
+                # setting up printer
+                if self.printer is None:
+                    self.printer = QPrinter()
+                    self.printer.setFullPage(True)
+                    self.printer.setColorMode(QPrinter.Color)
+                # open printer setting dialog
+                pdlg = QPrintDialog(self.printer,self)
+                pdlg.setModal(True)
+                pdlg.setOptions(QAbstractPrintDialog.None)
+                if not pdlg.exec_() == QDialog.Accepted:
+                    return
             elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
                 # create new composer
                 self.composition.setAtlasMode( QgsComposition.PreviewAtlas )
                 composer.composerWindow().on_mActionAtlasPreview_triggered(True)
+                atlas.parameterChanged.emit()
+                #composer.composerWindow().findChild(QDockWidget,"AtlasDock").updateGuiElements()
                 # Increase the reference count of the composer object 
                 # for not being garbage collected.
                 # If not doing this composer would lost reference and qgis would crash 
                 # when referring to this composer object or at quit.
                 ctypes.c_long.from_address( id(composer) ).value += 1
-                
         else:
             # if batch_plotting is False opan a QgsComposerView with current map canvas
             pass
+
+        self.accept()
 
     def onCloseButton(self):
         """ Close the dialog when the Close button pushed.
