@@ -49,6 +49,12 @@ class BatchPlottingDialog(QDialog):
         if self.batch_plotting:
             self.ui.OutputPDFEdit.setText( QgsAtlasComposition(None).filenamePattern() )
             self.ui.SingleFileCheckbox.stateChanged.connect(self.changedSingleFileCheckbox)
+        else:
+            # set scale to map canvas scale
+            self.ui.ScaleCombo.clear()
+            self.ui.ScaleCombo.addItem("<extent>")
+            self.ui.ScaleCombo.setCurrentIndex(0)
+            self.ui.ScaleCombo.setEditable(False)
 
         self.printer = None
         
@@ -57,10 +63,6 @@ class BatchPlottingDialog(QDialog):
         """
         self.fillLayersCombo()
         self.fillTemplateList()
-        if not self.batch_plotting:
-            # set scale to map canvas scale
-            self.ui.ScaleCombo.insertItem(0,"%d" % round(self.iface.mapCanvas().scale()))
-            self.ui.ScaleCombo.setCurrentIndex(0)
 
     def fillLayersCombo(self):
         """ Fill the polygon layers combobox.
@@ -69,7 +71,7 @@ class BatchPlottingDialog(QDialog):
         self.ui.LayersComboBox.clear()
         # if batch plotting is false only map canvas will be in the list
         if not self.batch_plotting:
-            self.ui.LayersComboBox.addItem(tr("Map canvas"))
+            self.ui.LayersComboBox.addItem(tr("<Map canvas>"))
             self.ui.LayersComboBox.setCurrentIndex(0)
             return
         # if batch plotting is true fill layers combo
@@ -126,7 +128,8 @@ class BatchPlottingDialog(QDialog):
             self.ui.TemplateList.currentItem().text())
         # get the scale
         try:
-            scale = int(self.ui.ScaleCombo.currentText())
+            if self.batch_plotting:
+                scale = int(self.ui.ScaleCombo.currentText())
         except (ValueError):
             QMessageBox.warning(self, tr("Warning"), tr("Scale must be an integer value!"))
             self.ui.ScaleCombo.setFocus()
@@ -372,7 +375,23 @@ class BatchPlottingDialog(QDialog):
                 ctypes.c_long.from_address( id(composer) ).value += 1
         else:
             # if batch_plotting is False open a QgsComposerView with current map canvas
-            pass
+            cmap = self.composition.composerMapItems()[0]
+            newextent = self.iface.mapCanvas().mapSettings().visibleExtent()
+            currentextent = cmap.extent()
+            canvas_ratio = newextent.width()/newextent.height()
+            map_ratio = currentextent.width()/currentextent.height()
+            if map_ratio < canvas_ratio:
+                dh = newextent.width() / map_ratio - newextent.height()
+                newextent.setYMinimum( newextent.yMinimum() - dh / 2 );
+                newextent.setYMaximum( newextent.yMaximum() + dh / 2 );
+            else:
+                dw = map_ratio * newextent.height() - newextent.width()
+                newextent.setXMinimum( newextent.xMinimum() - dw / 2 );
+                newextent.setXMaximum( newextent.xMaximum() + dw / 2 );
+            cmap.setNewExtent(newextent)
+            sc = cmap.scale()
+            cmap.setGridIntervalX(sc/10)
+            cmap.setGridIntervalY(sc/10)
 
         self.accept()
 
