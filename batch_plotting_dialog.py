@@ -51,22 +51,14 @@ class BatchPlottingDialog(QDialog):
         """            
         oldSelectedLayer = self.ui.LayersComboBox.itemText( self.ui.LayersComboBox.currentIndex() )
         self.ui.LayersComboBox.clear()
-
         if not self.batch_plotting:
             self.ui.LayersComboBox.addItem("Map canvas")
             return
-        
-        registry = QgsMapLayerRegistry.instance()
-        layers = registry.mapLayers().values()
-        if len(layers) == 0:
+        polygon_layers = get_vector_layers_by_type(QGis.Polygon)
+        if polygon_layers is None:
             return
-        for layer in layers:
-            if layer.type() == QgsMapLayer.VectorLayer:
-                if layer.geometryType() == QGis.Polygon:
-                    self.ui.LayersComboBox.addItem(layer.name(),layer)
-            
-        #polygon_layers = get_vector_layers_by_type(QGis.Polygon)
-        #self.ui.LayersComboBox.addItems(polygon_layers)
+        for layer in polygon_layers:
+            self.ui.LayersComboBox.addItem(layer.name(),layer)
         self.ui.LayersComboBox.setCurrentIndex( self.ui.LayersComboBox.findText(oldSelectedLayer) )
 
     def fillTemplateList(self):
