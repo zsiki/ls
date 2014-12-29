@@ -62,14 +62,14 @@ def get_vector_layers_by_type(ftype):
     """ Find layers by the geometry type.
 
         :param ftype: type of layer (point, line, polygon)
-        :returns: list of names of polygon layers or None
+        :returns: list of polygon layers or None
     """
     w = []
     layermap = QgsMapLayerRegistry.instance().mapLayers()
     for n, layer in layermap.iteritems():
         if layer.type() == QgsMapLayer.VectorLayer:
             if layer.geometryType() == ftype:
-                w.append(layer.name())
+                w.append(layer)
     if len(w):
         return w
     return None

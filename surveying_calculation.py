@@ -79,7 +79,8 @@ class SurveyingCalculation:
         self.traverse_dlg = TraverseDialog(self.log)
         self.network_dlg = NetworkDialog(self.log)
         self.transformation_dlg = TransformationDialog(self.log)
-        self.batchplotting_dlg = BatchPlottingDialog(self.iface)
+        self.plotbytemplate_dlg = BatchPlottingDialog(self.iface, False)
+        self.batchplotting_dlg = BatchPlottingDialog(self.iface, True)
         
         # Declare instance attributes
 
@@ -416,7 +417,10 @@ class SurveyingCalculation:
         self.iface.mapCanvas().setMapTool(self.tool_pdiv)
 
     def plot_by_temp(self):
-        pass
+        # show the dialog
+        self.plotbytemplate_dlg.show()
+        # Run the dialog event loop
+        result = self.plotbytemplate_dlg.exec_()
 
     def batch_plotting(self):
         """ Batch plots selected geometry items using the selected template and scale.
