@@ -79,7 +79,17 @@ class BatchPlottingDialog(QDialog):
             return
         for layer in polygon_layers:
             self.ui.LayersComboBox.addItem(layer.name(),layer)
-        self.ui.LayersComboBox.setCurrentIndex( self.ui.LayersComboBox.findText(oldSelectedLayer) )
+            
+        # get current layer name
+        try:
+            actlayer_name = self.iface.activeLayer().name()
+        except (AttributeError):
+            actlayer_name = ""
+            
+        if self.ui.LayersComboBox.findText(oldSelectedLayer) == -1:
+            self.ui.LayersComboBox.setCurrentIndex( self.ui.LayersComboBox.findText(actlayer_name) )
+        else:
+            self.ui.LayersComboBox.setCurrentIndex( self.ui.LayersComboBox.findText(oldSelectedLayer) )
 
     def fillTemplateList(self):
         """ Fill the listbox of composer template files.
