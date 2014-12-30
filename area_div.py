@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'area_div.ui'
 #
-# Created: Tue Dec 23 21:23:25 2014
+# Created: Tue Dec 30 22:59:35 2014
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -54,11 +54,11 @@ class Ui_AreaDivDialog(object):
         self.AreaLineEdit.setGeometry(QtCore.QRect(170, 20, 121, 20))
         self.AreaLineEdit.setObjectName(_fromUtf8("AreaLineEdit"))
         self.AreaLabel = QtGui.QLabel(self.AreaDivGroup)
-        self.AreaLabel.setGeometry(QtCore.QRect(10, 20, 171, 16))
+        self.AreaLabel.setGeometry(QtCore.QRect(10, 20, 151, 16))
         self.AreaLabel.setText(QtGui.QApplication.translate("AreaDivDialog", "Area (in layer units)", None, QtGui.QApplication.UnicodeUTF8))
         self.AreaLabel.setObjectName(_fromUtf8("AreaLabel"))
         self.OnePointRadio = QtGui.QRadioButton(self.AreaDivGroup)
-        self.OnePointRadio.setGeometry(QtCore.QRect(10, 60, 271, 17))
+        self.OnePointRadio.setGeometry(QtCore.QRect(10, 80, 271, 17))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -67,7 +67,7 @@ class Ui_AreaDivDialog(object):
         self.OnePointRadio.setText(QtGui.QApplication.translate("AreaDivDialog", "Through the first given point", None, QtGui.QApplication.UnicodeUTF8))
         self.OnePointRadio.setObjectName(_fromUtf8("OnePointRadio"))
         self.TwoPointRadio = QtGui.QRadioButton(self.AreaDivGroup)
-        self.TwoPointRadio.setGeometry(QtCore.QRect(10, 90, 271, 17))
+        self.TwoPointRadio.setGeometry(QtCore.QRect(10, 100, 271, 17))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -75,6 +75,14 @@ class Ui_AreaDivDialog(object):
         self.TwoPointRadio.setSizePolicy(sizePolicy)
         self.TwoPointRadio.setText(QtGui.QApplication.translate("AreaDivDialog", "Paralel to the given line", None, QtGui.QApplication.UnicodeUTF8))
         self.TwoPointRadio.setObjectName(_fromUtf8("TwoPointRadio"))
+        self.TotalLabel = QtGui.QLabel(self.AreaDivGroup)
+        self.TotalLabel.setGeometry(QtCore.QRect(10, 40, 151, 16))
+        self.TotalLabel.setText(QtGui.QApplication.translate("AreaDivDialog", "Full area", None, QtGui.QApplication.UnicodeUTF8))
+        self.TotalLabel.setObjectName(_fromUtf8("TotalLabel"))
+        self.TotalLineEdit = QtGui.QLineEdit(self.AreaDivGroup)
+        self.TotalLineEdit.setGeometry(QtCore.QRect(170, 40, 121, 20))
+        self.TotalLineEdit.setReadOnly(True)
+        self.TotalLineEdit.setObjectName(_fromUtf8("TotalLineEdit"))
 
         self.retranslateUi(AreaDivDialog)
         QtCore.QMetaObject.connectSlotsByName(AreaDivDialog)
