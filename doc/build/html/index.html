@@ -424,7 +424,7 @@ ya + t1 * cos dap = yb + t2 * cos dbp</dd>
 <p id="module-batch_plotting_dialog"><em>Platforms: </em>Linux, Windows</p>
 <dl class="class">
 <dt id="SurveyingCalculation.batch_plotting_dialog.BatchPlottingDialog">
-<em class="property">class </em><tt class="descclassname">SurveyingCalculation.batch_plotting_dialog.</tt><tt class="descname">BatchPlottingDialog</tt><big>(</big><em>iface</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/batch_plotting_dialog.html#BatchPlottingDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.batch_plotting_dialog.BatchPlottingDialog" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.batch_plotting_dialog.</tt><tt class="descname">BatchPlottingDialog</tt><big>(</big><em>iface</em>, <em>batch_plotting</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/batch_plotting_dialog.html#BatchPlottingDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.batch_plotting_dialog.BatchPlottingDialog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for batch plotting dialog</p>
 <dl class="method">
 <dt id="SurveyingCalculation.batch_plotting_dialog.BatchPlottingDialog.fillLayersCombo">
@@ -856,20 +856,8 @@ tolerance: snapping tolerance to line tool</pre>
 
 <dl class="method">
 <dt id="SurveyingCalculation.line_tool.LineMapTool.showLine">
-<tt class="descname">showLine</tt><big>(</big><em>startPoint</em>, <em>endPoint</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.showLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.showLine" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">showLine</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/line_tool.html#LineMapTool.showLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.showLine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw rubberband line</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>startPoint</strong> &#8211; start point of line</li>
-<li><strong>endPoint</strong> &#8211; end point of line</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 </dd></dl>
@@ -1491,7 +1479,7 @@ from a given layer possibly with given type.</p>
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ftype</strong> &#8211; type of layer (point, line, polygon)</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of names of polygon layers or None</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of polygon layers or None</td>
 </tr>
 </tbody>
 </table>
@@ -1659,6 +1647,46 @@ from a given layer possibly with given type.</p>
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pbuf</strong> &#8211; input buffer</td>
 </tr>
 <tr class="field"><th class="field-name">Returns:</th><td class="field-body">point id</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="SurveyingCalculation.totalstations.Stonex">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.totalstations.</tt><tt class="descname">Stonex</tt><big>(</big><em>fname</em>, <em>separator='</em>, <em>'</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Stonex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to import STONEX ascii file</p>
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Stonex.parse_next">
+<tt class="descname">parse_next</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Stonex.parse_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load next observation, station</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">observation data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="SurveyingCalculation.totalstations.SurvCE">
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.totalstations.</tt><tt class="descname">SurvCE</tt><big>(</big><em>fname</em>, <em>separator='</em>, <em>'</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.SurvCE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to import SurvCE rw5 files</p>
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.SurvCE.parse_next">
+<tt class="descname">parse_next</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.SurvCE.parse_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load next observation, station</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">observation data</td>
 </tr>
 </tbody>
 </table>
@@ -2082,7 +2110,7 @@ if open traverse is chosen.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Dec 23, 2014.
+      Last updated on Dec 30, 2014.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>
