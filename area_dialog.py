@@ -13,12 +13,14 @@ from base_classes import tr
 class AreaDialog(QDialog):
     """ Class for area division dialog
     """
-    def __init__(self):
+    def __init__(self, total_area, div_area):
         """ Initialize dialog data and event handlers
 
             :param log: log instance for log messages
         """
         super(AreaDialog, self).__init__()
+        self.total_area = int(total_area)
+        self.div_area = int(div_area)
         self.ui = Ui_AreaDivDialog()
         self.ui.setupUi(self)
         self.ui.CancelButton.clicked.connect(self.onCancelButton)
@@ -34,7 +36,8 @@ class AreaDialog(QDialog):
     def reset(self):
         """ Reset dialog to initial state
         """
-        self.ui.AreaLineEdit.setText('')
+        self.ui.AreaLineEdit.setText(str(self.div_area))
+        self.ui.TotalLineEdit.setText(str(self.total_area))
         self.ui.OnePointRadio.setChecked(True)
 
     def onDivideButton(self):
