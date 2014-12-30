@@ -169,9 +169,9 @@
   <widget class="QPushButton" name="TempDirButton">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>170</x>
      <y>50</y>
-     <width>81</width>
+     <width>111</width>
      <height>21</height>
     </rect>
    </property>
