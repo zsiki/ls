@@ -72,13 +72,7 @@ class LineMapTool(QgsMapToolEmitPoint):
             :param e: event
         """
         self.isEmittingPoint = False
-        area_dlg = AreaDialog()
-        # show the dialog
-        area_dlg.show()
-        # run the dialog event loop
-        if area_dlg.exec_():
-            self.divide(float(area_dlg.ui.AreaLineEdit.text()), \
-                area_dlg.ui.OnePointRadio.isChecked())
+        self.divide()
 
     def canvasMoveEvent(self, e):
         """ handler to handle mouse move event
@@ -113,7 +107,7 @@ class LineMapTool(QgsMapToolEmitPoint):
         super(LineMapTool, self).deactivate()
         self.emit(SIGNAL("deactivated()"))
 
-    def divide(self, area, rotate):
+    def divide(self):
         """ Divide the selected polygon.
 
             :param area: area to divide (float)
@@ -125,11 +119,12 @@ class LineMapTool(QgsMapToolEmitPoint):
             return
         feat = selection[0]             # feature to divide
         geom = feat.geometry()
-        if geom.area() <= area:
-            QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Area of polygon is smaller then requested area"))
-            return
+        save_geom = QgsGeometry(geom)      # copy original geometry
+        #pyqtRemoveInputHook()
+        #pdb.set_trace()
         # TODO multipart ?
         # change to layer coordinates
+        point0 = self.toLayerCoordinates(self.layer, QgsPoint(self.startPoint.x(), self.startPoint.y()))   # center of rotation
         point1 = self.toLayerCoordinates(self.layer, QgsPoint(self.startPoint.x(), self.startPoint.y()))
         point2 = self.toLayerCoordinates(self.layer, QgsPoint(self.endPoint.x(), self.endPoint.y()))
         while geom.contains(point1):
@@ -141,36 +136,45 @@ class LineMapTool(QgsMapToolEmitPoint):
             point2 = QgsPoint(point2.x() + (point2.x() - point1.x()) * 10, \
                 point2.y() + (point2.y() - point1.y()) * 10)
         geom_line = QgsGeometry.fromPolyline([point1, point2])  # divider
-        if not geom.intersects(geom_line):
-            # find an internal point
-            if qgis.utils.QGis.QGIS_VERSION > '2.4':
-                cp = feat.pointOnSurface()
-            else:
-                # TODO centroid may be outside
-                cp = feat.centroid()
-            if rotate:
-                # move point2 to go through cp
-                point2 = QgsPoint(point1.x() + (cp.x() - point1.x()) * 1000., self.point1.y() + (cp.y() - point1.y()) * 1000.)
-                geom_line = QgsGeometry.fromPolyline([point1, point2])  # divider
-            else:
-                # offset line to go through cp
-                dx = self.point2.x() - self.point1.x()
-                dy = self.point2.y() - self.point1.y()
-                point1 = QgsPoint(cp.x() - 2.0 * dx, cp.y() - 2.0 * dy)
-                point2 = QgsPoint(cp.x() + 2.0 * dx, cp.y() + 2.0 * dy) 
-                geom_line = QgsGeometry.fromPolyline([point1, point2])  # divider
-        save_geom = geom      # save original geometry
-        #pyqtRemoveInputHook()
-        #pdb.set_trace()
-        last_area = None
+        #if not geom.intersects(geom_line):
+        #    # find an internal point
+        #    if qgis.utils.QGis.QGIS_VERSION > '2.4':
+        #        cp = feat.pointOnSurface()
+        #    else:
+        #        # TODO centroid may be outside
+        #        cp = feat.centroid()
+        #    if rotate:
+        #        # move point2 to go through cp
+        #        point2 = QgsPoint(point1.x() + (cp.x() - point1.x()) * 1000., self.point1.y() + (cp.y() - point1.y()) * 1000.)
+        #        geom_line = QgsGeometry.fromPolyline([point1, point2])  # divider
+        #    else:
+        #        # offset line to go through cp
+        #        dx = self.point2.x() - self.point1.x()
+        #        dy = self.point2.y() - self.point1.y()
+        #        point1 = QgsPoint(cp.x() - 2.0 * dx, cp.y() - 2.0 * dy)
+        #        point2 = QgsPoint(cp.x() + 2.0 * dx, cp.y() + 2.0 * dy) 
+        #        geom_line = QgsGeometry.fromPolyline([point1, point2])  # divider
+        # divide polygon
+        result, new_geoms, test_points = geom.splitGeometry([point1, point2], True)
+        if result != 0:
+            QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Area division failed ") + str(result))
+            return
+        #last_area = None TODO
+        # open dialog
+        area_dlg = AreaDialog(save_geom.area(), geom.area())
+        # show the dialog
+        area_dlg.show()
+        # run the dialog event loop
+        if not area_dlg.exec_():
+            return
+        area = float(area_dlg.ui.AreaLineEdit.text())
+        rotate = area_dlg.ui.OnePointRadio.isChecked()
+        if geom.area() <= area:
+            QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Area of polygon is smaller then requested area"))
+            return
         i = 0
         l = ((point2.x() - point1.x())**2 + (point2.y() - point1.y())**2)**0.5
         while True:
-            # divide polygon
-            result, new_geoms, test_points = geom.splitGeometry([point1, point2], True)
-            if result != 0:
-                QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Area division failed ") + str(result))
-                return
             da = fabs(geom.area() - area)
             if da <= config.area_tolerance:
                 break;               # area OK exit loop
@@ -183,11 +187,8 @@ class LineMapTool(QgsMapToolEmitPoint):
                 QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Area division not finished after max iteration") + str(result))
                 return
             last_area = geom.area()
-            geom = save_geom         # continue from original geomerty
-            # calculate area
-            for g in new_geoms:
-                print g.area()
-            break
+            geom = QgsGeometry(save_geom)     # continue from original geomerty
+            break # TODO
         # refresh old geometry
         fid = feat.id()
         self.layer.dataProvider().changeGeometryValues({ fid : geom})
