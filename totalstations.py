@@ -698,9 +698,9 @@ if __name__ == "__main__":
     """
         unit test
     """
-    #ts = SurvCE('samples/sample.rw5')
+    ts = SurvCE('samples/EBO-1739.rw5')
     #ts = Stonex('samples/PAJE2OB.DAT')
-    ts = LeicaGsi('samples/tata3.gsi', ' ')
+    #ts = LeicaGsi('samples/tata3.gsi', ' ')
     #ts = JobAre('samples/test1.job', '=')
     #ts = Sdr('samples/PAJE04.crd', None)
     if ts.open() != 0:
