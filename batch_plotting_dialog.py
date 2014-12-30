@@ -406,6 +406,7 @@ class BatchPlottingDialog(QDialog):
             sc = cmap.scale()
             cmap.setGridIntervalX(sc/10)
             cmap.setGridIntervalY(sc/10)
+            ctypes.c_long.from_address( id(composer) ).value += 1
 
         self.accept()
 
