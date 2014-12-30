@@ -79,7 +79,7 @@
     <rect>
      <x>10</x>
      <y>180</y>
-     <width>111</width>
+     <width>91</width>
      <height>21</height>
     </rect>
    </property>
@@ -227,7 +227,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="toPDF">
     <attribute name="title">
@@ -322,6 +322,25 @@
      </property>
     </widget>
    </widget>
+  </widget>
+  <widget class="QLabel" name="ScaleLabel_2">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>180</y>
+     <width>20</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="text">
+    <string>1:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
   </widget>
  </widget>
  <tabstops>

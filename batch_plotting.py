@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'batch_plotting.ui'
 #
-# Created: Mon Dec 29 20:29:10 2014
+# Created: Tue Dec 30 10:14:21 2014
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -50,7 +50,7 @@ class Ui_BatchPlottingDialog(object):
         self.CloseButton.setSizePolicy(sizePolicy)
         self.CloseButton.setObjectName(_fromUtf8("CloseButton"))
         self.ScaleLabel = QtGui.QLabel(BatchPlottingDialog)
-        self.ScaleLabel.setGeometry(QtCore.QRect(10, 180, 111, 21))
+        self.ScaleLabel.setGeometry(QtCore.QRect(10, 180, 91, 21))
         self.ScaleLabel.setObjectName(_fromUtf8("ScaleLabel"))
         self.ScaleCombo = QtGui.QComboBox(BatchPlottingDialog)
         self.ScaleCombo.setGeometry(QtCore.QRect(120, 180, 81, 22))
@@ -119,11 +119,16 @@ class Ui_BatchPlottingDialog(object):
         self.ComposerEmptyLabel.setFont(font)
         self.ComposerEmptyLabel.setObjectName(_fromUtf8("ComposerEmptyLabel"))
         self.OutputTab.addTab(self.toComposerView, _fromUtf8(""))
+        self.ScaleLabel_2 = QtGui.QLabel(BatchPlottingDialog)
+        self.ScaleLabel_2.setGeometry(QtCore.QRect(100, 180, 20, 21))
+        self.ScaleLabel_2.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.ScaleLabel_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.ScaleLabel_2.setObjectName(_fromUtf8("ScaleLabel_2"))
 
         self.retranslateUi(BatchPlottingDialog)
         self.ScaleCombo.setCurrentIndex(3)
         self.LayersComboBox.setCurrentIndex(-1)
-        self.OutputTab.setCurrentIndex(2)
+        self.OutputTab.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(BatchPlottingDialog)
         BatchPlottingDialog.setTabOrder(self.LayersComboBox, self.TempDirButton)
         BatchPlottingDialog.setTabOrder(self.TempDirButton, self.TemplateList)
@@ -158,4 +163,5 @@ class Ui_BatchPlottingDialog(object):
         self.ComposerLabel.setText(_translate("BatchPlottingDialog", "Composer name:", None))
         self.ComposerEmptyLabel.setText(_translate("BatchPlottingDialog", "If empty name will be genrated automatically.", None))
         self.OutputTab.setTabText(self.OutputTab.indexOf(self.toComposerView), _translate("BatchPlottingDialog", "To Composer View", None))
+        self.ScaleLabel_2.setText(_translate("BatchPlottingDialog", "1:", None))
 
