@@ -157,24 +157,32 @@ class LineMapTool(QgsMapToolEmitPoint):
                 dx = self.point2.x() - self.point1.x()
                 dy = self.point2.y() - self.point1.y()
                 point1 = QgsPoint(cp.x() - 2.0 * dx, cp.y() - 2.0 * dy)
-                point2 = QgsPoint(cp.y() + 2.0 * dx, cp.y() + 2.0 * dy) 
+                point2 = QgsPoint(cp.x() + 2.0 * dx, cp.y() + 2.0 * dy) 
                 geom_line = QgsGeometry.fromPolyline([point1, point2])  # divider
         save_geom = geom      # save original geometry
         #pyqtRemoveInputHook()
         #pdb.set_trace()
-
+        last_area = None
+        i = 0
+        l = ((point2.x() - point1.x())**2 + (point2.y() - point1.y())**2)**0.5
         while True:
             # divide polygon
             result, new_geoms, test_points = geom.splitGeometry([point1, point2], True)
             if result != 0:
                 QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Area division failed ") + str(result))
                 return
-            if fabs(geom.area() - area) <= config.area_tolerance:
+            da = fabs(geom.area() - area)
+            if da <= config.area_tolerance:
                 break;               # area OK exit loop
             if rotate:               # change line direction
                 pass
             else:                    # offset line
                 pass
+            i += 1
+            if i > config.max_iteration:
+                QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Area division not finished after max iteration") + str(result))
+                return
+            last_area = geom.area()
             geom = save_geom         # continue from original geomerty
             # calculate area
             for g in new_geoms:
@@ -189,3 +197,5 @@ class LineMapTool(QgsMapToolEmitPoint):
         feat_new.setFields(fields, True)
         # TODO new_geoms to multipart
         feat_new.setGeometry(new_geoms[0])
+        self.layer.dataProvider().addFeatures([feat_new])
+        # TODO refresh canvas
