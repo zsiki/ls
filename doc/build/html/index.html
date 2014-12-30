@@ -1514,6 +1514,12 @@ from a given layer possibly with given type.</p>
 <em class="property">class </em><tt class="descclassname">SurveyingCalculation.totalstations.</tt><tt class="descname">JobAre</tt><big>(</big><em>fname</em>, <em>separator='='</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#JobAre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.JobAre" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to import JOB/ARE data from file</p>
 <dl class="method">
+<dt id="SurveyingCalculation.totalstations.JobAre.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.JobAre.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close dataset</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="SurveyingCalculation.totalstations.JobAre.dist_conv">
 <tt class="descname">dist_conv</tt><big>(</big><em>dist</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#JobAre.dist_conv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.JobAre.dist_conv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert distance/coordinate to meter using distance_unit</p>
@@ -1524,6 +1530,26 @@ from a given layer possibly with given type.</p>
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dist</strong> &#8211; value to convert</td>
 </tr>
 <tr class="field"><th class="field-name">Returns:</th><td class="field-body">distance in meters</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.JobAre.get_line">
+<tt class="descname">get_line</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.JobAre.get_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read &amp; split a single line</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.JobAre.open">
+<tt class="descname">open</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.JobAre.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open data set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">0 on success/1 on failure</td>
 </tr>
 </tbody>
 </table>
@@ -1543,12 +1569,39 @@ from a given layer possibly with given type.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.JobAre.trim_left">
+<tt class="descname">trim_left</tt><big>(</big><em>s</em>, <em>ch</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.JobAre.trim_left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strip left part of a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> &#8211; string to left trim</li>
+<li><strong>ch</strong> &#8211; character to trim</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">left trimmed string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="SurveyingCalculation.totalstations.LeicaGsi">
 <em class="property">class </em><tt class="descclassname">SurveyingCalculation.totalstations.</tt><tt class="descname">LeicaGsi</tt><big>(</big><em>fname</em>, <em>separator=' '</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#LeicaGsi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.LeicaGsi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to read leica GSI 8/16 data</p>
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.LeicaGsi.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.LeicaGsi.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close dataset</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="SurveyingCalculation.totalstations.LeicaGsi.convert">
 <tt class="descname">convert</tt><big>(</big><em>val</em>, <em>unit</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#LeicaGsi.convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.LeicaGsi.convert" title="Permalink to this definition">¶</a></dt>
@@ -1571,6 +1624,26 @@ from a given layer possibly with given type.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="SurveyingCalculation.totalstations.LeicaGsi.get_line">
+<tt class="descname">get_line</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.LeicaGsi.get_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read &amp; split a single line</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.LeicaGsi.open">
+<tt class="descname">open</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.LeicaGsi.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open data set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">0 on success/1 on failure</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="SurveyingCalculation.totalstations.LeicaGsi.parse_next">
 <tt class="descname">parse_next</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#LeicaGsi.parse_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.LeicaGsi.parse_next" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse single line from input</p>
@@ -1579,6 +1652,27 @@ from a given layer possibly with given type.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of values</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.LeicaGsi.trim_left">
+<tt class="descname">trim_left</tt><big>(</big><em>s</em>, <em>ch</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.LeicaGsi.trim_left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strip left part of a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> &#8211; string to left trim</li>
+<li><strong>ch</strong> &#8211; character to trim</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">left trimmed string</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1607,6 +1701,12 @@ from a given layer possibly with given type.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="SurveyingCalculation.totalstations.Sdr.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Sdr.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close dataset</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="SurveyingCalculation.totalstations.Sdr.dist">
 <tt class="descname">dist</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/totalstations.html#Sdr.dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.totalstations.Sdr.dist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change distance to meters</p>
@@ -1617,6 +1717,26 @@ from a given layer possibly with given type.</p>
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> &#8211; value to convert</td>
 </tr>
 <tr class="field"><th class="field-name">Returns:</th><td class="field-body">distance in meters</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Sdr.get_line">
+<tt class="descname">get_line</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Sdr.get_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read &amp; split a single line</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Sdr.open">
+<tt class="descname">open</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Sdr.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open data set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">0 on success/1 on failure</td>
 </tr>
 </tbody>
 </table>
@@ -1652,12 +1772,59 @@ from a given layer possibly with given type.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Sdr.trim_left">
+<tt class="descname">trim_left</tt><big>(</big><em>s</em>, <em>ch</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Sdr.trim_left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strip left part of a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> &#8211; string to left trim</li>
+<li><strong>ch</strong> &#8211; character to trim</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">left trimmed string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="SurveyingCalculation.totalstations.Stonex">
 <em class="property">class </em><tt class="descclassname">SurveyingCalculation.totalstations.</tt><tt class="descname">Stonex</tt><big>(</big><em>fname</em>, <em>separator='</em>, <em>'</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Stonex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to import STONEX ascii file</p>
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Stonex.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Stonex.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close dataset</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Stonex.get_line">
+<tt class="descname">get_line</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Stonex.get_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read &amp; split a single line</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Stonex.open">
+<tt class="descname">open</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Stonex.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open data set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">0 on success/1 on failure</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="SurveyingCalculation.totalstations.Stonex.parse_next">
 <tt class="descname">parse_next</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Stonex.parse_next" title="Permalink to this definition">¶</a></dt>
@@ -1672,12 +1839,59 @@ from a given layer possibly with given type.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.Stonex.trim_left">
+<tt class="descname">trim_left</tt><big>(</big><em>s</em>, <em>ch</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.Stonex.trim_left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strip left part of a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> &#8211; string to left trim</li>
+<li><strong>ch</strong> &#8211; character to trim</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">left trimmed string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="SurveyingCalculation.totalstations.SurvCE">
 <em class="property">class </em><tt class="descclassname">SurveyingCalculation.totalstations.</tt><tt class="descname">SurvCE</tt><big>(</big><em>fname</em>, <em>separator='</em>, <em>'</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.SurvCE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to import SurvCE rw5 files</p>
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.SurvCE.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.SurvCE.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close dataset</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.SurvCE.get_line">
+<tt class="descname">get_line</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.SurvCE.get_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read &amp; split a single line</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.SurvCE.open">
+<tt class="descname">open</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.SurvCE.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open data set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">0 on success/1 on failure</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="SurveyingCalculation.totalstations.SurvCE.parse_next">
 <tt class="descname">parse_next</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.SurvCE.parse_next" title="Permalink to this definition">¶</a></dt>
@@ -1687,6 +1901,27 @@ from a given layer possibly with given type.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Returns:</th><td class="field-body">observation data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SurveyingCalculation.totalstations.SurvCE.trim_left">
+<tt class="descname">trim_left</tt><big>(</big><em>s</em>, <em>ch</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.totalstations.SurvCE.trim_left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strip left part of a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> &#8211; string to left trim</li>
+<li><strong>ch</strong> &#8211; character to trim</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">left trimmed string</p>
+</td>
 </tr>
 </tbody>
 </table>

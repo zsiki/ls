@@ -1,23 +1,21 @@
 ========================================
 SurveyingCalculation plugin for QGIS 2.x
 ========================================
-User's Guide
-------------
+Tutorial
+--------
 
-SurveyingCalculation plugin install in QGIS
-:::::::::::::::::::::::::::::::::::::::::::
+Enable SurveyingCalculation plugin in QGIS
+::::::::::::::::::::::::::::::::::::::::::
 
-Befor intalling the plugin in QGIS make sure you downloaded SurveyingCalculation plugin to ~/.qgis2/python/plugins/SurveyingCalculation (~ is your home directory on Linux, replace it on Windows)!
+Befor use the installed SurveyingCalculation plugin has to be enabled in QGIS. The installation method of the plugin can be found in the Users's Guide.
 
-
-
-.. figure:: images/001.png
+.. figure:: images/t001.png
    :scale: 80 %
    :align: center
 
    *(1.) From the Plugins menu select Manage and Install Plugins...*
 
-.. figure:: images/002.png
+.. figure:: images/t002.png
    :scale: 80 %
    :align: center
 
@@ -28,7 +26,7 @@ Now the menu and the toolbar of the plugin are visible.
 Start a new project
 :::::::::::::::::::
 
-.. figure:: images/003.png
+.. figure:: images/t003.png
    :scale: 80 %
    :align: center
 
@@ -36,7 +34,7 @@ Start a new project
 
 A new empty shape file is created.
 
-.. figure:: images/005.png
+.. figure:: images/t005.png
    :scale: 80 %
    :align: center
 
@@ -44,7 +42,7 @@ A new empty shape file is created.
 
 Next step is impoting an electric fieldbook.
 
-.. figure:: images/006.png
+.. figure:: images/t006.png
    :scale: 80 %
    :align: center
 
@@ -52,31 +50,31 @@ Next step is impoting an electric fieldbook.
 
 For the transparency of the fieldbooks the representation of NULL values can be changed.
 
-.. figure:: images/008.png
+.. figure:: images/t008.png
    :scale: 80 %
    :align: center
 
    *(6.) From the Settings menu select Options...*
 
-.. figure:: images/009.png
+.. figure:: images/t009.png
    :scale: 80 %
    :align: center
 
    *(7.) Select Data Sources, and set the Representation for NULL values from "NULL" to empty*
 
-.. figure:: images/010.png
+.. figure:: images/t010.png
    :scale: 80 %
    :align: center
 
    *(8.) The attribute table of the fieldbook*
 
-.. figure:: images/011.png
+.. figure:: images/t011.png
    :scale: 80 %
    :align: center
 
    *(9.) The attribute table of the coordinate file*
 
-.. figure:: images/0111.png
+.. figure:: images/t0111.png
    :scale: 80 %
    :align: center
 
@@ -86,7 +84,7 @@ Points can be labeled with point id.
 
 v
 
-.. figure:: images/055.png
+.. figure:: images/t055.png
    :scale: 80 %
    :align: center
 
@@ -95,91 +93,91 @@ v
 Single Point Calculations
 :::::::::::::::::::::::::
 
-.. figure:: images/012.png
+.. figure:: images/t012.png
    :scale: 80 %
    :align: center
 
    *(15.) Click Single point calculations icon on SurveyingCalculation toolbar*
 
-.. figure:: images/013.png
+.. figure:: images/t013.png
    :scale: 80 %
    :align: center
 
    *(16.) First select the type of calculation*
 
-.. figure:: images/014.png
+.. figure:: images/t014.png
    :scale: 80 %
    :align: center
 
    *(17.) By the orientation select the station point (the fielbook name and the row id in fieldbook is shown in brackets)*
 
-.. figure:: images/015.png
+.. figure:: images/t015.png
    :scale: 80 %
    :align: center
 
    *(18.) Select one or more target points and add to used points (the row id in fieldbook is shown in brackets)*
 
-.. figure:: images/016.png
+.. figure:: images/t016.png
    :scale: 80 %
    :align: center
 
    *(19.) Click Calculate and orientation will be calculated. Parameters of the calculation can be checked in the result window.*
 
-.. figure:: images/017.png
+.. figure:: images/t017.png
    :scale: 80 %
    :align: center
 
    *(20.) Click reset to begin a new calculation*
 
-.. figure:: images/018.png
+.. figure:: images/t018.png
    :scale: 80 %
    :align: center
 
    *(21.) Orientation for a second station*
 
-.. figure:: images/019.png
+.. figure:: images/t019.png
    :scale: 80 %
    :align: center
 
    *(22.) By the intersection two stations must be selected with known orientation (the fielbook name and the row id in fieldbook is shown in brackets)*
 
-.. figure:: images/020.png
+.. figure:: images/t020.png
    :scale: 80 %
    :align: center
 
    *(23.) Select one or more target points and add to used point, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.*
 
-.. figure:: images/021.png
+.. figure:: images/t021.png
    :scale: 80 %
    :align: center
 
    *(24.) By the resection select station point (the fielbook name and the row id in fieldbook is shown in brackets, known point are displayed bold type )*
 
-.. figure:: images/022.png
+.. figure:: images/t022.png
    :scale: 80 %
    :align: center
 
    *(25.) Select exactly three target points (the row id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.*
 
-.. figure:: images/023.png
+.. figure:: images/t023.png
    :scale: 80 %
    :align: center
 
    *(26.) By the free station select station point (the fielbook name and the row id in fieldbook is shown in brackets, known point are displayed bold type )*
 
-.. figure:: images/024.png
+.. figure:: images/t024.png
    :scale: 80 %
    :align: center
 
    *(27.) Select two or more target points (the row id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.*
 
-.. figure:: images/026.png
+.. figure:: images/t026.png
    :scale: 80 %
    :align: center
 
    *(28.) By the radial survey select station point (the fielbook name and the row id in fieldbook is shown in brackets, only known points can be selected)*
 
-.. figure:: images/027.png
+.. figure:: images/t027.png
    :scale: 80 %
    :align: center
 
@@ -190,43 +188,43 @@ Traverse calculations
 
 If orientation can be calculated on start point or end point, it should be calculated first.
 
-.. figure:: images/029.png
+.. figure:: images/t029.png
    :scale: 80 %
    :align: center
 
    *(30.) Orientation on start point*
 
-.. figure:: images/030.png
+.. figure:: images/t030.png
    :scale: 80 %
    :align: center
 
    *(31.) Orientation on end point*
 
-.. figure:: images/031.png
+.. figure:: images/t031.png
    :scale: 80 %
    :align: center
 
    *(32.) Click Traverse calculations icon on SurveyingCalculation toolbar*
 
-.. figure:: images/032.png
+.. figure:: images/t032.png
    :scale: 80 %
    :align: center
 
    *(33.) Select the type of traverse and the start point (the fielbook name and the row id in fieldbook is shown in brackets, only known points can be selected)*
 
-.. figure:: images/033.png
+.. figure:: images/t033.png
    :scale: 80 %
    :align: center
 
    *(34.) Select the end point (the fielbook name and the row id in fieldbook is shown in brackets, only known points can be selected except open traverse)*
 
-.. figure:: images/034.png
+.. figure:: images/t034.png
    :scale: 80 %
    :align: center
 
    *(35.) Select target points and add to used points in the right order (the fielbook name and the row id in fieldbook is shown in brackets, known point are displayed bold type)*
 
-.. figure:: images/035.png
+.. figure:: images/t035.png
    :scale: 80 %
    :align: center
 
@@ -235,25 +233,25 @@ If orientation can be calculated on start point or end point, it should be calcu
 Network adjustment
 ::::::::::::::::::
 
-.. figure:: images/051.png
+.. figure:: images/t051.png
    :scale: 80 %
    :align: center
 
    *(37.) Click Network adjustment icon on SurveyingCalculation toolbar*
 
-.. figure:: images/052.png
+.. figure:: images/t052.png
    :scale: 80 %
    :align: center
 
    *(38.) Select the fix points and add to the fix points*
 
-.. figure:: images/053.png
+.. figure:: images/t053.png
    :scale: 80 %
    :align: center
 
    *(39.) Select points to adjust and add to the adjusted points*
 
-.. figure:: images/054.png
+.. figure:: images/t054.png
    :scale: 80 %
    :align: center
 
@@ -264,49 +262,49 @@ Coordinate transformation
 
 First add the coordinate file containing the points to transformate.
 
-.. figure:: images/61.png
+.. figure:: images/t61.png
    :scale: 80 %
    :align: center
 
    *(41.) Click Add vector layer icon, and select an existing file*
 
-.. figure:: images/62.png
+.. figure:: images/t62.png
    :scale: 80 %
    :align: center
 
    *(42.) Click Layer Labeling Options icon*
 
-.. figure:: images/63.png
+.. figure:: images/t63.png
    :scale: 80 %
    :align: center
 
    *(43.) Turn on labeling and select point_id*
 
-.. figure:: images/64.png
+.. figure:: images/t64.png
    :scale: 80 %
    :align: center
 
    *(44.) Click Coordinate transformation icon on SurveyingCalculation toolbar*
 
-.. figure:: images/65.png
+.. figure:: images/t65.png
    :scale: 80 %
    :align: center
 
    *(45.) Select the shape file where to transformate. The result points will be written in this shape file.*
 
-.. figure:: images/66.png
+.. figure:: images/t66.png
    :scale: 80 %
    :align: center
 
    *(46.) From the common points add the needed points to used points*
 
-.. figure:: images/67.png
+.. figure:: images/t67.png
    :scale: 80 %
    :align: center
 
    *(47.) Select the type of transformation (each type can be selected only if enough common points)*
 
-.. figure:: images/68.png
+.. figure:: images/t68.png
    :scale: 80 %
    :align: center
 

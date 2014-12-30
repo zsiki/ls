@@ -89,6 +89,7 @@ Totalstation data import
 
 .. automodule:: SurveyingCalculation.totalstations
    :members:
+   :inherited-members:
 
 Transformation calculation GUI
 ==============================
