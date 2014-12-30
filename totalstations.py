@@ -59,8 +59,8 @@ class TotalStation(object):
             # end of file
             return None
         if self.separator is not None:
-            return self.separator.split(buf.strip('\n'))
-        return buf.strip('\n')
+            return self.separator.split(buf.strip('\r\n'))
+        return buf.strip('\r\n')
 
     def trim_left(self, s, ch):
         """ Strip left part of a string
@@ -698,9 +698,9 @@ if __name__ == "__main__":
     """
         unit test
     """
-    ts = SurvCE('samples/sample.rw5')
+    #ts = SurvCE('samples/sample.rw5')
     #ts = Stonex('samples/PAJE2OB.DAT')
-    #ts = LeicaGsi('samples/test_trafo.gsi', ' ')
+    ts = LeicaGsi('samples/tata3.gsi', ' ')
     #ts = JobAre('samples/test1.job', '=')
     #ts = Sdr('samples/PAJE04.crd', None)
     if ts.open() != 0:
