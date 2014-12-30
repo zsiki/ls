@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'batch_plotting.ui'
 #
-# Created: Tue Dec 30 10:14:21 2014
+# Created: Tue Dec 30 10:20:49 2014
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -70,7 +70,7 @@ class Ui_BatchPlottingDialog(object):
         self.ScaleCombo.addItem(_fromUtf8(""))
         self.ScaleCombo.addItem(_fromUtf8(""))
         self.TempDirButton = QtGui.QPushButton(BatchPlottingDialog)
-        self.TempDirButton.setGeometry(QtCore.QRect(200, 50, 81, 21))
+        self.TempDirButton.setGeometry(QtCore.QRect(170, 50, 111, 21))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
