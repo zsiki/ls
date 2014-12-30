@@ -51,10 +51,9 @@ class BatchPlottingDialog(QDialog):
             self.ui.SingleFileCheckbox.stateChanged.connect(self.changedSingleFileCheckbox)
         else:
             # set scale to map canvas scale
-            self.ui.ScaleCombo.clear()
-            self.ui.ScaleCombo.addItem("<extent>")
+            self.ui.ScaleCombo.insertItem(0,"%d"%round(self.iface.mapCanvas().scale()))
+            self.ui.ScaleCombo.insertItem(0,"<extent>")
             self.ui.ScaleCombo.setCurrentIndex(0)
-            self.ui.ScaleCombo.setEditable(False)
 
         self.printer = None
         
@@ -71,7 +70,7 @@ class BatchPlottingDialog(QDialog):
         self.ui.LayersComboBox.clear()
         # if batch plotting is false only map canvas will be in the list
         if not self.batch_plotting:
-            self.ui.LayersComboBox.addItem(tr("<Map canvas>"))
+            self.ui.LayersComboBox.addItem(tr("<Map view>"))
             self.ui.LayersComboBox.setCurrentIndex(0)
             return
         # if batch plotting is true fill layers combo
@@ -127,13 +126,19 @@ class BatchPlottingDialog(QDialog):
         self.template_file = os.path.join(self.templatepath,
             self.ui.TemplateList.currentItem().text())
         # get the scale
-        try:
-            if self.batch_plotting:
+        if self.ui.ScaleCombo.currentText()=="<extent>":
+            scale = -1
+        else:
+            try:
                 scale = int(self.ui.ScaleCombo.currentText())
-        except (ValueError):
-            QMessageBox.warning(self, tr("Warning"), tr("Scale must be an integer value!"))
-            self.ui.ScaleCombo.setFocus()
-            return
+            except (ValueError):
+                QMessageBox.warning(self, tr("Warning"), tr("Scale must be a positive integer value!"))
+                self.ui.ScaleCombo.setFocus()
+                return
+            if scale<=0:
+                QMessageBox.warning(self, tr("Warning"), tr("Scale must be a positive integer value!"))
+                self.ui.ScaleCombo.setFocus()
+                return
         
         # get composer name
         composer_name = self.ui.ComposerEdit.text()
@@ -396,6 +401,8 @@ class BatchPlottingDialog(QDialog):
                 newextent.setXMinimum( newextent.xMinimum() - dw / 2 )
                 newextent.setXMaximum( newextent.xMaximum() + dw / 2 )
             cmap.setNewExtent(newextent)
+            if scale>0:
+                cmap.setNewScale(scale)
             sc = cmap.scale()
             cmap.setGridIntervalX(sc/10)
             cmap.setGridIntervalY(sc/10)
