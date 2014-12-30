@@ -389,12 +389,12 @@ class BatchPlottingDialog(QDialog):
             map_ratio = currentextent.width()/currentextent.height()
             if map_ratio < canvas_ratio:
                 dh = newextent.width() / map_ratio - newextent.height()
-                newextent.setYMinimum( newextent.yMinimum() - dh / 2 );
-                newextent.setYMaximum( newextent.yMaximum() + dh / 2 );
+                newextent.setYMinimum( newextent.yMinimum() - dh / 2 )
+                newextent.setYMaximum( newextent.yMaximum() + dh / 2 )
             else:
                 dw = map_ratio * newextent.height() - newextent.width()
-                newextent.setXMinimum( newextent.xMinimum() - dw / 2 );
-                newextent.setXMaximum( newextent.xMaximum() + dw / 2 );
+                newextent.setXMinimum( newextent.xMinimum() - dw / 2 )
+                newextent.setXMaximum( newextent.xMaximum() + dw / 2 )
             cmap.setNewExtent(newextent)
             sc = cmap.scale()
             cmap.setGridIntervalX(sc/10)
