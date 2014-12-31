@@ -19,8 +19,8 @@ class AreaDialog(QDialog):
             :param log: log instance for log messages
         """
         super(AreaDialog, self).__init__()
-        self.total_area = int(total_area)
-        self.div_area = int(div_area)
+        self.total_area = int(total_area + 0.5)
+        self.div_area = int(div_area + 0.5)
         self.ui = Ui_AreaDivDialog()
         self.ui.setupUi(self)
         self.ui.CancelButton.clicked.connect(self.onCancelButton)
@@ -46,6 +46,9 @@ class AreaDialog(QDialog):
         try:
             a = float(self.ui.AreaLineEdit.text())
         except ValueError:
+            QMessageBox.warning(self, tr("Warning"), tr("Invalid area value"))
+            return
+        if a <= 0:
             QMessageBox.warning(self, tr("Warning"), tr("Invalid area value"))
             return
         if not self.ui.OnePointRadio.isChecked() and not self.ui.TwoPointRadio.isChecked():
