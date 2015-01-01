@@ -45,7 +45,7 @@ traversing, network adjustment).
    *(3.) From the SurveyingCalculation menu select New coordinate list ...*
 
 A new empty 2D point shape file is created to store benchmarks (points with
-known coordinates). The plugin add *coord_* to the beginning of the
+known coordinates). The plugin adds *coord_* to the beginning of the
 name to distinguish it from the other elements of the project.
 Besides the point identifier, the coordinates (easting, 
 northing, elevation), a point code and a point type can be stored in the 
@@ -87,7 +87,7 @@ In the file selection dialog navigate to sample directory of the installed
 plugin, select the *Geodimeter JOB/ARE* file type and the *test1.job* file.
 You must give a name and a directory for the imported fieldbook in a second
 output file selection dialog. Save the imported observations into the sample 
-directory with the name test1. The plugin add *fb_* to the beginning of the
+directory with the name test1. The plugin adds *fb_* to the beginning of the
 name to distinguish it from the other elements of the project.
 
 The records of the fieldbook should be ordered by *id* column to get the logical
@@ -160,31 +160,49 @@ Now we are able to start the coordinate calculations from the observations.
    :scale: 80 %
    :align: center
 
-   *(17.) By the orientation select the station point (the fielbook name and the row id in fieldbook is shown in brackets)*
+   *(17.) By the orientation select the 10001 station point (the fielbook name and the id in fieldbook are shown in brackets)*
+
+In the *Station (1)* list the fielbook name and the id in fieldbook are shown 
+in brackets.
 
 .. figure:: images/t015.png
    :scale: 80 %
    :align: center
 
-   *(18.) Select one or more target points and add to used points (the row id in fieldbook is shown in brackets)*
+   *(18.) Select one or more target points and add them to used points (the id in fieldbook is shown in bracket)*
 
 .. figure:: images/t016.png
    :scale: 80 %
    :align: center
 
-   *(19.) Click Calculate and orientation will be calculated. Parameters of the calculation can be checked in the result window.*
+   *(19.) Click Calculate button and the orientation angle will be calculated
+
+**TODO**
+*Why did you select only one orientation direction?*
+
+Results of the calculation can be seen in the *Result of calculations* widget. 
+The results are also written to the log file. The name and location of the 
+log file can be set in *config.py*.
+The orientation angle is stored in the fieldbook in the *hz* column of the 
+station row.
 
 .. figure:: images/t017.png
    :scale: 80 %
    :align: center
 
-   *(20.) Click reset to begin a new calculation*
+   *(20.) Click Reset button to begin a new calculation*
+
+**TODO**
+Why is it neccessary to reset?
 
 .. figure:: images/t018.png
    :scale: 80 %
    :align: center
 
-   *(21.) Orientation for a second station*
+   *(21.) Orientation for 10002 station*
+
+There are observations to point 5002 and 5004 from station 10001 and 10002.
+So intersection can be calculated for them.
 
 .. figure:: images/t019.png
    :scale: 80 %
