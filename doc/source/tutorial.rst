@@ -30,8 +30,8 @@ QGIS. The installation process of the plugin can be found in the Users's Guide.
 After enabling the plugin a new pulldown menu (SurveyingCalculation) and a
 toolbar are visible in the main window of QGIS.
 
-Start a new project
-:::::::::::::::::::
+Preparing the work
+::::::::::::::::::
 
 The SurveyingCalculation plugin is fully integrated into QGIS. We will use 
 QGIS project to save our working environment. Some special data sets must be
@@ -45,7 +45,9 @@ traversing, network adjustment).
    *(3.) From the SurveyingCalculation menu select New coordinate list ...*
 
 A new empty 2D point shape file is created to store benchmarks (points with
-known coordinates). Besides the point identifier, the coordinates (easting, 
+known coordinates). The plugin add *coord_* to the beginning of the
+name to distinguish it from the other elements of the project.
+Besides the point identifier, the coordinates (easting, 
 northing, elevation), a point code and a point type can be stored in the 
 attribute table of the shape file.
 
@@ -88,6 +90,10 @@ output file selection dialog. Save the imported observations into the sample
 directory with the name test1. The plugin add *fb_* to the beginning of the
 name to distinguish it from the other elements of the project.
 
+The records of the fieldbook should be ordered by *id* column to get the logical
+order of observations. The *id* values are  incremented by ten to left space 
+manually added rows.
+
 .. figure:: images/t010.png
    :scale: 80 %
    :align: center
@@ -95,7 +101,7 @@ name to distinguish it from the other elements of the project.
    *(8.) The attribute table of the fieldbook*
 
 **TODO**
-*test project is not a good name for the fieldbook, project has other meaning 
+*test projec is not a good name for the fieldbook, project has other meaning 
 in QGIS! Please rename it to test1. (Zoli)*
 
 The coordinates for the sample project can be imported from the *test1.are* 
@@ -114,22 +120,35 @@ coordinate list file.
 
    *(10.) To view the points in the map window, right click on the coordinate file and select Zoom to Layer*
 
-Points can be labeled with *point_id* column in the map window.
+Points can be labeled with *point_id* column in the map window using the 
+standard QGIS labelling tools.
 
 .. figure:: images/t055.png
    :scale: 80 %
    :align: center
 
-   *(14.) QGIS project can be saved by clicking on the save icon*
+   *(14.) Points labelled with point id in the map window*
+
+**TODO** 
+*the figure 14 contains the points 5001-5004, the coordinates of them
+is no known at this moment*
+
+QGIS project can be saved by clicking on the save (floppy disk) icon.
 
 Single Point Calculations
 :::::::::::::::::::::::::
+
+Now we are able to start the coordinate calculations from the observations.
+
 
 .. figure:: images/t012.png
    :scale: 80 %
    :align: center
 
    *(15.) Click Single point calculations icon on SurveyingCalculation toolbar*
+
+**TODO**
+*Why aren't the points visible in the map window?*
 
 .. figure:: images/t013.png
    :scale: 80 %
