@@ -345,16 +345,17 @@ class SurveyingCalculation:
                     n_co += 1
                 i += 10
             #fb_dbf.commitChanges()
-            if n_fb == 0:        # no observations
-                QgsMapLayerRegistry.instance().removeMapLayer(fb_dbf.id())
-                # remove empty file
-                unlink(ofname)
-                if n_co == 0:    # no coordinates
-                    QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),\
-                        tr("Neither coordinates nor observations found"))
-                else:
-                    QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),\
-                        tr("No observations found"))
+            if not re.search('\.are$', fname, re.IGNORECASE):
+                if n_fb == 0:        # no observations
+                    QgsMapLayerRegistry.instance().removeMapLayer(fb_dbf.id())
+                    # remove empty file
+                    unlink(ofname)
+                    if n_co == 0:    # no coordinates
+                        QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),\
+                            tr("Neither coordinates nor observations found"))
+                    else:
+                        QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),\
+                            tr("No observations found"))
             self.log.write()
             self.log.write_log(tr("Fieldbook loaded: ") + fname)
             self.log.write("    %d observations, %d coordinates" % (n_fb, n_co))
