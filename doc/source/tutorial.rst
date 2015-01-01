@@ -130,8 +130,8 @@ standard QGIS labelling tools.
    *(14.) Points labelled with point id in the map window*
 
 **TODO** 
-*the figure 14 contains the points 5001-5004, the coordinates of them
-is no known at this moment*
+*the figure 14 contains the points 5001-5004, 1_tr, 2_tr, 3_tr 
+the coordinates of them is no known at this moment*
 
 QGIS project can be saved by clicking on the save (floppy disk) icon.
 
@@ -156,12 +156,16 @@ Now we are able to start the coordinate calculations from the observations.
 
    *(16.) First select the type of calculation*
 
+Before starting the coordinate calculation the orientation angles must be set 
+for known station.
+
 .. figure:: images/t014.png
    :scale: 80 %
    :align: center
 
-   *(17.) By the orientation select the 10001 station point (the fielbook name and the id in fieldbook are shown in brackets)*
+   *(17.) Selecting station 10001* 
 
+Let\'s start with station 10001. Select the point from the *Station (1)* list.
 In the *Station (1)* list the fielbook name and the id in fieldbook are shown 
 in brackets.
 
@@ -169,22 +173,25 @@ in brackets.
    :scale: 80 %
    :align: center
 
-   *(18.) Select one or more target points and add them to used points (the id in fieldbook is shown in bracket)*
+   *(18.) Selecting target points for oroientation*
+   
+Select one or more target points and add them to used points (the id in fieldbook is shown in bracket).
 
 .. figure:: images/t016.png
    :scale: 80 %
    :align: center
 
-   *(19.) Click Calculate button and the orientation angle will be calculated*
+   *(19.) Staring calculation*
 
 **TODO**
 *Why did you select only one orientation direction?*
 
-Results of the calculation can be seen in the *Result of calculations* widget. 
+Click Calculate button and the orientation angle will be calculated.
+Results can be seen in the *Result of calculations* widget. 
 The results are also written to the log file. The name and location of the 
 log file can be set in *config.py*.
-The orientation angle is stored in the fieldbook in the *hz* column of the 
-station row.
+The orientation angle is stored in the fieldbook too, in the *hz* column of the 
+station record.
 
 .. figure:: images/t017.png
    :scale: 80 %
@@ -193,18 +200,18 @@ station row.
    *(20.) Click Reset button to begin a new calculation*
 
 **TODO**
-Why is it neccessary to reset?
+*Why is it neccessary to reset?*
 
 .. figure:: images/t018.png
    :scale: 80 %
    :align: center
 
-   *(21.) Orientation for 10002 station*
+   *(21.) Orientation for station 10002*
 
 Repeat the orientation calculation for all known stations (231, 10006).
 
 There are observations to point 5002 and 5004 from station 10001 and 10002.
-So intersection can be calculated for them.
+So coordinates can be calculated as an intersection for them.
 
 .. figure:: images/t019.png
    :scale: 80 %
@@ -212,7 +219,7 @@ So intersection can be calculated for them.
 
    *(22.) Stating intersection*
 
-By the intersection two oriented stations must be selected in *Station (1)* and
+For the intersection two oriented stations must be selected in *Station (1)* and
 *Station (2)* list.
 The fielbook name and the id in fieldbook is shown in brackets in the station 
 list.
@@ -284,18 +291,31 @@ Repeat the free station calculation using all possible observations!
    :scale: 80 %
    :align: center
 
-   *(28.) By the radial survey select station point (the fielbook name and the row id in fieldbook is shown in brackets, only known points can be selected)*
+   *(28.) Preparing Radial Survey calculation*
+   
+By the radial survey the position of several polar points can be calculated.
+First select station point (the fielbook name and the id in fieldbook is shown in brackets, only orineted known points can be selected.
 
 .. figure:: images/t027.png
    :scale: 80 %
    :align: center
 
-   *(29.) Select one or more target points (the row id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.*
+   *(29.) Radial Survey calculation*
+
+Select one or more target points (the id in fieldbook is shown in brackets) and 
+add to used points, click calculate and coordinates will be calculated. 
+Results of the calculation can be seen in the result widget.
+
+**TODO**
+*This example for point 5002 is not ideal. Why do not we add simple polar
+points?*
 
 Traverse calculations
 :::::::::::::::::::::
 
-If orientation can be calculated on start point or end point, it should be calculated first.
+A link traverse will be calculated between point 5001 and 5002 in this section.
+If orientation is available on the start and/or end point, it should be 
+calculated before starting the travesing calculation. 
 
 .. figure:: images/t029.png
    :scale: 80 %
@@ -313,13 +333,18 @@ If orientation can be calculated on start point or end point, it should be calcu
    :scale: 80 %
    :align: center
 
-   *(32.) Click Traverse calculations icon on SurveyingCalculation toolbar*
+   *(32.) Starting travese calculation*
+
+Click Traverse calculations icon on SurveyingCalculation toolbar.
 
 .. figure:: images/t032.png
    :scale: 80 %
    :align: center
 
-   *(33.) Select the type of traverse and the start point (the fielbook name and the row id in fieldbook is shown in brackets, only known points can be selected)*
+   *(33.) Start and end points of traverse*
+
+Select the *Link Traverse* and the start and end points (the fielbook name and the id in fieldbook is shown in brackets, only oriented known points can be 
+selected)
 
 .. figure:: images/t033.png
    :scale: 80 %
