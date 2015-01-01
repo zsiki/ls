@@ -4,10 +4,16 @@ SurveyingCalculation plugin for QGIS 2.x
 Tutorial
 --------
 
+In this tutorial the functionality of the plugin is demonstrated through 
+sample datasets, which can be found in the sample directory after the 
+installation of the plugin. To use this tutorial you must have QGIS 2.x
+installed on your machine. Linux or Windows operating system can be used.
+
 Enable SurveyingCalculation plugin in QGIS
 ::::::::::::::::::::::::::::::::::::::::::
 
-Befor use the installed SurveyingCalculation plugin has to be enabled in QGIS. The installation method of the plugin can be found in the Users's Guide.
+Befor using the installed SurveyingCalculation plugin, it has to be enabled in 
+QGIS. The installation process of the plugin can be found in the Users's Guide.
 
 .. figure:: images/t001.png
    :scale: 80 %
@@ -21,10 +27,16 @@ Befor use the installed SurveyingCalculation plugin has to be enabled in QGIS. T
 
    *(2.) Search for SurveyingCalculation plugin and enable it*
 
-Now the menu and the toolbar of the plugin are visible.
+After enabling the plugin a new pulldown menu (SurveyingCalculation) and a
+toolbar are visible in the main window of QGIS.
 
 Start a new project
 :::::::::::::::::::
+
+The SurveyingCalculation plugin is fully integrated into QGIS. We will use 
+QGIS project to save our working environment. Some special data sets must be
+added to the project to be able to use the different calculations (e.g.
+traversing, network adjustment).
 
 .. figure:: images/t003.png
    :scale: 80 %
@@ -32,7 +44,10 @@ Start a new project
 
    *(3.) From the SurveyingCalculation menu select New coordinate list ...*
 
-A new empty shape file is created.
+A new empty 2D point shape file is created to store benchmarks (points with
+known coordinates). Besides the point identifier, the coordinates (easting, 
+northing, elevation), a point code and a point type can be stored in the 
+attribute table of the shape file.
 
 .. figure:: images/t005.png
    :scale: 80 %
@@ -40,33 +55,52 @@ A new empty shape file is created.
 
    *(4.) The attribute table of the coordinate file is empty*
 
-Next step is impoting an electric fieldbook.
+To demonstrate the calculations we need some benchmarks and observations.
+During the next step an electric fieldbook is imported. Electric fieldbooks 
+from total stations can contain observations (direction, distance) and
+coordinates too.
 
-.. figure:: images/t006.png
-   :scale: 80 %
-   :align: center
-
-   *(5.) From the SurveyingCalculation menu select Import fieldbook ...*
-
-For the transparency of the fieldbooks the representation of NULL values can be changed.
+For the transparency of the fieldbooks the representation of NULL values should
+be changed before importing.
 
 .. figure:: images/t008.png
    :scale: 80 %
    :align: center
 
-   *(6.) From the Settings menu select Options...*
+   *(5.) From the Settings menu select Options...*
 
 .. figure:: images/t009.png
    :scale: 80 %
    :align: center
 
-   *(7.) Select Data Sources, and set the Representation for NULL values from "NULL" to empty*
+   *(6.) Select Data Sources, and set the Representation for NULL values from "NULL" to empty string*
+
+.. figure:: images/t006.png
+   :scale: 80 %
+   :align: center
+
+   *(7.) From the SurveyingCalculation menu select Import fieldbook ...*
+
+In the file selection dialog navigate to sample directory of the installed 
+plugin, select the *Geodimeter JOB/ARE* file type and the *test1.job* file.
+You must give a name and a directory for the imported fieldbook in a second
+output file selection dialog. Save the imported observations into the sample 
+directory with the name test1. The plugin add *fb_* to the beginning of the
+name to distinguish it from the other elements of the project.
 
 .. figure:: images/t010.png
    :scale: 80 %
    :align: center
 
    *(8.) The attribute table of the fieldbook*
+
+**TODO**
+*test project is not a good name for the fieldbook, project has other meaning 
+in QGIS! Please rename it to test1. (Zoli)*
+
+The coordinates for the sample project can be imported from the *test1.are* 
+file, similiar to the import of the job file. The points are added to the
+coordinate list file.
 
 .. figure:: images/t011.png
    :scale: 80 %
@@ -78,11 +112,9 @@ For the transparency of the fieldbooks the representation of NULL values can be 
    :scale: 80 %
    :align: center
 
-   *(10.) To display the points in the map window, right click on the coordinate file and select Zoom to Layer*
+   *(10.) To view the points in the map window, right click on the coordinate file and select Zoom to Layer*
 
-Points can be labeled with point id.
-
-v
+Points can be labeled with *point_id* column in the map window.
 
 .. figure:: images/t055.png
    :scale: 80 %
