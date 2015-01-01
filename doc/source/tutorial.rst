@@ -175,7 +175,7 @@ in brackets.
    :scale: 80 %
    :align: center
 
-   *(19.) Click Calculate button and the orientation angle will be calculated
+   *(19.) Click Calculate button and the orientation angle will be calculated*
 
 **TODO**
 *Why did you select only one orientation direction?*
@@ -201,6 +201,8 @@ Why is it neccessary to reset?
 
    *(21.) Orientation for 10002 station*
 
+Repeat the orientation calculation for all known stations (231, 10006).
+
 There are observations to point 5002 and 5004 from station 10001 and 10002.
 So intersection can be calculated for them.
 
@@ -208,37 +210,75 @@ So intersection can be calculated for them.
    :scale: 80 %
    :align: center
 
-   *(22.) By the intersection two stations must be selected with known orientation (the fielbook name and the row id in fieldbook is shown in brackets)*
+   *(22.) Stating intersection*
+
+By the intersection two oriented stations must be selected in *Station (1)* and
+*Station (2)* list.
+The fielbook name and the id in fieldbook is shown in brackets in the station 
+list.
 
 .. figure:: images/t020.png
    :scale: 80 %
    :align: center
 
-   *(23.) Select one or more target points and add to used point, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.*
+   *(23.) Intersection of point 5004*
+
+Select one or more target points and add them to used point, click calculate 
+and coordinates will be calculated. Results of the calculation can be 
+seen in the result widget. Calculated coordinates are added to the coordinate 
+list too.
 
 .. figure:: images/t021.png
    :scale: 80 %
    :align: center
 
-   *(24.) By the resection select station point (the fielbook name and the row id in fieldbook is shown in brackets, known point are displayed bold type )*
+In the next step coordinates of point 5001 and 5003 will be calculated using
+resection.
+
+   *(24.) Preparing resection*
+   
+By the resection select the station 5001 (the fielbook name and the id in 
+fieldbook is shown in brackets, known points are displayed in bold face).
 
 .. figure:: images/t022.png
    :scale: 80 %
    :align: center
 
-   *(25.) Select exactly three target points (the row id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.*
+   *(25.) Resection of station 5001*
+
+Select exactly three target points (the id in fieldbook is shown in brackets) 
+and add them to the *Used Points* list, click on *Calculate* button and 
+coordinates will be calculated. Details of the calculation can be seen in the 
+result widget.
+Calculated coordinates are added to the coordinate list too.
+
+Please repeat the resection calculation for station 5003.
+
+There are distance measurements from station 5001 to other known points (10001 and 10003). 
+Free station calculation can be used to consider all observations (directions
+and distances) from a station. Let's calculate the coordinates of station 5001
+using free station calculation.
 
 .. figure:: images/t023.png
    :scale: 80 %
    :align: center
 
-   *(26.) By the free station select station point (the fielbook name and the row id in fieldbook is shown in brackets, known point are displayed bold type )*
+   *(26.) Preparing free station calculation*
+   
+For the free station calculation select station 5001 (the fielbook name and the
+id in fieldbook is shown in brackets, known points are displayed in bold face)
+in the *Station (1)* list.
 
 .. figure:: images/t024.png
    :scale: 80 %
    :align: center
 
-   *(27.) Select two or more target points (the row id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.*
+   *(27.) Free station calculation for station 5001*
+
+Select two or more target points (the id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Details of the calculation can be seen in the result widget.
+Free station calculation uses the least quares method. The calculation result
+list contains all details about calculation, provided by GNU-Gama project.
+Repeat the free station calculation using all possible observations!
 
 .. figure:: images/t026.png
    :scale: 80 %
