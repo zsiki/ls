@@ -126,6 +126,7 @@ class LineMapTool(QgsMapToolEmitPoint):
         point0 = self.toLayerCoordinates(self.layer, QgsPoint(self.startPoint.x(), self.startPoint.y()))   # center of rotation
         point1 = self.toLayerCoordinates(self.layer, QgsPoint(self.startPoint.x(), self.startPoint.y()))
         point2 = self.toLayerCoordinates(self.layer, QgsPoint(self.endPoint.x(), self.endPoint.y()))
+        rotate = True
         while geom.contains(point1):
             # extend line outside polygon
             point1 = QgsPoint(point1.x() - (point2.x() - point1.x()) * 10, \
@@ -216,8 +217,11 @@ class LineMapTool(QgsMapToolEmitPoint):
         feat_new = QgsFeature()
         fields = self.layer.dataProvider().fields()
         feat_new.setFields(fields, True)
-        # TODO new_geoms to multipart
-        feat_new.setGeometry(new_geoms[0])
+        # combine new_geoms to single geometry
+        new_geom = QgsGeometry(new_geoms[0])
+        for new_g in new_geoms[1:]:
+            new_geom = QgsGeometry(new_geom.combine(new_g))
+        feat_new.setGeometry(new_geom)
         self.layer.dataProvider().addFeatures([feat_new])
         # refresh canvas
         self.canvas.refresh()
