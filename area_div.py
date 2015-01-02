@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'area_div.ui'
 #
-# Created: Tue Dec 30 22:59:35 2014
+# Created: Fri Jan  2 13:44:36 2015
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -58,7 +58,7 @@ class Ui_AreaDivDialog(object):
         self.AreaLabel.setText(QtGui.QApplication.translate("AreaDivDialog", "Area (in layer units)", None, QtGui.QApplication.UnicodeUTF8))
         self.AreaLabel.setObjectName(_fromUtf8("AreaLabel"))
         self.OnePointRadio = QtGui.QRadioButton(self.AreaDivGroup)
-        self.OnePointRadio.setGeometry(QtCore.QRect(10, 80, 271, 17))
+        self.OnePointRadio.setGeometry(QtCore.QRect(10, 90, 271, 17))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -67,7 +67,7 @@ class Ui_AreaDivDialog(object):
         self.OnePointRadio.setText(QtGui.QApplication.translate("AreaDivDialog", "Through the first given point", None, QtGui.QApplication.UnicodeUTF8))
         self.OnePointRadio.setObjectName(_fromUtf8("OnePointRadio"))
         self.TwoPointRadio = QtGui.QRadioButton(self.AreaDivGroup)
-        self.TwoPointRadio.setGeometry(QtCore.QRect(10, 100, 271, 17))
+        self.TwoPointRadio.setGeometry(QtCore.QRect(10, 70, 271, 17))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
