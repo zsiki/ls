@@ -13,7 +13,7 @@ Enable SurveyingCalculation plugin in QGIS
 ::::::::::::::::::::::::::::::::::::::::::
 
 Befor using the installed SurveyingCalculation plugin, it has to be enabled in 
-QGIS. The installation process of the plugin can be found in the Users's Guide.
+QGIS. The installation process of the plugin can be found in the User's Guide.
 
 .. figure:: images/t001.png
    :scale: 80 %
@@ -100,12 +100,8 @@ manually added rows.
 
    *(8.) The attribute table of the fieldbook*
 
-**TODO**
-*test projec is not a good name for the fieldbook, project has other meaning 
-in QGIS! Please rename it to test1. (Zoli)*
-
 The coordinates for the sample project can be imported from the *test1.are* 
-file, similiar to the import of the job file. The points are added to the
+file, similar to the import of the job file. The points are added to the
 coordinate list file.
 
 .. figure:: images/t011.png
@@ -129,10 +125,6 @@ standard QGIS labelling tools.
 
    *(14.) Points labelled with point id in the map window*
 
-**TODO** 
-*the figure 14 contains the points 5001-5004, 1_tr, 2_tr, 3_tr 
-the coordinates of them is no known at this moment*
-
 QGIS project can be saved by clicking on the save (floppy disk) icon.
 
 Single Point Calculations
@@ -146,9 +138,6 @@ Now we are able to start the coordinate calculations from the observations.
    :align: center
 
    *(15.) Click Single point calculations icon on SurveyingCalculation toolbar*
-
-**TODO**
-*Why aren't the points visible in the map window?*
 
 .. figure:: images/t013.png
    :scale: 80 %
@@ -166,14 +155,14 @@ for known station.
    *(17.) Selecting station 10001* 
 
 Let\'s start with station 10001. Select the point from the *Station (1)* list.
-In the *Station (1)* list the fielbook name and the id in fieldbook are shown 
+In the *Station (1)* list the fieldbook name and the id in fieldbook are shown 
 in brackets.
 
 .. figure:: images/t015.png
    :scale: 80 %
    :align: center
 
-   *(18.) Selecting target points for oroientation*
+   *(18.) Selecting target points for orientation*
    
 Select one or more target points and add them to used points (the id in fieldbook is shown in bracket).
 
@@ -183,24 +172,12 @@ Select one or more target points and add them to used points (the id in fieldboo
 
    *(19.) Staring calculation*
 
-**TODO**
-*Why did you select only one orientation direction?*
-
 Click Calculate button and the orientation angle will be calculated.
 Results can be seen in the *Result of calculations* widget. 
 The results are also written to the log file. The name and location of the 
 log file can be set in *config.py*.
 The orientation angle is stored in the fieldbook too, in the *hz* column of the 
 station record.
-
-.. figure:: images/t017.png
-   :scale: 80 %
-   :align: center
-
-   *(20.) Click Reset button to begin a new calculation*
-
-**TODO**
-*Why is it neccessary to reset?*
 
 .. figure:: images/t018.png
    :scale: 80 %
@@ -217,11 +194,11 @@ So coordinates can be calculated as an intersection for them.
    :scale: 80 %
    :align: center
 
-   *(22.) Stating intersection*
+   *(22.) Starting intersection*
 
 For the intersection two oriented stations must be selected in *Station (1)* and
 *Station (2)* list.
-The fielbook name and the id in fieldbook is shown in brackets in the station 
+The fieldbook name and the id in fieldbook is shown in brackets in the station 
 list.
 
 .. figure:: images/t020.png
@@ -235,16 +212,16 @@ and coordinates will be calculated. Results of the calculation can be
 seen in the result widget. Calculated coordinates are added to the coordinate 
 list too.
 
+In the next step coordinates of point 5001 and 5003 will be calculated using
+resection.
+
 .. figure:: images/t021.png
    :scale: 80 %
    :align: center
 
-In the next step coordinates of point 5001 and 5003 will be calculated using
-resection.
-
    *(24.) Preparing resection*
-   
-By the resection select the station 5001 (the fielbook name and the id in 
+
+By the resection select the station 5001 (the fieldbook name and the id in 
 fieldbook is shown in brackets, known points are displayed in bold face).
 
 .. figure:: images/t022.png
@@ -272,7 +249,7 @@ using free station calculation.
 
    *(26.) Preparing free station calculation*
    
-For the free station calculation select station 5001 (the fielbook name and the
+For the free station calculation select station 5001 (the fieldbook name and the
 id in fieldbook is shown in brackets, known points are displayed in bold face)
 in the *Station (1)* list.
 
@@ -283,7 +260,7 @@ in the *Station (1)* list.
    *(27.) Free station calculation for station 5001*
 
 Select two or more target points (the id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Details of the calculation can be seen in the result widget.
-Free station calculation uses the least quares method. The calculation result
+Free station calculation uses the least squares method. The calculation result
 list contains all details about calculation, provided by GNU-Gama project.
 Repeat the free station calculation using all possible observations!
 
@@ -294,7 +271,7 @@ Repeat the free station calculation using all possible observations!
    *(28.) Preparing Radial Survey calculation*
    
 By the radial survey the position of several polar points can be calculated.
-First select station point (the fielbook name and the id in fieldbook is shown in brackets, only orineted known points can be selected.
+First select station point (the fieldbook name and the id in fieldbook is shown in brackets), only oriented known points can be selected.
 
 .. figure:: images/t027.png
    :scale: 80 %
@@ -315,7 +292,7 @@ Traverse calculations
 
 A link traverse will be calculated between point 5001 and 5002 in this section.
 If orientation is available on the start and/or end point, it should be 
-calculated before starting the travesing calculation. 
+calculated before starting the traversing calculation. 
 
 .. figure:: images/t029.png
    :scale: 80 %
@@ -336,7 +313,7 @@ resection, the second is for traversing. Calculate orientation for line 370.
    :scale: 80 %
    :align: center
 
-   *(32.) Starting travese calculation*
+   *(32.) Starting traverse calculation*
 
 Click Traverse calculations icon on SurveyingCalculation toolbar.
 
@@ -346,7 +323,7 @@ Click Traverse calculations icon on SurveyingCalculation toolbar.
 
    *(33.) Start point of traverse*
 
-Select the *Link Traverse* and the start point (the fielbook name and 
+Select the *Link Traverse* and the start point (the fieldbook name and 
 the id in fieldbook is shown in brackets, only oriented known points can be 
 selected).
 
@@ -356,7 +333,7 @@ selected).
 
    *(34.) End point of traverse*
 
-Select the end point (the fielbook name and the id in fieldbook is shown in brackets, only known oriented points can be selected except open traverse)
+Select the end point (the fieldbook name and the id in fieldbook is shown in brackets, only known oriented points can be selected except open traverse)
 
 .. figure:: images/t034.png
    :scale: 80 %
@@ -365,15 +342,15 @@ Select the end point (the fielbook name and the id in fieldbook is shown in brac
    *(35.) Points in traverse*
    
 Select the traverse point from target points and add them to the used points.
-Change the order of points if neccessary using the up and down button. The 
-fielbook name and the id in fieldbook is shown in brackets, known point are 
+Change the order of points if necessary using the up and down button. The 
+fieldbook name and the id in fieldbook is shown in brackets, known point are 
 displayed in bold face.
 
 .. figure:: images/t035.png
    :scale: 80 %
    :align: center
 
-   *(36.) Travese calculation* 
+   *(36.) Traverse calculation* 
 
 Click Calculate button and the coordinates will be calculated. Results of the 
 calculation can be seen in the result window. The coordinates of traverse points
@@ -382,7 +359,7 @@ are updated in coordinate list too.
 Network adjustment
 ::::::::::::::::::
 
-We have more observations then neccessary for the coordinate calculation of 
+We have more observations then necessary for the coordinate calculation of 
 point 5001-5004. If we would like to consider all, we have to use network 
 adjustment (least squares estimation). Free station calculation also uses the 
 least squares method, but the external directions are not considered.
@@ -413,13 +390,6 @@ face can be added to the fix points list (those have coordinates in the coordina
 
 Select points to adjust  from the *List of Points* and add them to the
 *Adjusted Points* list.
-
-**TODO**
-*Why do you skip point 231 and 232?*
-
-**TODO**
-*Adjustment parameters are incorrect, change angle standard deviation to 5cc,
-distance standard deviation to 3 + 3 ppm*
 
 .. figure:: images/t054.png
    :scale: 80 %
