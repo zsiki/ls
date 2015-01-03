@@ -343,7 +343,8 @@ Click Traverse calculations icon on SurveyingCalculation toolbar.
 
    *(33.) Start and end points of traverse*
 
-Select the *Link Traverse* and the start and end points (the fielbook name and the id in fieldbook is shown in brackets, only oriented known points can be 
+Select the *Link Traverse* and the start and end points (the fielbook name and 
+the id in fieldbook is shown in brackets, only oriented known points can be 
 selected)
 
 .. figure:: images/t033.png
