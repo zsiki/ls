@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'network_calc.ui'
 #
-# Created: Thu Dec 18 19:26:01 2014
+# Created: Sat Jan 03 11:16:46 2015
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -230,7 +230,7 @@ class Ui_NetworkCalcDialog(object):
         self.DistDevMMKMComboBox.addItem(_fromUtf8(""))
         self.DistDevMMKMComboBox.addItem(_fromUtf8(""))
         self.DistDevMMLabel = QtGui.QLabel(self.ParametersGroup)
-        self.DistDevMMLabel.setGeometry(QtCore.QRect(120, 190, 61, 16))
+        self.DistDevMMLabel.setGeometry(QtCore.QRect(120, 185, 61, 16))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -238,7 +238,7 @@ class Ui_NetworkCalcDialog(object):
         self.DistDevMMLabel.setSizePolicy(sizePolicy)
         self.DistDevMMLabel.setObjectName(_fromUtf8("DistDevMMLabel"))
         self.DistDevMMKMLabel = QtGui.QLabel(self.ParametersGroup)
-        self.DistDevMMKMLabel.setGeometry(QtCore.QRect(120, 220, 61, 16))
+        self.DistDevMMKMLabel.setGeometry(QtCore.QRect(120, 215, 61, 16))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -266,7 +266,7 @@ class Ui_NetworkCalcDialog(object):
         self.ZenitDevLabel.setSizePolicy(sizePolicy)
         self.ZenitDevLabel.setObjectName(_fromUtf8("ZenitDevLabel"))
         self.DistDevMMLabel_2 = QtGui.QLabel(self.ParametersGroup)
-        self.DistDevMMLabel_2.setGeometry(QtCore.QRect(120, 120, 61, 16))
+        self.DistDevMMLabel_2.setGeometry(QtCore.QRect(120, 125, 61, 16))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
