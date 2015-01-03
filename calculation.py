@@ -12,12 +12,10 @@
 import math
 from base_classes import *
 from resultlog import *
-from PyQt4.QtCore import QCoreApplication
 
 class Calculation(object):
     """ Container class for calculations. Pure static class.
-    """
-    
+    """    
     def __init__(self):
         pass
 
@@ -345,7 +343,6 @@ class Calculation(object):
         de = [0.0]*n
         dn = [0.0]*n
         for i in range(1,n):
-
             j = i - 1
             if j==0:
                 if beta[j] is not None:
