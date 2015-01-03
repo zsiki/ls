@@ -83,7 +83,7 @@ class NewPointDialog(QDialog):
             pc = w
         else:
             pc = None
-        w = self.ui.PointTypeLineEdit.text().strip()[0:30]
+        w = self.ui.PointTypeLineEdit.text().strip()[0:20]
         if len(w):
             pt = w
         else:
@@ -92,8 +92,8 @@ class NewPointDialog(QDialog):
             QMessageBox.warning(self, tr("Warning"), msg)
             return
         # check new
-        p = Point(pnum)
-        if get_coord(p) is not None and \
+        #p = Point(pnum)
+        if get_coord(pnum) is not None and \
             QMessageBox.question(self, tr("Warning"), tr("Point is already in the point list. Do you want to overwrite?"), tr("Yes"), tr("No")) == 1:
             return
 
