@@ -540,9 +540,9 @@ It is possible to calculate five types of Transformation. Each Transformations w
 
 
 
-       
+
 Polygon division
-::::::::::::::::    
+::::::::::::::::
 
 In Area Division dialog window you can divide parcel (area, polygon etc.). The Division is possible *Paralel to the given line*, or
 *Through the first given point* with size of the area.
@@ -578,15 +578,25 @@ In Area Division dialog window you can divide parcel (area, polygon etc.). The D
 
 
 
-
-
 Plot
 ::::
+
+The plugin offers the possibility to plot the actual map view or selected polygons using a previously created composer template file *(.qpt)*.
 
 
 Plot by Template
 ++++++++++++++++
 
+With *Plot by template* command you can plot the actual map view with the given scale.
 
-Batch plotting       
+#. So first set the map view to the required area and perhaps the required scale.
+#. Then open the *Plot by template* dialog.
+#. In the dialog you can select a composer template and the scale. In the scale list the previously set scale also appears beside some predefined scales. The default sclae is *<extent>* which means that the scale will be adjusted to the map view extent.
+#. You can give a name to the composition but it's not necessary. If you leave blank QGIS gives a name automatically.
+
+At the end a composer window will appear with the map composition and it can be printed to a system printer or exported to PDF file.
+
+
+Batch plotting
 ++++++++++++++
+
