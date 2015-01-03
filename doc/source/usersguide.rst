@@ -142,8 +142,8 @@ Importing fieldbooks
 ::::::::::::::::::::
 
 Observations made by total stations and GPS are stored in electric fieldbooks.
-The files storing the filedbook data must be downloaded to the computer before
-you can use them in the plug-in. Different filedbook types are supported:
+The files storing the fieldbook data must be downloaded to the computer before
+you can use them in the plug-in. Different fieldbook types are supported:
 
 - Leica GSI 8/16
 - Geodimeter JOB/ARE
@@ -536,14 +536,45 @@ It is possible to calculate five types of Transformation. Each Transformations w
    :scale: 80 %
    :align: center
        
-   *(21.) Coordinate transformation - Affine transformation*
-
+   *(22.) Coordinate transformation - Affine transformation*
 
 
 
        
 Polygon division
 ::::::::::::::::    
+
+In Area Division dialog window you can divide parcel (area, polygon etc.). The Division is possible *Paralel to the given line*, or
+*Through the first given point* with size of the area.
+
+#. Turn on *Toggle Editing Mode*.
+#. Select a parcel, which you want to divide.
+#. Click on the *Polygon Division* icon in the *SurveyingCalculation* toolbar.
+#. Holding down the right mouse button, draw a line where would you like to divide the area.
+#. After drawing the dialog window appear automatically.
+#. Set the type of Division and click the *Divide* button.
+
+
+.. figure:: images/u23.png
+   :scale: 80 %
+   :align: center
+       
+   *(23.) Polygon division - Selected polygon to division*
+
+
+.. figure:: images/u24.png
+   :scale: 80 %
+   :align: center
+       
+   *(24.) Polygon division - Area Division*
+
+
+.. figure:: images/u25.png
+   :scale: 80 %
+   :align: center
+       
+   *(25.) Polygon division - Divided polygon*
+
 
 
 
