@@ -123,7 +123,7 @@ standard QGIS labelling tools.
    :scale: 80 %
    :align: center
 
-   *(14.) Points labelled with point id in the map window*
+   *(11.) Points labelled with point id in the map window*
 
 QGIS project can be saved by clicking on the save (floppy disk) icon.
 
@@ -137,13 +137,13 @@ Now we are able to start the coordinate calculations from the observations.
    :scale: 80 %
    :align: center
 
-   *(15.) Click Single point calculations icon on SurveyingCalculation toolbar*
+   *(12.) Click Single point calculations icon on SurveyingCalculation toolbar*
 
 .. figure:: images/t013.png
    :scale: 80 %
    :align: center
 
-   *(16.) First select the type of calculation*
+   *(13.) First select the type of calculation*
 
 Before starting the coordinate calculation the orientation angles must be set 
 for known station.
@@ -152,7 +152,7 @@ for known station.
    :scale: 80 %
    :align: center
 
-   *(17.) Selecting station 10001* 
+   *(14.) Selecting station 10001* 
 
 Let\'s start with station 10001. Select the point from the *Station (1)* list.
 In the *Station (1)* list the fieldbook name and the id in fieldbook are shown 
@@ -162,7 +162,7 @@ in brackets.
    :scale: 80 %
    :align: center
 
-   *(18.) Selecting target points for orientation*
+   *(15.) Selecting target points for orientation*
    
 Select one or more target points and add them to used points (the id in fieldbook is shown in bracket).
 
@@ -170,7 +170,7 @@ Select one or more target points and add them to used points (the id in fieldboo
    :scale: 80 %
    :align: center
 
-   *(19.) Staring calculation*
+   *(16.) Staring calculation*
 
 Click Calculate button and the orientation angle will be calculated.
 Results can be seen in the *Result of calculations* widget. 
@@ -183,7 +183,7 @@ station record.
    :scale: 80 %
    :align: center
 
-   *(21.) Orientation for station 10002*
+   *(17.) Orientation for station 10002*
 
 Repeat the orientation calculation for all known stations (231, 10006).
 
@@ -194,7 +194,7 @@ So coordinates can be calculated as an intersection for them.
    :scale: 80 %
    :align: center
 
-   *(22.) Starting intersection*
+   *(18.) Starting intersection*
 
 For the intersection two oriented stations must be selected in *Station (1)* and
 *Station (2)* list.
@@ -205,7 +205,7 @@ list.
    :scale: 80 %
    :align: center
 
-   *(23.) Intersection of point 5004*
+   *(19.) Intersection of point 5004*
 
 Select one or more target points and add them to used point, click calculate 
 and coordinates will be calculated. Results of the calculation can be 
@@ -219,7 +219,7 @@ resection.
    :scale: 80 %
    :align: center
 
-   *(24.) Preparing resection*
+   *(20.) Preparing resection*
 
 By the resection select the station 5001 (the fieldbook name and the id in 
 fieldbook is shown in brackets, known points are displayed in bold face).
@@ -228,7 +228,7 @@ fieldbook is shown in brackets, known points are displayed in bold face).
    :scale: 80 %
    :align: center
 
-   *(25.) Resection of station 5001*
+   *(21.) Resection of station 5001*
 
 Select exactly three target points (the id in fieldbook is shown in brackets) 
 and add them to the *Used Points* list, click on *Calculate* button and 
@@ -247,7 +247,7 @@ using free station calculation.
    :scale: 80 %
    :align: center
 
-   *(26.) Preparing free station calculation*
+   *(22.) Preparing free station calculation*
    
 For the free station calculation select station 5001 (the fieldbook name and the
 id in fieldbook is shown in brackets, known points are displayed in bold face)
@@ -257,7 +257,7 @@ in the *Station (1)* list.
    :scale: 80 %
    :align: center
 
-   *(27.) Free station calculation for station 5001*
+   *(23.) Free station calculation for station 5001*
 
 Select two or more target points (the id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Details of the calculation can be seen in the result widget.
 Free station calculation uses the least squares method. The calculation result
@@ -268,7 +268,7 @@ Repeat the free station calculation using all possible observations!
    :scale: 80 %
    :align: center
 
-   *(28.) Preparing Radial Survey calculation*
+   *(24.) Preparing Radial Survey calculation*
    
 By the radial survey the position of several polar points can be calculated.
 First select station point (the fieldbook name and the id in fieldbook is shown in brackets), only oriented known points can be selected.
@@ -277,7 +277,7 @@ First select station point (the fieldbook name and the id in fieldbook is shown 
    :scale: 80 %
    :align: center
 
-   *(29.) Radial Survey calculation*
+   *(25.) Radial Survey calculation*
 
 Select one or more target points (the id in fieldbook is shown in brackets) and 
 add to used points, click calculate and coordinates will be calculated. 
@@ -298,7 +298,7 @@ calculated before starting the traversing calculation.
    :scale: 80 %
    :align: center
 
-   *(30.) Orientation on start point (5001)*
+   *(26.) Orientation on start point (5001)*
 
 Be careful, point 5001 was occupied twice, the first was used for 
 resection, the second is for traversing. Calculate orientation for line 370.
@@ -307,13 +307,13 @@ resection, the second is for traversing. Calculate orientation for line 370.
    :scale: 80 %
    :align: center
 
-   *(31.) Orientation on end point (5002)*
+   *(27.) Orientation on end point (5002)*
 
 .. figure:: images/t031.png
    :scale: 80 %
    :align: center
 
-   *(32.) Starting traverse calculation*
+   *(28.) Starting traverse calculation*
 
 Click Traverse calculations icon on SurveyingCalculation toolbar.
 
@@ -321,7 +321,7 @@ Click Traverse calculations icon on SurveyingCalculation toolbar.
    :scale: 80 %
    :align: center
 
-   *(33.) Start point of traverse*
+   *(29.) Start point of traverse*
 
 Select the *Link Traverse* and the start point (the fieldbook name and 
 the id in fieldbook is shown in brackets, only oriented known points can be 
@@ -331,7 +331,7 @@ selected).
    :scale: 80 %
    :align: center
 
-   *(34.) End point of traverse*
+   *(30.) End point of traverse*
 
 Select the end point (the fieldbook name and the id in fieldbook is shown in brackets, only known oriented points can be selected except open traverse)
 
@@ -339,7 +339,7 @@ Select the end point (the fieldbook name and the id in fieldbook is shown in bra
    :scale: 80 %
    :align: center
 
-   *(35.) Points in traverse*
+   *(31.) Points in traverse*
    
 Select the traverse point from target points and add them to the used points.
 Change the order of points if necessary using the up and down button. The 
@@ -350,7 +350,7 @@ displayed in bold face.
    :scale: 80 %
    :align: center
 
-   *(36.) Traverse calculation* 
+   *(32.) Traverse calculation* 
 
 Click Calculate button and the coordinates will be calculated. Results of the 
 calculation can be seen in the result window. The coordinates of traverse points
@@ -368,7 +368,7 @@ least squares method, but the external directions are not considered.
    :scale: 80 %
    :align: center
 
-   *(37.) Starting network adjustment*
+   *(33.) Starting network adjustment*
    
 Click Network adjustment icon on the SurveyingCalculation toolbar.
 
@@ -376,7 +376,7 @@ Click Network adjustment icon on the SurveyingCalculation toolbar.
    :scale: 80 %
    :align: center
 
-   *(38.) Selecting the fix points*
+   *(34.) Selecting the fix points*
 
 Select fix points (the coordinates of these point will not be changed) from the
 *List of Points* and add them to the *Fix points* list. Only points in bold 
@@ -386,7 +386,7 @@ face can be added to the fix points list (those have coordinates in the coordina
    :scale: 80 %
    :align: center
 
-   *(39.) Selecting adjusted points*
+   *(35.) Selecting adjusted points*
 
 Select points to adjust  from the *List of Points* and add them to the
 *Adjusted Points* list.
@@ -395,7 +395,7 @@ Select points to adjust  from the *List of Points* and add them to the
    :scale: 80 %
    :align: center
 
-   *(40.) Adjustment parameters*
+   *(36.) Adjustment parameters*
    
 Set the parameters of the adjustment, horizontal network (2D), the standard 
 deviation of observations. Click calculate and coordinates will be calculated. 
@@ -406,42 +406,14 @@ studied. For more details see the `GNU Gama <https://www.gnu.org/software/gama/>
 Coordinate transformation
 :::::::::::::::::::::::::
 
-**TODO**
-*Why do we need new data set? We can use the coordinates calculate in the test1
-data set! For the affine transformation we have enogh points!*
-
 Let's transform the points in our data set to an other coordinate system using common points, which are known in both coordinate systems.
 A second coordinate list was prepared with the coordinates in the target system.
-
-**TODO**
-*start of part to erase*
-
-.. figure:: images/t61.png
-   :scale: 80 %
-   :align: center
-
-   *(41.) Click Add vector layer icon, and select an existing file*
-
-.. figure:: images/t62.png
-   :scale: 80 %
-   :align: center
-
-   *(42.) Click Layer Labeling Options icon*
-
-.. figure:: images/t63.png
-   :scale: 80 %
-   :align: center
-
-   *(43.) Turn on labeling and select point_id*
-
-**TODO**
-*end of part to erase*
 
 .. figure:: images/t64.png
    :scale: 80 %
    :align: center
 
-   *(44.) Starting coorinate transformation*
+   *(37.) Starting coordinate transformation*
    
 Click Coordinate transformation icon on SurveyingCalculation toolbar to start 
 the calculation.
@@ -450,7 +422,7 @@ the calculation.
    :scale: 80 %
    :align: center
 
-   *(45.) Selecting from coordinate list*
+   *(38.) Selecting from coordinate list*
    
 Select the shape file to transform from, only the loaded coordinate lists can be selected from the list.
 Then press the button with ellipses (...) to select the target shape file of the
@@ -460,16 +432,16 @@ transformation.
    :scale: 80 %
    :align: center
 
-   *(46.) Selecting points*
+   *(39.) Selecting points*
    
-After spacifying the source and the target of transformation the *Common Points*
+After specifying the source and the target of transformation the *Common Points*
 list is filled automatically. Add points from the common points to the *Used Points* list.
 
 .. figure:: images/t67.png
    :scale: 80 %
    :align: center
 
-   *(47.) Selecting the type of transformation*
+   *(40.) Selecting the type of transformation*
    
 Different transformation types require different number of point. Only those transformation types are available for which enough points were selected.
 
@@ -477,7 +449,7 @@ Different transformation types require different number of point. Only those tra
    :scale: 80 %
    :align: center
 
-   *(48.) Calculating transformation*
+   *(41.) Calculating transformation*
    
 Click calculate button and the transformation parameters and transformed 
 coordinates will be calculated. Results of the calculation can be checked in the result widget.*
