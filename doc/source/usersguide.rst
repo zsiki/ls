@@ -6,11 +6,6 @@ The SurveyingCalculation plugin was created by the `DigiKom Ltd (Hungary)
 <www.digikom.hu>`_. It was supported by the SMOLE II for Niras Finland Oy.
 It was developped for the Land Parcel Cadastre of Zanzibar.
 
-Typographical conventions
-:::::::::::::::::::::::::
-
-**TODO**
-
 Hardware and software requirements
 ::::::::::::::::::::::::::::::::::
 
@@ -35,12 +30,12 @@ Installation of the SurveyingCalculation plugin
 
 If you have a Git client on your machine (Git Bash or other clients)
 
-#. git clone from https://github.com/zsiki/ls to *~/.qgis2/python/plugins/SurveyingCalculation* (~ is your home directory on Linux, replace it on Windows)
+#. git clone the plug-in from from https://github.com/zsiki/ls to *~/.qgis2/python/plugins/SurveyingCalculation* on your local machine (~ is your home directory on Linux, replace it on Windows)
 #. Open the QGIS Desktop
 
 If you don't have a Git client
 
-#. Download the ZIP file from https://github.com/zsiki/ls to your computer
+#. Download the ZIP file from https://github.com/zsiki/ls/archive/master.zip to your computer
 #. Unzip it to *~/.qgis2/python/plugins/SurveyingCalculation*
 #. Open the QGIS Desktop
 
@@ -80,6 +75,17 @@ Settings before use
 :::::::::::::::::::
 
 Settings described in this section are optional.
+
+Check and change the settings in the *config.py* file. The following variables 
+can be set in the config:
+
+    :fontname: monospace font used in the calculation results widgets on Linux, the default courier font doesn't not exists on most Linux boxes
+    :fontsize: font size used in the calculation results widgets on Linux
+    :homedir: start directory used for loading fieldbooks from
+    :log_path: full path to log file, the program must have write access right to the directory and the file
+    :line_tolerance: snapping to vertex tolerance used by line tool
+    :area_tolerance: area tolerance for area division, if the difference between the actual area and the requested area is smaller then this value, the iteration is stopped
+    :max_iteration: maximal number of iterations for area division
 
 Set the default coordinate reference system (CRS) for new projects and
 new layers on the *CRS* tab in the Setting/Options menu to the local CRS. 
@@ -122,6 +128,13 @@ a point layer in your project with the following columns in the attribute table
 
 The first three columns (*point_id*, *e* and *n*) are obligatory, you must fill them.
 You mustn't rename or erase these columns but you can add new columns to the attribute table.
+
+You can edit the coordinate list if you push *Toggle Editing Mode* for this layer. Be careful::
+
+    do not edit the coordinates manually, because the point position won't change automatically 
+    do not add new point by mouse click, because the coordinate columns in the table won't change automatically
+
+Use the *Add new point* dialog to update coordinates and location together.
 
 .. figure:: images/u06.png
    :scale: 80 %
@@ -345,8 +358,13 @@ Add new point to the Coordinate list
 ::::::::::::::::::::::::::::::::::::
 
 In the *Add new point* dialog you can manually add new point to the coordinate list. The *Add new point* dialog can be opened for the *SurveyingCalculation* menu.
-Use the *Add* button if you would like to add more points. The *Add* button saves the new point and clears the form.
-The *Close* button saves the new point and closes the dialog window.
+The *Point ID*, *East*, *North* fields must be filled, iothers are optional.
+Use the *Add* button to add the point to the coordinate list. The *Add* button saves the new point and resets the form.
+The *Close* button closes the dialog window.
+
+This dialog can be used to overwrite existing coordinates in the coordinate 
+list. If you input an existing point, a warning will be displayed and you can 
+deside whether to continue to store point.
 
 .. figure:: images/u12.png
    :scale: 80 %
@@ -360,15 +378,31 @@ Single Point Calculations
 In the single calculation dialog you can calculate coordinates of single points
 using trigonometric formulas.
 
+All calculations can be repeated, the last calculated values will be stored,
+the previous values are lost.
+
+A SurveyingCalculation plug-in maintains a log file, a simple text fájl. The 
+details of calculations are written to the log. The location of the log file 
+can be set in the *config.py*.
+
+In the different lists of the dialog you can see the fieldbook name and the id 
+beside the point name. These are neccessary to distinguis stations if the same 
+station was occupied more then once, or dirctions if the same direction was measured from the same station more then once.
+
 Orientation
 +++++++++++
 
-#. Click the Single Point Calculations icon.
-#. Select the Orientation from the type of Calculations.
-#. Select the Station from the list. You can calculate only the orientation of one station at a time.
-#. The Target Points list loads automatically.
+Orientation of stations is neccessary to solve intersection, radial survey and 
+some type of traversing line. During the orientation no coordinates are calculated.
+
+To calculate orientation angle on a station do the followings
+
+#. Click on the Single Point Calculations icon to open the *Single Point Calculation* dialog.
+#. Select the Orientation from the *Calculation* group.
+#. Select the station id from the *Station (1)* list. You can calculate the orientation of one station at a time.
+#. The *Target Points* list is filled automatically, directions to known points.
 #. Add to Used Points list one or more points which ypu would like to use for the orientation. If you would like to change the *Used Points* list, use the Remove button.
-#. Click the Calculate button.
+#. Click on the Calculate button.
 #. Result of Calculation displayed automatically in result window.
 #. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
 
@@ -389,17 +423,17 @@ Orientation
 Radial Survey (Polar Point)
 +++++++++++++++++++++++++++
 
-Elevation is calculated for polar points if the instrument height and the
-station elevation are given.
+Beside the horizontal coordinates the elevation is also calculated for polar 
+points if the instrument height, the target height and the station elevation are given.
 
-#. Click the Single Point Calculations icon.
-#. Select the Radial Survey from the type of Calculations.
-#. Select the Station from the list. You can calculate several polar point from the same station at a time.
-#. The Target Points list loads automatically.
-#. Add to Used Points list one or more points which you would like to calculate coordinates for. If you would like to correct, use the Remove button.
-#. Click the Calculate button.
-#. Result of Calculation displayed automatically in result window.
-#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+#. Click on the Single Point Calculations icon to open the *Single Point Calculation* dialog
+#. Select the *Radial Survey* from the *Calculation* group.
+#. Select the Station id from the *Station (1)* list. You can calculate several polar points from the same station at a time.
+#. The *Target Points* list is filled automatically.
+#. Add one or more points to the *Used Points* list, which you would like to calculate coordinates for.  If you would like to change the *Used Points* list, use the *Remove* button.
+#. Click on the *Calculate* button.
+#. Result of calculation is displayed automatically in result widget.
+#. You can change settings in the dialog and press calculate to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u16.png
    :scale: 80 %
@@ -410,14 +444,19 @@ station elevation are given.
 
 Intersection
 ++++++++++++
-#. Click the Single Point Calculations icon.
-#. Select the Intersection from the type of Calculations.
-#. Select two stations from the Station(1) and Station(2) lists
-#. The Target Points list loads automatically. It contains the points, which were measured from both stations.
-#. Add to Used Points list one or more points which would like to calculate coordinates. If you would like to correct, use the Remove button.
-#. Click the Calculate button.
-#. Result of Calculation prints automatically in result window.
-#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+
+You can calculate horizontal coordinates for one or more points, which directions were observed from two known stations.
+
+To calculate intersection do the followings
+
+#. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog.
+#. Select the Intersection from the *Calculation* group.
+#. Select two known stations from the *Station(1)* and *Station(2)* lists
+#. The Target Points list is filled automatically. It contains the points, which were measured from both stations.
+#. Add one or more points to the *Used Points* list which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
+#. Click on the *Calculate* button.
+#. Results of Calculation are displayed automatically in result widget.
+#. You can change settings in the dialog and press calculate to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u17.png
    :scale: 80 %
@@ -428,32 +467,41 @@ Intersection
 
 Resection
 +++++++++
-#. Click the Single Point Calculations icon.
-#. Select the Resection from the type of Calculations.
-#. Select the station from Station (1) list.
-#. The Target Points list loads automatically. The list contains the points, which were measured from the station. You can calculate only one station coordinates at a time.
-#. Add three points to the Used Points list which will be used for resection. If you would like to correct, use the Remove button.
-#. Click the Calculate button.
-#. Result of Calculation prints automatically in result window.
-#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+
+You can calculate horizontal coordinates of a station if three known points were observed from there.
+
+To calculate resection do the followings
+
+#. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog.
+#. Select the Resection from the *Calculation* group.
+#. Select the station id from the *Station (1)* list.
+#. The Target Points list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
+#. Add three points to the *Used Points* list which will be used for resection. If you would like to correct, use the Remove button.
+#. Click on the *Calculate* button.
+#. Result of Calculation is displayed automatically in result wiget.
+#. You can change settings in the dialog and press *Calculate* button to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u18.png
    :scale: 80 %
    :align: center
        
    *(18.) Resection*
-
        
 Free Station
 ++++++++++++
-#. Click the Single Point Calculations icon.
-#. Select the Free Station from the type of Calculations.
-#. Select the station from Station (1) list.
-#. The Target Points list loads automatically. The list contains the points, which were measured from the station. You can calculate only one station coordinates at a time.
-#. Add two or more points to the Used Points list which will be used for calculate. If you would like to correct, use the Remove button.
-#. Click the Calculate button.
-#. Result of Calculation prints automatically in result window.
-#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+
+You can calculate the horizontal coordinates of a station from directions and distances using the least squares method.
+
+To calculate resection do the followings
+
+#. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog..
+#. Select the Free Station from the *Calculation* group.
+#. Select the station id from the *Station (1)* list.
+#. The Target Points list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
+#. Add two or more points to the Used Points list which will be used for calculation. If you would like to correct, use the *Remove* button.
+#. Click on the *Calculate* button.
+#. Results of calculation is displayed automatically in the result widget.
+#. You can change settings in the dialog and press *Calculate* to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u19.png
    :scale: 80 %
@@ -461,31 +509,32 @@ Free Station
        
    *(19.) Free Station - Adjusted coordinates*
 
-
+**TODO**
+*explanation of result list*
 
 Traverse Calculations
 :::::::::::::::::::::
 
-It is possible to calculate three types of Traverse.
+It is possible to calculate three different types of traverse.
 
-#. **Closed traverse**: Closed (polygonal or loop) traverse starts and finishes on the same known point.
-#. **Link traverse**: A closed link traverse joins two known points.
-#. **Open traverse**: An open (free) traverse starts on a known point and finishes on an unknown point.
+#. **Closed traverse**: Closed (polygonal or loop) traverse starts and finishes at the same known point.
+#. **Link traverse**: A closed link traverse joins two dofferent known points.
+#. **Open traverse**: An open (free) traverse starts at a known point and finishes at an unknown point.
 
+Before calculating traverse the start and end points must be oriented in case of link traverse, in other cases orientation is neccessary only on the start point.
 
-How can I use?
+To calculate traverse do the followings
 
-#. Click the Traverse Calculations icon.
-#. Select the type of Traverse Calculation from the list.
-#. Select the Endpoint from Start Point list.
-#. If necessary select the Endpoint from End Point list.
-#. The Target Points list loads automatically. The list contains the points, which were measured from the station.
-#. Add points of Traversing from Target Points list one by one to Order of Points list.
-#. The Order can be changed with Up and Down button. If you would like to correct, use the Remove button.
-#. Click the Calculate button.
-#. Result of Calculation prints automatically in result window.
-#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
-
+#. Click on the Traverse Calculations icon in the toolbar to open the *Traverse Calculations* dialog.
+#. Select the type of traverse from *Type* group.
+#. Select the start point of traverse from the *Start Point* list.
+#. In case of link traverse select the end point from the *End Point* list.
+#. The Target Points list is filled automatically.
+#. Add the traverse points from *Target Points* list to the *Order of Points* list one by one.
+#. The order of traverse points can be changed with *Up* and *Down* button. If you would like to correct, use the Remove button.
+#. Click on the *Calculate* button.
+#. Result of calculation is displayed automatically in result widget.
+#. You can change settings in the dialog and press *Calculate* button to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u20.png
    :scale: 80 %
@@ -493,10 +542,12 @@ How can I use?
        
    *(20.) Traverse Calculation - Link traverse*
 
-
+**TODO**
+*explanation of result list*
 
 Network adjustment
 ::::::::::::::::::
+
 #. Click the Network adjustment icon.
 #. Select the fix points from List of Points and add to the Fix points list.
 #. Select points to adjust from List of Points and add to the Adjusted points.
@@ -506,15 +557,11 @@ Network adjustment
 #. Result of Calculation prints automatically in result window. Parameters of the Adjustment can be checked in the result window.
 #. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
 
-
 .. figure:: images/u21.png
    :scale: 80 %
    :align: center
        
    *(21.) Traverse Calculation - Link traverse*
-
-
-
 
 Coordinate transformation
 :::::::::::::::::::::::::
