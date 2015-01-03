@@ -591,7 +591,9 @@ With *Plot by template* command you can plot the actual map view with the given 
 
 #. So first set the map view to the required area and perhaps the required scale.
 #. Then open the *Plot by template* dialog.
-#. In the dialog you can select a composer template and the scale. In the scale list the previously set scale also appears beside some predefined scales. The default sclae is *<extent>* which means that the scale will be adjusted to the map view extent.
+#. In the dialog you can select a composer template and the scale.
+#. With the *Change dir...* button you can change the directory of the template files.
+#. In the scale list the previously set scale also appears beside some predefined scales. The default sclae is *<extent>* which means that the scale will be adjusted to the map view extent.
 #. You can give a name to the composition but it's not necessary. If you leave blank QGIS gives a name automatically.
 
 At the end a composer window will appear with the map composition and it can be printed to a system printer or exported to PDF file.
@@ -600,3 +602,19 @@ At the end a composer window will appear with the map composition and it can be 
 Batch plotting
 ++++++++++++++
 
+With the "Batch plotting" command you can plot selected polygons  using a composer template file. In the dialog you can choose the output of the plot.
+
+#. This utility needs at least one polygon type layer open!
+#. Select the polygons you want to plot.
+#. Then open the *Batch Plotting* dialog.
+#. In the dialog choose the layer which contains the selected ploygons.
+#. Select the composer template from the list. With the *Change dir...* button you can change the directory of the template files.
+#. From the scale list you can choose from predefined scales or give a number manually. It must be a positive integer value.
+
+There are three possible output:
+- export to PDF
+- plot to a system printer
+- open in composer view 
+
+Export to pdf
+    You can export the composition to a single multi-page PDF file or to separate files (one polygon to one PDF). In the first case give the PDF file after Plot button pressed. In the second case you must fill the *Output filename pattern* editbox according to the *Output filename expression* of QGIS. After Plot button pressed select the directory where you want to save the PDF files.
