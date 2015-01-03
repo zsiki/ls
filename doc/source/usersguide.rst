@@ -607,14 +607,22 @@ With the "Batch plotting" command you can plot selected polygons  using a compos
 #. This utility needs at least one polygon type layer open!
 #. Select the polygons you want to plot.
 #. Then open the *Batch Plotting* dialog.
-#. In the dialog choose the layer which contains the selected ploygons.
+#. In the dialog choose the layer which contains the selected polygons.
 #. Select the composer template from the list. With the *Change dir...* button you can change the directory of the template files.
 #. From the scale list you can choose from predefined scales or give a number manually. It must be a positive integer value.
 
 There are three possible output:
+
 - export to PDF
 - plot to a system printer
 - open in composer view 
 
 Export to pdf
     You can export the composition to a single multi-page PDF file or to separate files (one polygon to one PDF). In the first case give the PDF file after Plot button pressed. In the second case you must fill the *Output filename pattern* editbox according to the *Output filename expression* of QGIS. After Plot button pressed select the directory where you want to save the PDF files.
+
+Plot to system printer
+    TODO
+    
+Open in composer view
+    TODO
+    
