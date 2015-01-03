@@ -104,6 +104,7 @@ properties from the popup menu of the layer) and the map.
 After loading an existing or creating a new Coordinate list shape file, you get
 an empty table in your project with the following columns (column names and 
 types are mandatory):
+
         :point_id:    point number
         :e:           East coordinate
         :n:           North coordinate
