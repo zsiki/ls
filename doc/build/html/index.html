@@ -195,7 +195,7 @@ active layer</p>
 <p id="module-area_dialog"><em>Platforms: </em>Linux, Windows</p>
 <dl class="class">
 <dt id="SurveyingCalculation.area_dialog.AreaDialog">
-<em class="property">class </em><tt class="descclassname">SurveyingCalculation.area_dialog.</tt><tt class="descname">AreaDialog</tt><a class="reference internal" href="_modules/SurveyingCalculation/area_dialog.html#AreaDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.area_dialog.AreaDialog" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">SurveyingCalculation.area_dialog.</tt><tt class="descname">AreaDialog</tt><big>(</big><em>total_area</em>, <em>div_area</em>, <em>rotate</em><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/area_dialog.html#AreaDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.area_dialog.AreaDialog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for area division dialog</p>
 <dl class="method">
 <dt id="SurveyingCalculation.area_dialog.AreaDialog.onCancelButton">
@@ -702,7 +702,8 @@ fontname: monospace font used in calculation results widgets
 fontsize: font size used in calculation results widgets
 homedir: start dir used for loading fieldbooks
 log_path: path to log file
-tolerance: snapping tolerance to line tool</pre>
+line_tolerance: snapping tolerance to line tool
+area_tolerance: area tolerance for area division</pre>
 </div>
 </div>
 <div class="section" id="module-SurveyingCalculation.gama_interface">
@@ -832,7 +833,7 @@ tolerance: snapping tolerance to line tool</pre>
 
 <dl class="method">
 <dt id="SurveyingCalculation.line_tool.LineMapTool.divide">
-<tt class="descname">divide</tt><big>(</big><em>area</em>, <em>rotate</em><big>)</big><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.divide" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">divide</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.line_tool.LineMapTool.divide" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide the selected polygon.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -2345,7 +2346,7 @@ if open traverse is chosen.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Dec 30, 2014.
+      Last updated on Jan 03, 2015.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>
