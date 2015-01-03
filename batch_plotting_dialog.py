@@ -7,15 +7,17 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import os, glob, ctypes
-from PyQt4.QtCore import QFile, QIODevice, Qt, QFileInfo, QDir, QSizeF
-from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox, QListWidgetItem, \
+from PyQt4.QtCore import QCoreApplication, QDir, QFile, QFileInfo, QIODevice, \
+                        QSizeF, Qt 
+from PyQt4.QtGui import QDialog, QFileDialog, QListWidgetItem, QMessageBox, \
                         QPrintDialog, QPrinter, QAbstractPrintDialog, QPainter, \
                         QProgressDialog, QApplication
 from PyQt4.QtXml import QDomDocument
 from batch_plotting import Ui_BatchPlottingDialog
-from base_classes import *
-from surveying_util import *
-from PyQt4.Qt import QDockWidget
+from qgis.core import QGis, QgsProject, QgsComposition, QgsAtlasComposition, \
+                        QgsComposerMap
+from surveying_util import get_vector_layers_by_type, get_features
+from base_classes import tr
 
 class BatchPlottingDialog(QDialog):
     """ Class for batch plotting dialog
@@ -41,7 +43,8 @@ class BatchPlottingDialog(QDialog):
         self.ui.TempDirButton.clicked.connect(self.onTempDirButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
         self.ui.TemplateList.setSortingEnabled(True)
-        
+
+        # set paths        
         self.plugin_dir = os.path.dirname(os.path.abspath(__file__))
         self.templatepath = os.path.join(self.plugin_dir, 'template')
         self.pdfpath = ""
@@ -85,7 +88,7 @@ class BatchPlottingDialog(QDialog):
             actlayer_name = self.iface.activeLayer().name()
         except (AttributeError):
             actlayer_name = ""
-            
+
         if self.ui.LayersComboBox.findText(oldSelectedLayer) == -1:
             self.ui.LayersComboBox.setCurrentIndex( self.ui.LayersComboBox.findText(actlayer_name) )
         else:
@@ -173,9 +176,10 @@ class BatchPlottingDialog(QDialog):
                         return
                     self.ui.OutputPDFEdit.setText( QgsAtlasComposition(None).filenamePattern() )
         elif self.ui.OutputTab.currentIndex() == 1:  # to Printer
+            # no need for checking
             pass
         elif self.ui.OutputTab.currentIndex() == 2:  # to Composer View
-            # TODO checkings
+            # no need for checking yet
             pass
 
         # get map renderer of map canvas        
@@ -203,6 +207,7 @@ class BatchPlottingDialog(QDialog):
 
         # if batch_plotting is True create an atlas composition
         if self.batch_plotting:
+            # get composer map item and set new scale and the grid
             cmap = self.composition.composerMapItems()[0]
             cmap.setNewScale(scale)
             cmap.setGridIntervalX(scale/10)
@@ -210,19 +215,20 @@ class BatchPlottingDialog(QDialog):
             cmap.setAtlasDriven(True)
             cmap.setAtlasScalingMode( QgsComposerMap.Fixed )
 
+            # set atlas composition parameters
             atlas = self.composition.atlasComposition()
             atlas.setEnabled(True)
             atlas.setCoverageLayer( selected_layer )
             atlas.setHideCoverage(False)
             atlas.setFilenamePattern( self.ui.OutputPDFEdit.text() )
             atlas.setSingleFile( self.ui.SingleFileCheckbox.checkState() )
-            atlas.setSortFeatures(False)   # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            atlas.setSortFeatures(False)
             atlas.setFilterFeatures(True)
             selected_ids = [f.id() for f in selected_layer.selectedFeatures()]
             filter_id_string = ','.join([str(sid) for sid in selected_ids])
             atlas.setFeatureFilter("$id in (" + filter_id_string + ")")
-            #self.composition.updateSettings()
 
+            # print the complete atlas composition
             if self.ui.OutputTab.currentIndex() == 0:    # to PDF
                 self.composition.setAtlasMode( QgsComposition.ExportAtlas )
                 
@@ -389,7 +395,6 @@ class BatchPlottingDialog(QDialog):
                 self.composition.setAtlasMode( QgsComposition.PreviewAtlas )
                 composer.composerWindow().on_mActionAtlasPreview_triggered(True)
                 atlas.parameterChanged.emit()
-                #composer.composerWindow().findChild(QDockWidget,"AtlasDock").updateGuiElements()
                 # Increase the reference count of the composer object 
                 # for not being garbage collected.
                 # If not doing this composer would lost reference and qgis would crash 
@@ -398,6 +403,7 @@ class BatchPlottingDialog(QDialog):
         else:
             # if batch_plotting is False open a QgsComposerView with current map canvas
             cmap = self.composition.composerMapItems()[0]
+            # set the new extent of composer map item
             newextent = self.iface.mapCanvas().mapSettings().visibleExtent()
             currentextent = cmap.extent()
             canvas_ratio = newextent.width()/newextent.height()
@@ -411,11 +417,17 @@ class BatchPlottingDialog(QDialog):
                 newextent.setXMinimum( newextent.xMinimum() - dw / 2 )
                 newextent.setXMaximum( newextent.xMaximum() + dw / 2 )
             cmap.setNewExtent(newextent)
+            # set the new scale of composer map item
             if scale>0:
                 cmap.setNewScale(scale)
             sc = cmap.scale()
+            # set the grid interval according to the scale
             cmap.setGridIntervalX(sc/10)
             cmap.setGridIntervalY(sc/10)
+            # Increase the reference count of the composer object 
+            # for not being garbage collected.
+            # If not doing this composer would lost reference and qgis would crash 
+            # when referring to this composer object or at quit.
             ctypes.c_long.from_address( id(composer) ).value += 1
 
         self.accept()
