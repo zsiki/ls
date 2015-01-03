@@ -14,6 +14,7 @@ Variables set:
     :log_path: path to log file
     :line_tolerance: snapping tolerance to line tool
     :area_tolerance: area tolerance for area division
+	:max_iteration: maximal number of iterations for area division
 """
 
 # dialogs
