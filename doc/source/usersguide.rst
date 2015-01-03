@@ -326,7 +326,7 @@ It is possible to change the fieldbook, insert and delete feature. You can use
 the standard QGIS tools to change or extend fieldbook data. Open the 
 fieldbook Attribute Table, turn on *Toggle Editing Mode*.
 
-**Insert record**: Click the Add feature button and fill in the record. Use the
+**Insert record**: Click the *Add feature* button and fill in the record. Use the
 right id (first column) for the row to get the right position in the fieldbook.
 
 **Delete record**: Select the record to be deleted and click on the *Delete selected features* button.
@@ -341,22 +341,18 @@ After editing the fieldbook data you have to save the changes, click the Save Ed
 
    *(11.) Add feature to Fieldbook*
 
-Add new point to Coordinate list
-::::::::::::::::::::::::::::::::
+Add new point to the Coordinate list
+::::::::::::::::::::::::::::::::::::
 
-In the *Add new point* dialog you can manually add point with coordinates. Before start using, you have to
-select Toggle Editing Mode at Layer.
-Use the Add button if you would like to add more points. The Add button save the new point and clear the board.
-The Close button save the new point and close the dialog window.
-
+In the *Add new point* dialog you can manually add new point to the coordinate list. The *Add new point* dialog can be opened for the *SurveyingCalculation* menu.
+Use the *Add* button if you would like to add more points. The *Add* button saves the new point and clears the form.
+The *Close* button saves the new point and closes the dialog window.
 
 .. figure:: images/u12.png
    :scale: 80 %
    :align: center
 
-   *(12.) Add new point with coordinates to Coordinate list*
-
-
+   *(12.) Add new point to the Coordinate list*
 
 Single Point Calculations
 :::::::::::::::::::::::::
