@@ -73,6 +73,9 @@ class LineMapTool(QgsMapToolEmitPoint):
             :param e: event
         """
         self.isEmittingPoint = False
+        if self.startPoint.x() == self.endPoint.x() or \
+            self.startPoint.y() == self.endPoint.y():
+            return
         self.divide()
 
     def canvasMoveEvent(self, e):
