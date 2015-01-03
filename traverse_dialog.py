@@ -7,7 +7,7 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import platform
-from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem, QMessageBox, QFont
+from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem, QMessageBox
 from PyQt4.QtCore import Qt
 
 import config
@@ -26,11 +26,10 @@ class TraverseDialog(QDialog):
         super(TraverseDialog, self).__init__()
         self.ui = Ui_TraverseCalcDialog()
         self.ui.setupUi(self)
+        self.log = log
         if platform.system() == 'Linux':
             # change font
             self.ui.ResultTextBrowser.setFont(QFont(config.fontname, config.fontsize))
-
-        self.log = log
 
         # event handlers
         self.ui.ClosedRadio.toggled.connect(self.radioClicked)
@@ -324,8 +323,9 @@ class TraverseDialog(QDialog):
             plist = Calculation.traverse(trav_obs,True)
         else:
             plist = Calculation.traverse(trav_obs,False)
-            
+
         if plist is not None:
+            #store newly calculated coordinates
             for pt in plist:
                 tp = ScPoint(pt.id)
                 tp.set_coord(pt)
@@ -347,12 +347,11 @@ class TraverseDialog(QDialog):
             self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
             self.log.write(ResultLog.resultlog_message)
 
-    
     def onResetButton(self):
         """ Reset dialog when the Reset button pushed.
         """
         self.reset()
-    
+
     def onCloseButton(self):
         """ Close the dialog when the Close button pushed.
         """
