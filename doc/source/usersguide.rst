@@ -4,38 +4,6 @@ SurveyingCalculation plugin for QGIS 2.x
 User's Guide
 ------------
 
-`SurveyingCalculation plugin install`_
-
-`Settings before use`_
-
-`Loading fieldbooks`_
-    `Geodimeter JOB/ARE`_
-
-    `Leica GSI`_
-
-    `Sokkia CRD`_
-    
-`Single Point Calculations`_
-    `Orientation`_
-
-    `Radial Survey (Polar Point)`_
-
-    `Intersection`_
-
-    `Resection`_
-
-    `Free Station`_
-
-`Traverse Calculations`_
-    `Closed traverse`_
-
-    `Link traverse`_
-
-    `Open traverse`_
-
-`Network adjustment`_
-
-`Coordinate transformation`_
 
 Typographical conventions
 :::::::::::::::::::::::::
@@ -75,34 +43,35 @@ After installing the plug-in you must enable it in the *Manage and Install
 Plugins* dialog. After it the menu and the toolbar of the plug-in
 will be visible.
 
-.. figure:: images/01.jpg
+.. figure:: images/u01.png
    :scale: 80 %
    :align: center
 
-   *(1.) SurveyingCalculation plugin in QGIS (menu and toolbar)*
+   *(1.) Manage and Install Plugins*
 
-
-In case of problem, check the plugin in Manage and Install Plugins dialog.
-
-Beside installing the plug-in you must also install gama-local (part of the GNU
-Gama project) for adjustment calculation. See: https://www.gnu.org/software/gama
-    
-.. figure:: images/02.jpg
-   :scale: 80 %
-   :align: center
-
-   *(2.) Manage and Install Plugins*
-       
 
 Is switched on SurveyingCalculation plugin?
 
-.. figure:: images/03.jpg
+.. figure:: images/u02.png
    :scale: 80 %
    :align: center
 
-   *(3.) Installed SurveyingCalculation plug-in*
+   *(2.) Installed SurveyingCalculation plug-in*
 
----------------------------------------------
+
+.. figure:: images/u03.png
+   :scale: 80 %
+   :align: center
+
+   *(3.) SurveyingCalculation plugin in QGIS (menu and toolbar)*
+
+
+**Gama project: gama-local**
+
+Beside installing the plug-in you must also install gama-local (part of the GNU
+Gama project) for adjustment calculation. See: https://www.gnu.org/software/gama
+
+
 
 Settings before use
 :::::::::::::::::::
@@ -111,14 +80,14 @@ Set to empty string the *Representation for NULL values* on the Data sources
 tab in the Setting/Options menu. It makes the Attribute Table (Fieldbook) more
 readable.
 
-.. figure:: images/04.jpg
+.. figure:: images/u04.png
    :scale: 80 %
    :align: center
 
    *(4.) Settings of Attribute Table*
 
 
-.. figure:: images/05.jpg
+.. figure:: images/u05.png
    :scale: 80 %
    :align: center
 
@@ -142,16 +111,15 @@ types are mandatory):
         :pc:          point code
         :pt:          point type
 
----------------------------------------------
 
-.. figure:: images/06.jpg
+.. figure:: images/u06.png
    :scale: 80 %
    :align: center
 
    *(6.) New coordinate list*
 
 
-.. figure:: images/07.jpg
+.. figure:: images/u07.png
    :scale: 80 %
    :align: center
 
@@ -159,8 +127,8 @@ types are mandatory):
 
 Only one coordinate list should be open in a project.
 
-Loading fieldbooks
-::::::::::::::::::
+Import fieldbook
+::::::::::::::::
 
 Any number of electric fieldbooks can be opened/loaded into a QGIS project.
 You can even create a new empty fieldbook and fill it manually.
@@ -191,21 +159,21 @@ Geodimeter JOB/ARE
         :pc:          point code
 #. After loading the .JOB, you can optionally load an .ARE file in the same way
 
-.. figure:: images/08.jpg
+.. figure:: images/u08.png
    :scale: 80 %
    :align: center
 
-   *(8.) Load fieldbook*
+   *(8.) Import fieldbook*
 
 
-.. figure:: images/09.jpg
+.. figure:: images/u09.png
    :scale: 80 %
    :align: center
 
    *(9.) Fieldbook*
 
 
-.. figure:: images/10.jpg
+.. figure:: images/u10.png
    :scale: 80 %
    :align: center
 
@@ -238,9 +206,45 @@ Using fieldbook data
 Angles are displayed in the fieldbook in Grads (Gon) unit with four decimals.
 Distances, instrument and target heights are in meters.
 
-Sort the fieldbook by the id column, to have the right order of observations
+Sort the fieldbook by the id column, to have the right order of observations.
 
-TODO: How to change, insert, delete, ...
+(TODO: How to change, insert, delete, ...)
+
+It is possible to change the fieldbook, insert and delete feature. Open the fieldbook Attribute Table,
+turn on Toggle Editing Mode.
+
+**Insert feature**: Click the Add feature button and fill in the gap.
+
+**Delete feature**: Select to be delete feature(s) and click the Delete selected features.
+
+After the action you have to save the changes, click the Save Edits or Toggle Editing Mode button.
+
+
+
+.. figure:: images/u11.png
+   :scale: 80 %
+   :align: center
+
+   *(11.) Add feature to Fieldbook*
+
+
+
+Add new point to Coordinate list
+::::::::::::::::::::::::::::::::
+
+In the Add new point dialog you can manually add point with coordinates. Before start using, you have to
+select Toggle Editing Mode at Layer.
+Use the Add button if you would like to add more points. The Add button save the new point and clear the board.
+The Close button save the new point and close the dialog window.
+
+
+.. figure:: images/u12.png
+   :scale: 80 %
+   :align: center
+
+   *(12.) Add new point with coordinates to Coordinate list*
+
+
 
 Single Point Calculations
 :::::::::::::::::::::::::
@@ -259,18 +263,18 @@ Orientation
 #. Result of Calculation displayed automatically in result window.
 #. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
 
-.. figure:: images/11.jpg
+.. figure:: images/u14.png
    :scale: 80 %
    :align: center    
 
-   *(11.) Orientation*
+   *(14.) Orientation*
        
 
-.. figure:: images/12.jpg
+.. figure:: images/u15.png
    :scale: 80 %
    :align: center
 
-   *(12.) Result of Orientation*
+   *(15.) Result of Orientation*
 
 
 Radial Survey (Polar Point)
@@ -288,11 +292,11 @@ station elevation are given.
 #. Result of Calculation displayed automatically in result window.
 #. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
 
-.. figure:: images/13.jpg
+.. figure:: images/u16.png
    :scale: 80 %
    :align: center
 
-   *(13.) Radial Survey*
+   *(16.) Radial Survey*
 
 
 Intersection
@@ -306,11 +310,11 @@ Intersection
 #. Result of Calculation prints automatically in result window.
 #. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
 
-.. figure:: images/14.jpg
+.. figure:: images/u17.png
    :scale: 80 %
    :align: center
 
-   *(14.) Intersection*
+   *(17.) Intersection*
 
 
 Resection
@@ -324,47 +328,125 @@ Resection
 #. Result of Calculation prints automatically in result window.
 #. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
 
-.. figure:: images/15.jpg
+.. figure:: images/u18.png
    :scale: 80 %
    :align: center
        
-   *(15.) Resection*
+   *(18.) Resection*
 
        
 Free Station
 ++++++++++++
+#. Click the Single Point Calculations icon.
+#. Select the Free Station from the type of Calculations.
+#. Select the station from Station (1) list.
+#. The Target Points list loads automatically. The list contains the points, which were measured from the station. You can calculate only one station coordinates at a time.
+#. Add two or more points to the Used Points list which will be used for calculate. If you would like to correct, use the Remove button.
+#. Click the Calculate button.
+#. Result of Calculation prints automatically in result window.
+#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+
+.. figure:: images/u19.png
+   :scale: 80 %
+   :align: center
+       
+   *(19.) Free Station - Adjusted coordinates*
 
 
 
 Traverse Calculations
 :::::::::::::::::::::
 
+It is possible to calculate three types of Traverse.
 
-Closed traverse
-+++++++++++++++
-
-
-Link traverse
-+++++++++++++
+#. **Closed traverse**: Closed (polygonal or loop) traverse starts and finishes on the same known point.
+#. **Link traverse**: A closed link traverse joins two known points.
+#. **Open traverse**: An open (free) traverse starts on a known point and finishes on an unknown point.
 
 
-Open traverse
-+++++++++++++
+How can I use?
+
+#. Click the Traverse Calculations icon.
+#. Select the type of Traverse Calculation from the list.
+#. Select the Endpoint from Start Point list.
+#. If necessary select the Endpoint from End Point list.
+#. The Target Points list loads automatically. The list contains the points, which were measured from the station.
+#. Add points of Traversing from Target Points list one by one to Order of Points list.
+#. The Order can be changed with Up and Down button. If you would like to correct, use the Remove button.
+#. Click the Calculate button.
+#. Result of Calculation prints automatically in result window.
+#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+
+
+.. figure:: images/u20.png
+   :scale: 80 %
+   :align: center
+       
+   *(20.) Traverse Calculation - Link traverse*
+
 
 
 Network adjustment
 ::::::::::::::::::
+#. Click the Network adjustment icon.
+#. Select the fix points from List of Points and add to the Fix points list.
+#. Select points to adjust from List of Points and add to the Adjusted points.
+#. Check the parameters of the adjustment.
+#. If you would like to correct, use the Remove button.
+#. Click the Calculate button.
+#. Result of Calculation prints automatically in result window. Parameters of the Adjustment can be checked in the result window.
+#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
 
 
+.. figure:: images/u21.png
+   :scale: 80 %
+   :align: center
+       
+   *(21.) Traverse Calculation - Link traverse*
 
 
 
 
 Coordinate transformation
 :::::::::::::::::::::::::
+It is possible to calculate five types of Transformation. Each Transformations work, if you selected enough common points.
+
+#. First add the coordinate file containing the points to transformate. Use the Add layer icon.
+#. Click the Coordinate transformation icon.
+#. The From Layer field automatically loaded.
+#. Select the shape file where to transformate. The result points will be written in this shape file.
+#. Add the used points from Common Points list to Used Points list.
+#. Select the type of transformation.
+#. If you would like to correct, use the Remove button.
+#. Click the Calculate button.
+#. Result of Calculation prints automatically in result window. Parameters of the Transformation can be checked in the result window.
+#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+
+
+.. figure:: images/u22.png
+   :scale: 80 %
+   :align: center
+       
+   *(21.) Coordinate transformation - Affine transformation*
+
+
 
 
        
-       
-       
-       
+Polygon division
+::::::::::::::::    
+
+
+
+
+
+Plot
+::::
+
+
+Plot by Template
+++++++++++++++++
+
+
+Batch plotting       
+++++++++++++++
