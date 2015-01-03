@@ -208,7 +208,7 @@ class BatchPlottingDialog(QDialog):
         # if batch_plotting is True create an atlas composition
         if self.batch_plotting:
             # get composer map item and set new scale and the grid
-            cmap = self.composition.composerMapItems()[0]
+            cmap = self.composition.getComposerMapById(0)
             cmap.setNewScale(scale)
             cmap.setGridIntervalX(scale/10)
             cmap.setGridIntervalY(scale/10)
@@ -402,7 +402,7 @@ class BatchPlottingDialog(QDialog):
                 ctypes.c_long.from_address( id(composer) ).value += 1
         else:
             # if batch_plotting is False open a QgsComposerView with current map canvas
-            cmap = self.composition.composerMapItems()[0]
+            cmap = self.composition.getComposerMapById(0)
             # set the new extent of composer map item
             newextent = self.iface.mapCanvas().mapSettings().visibleExtent()
             currentextent = cmap.extent()
