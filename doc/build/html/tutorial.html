@@ -47,9 +47,14 @@
 <h1>SurveyingCalculation plugin for QGIS 2.x<a class="headerlink" href="#surveyingcalculation-plugin-for-qgis-2-x" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="tutorial">
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
+<p>In this tutorial the functionality of the plugin is demonstrated through
+sample datasets, which can be found in the sample directory after the
+installation of the plugin. To use this tutorial you must have QGIS 2.x
+installed on your machine. Linux or Windows operating system can be used.</p>
 <div class="section" id="enable-surveyingcalculation-plugin-in-qgis">
 <h3>Enable SurveyingCalculation plugin in QGIS<a class="headerlink" href="#enable-surveyingcalculation-plugin-in-qgis" title="Permalink to this headline">¶</a></h3>
-<p>Befor use the installed SurveyingCalculation plugin has to be enabled in QGIS. The installation method of the plugin can be found in the Users&#8217;s Guide.</p>
+<p>Befor using the installed SurveyingCalculation plugin, it has to be enabled in
+QGIS. The installation process of the plugin can be found in the Users&#8217;s Guide.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t001.png"><img alt="_images/t001.png" src="_images/t001.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(1.) From the Plugins menu select Manage and Install Plugins...</em></p>
@@ -58,169 +63,304 @@
 <a class="reference internal image-reference" href="_images/t002.png"><img alt="_images/t002.png" src="_images/t002.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(2.) Search for SurveyingCalculation plugin and enable it</em></p>
 </div>
-<p>Now the menu and the toolbar of the plugin are visible.</p>
+<p>After enabling the plugin a new pulldown menu (SurveyingCalculation) and a
+toolbar are visible in the main window of QGIS.</p>
 </div>
-<div class="section" id="start-a-new-project">
-<h3>Start a new project<a class="headerlink" href="#start-a-new-project" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="preparing-the-work">
+<h3>Preparing the work<a class="headerlink" href="#preparing-the-work" title="Permalink to this headline">¶</a></h3>
+<p>The SurveyingCalculation plugin is fully integrated into QGIS. We will use
+QGIS project to save our working environment. Some special data sets must be
+added to the project to be able to use the different calculations (e.g.
+traversing, network adjustment).</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t003.png"><img alt="_images/t003.png" src="_images/t003.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(3.) From the SurveyingCalculation menu select New coordinate list ...</em></p>
 </div>
-<p>A new empty shape file is created.</p>
+<p>A new empty 2D point shape file is created to store benchmarks (points with
+known coordinates). The plugin adds <em>coord_</em> to the beginning of the
+name to distinguish it from the other elements of the project.
+Besides the point identifier, the coordinates (easting,
+northing, elevation), a point code and a point type can be stored in the
+attribute table of the shape file.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t005.png"><img alt="_images/t005.png" src="_images/t005.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(4.) The attribute table of the coordinate file is empty</em></p>
 </div>
-<p>Next step is impoting an electric fieldbook.</p>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/t006.png"><img alt="_images/t006.png" src="_images/t006.png" style="width: 1092.8px; height: 582.4px;" /></a>
-<p class="caption"><em>(5.) From the SurveyingCalculation menu select Import fieldbook ...</em></p>
-</div>
-<p>For the transparency of the fieldbooks the representation of NULL values can be changed.</p>
+<p>To demonstrate the calculations we need some benchmarks and observations.
+During the next step an electric fieldbook is imported. Electric fieldbooks
+from total stations can contain observations (direction, distance) and
+coordinates too.</p>
+<p>For the transparency of the fieldbooks the representation of NULL values should
+be changed before importing.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t008.png"><img alt="_images/t008.png" src="_images/t008.png" style="width: 1092.8px; height: 582.4px;" /></a>
-<p class="caption"><em>(6.) From the Settings menu select Options...</em></p>
+<p class="caption"><em>(5.) From the Settings menu select Options...</em></p>
 </div>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t009.png"><img alt="_images/t009.png" src="_images/t009.png" style="width: 1092.8px; height: 582.4px;" /></a>
-<p class="caption"><em>(7.) Select Data Sources, and set the Representation for NULL values from &#8220;NULL&#8221; to empty</em></p>
+<p class="caption"><em>(6.) Select Data Sources, and set the Representation for NULL values from &#8220;NULL&#8221; to empty string</em></p>
 </div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t006.png"><img alt="_images/t006.png" src="_images/t006.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(7.) From the SurveyingCalculation menu select Import fieldbook ...</em></p>
+</div>
+<p>In the file selection dialog navigate to sample directory of the installed
+plugin, select the <em>Geodimeter JOB/ARE</em> file type and the <em>test1.job</em> file.
+You must give a name and a directory for the imported fieldbook in a second
+output file selection dialog. Save the imported observations into the sample
+directory with the name test1. The plugin adds <em>fb_</em> to the beginning of the
+name to distinguish it from the other elements of the project.</p>
+<p>The records of the fieldbook should be ordered by <em>id</em> column to get the logical
+order of observations. The <em>id</em> values are  incremented by ten to left space
+manually added rows.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t010.png"><img alt="_images/t010.png" src="_images/t010.png" style="width: 593.6px; height: 421.6px;" /></a>
 <p class="caption"><em>(8.) The attribute table of the fieldbook</em></p>
 </div>
+<p><strong>TODO</strong>
+<em>test projec is not a good name for the fieldbook, project has other meaning
+in QGIS! Please rename it to test1. (Zoli)</em></p>
+<p>The coordinates for the sample project can be imported from the <em>test1.are</em>
+file, similiar to the import of the job file. The points are added to the
+coordinate list file.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t011.png"><img alt="_images/t011.png" src="_images/t011.png" style="width: 593.6px; height: 421.6px;" /></a>
 <p class="caption"><em>(9.) The attribute table of the coordinate file</em></p>
 </div>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t0111.png"><img alt="_images/t0111.png" src="_images/t0111.png" style="width: 1092.8px; height: 582.4px;" /></a>
-<p class="caption"><em>(10.) To display the points in the map window, right click on the coordinate file and select Zoom to Layer</em></p>
+<p class="caption"><em>(10.) To view the points in the map window, right click on the coordinate file and select Zoom to Layer</em></p>
 </div>
-<p>Points can be labeled with point id.</p>
-<p>v</p>
+<p>Points can be labeled with <em>point_id</em> column in the map window using the
+standard QGIS labelling tools.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t055.png"><img alt="_images/t055.png" src="_images/t055.png" style="width: 1092.8px; height: 582.4px;" /></a>
-<p class="caption"><em>(14.) QGIS project can be saved by clicking on the save icon</em></p>
+<p class="caption"><em>(14.) Points labelled with point id in the map window</em></p>
 </div>
+<p><strong>TODO</strong>
+<em>the figure 14 contains the points 5001-5004, 1_tr, 2_tr, 3_tr
+the coordinates of them is no known at this moment</em></p>
+<p>QGIS project can be saved by clicking on the save (floppy disk) icon.</p>
 </div>
 <div class="section" id="single-point-calculations">
 <h3>Single Point Calculations<a class="headerlink" href="#single-point-calculations" title="Permalink to this headline">¶</a></h3>
+<p>Now we are able to start the coordinate calculations from the observations.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t012.png"><img alt="_images/t012.png" src="_images/t012.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(15.) Click Single point calculations icon on SurveyingCalculation toolbar</em></p>
 </div>
+<p><strong>TODO</strong>
+<em>Why aren&#8217;t the points visible in the map window?</em></p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t013.png"><img alt="_images/t013.png" src="_images/t013.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(16.) First select the type of calculation</em></p>
 </div>
+<p>Before starting the coordinate calculation the orientation angles must be set
+for known station.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t014.png"><img alt="_images/t014.png" src="_images/t014.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(17.) By the orientation select the station point (the fielbook name and the row id in fieldbook is shown in brackets)</em></p>
+<p class="caption"><em>(17.) Selecting station 10001</em></p>
 </div>
+<p>Let&#8217;s start with station 10001. Select the point from the <em>Station (1)</em> list.
+In the <em>Station (1)</em> list the fielbook name and the id in fieldbook are shown
+in brackets.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t015.png"><img alt="_images/t015.png" src="_images/t015.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(18.) Select one or more target points and add to used points (the row id in fieldbook is shown in brackets)</em></p>
+<p class="caption"><em>(18.) Selecting target points for oroientation</em></p>
 </div>
+<p>Select one or more target points and add them to used points (the id in fieldbook is shown in bracket).</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t016.png"><img alt="_images/t016.png" src="_images/t016.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(19.) Click Calculate and orientation will be calculated. Parameters of the calculation can be checked in the result window.</em></p>
+<p class="caption"><em>(19.) Staring calculation</em></p>
 </div>
+<p><strong>TODO</strong>
+<em>Why did you select only one orientation direction?</em></p>
+<p>Click Calculate button and the orientation angle will be calculated.
+Results can be seen in the <em>Result of calculations</em> widget.
+The results are also written to the log file. The name and location of the
+log file can be set in <em>config.py</em>.
+The orientation angle is stored in the fieldbook too, in the <em>hz</em> column of the
+station record.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t017.png"><img alt="_images/t017.png" src="_images/t017.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(20.) Click reset to begin a new calculation</em></p>
+<p class="caption"><em>(20.) Click Reset button to begin a new calculation</em></p>
 </div>
+<p><strong>TODO</strong>
+<em>Why is it neccessary to reset?</em></p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t018.png"><img alt="_images/t018.png" src="_images/t018.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(21.) Orientation for a second station</em></p>
+<p class="caption"><em>(21.) Orientation for station 10002</em></p>
 </div>
+<p>Repeat the orientation calculation for all known stations (231, 10006).</p>
+<p>There are observations to point 5002 and 5004 from station 10001 and 10002.
+So coordinates can be calculated as an intersection for them.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t019.png"><img alt="_images/t019.png" src="_images/t019.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(22.) By the intersection two stations must be selected with known orientation (the fielbook name and the row id in fieldbook is shown in brackets)</em></p>
+<p class="caption"><em>(22.) Stating intersection</em></p>
 </div>
+<p>For the intersection two oriented stations must be selected in <em>Station (1)</em> and
+<em>Station (2)</em> list.
+The fielbook name and the id in fieldbook is shown in brackets in the station
+list.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t020.png"><img alt="_images/t020.png" src="_images/t020.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(23.) Select one or more target points and add to used point, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.</em></p>
+<p class="caption"><em>(23.) Intersection of point 5004</em></p>
 </div>
+<p>Select one or more target points and add them to used point, click calculate
+and coordinates will be calculated. Results of the calculation can be
+seen in the result widget. Calculated coordinates are added to the coordinate
+list too.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t021.png"><img alt="_images/t021.png" src="_images/t021.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(24.) By the resection select station point (the fielbook name and the row id in fieldbook is shown in brackets, known point are displayed bold type )</em></p>
 </div>
+<p>In the next step coordinates of point 5001 and 5003 will be calculated using
+resection.</p>
+<blockquote>
+<div><em>(24.) Preparing resection</em></div></blockquote>
+<p>By the resection select the station 5001 (the fielbook name and the id in
+fieldbook is shown in brackets, known points are displayed in bold face).</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t022.png"><img alt="_images/t022.png" src="_images/t022.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(25.) Select exactly three target points (the row id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.</em></p>
+<p class="caption"><em>(25.) Resection of station 5001</em></p>
 </div>
+<p>Select exactly three target points (the id in fieldbook is shown in brackets)
+and add them to the <em>Used Points</em> list, click on <em>Calculate</em> button and
+coordinates will be calculated. Details of the calculation can be seen in the
+result widget.
+Calculated coordinates are added to the coordinate list too.</p>
+<p>Please repeat the resection calculation for station 5003.</p>
+<p>There are distance measurements from station 5001 to other known points (10001 and 10003).
+Free station calculation can be used to consider all observations (directions
+and distances) from a station. Let&#8217;s calculate the coordinates of station 5001
+using free station calculation.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t023.png"><img alt="_images/t023.png" src="_images/t023.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(26.) By the free station select station point (the fielbook name and the row id in fieldbook is shown in brackets, known point are displayed bold type )</em></p>
+<p class="caption"><em>(26.) Preparing free station calculation</em></p>
 </div>
+<p>For the free station calculation select station 5001 (the fielbook name and the
+id in fieldbook is shown in brackets, known points are displayed in bold face)
+in the <em>Station (1)</em> list.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t024.png"><img alt="_images/t024.png" src="_images/t024.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(27.) Select two or more target points (the row id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.</em></p>
+<p class="caption"><em>(27.) Free station calculation for station 5001</em></p>
 </div>
+<p>Select two or more target points (the id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Details of the calculation can be seen in the result widget.
+Free station calculation uses the least quares method. The calculation result
+list contains all details about calculation, provided by GNU-Gama project.
+Repeat the free station calculation using all possible observations!</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t026.png"><img alt="_images/t026.png" src="_images/t026.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(28.) By the radial survey select station point (the fielbook name and the row id in fieldbook is shown in brackets, only known points can be selected)</em></p>
+<p class="caption"><em>(28.) Preparing Radial Survey calculation</em></p>
 </div>
+<p>By the radial survey the position of several polar points can be calculated.
+First select station point (the fielbook name and the id in fieldbook is shown in brackets, only orineted known points can be selected.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t027.png"><img alt="_images/t027.png" src="_images/t027.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(29.) Select one or more target points (the row id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.</em></p>
+<p class="caption"><em>(29.) Radial Survey calculation</em></p>
 </div>
+<p>Select one or more target points (the id in fieldbook is shown in brackets) and
+add to used points, click calculate and coordinates will be calculated.
+Results of the calculation can be seen in the result widget.</p>
+<p><strong>TODO</strong>
+<em>This example for point 5002 is not ideal. Why do not we add simple polar
+points? There are observed detail points from 1_tr and 3_tr!</em></p>
 </div>
 <div class="section" id="traverse-calculations">
 <h3>Traverse calculations<a class="headerlink" href="#traverse-calculations" title="Permalink to this headline">¶</a></h3>
-<p>If orientation can be calculated on start point or end point, it should be calculated first.</p>
+<p>A link traverse will be calculated between point 5001 and 5002 in this section.
+If orientation is available on the start and/or end point, it should be
+calculated before starting the travesing calculation.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t029.png"><img alt="_images/t029.png" src="_images/t029.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(30.) Orientation on start point</em></p>
+<p class="caption"><em>(30.) Orientation on start point (5001)</em></p>
 </div>
+<p>Be careful, point 5001 was occupied twice, the first was used for
+resection, the second is for traversing. Calculate orientation for line 370.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t030.png"><img alt="_images/t030.png" src="_images/t030.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(31.) Orientation on end point</em></p>
+<p class="caption"><em>(31.) Orientation on end point (5002)</em></p>
 </div>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t031.png"><img alt="_images/t031.png" src="_images/t031.png" style="width: 1092.8px; height: 582.4px;" /></a>
-<p class="caption"><em>(32.) Click Traverse calculations icon on SurveyingCalculation toolbar</em></p>
+<p class="caption"><em>(32.) Starting travese calculation</em></p>
 </div>
+<p>Click Traverse calculations icon on SurveyingCalculation toolbar.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t032.png"><img alt="_images/t032.png" src="_images/t032.png" style="width: 615.2px; height: 392.8px;" /></a>
-<p class="caption"><em>(33.) Select the type of traverse and the start point (the fielbook name and the row id in fieldbook is shown in brackets, only known points can be selected)</em></p>
+<p class="caption"><em>(33.) Start point of traverse</em></p>
 </div>
+<p>Select the <em>Link Traverse</em> and the start point (the fielbook name and
+the id in fieldbook is shown in brackets, only oriented known points can be
+selected).</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t033.png"><img alt="_images/t033.png" src="_images/t033.png" style="width: 615.2px; height: 392.8px;" /></a>
-<p class="caption"><em>(34.) Select the end point (the fielbook name and the row id in fieldbook is shown in brackets, only known points can be selected except open traverse)</em></p>
+<p class="caption"><em>(34.) End point of traverse</em></p>
 </div>
+<p>Select the end point (the fielbook name and the id in fieldbook is shown in brackets, only known oriented points can be selected except open traverse)</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t034.png"><img alt="_images/t034.png" src="_images/t034.png" style="width: 615.2px; height: 392.8px;" /></a>
-<p class="caption"><em>(35.) Select target points and add to used points in the right order (the fielbook name and the row id in fieldbook is shown in brackets, known point are displayed bold type)</em></p>
+<p class="caption"><em>(35.) Points in traverse</em></p>
 </div>
+<p>Select the traverse point from target points and add them to the used points.
+Change the order of points if neccessary using the up and down button. The
+fielbook name and the id in fieldbook is shown in brackets, known point are
+displayed in bold face.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t035.png"><img alt="_images/t035.png" src="_images/t035.png" style="width: 615.2px; height: 392.8px;" /></a>
-<p class="caption"><em>(36.) Click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.</em></p>
+<p class="caption"><em>(36.) Travese calculation</em></p>
 </div>
+<p>Click Calculate button and the coordinates will be calculated. Results of the
+calculation can be seen in the result window. The coordinates of traverse points
+are updated in coordinate list too.</p>
 </div>
 <div class="section" id="network-adjustment">
 <h3>Network adjustment<a class="headerlink" href="#network-adjustment" title="Permalink to this headline">¶</a></h3>
+<p>We have more observations then neccessary for the coordinate calculation of
+point 5001-5004. If we would like to consider all, we have to use network
+adjustment (least squares estimation). Free station calculation also uses the
+least squares method, but the external directions are not considered.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t051.png"><img alt="_images/t051.png" src="_images/t051.png" style="width: 1092.8px; height: 582.4px;" /></a>
-<p class="caption"><em>(37.) Click Network adjustment icon on SurveyingCalculation toolbar</em></p>
+<p class="caption"><em>(37.) Starting network adjustment</em></p>
 </div>
+<p>Click Network adjustment icon on the SurveyingCalculation toolbar.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t052.png"><img alt="_images/t052.png" src="_images/t052.png" style="width: 521.6px; height: 462.4px;" /></a>
-<p class="caption"><em>(38.) Select the fix points and add to the fix points</em></p>
+<p class="caption"><em>(38.) Selecting the fix points</em></p>
 </div>
+<p>Select fix points (the coordinates of these point will not be changed) from the
+<em>List of Points</em> and add them to the <em>Fix points</em> list. Only points in bold
+face can be added to the fix points list (those have coordinates in the coordinate list).</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t053.png"><img alt="_images/t053.png" src="_images/t053.png" style="width: 521.6px; height: 462.4px;" /></a>
-<p class="caption"><em>(39.) Select points to adjust and add to the adjusted points</em></p>
+<p class="caption"><em>(39.) Selecting adjusted points</em></p>
 </div>
+<p>Select points to adjust  from the <em>List of Points</em> and add them to the
+<em>Adjusted Points</em> list.</p>
+<p><strong>TODO</strong>
+<em>Why do you skip point 231 and 232?</em></p>
+<p><strong>TODO</strong>
+<em>Adjustment parameters are incorrect, change angle standard deviation to 5cc,
+distance standard deviation to 3 + 3 ppm</em></p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t054.png"><img alt="_images/t054.png" src="_images/t054.png" style="width: 521.6px; height: 462.4px;" /></a>
-<p class="caption"><em>(40.) Check the parameters of the adjustment. Click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.</em></p>
+<p class="caption"><em>(40.) Adjustment parameters</em></p>
 </div>
+<p>Set the parameters of the adjustment, horizontal network (2D), the standard
+deviation of observations. Click calculate and coordinates will be calculated.
+Results of the calculation can be seen in the result widget. In this long list,
+generated by GNU Gama, several details of the adjustment calculation can be
+studied. For more details see the <a class="reference external" href="https://www.gnu.org/software/gama/">GNU Gama</a> documentation.</p>
 </div>
 <div class="section" id="coordinate-transformation">
 <h3>Coordinate transformation<a class="headerlink" href="#coordinate-transformation" title="Permalink to this headline">¶</a></h3>
-<p>First add the coordinate file containing the points to transformate.</p>
+<p><strong>TODO</strong>
+<em>Why do we need new data set? We can use the coordinates calculate in the test1
+data set! For the affine transformation we have enogh points!</em></p>
+<p>Let&#8217;s transform the points in our data set to an other coordinate system using common points, which are known in both coordinate systems.
+A second coordinate list was prepared with the coordinates in the target system.</p>
+<p><strong>TODO</strong>
+<em>start of part to erase</em></p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t61.png"><img alt="_images/t61.png" src="_images/t61.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(41.) Click Add vector layer icon, and select an existing file</em></p>
@@ -233,26 +373,38 @@
 <a class="reference internal image-reference" href="_images/t63.png"><img alt="_images/t63.png" src="_images/t63.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(43.) Turn on labeling and select point_id</em></p>
 </div>
+<p><strong>TODO</strong>
+<em>end of part to erase</em></p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t64.png"><img alt="_images/t64.png" src="_images/t64.png" style="width: 1092.8px; height: 582.4px;" /></a>
-<p class="caption"><em>(44.) Click Coordinate transformation icon on SurveyingCalculation toolbar</em></p>
+<p class="caption"><em>(44.) Starting coorinate transformation</em></p>
 </div>
+<p>Click Coordinate transformation icon on SurveyingCalculation toolbar to start
+the calculation.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t65.png"><img alt="_images/t65.png" src="_images/t65.png" style="width: 582.4px; height: 408.0px;" /></a>
-<p class="caption"><em>(45.) Select the shape file where to transformate. The result points will be written in this shape file.</em></p>
+<p class="caption"><em>(45.) Selecting from coordinate list</em></p>
 </div>
+<p>Select the shape file to transform from, only the loaded coordinate lists can be selected from the list.
+Then press the button with ellipses (...) to select the target shape file of the
+transformation.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t66.png"><img alt="_images/t66.png" src="_images/t66.png" style="width: 582.4px; height: 408.0px;" /></a>
-<p class="caption"><em>(46.) From the common points add the needed points to used points</em></p>
+<p class="caption"><em>(46.) Selecting points</em></p>
 </div>
+<p>After spacifying the source and the target of transformation the <em>Common Points</em>
+list is filled automatically. Add points from the common points to the <em>Used Points</em> list.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t67.png"><img alt="_images/t67.png" src="_images/t67.png" style="width: 582.4px; height: 408.0px;" /></a>
-<p class="caption"><em>(47.) Select the type of transformation (each type can be selected only if enough common points)</em></p>
+<p class="caption"><em>(47.) Selecting the type of transformation</em></p>
 </div>
+<p>Different transformation types require different number of point. Only those transformation types are available for which enough points were selected.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t68.png"><img alt="_images/t68.png" src="_images/t68.png" style="width: 582.4px; height: 408.0px;" /></a>
-<p class="caption"><em>(48.) Click calculate and coordinates will be calculated. Parameters of the calculation can be checked in the result window.</em></p>
+<p class="caption"><em>(48.) Calculating transformation</em></p>
 </div>
+<p>Click calculate button and the transformation parameters and transformed
+coordinates will be calculated. Results of the calculation can be checked in the result widget.*</p>
 </div>
 </div>
 </div>
@@ -268,7 +420,7 @@
 <li><a class="reference internal" href="#">SurveyingCalculation plugin for QGIS 2.x</a><ul>
 <li><a class="reference internal" href="#tutorial">Tutorial</a><ul>
 <li><a class="reference internal" href="#enable-surveyingcalculation-plugin-in-qgis">Enable SurveyingCalculation plugin in QGIS</a></li>
-<li><a class="reference internal" href="#start-a-new-project">Start a new project</a></li>
+<li><a class="reference internal" href="#preparing-the-work">Preparing the work</a></li>
 <li><a class="reference internal" href="#single-point-calculations">Single Point Calculations</a></li>
 <li><a class="reference internal" href="#traverse-calculations">Traverse calculations</a></li>
 <li><a class="reference internal" href="#network-adjustment">Network adjustment</a></li>
@@ -315,7 +467,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Dec 30, 2014.
+      Last updated on Jan 03, 2015.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>

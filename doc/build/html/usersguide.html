@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SurveyingCalculation plugin for QGIS 2.x &mdash; Surveying Calculation v0.0.1a1 documentation</title>
+    <title>User’s Guide for SurveyingCalculation plugin for QGIS 2.x &mdash; Surveying Calculation v0.0.1a1 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -43,160 +43,146 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="surveyingcalculation-plugin-for-qgis-2-x">
-<h1>SurveyingCalculation plugin for QGIS 2.x<a class="headerlink" href="#surveyingcalculation-plugin-for-qgis-2-x" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="user-s-guide">
-<h2>User&#8217;s Guide<a class="headerlink" href="#user-s-guide" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="#surveyingcalculation-plugin-install">SurveyingCalculation plugin install</a></p>
-<p><a class="reference internal" href="#settings-before-use">Settings before use</a></p>
-<dl class="docutils">
-<dt><a class="reference internal" href="#loading-fieldbooks">Loading fieldbooks</a></dt>
-<dd><p class="first"><a class="reference internal" href="#geodimeter-job-are">Geodimeter JOB/ARE</a></p>
-<p><a class="reference internal" href="#leica-gsi">Leica GSI</a></p>
-<p class="last"><a class="reference internal" href="#sokkia-crd">Sokkia CRD</a></p>
-</dd>
-<dt><a class="reference internal" href="#single-point-calculations">Single Point Calculations</a></dt>
-<dd><p class="first"><a class="reference internal" href="#orientation">Orientation</a></p>
-<p><a class="reference internal" href="#radial-survey-polar-point">Radial Survey (Polar Point)</a></p>
-<p><a class="reference internal" href="#intersection">Intersection</a></p>
-<p><a class="reference internal" href="#resection">Resection</a></p>
-<p class="last"><a class="reference internal" href="#free-station">Free Station</a></p>
-</dd>
-<dt><a class="reference internal" href="#traverse-calculations">Traverse Calculations</a></dt>
-<dd><p class="first"><a class="reference internal" href="#closed-traverse">Closed traverse</a></p>
-<p><a class="reference internal" href="#link-traverse">Link traverse</a></p>
-<p class="last"><a class="reference internal" href="#open-traverse">Open traverse</a></p>
-</dd>
-</dl>
-<p><a class="reference internal" href="#network-adjustment">Network adjustment</a></p>
-<p><a class="reference internal" href="#coordinate-transformation">Coordinate transformation</a></p>
+  <div class="section" id="user-s-guide-for-surveyingcalculation-plugin-for-qgis-2-x">
+<h1>User&#8217;s Guide for SurveyingCalculation plugin for QGIS 2.x<a class="headerlink" href="#user-s-guide-for-surveyingcalculation-plugin-for-qgis-2-x" title="Permalink to this headline">¶</a></h1>
+<p>The SurveyingCalculation plugin was created by the <a class="reference external" href="www.digikom.hu">DigiKom Ltd (Hungary)</a>. It was supported by the SMOLE II for Niras Finland Oy.
+It was developped for the Land Parcel Cadastre of Zanzibar.</p>
 <div class="section" id="typographical-conventions">
-<h3>Typographical conventions<a class="headerlink" href="#typographical-conventions" title="Permalink to this headline">¶</a></h3>
+<h2>Typographical conventions<a class="headerlink" href="#typographical-conventions" title="Permalink to this headline">¶</a></h2>
 <p><strong>TODO</strong></p>
 </div>
 <div class="section" id="hardware-and-software-requirements">
-<h3>Hardware and software requirements<a class="headerlink" href="#hardware-and-software-requirements" title="Permalink to this headline">¶</a></h3>
-<p>The SurveyingCalculation plug-in can be used on any computer on which QGIS
-can run. It was tested on Windows 7 and Fedora Linux, but on any other Windows
-versions or Linux distros is should work.</p>
+<h2>Hardware and software requirements<a class="headerlink" href="#hardware-and-software-requirements" title="Permalink to this headline">¶</a></h2>
+<p>The SurveyingCalculation plug-in can be used on any computer on which QGIS 2.x
+can run. It was tested on Windows 7 and Fedora Linux, but on other Windows
+versions or Linux distros it should work. QGIS version 2.2, 2.4 and 2.6 were
+used for testing the plugin.</p>
+<p>The network adjustment and the free station calculation in the plug-in is base
+on the GNU Gama open source project. <a class="reference external" href="https://www.gnu.org/software/gama/">GNU Gama</a> must be installed separatelly to use these calculations.</p>
 </div>
-<div class="section" id="surveyingcalculation-plugin-install">
-<h3>SurveyingCalculation plugin install<a class="headerlink" href="#surveyingcalculation-plugin-install" title="Permalink to this headline">¶</a></h3>
-<p><strong>Installing from GitHub</strong></p>
-<p>If you have Git Client (Git Bash or other clients)</p>
-<ol class="arabic simple">
-<li>git clone from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to <em>~/.qgis2/python/plugins/SurveyingCalculation</em> (~ is your home directory on Linux, replace it on Windows)</li>
-<li>Open QGIS Desktop.</li>
-</ol>
-<p>If you don&#8217;t have Git Clone</p>
-<ol class="arabic simple">
-<li>Download the ZIP file from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to your computer.</li>
-<li>Unzip to <em>~/.qgis2/python/plugins/SurveyingCalculation</em>.</li>
-<li>Open QGIS Desktop.</li>
-</ol>
+<div class="section" id="installation-of-the-surveyingcalculation-plugin">
+<h2>Installation of the SurveyingCalculation plugin<a class="headerlink" href="#installation-of-the-surveyingcalculation-plugin" title="Permalink to this headline">¶</a></h2>
 <p><strong>Installing from QGIS Plug-in repo</strong></p>
 <ol class="arabic simple">
 <li>Start QGIS</li>
-<li>In the the plug-in dialog enable experiental plugins</li>
-<li>Look for SurveyingCalculation plug-in and press Install button</li>
+<li>In the the plug-in dialog enable experiental plugins (after evaluating the plugin by the QGIS community it will be changed to standard (non experimental) plugin)</li>
+<li>Look for SurveyingCalculation plug-in in the list of <em>All</em> or <em>Not installed</em> list and press Install button</li>
+</ol>
+<p><strong>Installing from GitHub</strong></p>
+<p>If you have a Git client on your machine (Git Bash or other clients)</p>
+<ol class="arabic simple">
+<li>git clone from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to <em>~/.qgis2/python/plugins/SurveyingCalculation</em> (~ is your home directory on Linux, replace it on Windows)</li>
+<li>Open the QGIS Desktop</li>
+</ol>
+<p>If you don&#8217;t have a Git client</p>
+<ol class="arabic simple">
+<li>Download the ZIP file from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to your computer</li>
+<li>Unzip it to <em>~/.qgis2/python/plugins/SurveyingCalculation</em></li>
+<li>Open the QGIS Desktop</li>
 </ol>
 <p>After installing the plug-in you must enable it in the <em>Manage and Install
 Plugins</em> dialog. After it the menu and the toolbar of the plug-in
 will be visible.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/01.jpg"><img alt="_images/01.jpg" src="_images/01.jpg" style="width: 959.2px; height: 557.6px;" /></a>
-<p class="caption"><em>(1.) SurveyingCalculation plugin in QGIS (menu and toolbar)</em></p>
+<a class="reference internal image-reference" href="_images/u01.png"><img alt="_images/u01.png" src="_images/u01.png" style="width: 595.2px; height: 226.4px;" /></a>
+<p class="caption"><em>(1.) Manage and Install Plugins</em></p>
 </div>
-<p>In case of problem, check the plugin in Manage and Install Plugins dialog.</p>
+<p>Is the SurveyingCalculation plugin switched on?</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u02.png"><img alt="_images/u02.png" src="_images/u02.png" style="width: 655.2px; height: 480.8px;" /></a>
+<p class="caption"><em>(2.) Installed SurveyingCalculation plug-in</em></p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u03.png"><img alt="_images/u03.png" src="_images/u03.png" style="width: 914.4px; height: 509.6px;" /></a>
+<p class="caption"><em>(3.) SurveyingCalculation plugin in QGIS (menu and toolbar)</em></p>
+</div>
+<p><strong>GNU Gama project: gama-local</strong></p>
 <p>Beside installing the plug-in you must also install gama-local (part of the GNU
-Gama project) for adjustment calculation. See: <a class="reference external" href="https://www.gnu.org/software/gama">https://www.gnu.org/software/gama</a></p>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/02.jpg"><img alt="_images/02.jpg" src="_images/02.jpg" style="width: 544.8px; height: 224.0px;" /></a>
-<p class="caption"><em>(2.) Manage and Install Plugins</em></p>
+Gama project) for adjustment calculations. See: <a class="reference external" href="https://www.gnu.org/software/gama">https://www.gnu.org/software/gama</a></p>
 </div>
-<p>Is switched on SurveyingCalculation plugin?</p>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/03.jpg"><img alt="_images/03.jpg" src="_images/03.jpg" style="width: 656.0px; height: 482.4px;" /></a>
-<p class="caption"><em>(3.) Installed SurveyingCalculation plug-in</em></p>
-</div>
-</div>
-<hr class="docutils" />
 <div class="section" id="settings-before-use">
-<h3>Settings before use<a class="headerlink" href="#settings-before-use" title="Permalink to this headline">¶</a></h3>
+<h2>Settings before use<a class="headerlink" href="#settings-before-use" title="Permalink to this headline">¶</a></h2>
+<p>Settings described in this section are optional.</p>
+<p>Set the default coordinate reference system (CRS) for new projects and
+new layers on the <em>CRS</em> tab in the Setting/Options menu to the local CRS.</p>
 <p>Set to empty string the <em>Representation for NULL values</em> on the Data sources
 tab in the Setting/Options menu. It makes the Attribute Table (Fieldbook) more
 readable.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/04.jpg"><img alt="_images/04.jpg" src="_images/04.jpg" style="width: 540.8px; height: 256.8px;" /></a>
+<a class="reference internal image-reference" href="_images/u04.png"><img alt="_images/u04.png" src="_images/u04.png" style="width: 593.6px; height: 225.6px;" /></a>
 <p class="caption"><em>(4.) Settings of Attribute Table</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/05.jpg"><img alt="_images/05.jpg" src="_images/05.jpg" style="width: 685.6px; height: 491.2px;" /></a>
+<a class="reference internal image-reference" href="_images/u05.png"><img alt="_images/u05.png" src="_images/u05.png" style="width: 683.2px; height: 488.0px;" /></a>
 <p class="caption"><em>(5.) Settings of Attribute Table</em></p>
 </div>
-<p>Open an existing QGIS project which contains a coordinate list (a point shape
-file which name must stat with &#8216;coord_&#8217;) or create a new project and add an
-existing coordinate list to the project or create a new project and create
-a new coordinate list from the <em>Surveying Calculation</em> menu.</p>
-<p>Check the coordinate reference system (CRS) of your coordinate list (layer
-properties from the popup menu of the layer) and the map.</p>
-<p>After loading an existing or creating a new Coordinate list shape file, you get
-an empty table in your project with the following columns (column names and
-types are mandatory):</p>
+<p>Most of the cases you need an open coordinate list to store calculation results.
+Open an existing QGIS project which contains a coordinate list (a point shape
+file which name must stat with <em>coord_</em>) or create a new project and add an
+existing coordinate list to the project by the add vector layer icon or create
+a new project and create a new coordinate list from the <em>SurveyingCalculation/New coordinate list ...</em> menu.</p>
+<p>Check the coordinate reference system (CRS) of your coordinate list (<em>properties</em> from the popup menu of the layer) and the map.</p>
+<p>After loading an existing one or creating a new Coordinate list shape file, you get
+a point layer in your project with the following columns in the attribute table
+(column names and types are mandatory):</p>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">point_id:</th><td class="field-body">point number</td>
+<tr class="field"><th class="field-name">point_id:</th><td class="field-body">point number (string 20)</td>
 </tr>
-<tr class="field"><th class="field-name">e:</th><td class="field-body">East coordinate</td>
+<tr class="field"><th class="field-name">e:</th><td class="field-body">East coordinate (number 12.3)</td>
 </tr>
-<tr class="field"><th class="field-name">n:</th><td class="field-body">North coordinate</td>
+<tr class="field"><th class="field-name">n:</th><td class="field-body">North coordinate (number 12.3)</td>
 </tr>
-<tr class="field"><th class="field-name">z:</th><td class="field-body">Z coordinate (elevation)</td>
+<tr class="field"><th class="field-name">z:</th><td class="field-body">Z coordinate (elevation) (number 8.3)</td>
 </tr>
-<tr class="field"><th class="field-name">pc:</th><td class="field-body">point code</td>
+<tr class="field"><th class="field-name">pc:</th><td class="field-body">point code (string 20)</td>
 </tr>
-<tr class="field"><th class="field-name">pt:</th><td class="field-body">point type</td>
+<tr class="field"><th class="field-name">pt:</th><td class="field-body">point type (string 20)</td>
 </tr>
 </tbody>
 </table>
 </div></blockquote>
-<hr class="docutils" />
+<p>The first three columns (<em>point_id</em>, <em>e</em> and <em>n</em>) are obligatory, you must fill them.
+You mustn&#8217;t rename or erase these columns but you can add new columns to the attribute table.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/06.jpg"><img alt="_images/06.jpg" src="_images/06.jpg" style="width: 537.6px; height: 229.6px;" /></a>
+<a class="reference internal image-reference" href="_images/u06.png"><img alt="_images/u06.png" src="_images/u06.png" style="width: 600.0px; height: 280.8px;" /></a>
 <p class="caption"><em>(6.) New coordinate list</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/07.jpg"><img alt="_images/07.jpg" src="_images/07.jpg" style="width: 917.6px; height: 514.4px;" /></a>
+<a class="reference internal image-reference" href="_images/u07.png"><img alt="_images/u07.png" src="_images/u07.png" style="width: 914.4px; height: 510.4px;" /></a>
 <p class="caption"><em>(7.) Empty coordinate table</em></p>
 </div>
-<p>Only one coordinate list should be open in a project.</p>
+<p>Only one coordinate list should be open in a project at a time.</p>
 </div>
-<div class="section" id="loading-fieldbooks">
-<h3>Loading fieldbooks<a class="headerlink" href="#loading-fieldbooks" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="importing-fieldbooks">
+<h2>Importing fieldbooks<a class="headerlink" href="#importing-fieldbooks" title="Permalink to this headline">¶</a></h2>
+<p>Observations made by total stations and GPS are stored in electric fieldbooks.
+The files storing the filedbook data must be downloaded to the computer before
+you can use them in the plug-in. Different filedbook types are supported:</p>
+<ul class="simple">
+<li>Leica GSI 8/16</li>
+<li>Geodimeter JOB/ARE</li>
+<li>Sokkia CRD</li>
+<li>SurvCE RW5</li>
+<li>STONEX DAT</li>
+</ul>
 <p>Any number of electric fieldbooks can be opened/loaded into a QGIS project.
 You can even create a new empty fieldbook and fill it manually.</p>
-<ol class="arabic simple">
-<li>There must be az open coordinate list in your actual project (a point layer which name starts with coord_). Otherwise coordinates read from the filedbook will be lost</li>
-<li>Click on the Load fieldbook icon or select it from the menu</li>
-<li>Choose the type of fieldbook (<a class="reference internal" href="#geodimeter-job-are">Geodimeter JOB/ARE</a>; <a class="reference internal" href="#leica-gsi">Leica GSI</a>; <a class="reference internal" href="#sokkia-crd">Sokkia CRD</a>)</li>
-</ol>
-<p>The loader adds an extra column to the observations, the id column, sorting the
-table by this column gives the right order of observations.</p>
-<p>You can create an empty fieldbook for manual input using the <em>Create fieldbook</em>
-menu.</p>
-<div class="section" id="geodimeter-job-are">
-<h4>Geodimeter JOB/ARE<a class="headerlink" href="#geodimeter-job-are" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
-<li><p class="first">Select the JOB file</p>
+<li><p class="first">There must be az open coordinate list in your actual project (a point layer which name starts with <em>coord_</em>). Otherwise coordinates read from the filedbook will be lost</p>
 </li>
-<li><p class="first">Select the output DBF file where your observations will be stored, the name will start with <em>fb_</em>, the program will add it to the name automatically you forget</p>
+<li><p class="first">Click on the Load fieldbook icon or select it from the <em>SurveyingCalculation</em> menu</p>
 </li>
-<li><dl class="first docutils">
-<dt>After giving the path to the DBF file a new fieldbook is added to your QGIS project. The name of the fieldbook always starts with &#8220;fb_&#8221;. This database table stores measurements only, it has no graphical (map) data. Fields in the table:</dt>
-<dd><table class="first last docutils field-list" frame="void" rules="none">
+<li><p class="first">Choose the type of the fieldbook (<a class="reference internal" href="#geodimeter-job-are">Geodimeter JOB/ARE</a>; <a class="reference internal" href="#leica-gsi">Leica GSI</a>; <a class="reference internal" href="#sokkia-crd">Sokkia CRD</a>, <a class="reference internal" href="#survce-rw5">SurvCE RW5</a>, <a class="reference internal" href="#stonex-dat">STONEX DAT</a>)</p>
+</li>
+<li><p class="first">Select the output DBF file where your observations will be stored, the name will start with <em>fb_</em>, the program will add it to the name automatically if you forget</p>
+</li>
+<li><p class="first">After giving the path to the DBF file a new fieldbook is added to your QGIS project. The name of the fieldbook always starts with &#8220;fb_&#8221;. This database table stores measurements only, it has no graphical (map) data. Fields in the table:</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -218,54 +204,244 @@ menu.</p>
 </tr>
 </tbody>
 </table>
-</dd>
-</dl>
-</li>
-<li><p class="first">After loading the .JOB, you can optionally load an .ARE file in the same way</p>
+</div></blockquote>
 </li>
 </ol>
+<p>You musn&#8217;t change the name of columns or erase them, but you can add new columns
+to the table.</p>
+<p>The loader adds an extra column to the observation data, the id column, sorting
+the table by this column gives the right order of the observations.</p>
+<p>You can create an empty fieldbook for manual input using the <em>Create fieldbook</em>
+from the SurveyingCalculation menu.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/08.jpg"><img alt="_images/08.jpg" src="_images/08.jpg" style="width: 540.0px; height: 227.2px;" /></a>
-<p class="caption"><em>(8.) Load fieldbook</em></p>
+<a class="reference internal image-reference" href="_images/u08.png"><img alt="_images/u08.png" src="_images/u08.png" style="width: 592.8px; height: 254.4px;" /></a>
+<p class="caption"><em>(8.) Import fieldbook menu</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/09.jpg"><img alt="_images/09.jpg" src="_images/09.jpg" style="width: 917.6px; height: 513.6px;" /></a>
-<p class="caption"><em>(9.) Fieldbook</em></p>
+<a class="reference internal image-reference" href="_images/u09.png"><img alt="_images/u09.png" src="_images/u09.png" style="width: 914.4px; height: 508.8px;" /></a>
+<p class="caption"><em>(9.) Fieldbook attribute window</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/10.jpg"><img alt="_images/10.jpg" src="_images/10.jpg" style="width: 918.4px; height: 513.6px;" /></a>
-<p class="caption"><em>(10.) Coordinate table</em></p>
-</div>
-<p>TODO codes loaded from job/are</p>
+<a class="reference internal image-reference" href="_images/u10.png"><img alt="_images/u10.png" src="_images/u10.png" style="width: 914.4px; height: 510.4px;" /></a>
+<p class="caption"><em>(10.) Coordinate list</em></p>
 </div>
 <div class="section" id="leica-gsi">
-<h4>Leica GSI<a class="headerlink" href="#leica-gsi" title="Permalink to this headline">¶</a></h4>
+<h3>Leica GSI<a class="headerlink" href="#leica-gsi" title="Permalink to this headline">¶</a></h3>
 <p>Both the 8 byte and 16 byte GSI files are supported. As there is no standard
-markers for station data in GSI files, you can use code block to mark a new
+markers for station start in GSI files, you can use code block to mark a new
 station in observations or you must have a record with station coordinates or
-instrument height.</p>
-<p>See Job loading.</p>
-<p>TODO codes loaded from GSI</p>
+instrument height to mark a start of a new station.</p>
+<p>Code block to mark the start of a station:</p>
+<div class="highlight-python"><pre>410001+00000002 42....+12012502 43....+00001430</pre>
+</div>
+<dl class="docutils">
+<dt>410001+00000002</dt>
+<dd>Code 2, start of a new station</dd>
+<dt>42....+12012502</dt>
+<dd>Station id is 12012502</dd>
+<dt>43....+00001430</dt>
+<dd>Instument height 1.430 m (optional)</dd>
+</dl>
+<p>Data codes handled, loaded from GSI:</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">11:</th><td class="field-body">point id</td>
+</tr>
+<tr class="field"><th class="field-name">21:</th><td class="field-body">horizontal angle (hz)</td>
+</tr>
+<tr class="field"><th class="field-name">22:</th><td class="field-body">vertical angle (v)</td>
+</tr>
+<tr class="field"><th class="field-name">31:</th><td class="field-body">slope distance (sd)</td>
+</tr>
+<tr class="field"><th class="field-name">41:</th><td class="field-body">code block</td>
+</tr>
+<tr class="field"><th class="field-name">42:</th><td class="field-body">station id</td>
+</tr>
+<tr class="field"><th class="field-name">43:</th><td class="field-body">station height</td>
+</tr>
+<tr class="field"><th class="field-name">71:</th><td class="field-body">point code (pc)</td>
+</tr>
+<tr class="field"><th class="field-name">81:</th><td class="field-body">easting</td>
+</tr>
+<tr class="field"><th class="field-name">82:</th><td class="field-body">northing</td>
+</tr>
+<tr class="field"><th class="field-name">83:</th><td class="field-body">elevation</td>
+</tr>
+<tr class="field"><th class="field-name">84:</th><td class="field-body">easting of station</td>
+</tr>
+<tr class="field"><th class="field-name">85:</th><td class="field-body">northing of station</td>
+</tr>
+<tr class="field"><th class="field-name">86:</th><td class="field-body">elevation of station</td>
+</tr>
+<tr class="field"><th class="field-name">87:</th><td class="field-body">target height (th)</td>
+</tr>
+<tr class="field"><th class="field-name">88:</th><td class="field-body">station height (overwrites 43 code)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The different units in the electric fieldbook are converted to GON and meters
+during the import.</p>
+</div>
+<div class="section" id="geodimeter-job-are">
+<h3>Geodimeter JOB/ARE<a class="headerlink" href="#geodimeter-job-are" title="Permalink to this headline">¶</a></h3>
+<p>JOB and ARE are separate data files. Observations and optionally coordinates are stored in JOB file. Only coordinates are stored in ARE file.
+After loading a .JOB, you can optionally load an .ARE file in the same way.</p>
+<p>Data codes handled, loaded from JOB/ARE:</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">2:</th><td class="field-body">station id</td>
+</tr>
+<tr class="field"><th class="field-name">3:</th><td class="field-body">instrument height</td>
+</tr>
+<tr class="field"><th class="field-name">4:</th><td class="field-body">point code (pc)</td>
+</tr>
+<tr class="field"><th class="field-name">5:</th><td class="field-body">point id</td>
+</tr>
+<tr class="field"><th class="field-name">6:</th><td class="field-body">target height (th)</td>
+</tr>
+<tr class="field"><th class="field-name">7:</th><td class="field-body">horizontal angle (hz)</td>
+</tr>
+<tr class="field"><th class="field-name">8:</th><td class="field-body">zenith angle (v)</td>
+</tr>
+<tr class="field"><th class="field-name">9:</th><td class="field-body">slope distance (sd)</td>
+</tr>
+<tr class="field"><th class="field-name">23:</th><td class="field-body">units</td>
+</tr>
+<tr class="field"><th class="field-name">37:</th><td class="field-body">northing</td>
+</tr>
+<tr class="field"><th class="field-name">38:</th><td class="field-body">easting</td>
+</tr>
+<tr class="field"><th class="field-name">39:</th><td class="field-body">elevation</td>
+</tr>
+<tr class="field"><th class="field-name">62:</th><td class="field-body">orientation point id</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The different units in the electric fieldbook are converted to GON and meters
+during the import.</p>
 </div>
 <div class="section" id="sokkia-crd">
-<h4>Sokkia CRD<a class="headerlink" href="#sokkia-crd" title="Permalink to this headline">¶</a></h4>
-<p>See JOB loading.</p>
-<p>TODO codes loaded from CRD</p>
+<h3>Sokkia CRD<a class="headerlink" href="#sokkia-crd" title="Permalink to this headline">¶</a></h3>
+<p>Sokkia CRD loader can handle two softly different file format SDR33 and SDR20.</p>
+<p>Data records handled, loaded from CRD:</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">00:</th><td class="field-body">header record</td>
+</tr>
+<tr class="field"><th class="field-name">02:</th><td class="field-body">station record</td>
+</tr>
+<tr class="field"><th class="field-name">03:</th><td class="field-body">target height</td>
+</tr>
+<tr class="field"><th class="field-name">08:</th><td class="field-body">coordinates</td>
+</tr>
+<tr class="field"><th class="field-name">09:</th><td class="field-body">observations</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The different units in the electric fieldbook are converted to GON and meters
+during the import.</p>
+</div>
+<div class="section" id="survce-rw5">
+<h3>SurvCE RW5<a class="headerlink" href="#survce-rw5" title="Permalink to this headline">¶</a></h3>
+<p>The SurvCE program RW5 format can store total station and GPS observations.
+Both type of data can be loaded into QGIS.</p>
+<p>Data records handled, loaded from CRD:</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">GPS:</th><td class="field-body">latitude, longitude from GPS receiver</td>
+</tr>
+<tr class="field"><th class="field-name">&#8211;GS/SP:</th><td class="field-body">projected coordinates (ovewrites latitude, longitude)</td>
+</tr>
+<tr class="field"><th class="field-name">OC:</th><td class="field-body">station record</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">TR/SS/BD/BR/FD/FR:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">observation record</td>
+</tr>
+<tr class="field"><th class="field-name">BK:</th><td class="field-body">orientation record</td>
+</tr>
+<tr class="field"><th class="field-name">LS:</th><td class="field-body">instrument height and target height record</td>
+</tr>
+<tr class="field"><th class="field-name">MO:</th><td class="field-body">units record</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The different units in the electric fieldbook are converted to GON and meters
+during the import.</p>
+</div>
+<div class="section" id="stonex-dat">
+<h3>STONEX DAT<a class="headerlink" href="#stonex-dat" title="Permalink to this headline">¶</a></h3>
+<p>Unfortunatelly we had no description for this fieldbook format, we reverse engineered information from the sample file we got.
+GON angle units and meters are supposed for the data in the DAT file.</p>
+<p>Data records handled, loaded from DAT:</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">K:</th><td class="field-body">station and orientation angle</td>
+</tr>
+<tr class="field"><th class="field-name">E:</th><td class="field-body">observation record</td>
+</tr>
+<tr class="field"><th class="field-name">B/C:</th><td class="field-body">coordinate record</td>
+</tr>
+<tr class="field"><th class="field-name">L:</th><td class="field-body">orientation direction record</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="using-fieldbook-data">
-<h3>Using fieldbook data<a class="headerlink" href="#using-fieldbook-data" title="Permalink to this headline">¶</a></h3>
-<p>Angles are displayed in the fieldbook in Grads (Gon) unit with four decimals.
+<h2>Using fieldbook data<a class="headerlink" href="#using-fieldbook-data" title="Permalink to this headline">¶</a></h2>
+<p>Angles are displayed in the fieldbook in Grads (Gon) units with four decimals.
 Distances, instrument and target heights are in meters.</p>
-<p>Sort the fieldbook by the id column, to have the right order of observations</p>
-<p>TODO: How to change, insert, delete, ...</p>
+<p>Sort the fieldbook by the id column, to have the right order of observations.</p>
+<p>It is possible to change the fieldbook, insert and delete feature. You can use
+the standard QGIS tools to change or extend fieldbook data. Open the
+fieldbook Attribute Table, turn on <em>Toggle Editing Mode</em>.</p>
+<p><strong>Insert record</strong>: Click the Add feature button and fill in the record. Use the
+right id (first column) for the row to get the right position in the fieldbook.</p>
+<p><strong>Delete record</strong>: Select the record to be deleted and click on the <em>Delete selected features</em> button.</p>
+<p><strong>Update record</strong>: Double click on the field you want to change and edit the field</p>
+<p>After editing the fieldbook data you have to save the changes, click the Save Edits or Toggle Editing Mode button.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u11.png"><img alt="_images/u11.png" src="_images/u11.png" style="width: 751.2px; height: 422.4px;" /></a>
+<p class="caption"><em>(11.) Add feature to Fieldbook</em></p>
+</div>
+</div>
+<div class="section" id="add-new-point-to-coordinate-list">
+<h2>Add new point to Coordinate list<a class="headerlink" href="#add-new-point-to-coordinate-list" title="Permalink to this headline">¶</a></h2>
+<p>In the <em>Add new point</em> dialog you can manually add point with coordinates. Before start using, you have to
+select Toggle Editing Mode at Layer.
+Use the Add button if you would like to add more points. The Add button save the new point and clear the board.
+The Close button save the new point and close the dialog window.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u12.png"><img alt="_images/u12.png" src="_images/u12.png" style="width: 915.2px; height: 511.2px;" /></a>
+<p class="caption"><em>(12.) Add new point with coordinates to Coordinate list</em></p>
+</div>
 </div>
 <div class="section" id="single-point-calculations">
-<h3>Single Point Calculations<a class="headerlink" href="#single-point-calculations" title="Permalink to this headline">¶</a></h3>
+<h2>Single Point Calculations<a class="headerlink" href="#single-point-calculations" title="Permalink to this headline">¶</a></h2>
 <p>In the single calculation dialog you can calculate coordinates of single points
 using trigonometric formulas.</p>
 <div class="section" id="orientation">
-<h4>Orientation<a class="headerlink" href="#orientation" title="Permalink to this headline">¶</a></h4>
+<h3>Orientation<a class="headerlink" href="#orientation" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li>Click the Single Point Calculations icon.</li>
 <li>Select the Orientation from the type of Calculations.</li>
@@ -277,16 +453,16 @@ using trigonometric formulas.</p>
 <li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/11.jpg"><img alt="_images/11.jpg" src="_images/11.jpg" style="width: 583.2px; height: 398.4px;" /></a>
-<p class="caption"><em>(11.) Orientation</em></p>
+<a class="reference internal image-reference" href="_images/u14.png"><img alt="_images/u14.png" src="_images/u14.png" style="width: 581.6px; height: 396.8px;" /></a>
+<p class="caption"><em>(14.) Orientation</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/12.jpg"><img alt="_images/12.jpg" src="_images/12.jpg" style="width: 583.2px; height: 398.4px;" /></a>
-<p class="caption"><em>(12.) Result of Orientation</em></p>
+<a class="reference internal image-reference" href="_images/u15.png"><img alt="_images/u15.png" src="_images/u15.png" style="width: 581.6px; height: 396.8px;" /></a>
+<p class="caption"><em>(15.) Result of Orientation</em></p>
 </div>
 </div>
 <div class="section" id="radial-survey-polar-point">
-<h4>Radial Survey (Polar Point)<a class="headerlink" href="#radial-survey-polar-point" title="Permalink to this headline">¶</a></h4>
+<h3>Radial Survey (Polar Point)<a class="headerlink" href="#radial-survey-polar-point" title="Permalink to this headline">¶</a></h3>
 <p>Elevation is calculated for polar points if the instrument height and the
 station elevation are given.</p>
 <ol class="arabic simple">
@@ -300,12 +476,12 @@ station elevation are given.</p>
 <li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/13.jpg"><img alt="_images/13.jpg" src="_images/13.jpg" style="width: 584.0px; height: 400.0px;" /></a>
-<p class="caption"><em>(13.) Radial Survey</em></p>
+<a class="reference internal image-reference" href="_images/u16.png"><img alt="_images/u16.png" src="_images/u16.png" style="width: 580.8px; height: 396.0px;" /></a>
+<p class="caption"><em>(16.) Radial Survey</em></p>
 </div>
 </div>
 <div class="section" id="intersection">
-<h4>Intersection<a class="headerlink" href="#intersection" title="Permalink to this headline">¶</a></h4>
+<h3>Intersection<a class="headerlink" href="#intersection" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li>Click the Single Point Calculations icon.</li>
 <li>Select the Intersection from the type of Calculations.</li>
@@ -317,12 +493,12 @@ station elevation are given.</p>
 <li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/14.jpg"><img alt="_images/14.jpg" src="_images/14.jpg" style="width: 584.0px; height: 399.2px;" /></a>
-<p class="caption"><em>(14.) Intersection</em></p>
+<a class="reference internal image-reference" href="_images/u17.png"><img alt="_images/u17.png" src="_images/u17.png" style="width: 581.6px; height: 396.0px;" /></a>
+<p class="caption"><em>(17.) Intersection</em></p>
 </div>
 </div>
 <div class="section" id="resection">
-<h4>Resection<a class="headerlink" href="#resection" title="Permalink to this headline">¶</a></h4>
+<h3>Resection<a class="headerlink" href="#resection" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li>Click the Single Point Calculations icon.</li>
 <li>Select the Resection from the type of Calculations.</li>
@@ -334,31 +510,101 @@ station elevation are given.</p>
 <li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/15.jpg"><img alt="_images/15.jpg" src="_images/15.jpg" style="width: 584.0px; height: 398.4px;" /></a>
-<p class="caption"><em>(15.) Resection</em></p>
+<a class="reference internal image-reference" href="_images/u18.png"><img alt="_images/u18.png" src="_images/u18.png" style="width: 581.6px; height: 396.0px;" /></a>
+<p class="caption"><em>(18.) Resection</em></p>
 </div>
 </div>
 <div class="section" id="free-station">
-<h4>Free Station<a class="headerlink" href="#free-station" title="Permalink to this headline">¶</a></h4>
+<h3>Free Station<a class="headerlink" href="#free-station" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Click the Single Point Calculations icon.</li>
+<li>Select the Free Station from the type of Calculations.</li>
+<li>Select the station from Station (1) list.</li>
+<li>The Target Points list loads automatically. The list contains the points, which were measured from the station. You can calculate only one station coordinates at a time.</li>
+<li>Add two or more points to the Used Points list which will be used for calculate. If you would like to correct, use the Remove button.</li>
+<li>Click the Calculate button.</li>
+<li>Result of Calculation prints automatically in result window.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u19.png"><img alt="_images/u19.png" src="_images/u19.png" style="width: 581.6px; height: 396.0px;" /></a>
+<p class="caption"><em>(19.) Free Station - Adjusted coordinates</em></p>
+</div>
 </div>
 </div>
 <div class="section" id="traverse-calculations">
-<h3>Traverse Calculations<a class="headerlink" href="#traverse-calculations" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="closed-traverse">
-<h4>Closed traverse<a class="headerlink" href="#closed-traverse" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="link-traverse">
-<h4>Link traverse<a class="headerlink" href="#link-traverse" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="open-traverse">
-<h4>Open traverse<a class="headerlink" href="#open-traverse" title="Permalink to this headline">¶</a></h4>
+<h2>Traverse Calculations<a class="headerlink" href="#traverse-calculations" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to calculate three types of Traverse.</p>
+<ol class="arabic simple">
+<li><strong>Closed traverse</strong>: Closed (polygonal or loop) traverse starts and finishes on the same known point.</li>
+<li><strong>Link traverse</strong>: A closed link traverse joins two known points.</li>
+<li><strong>Open traverse</strong>: An open (free) traverse starts on a known point and finishes on an unknown point.</li>
+</ol>
+<p>How can I use?</p>
+<ol class="arabic simple">
+<li>Click the Traverse Calculations icon.</li>
+<li>Select the type of Traverse Calculation from the list.</li>
+<li>Select the Endpoint from Start Point list.</li>
+<li>If necessary select the Endpoint from End Point list.</li>
+<li>The Target Points list loads automatically. The list contains the points, which were measured from the station.</li>
+<li>Add points of Traversing from Target Points list one by one to Order of Points list.</li>
+<li>The Order can be changed with Up and Down button. If you would like to correct, use the Remove button.</li>
+<li>Click the Calculate button.</li>
+<li>Result of Calculation prints automatically in result window.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u20.png"><img alt="_images/u20.png" src="_images/u20.png" style="width: 608.8px; height: 390.4px;" /></a>
+<p class="caption"><em>(20.) Traverse Calculation - Link traverse</em></p>
 </div>
 </div>
 <div class="section" id="network-adjustment">
-<h3>Network adjustment<a class="headerlink" href="#network-adjustment" title="Permalink to this headline">¶</a></h3>
+<h2>Network adjustment<a class="headerlink" href="#network-adjustment" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Click the Network adjustment icon.</li>
+<li>Select the fix points from List of Points and add to the Fix points list.</li>
+<li>Select points to adjust from List of Points and add to the Adjusted points.</li>
+<li>Check the parameters of the adjustment.</li>
+<li>If you would like to correct, use the Remove button.</li>
+<li>Click the Calculate button.</li>
+<li>Result of Calculation prints automatically in result window. Parameters of the Adjustment can be checked in the result window.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u21.png"><img alt="_images/u21.png" src="_images/u21.png" style="width: 516.0px; height: 460.0px;" /></a>
+<p class="caption"><em>(21.) Traverse Calculation - Link traverse</em></p>
+</div>
 </div>
 <div class="section" id="coordinate-transformation">
-<h3>Coordinate transformation<a class="headerlink" href="#coordinate-transformation" title="Permalink to this headline">¶</a></h3>
+<h2>Coordinate transformation<a class="headerlink" href="#coordinate-transformation" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to calculate five types of Transformation. Each Transformations work, if you selected enough common points.</p>
+<ol class="arabic simple">
+<li>First add the coordinate file containing the points to transformate. Use the Add layer icon.</li>
+<li>Click the Coordinate transformation icon.</li>
+<li>The From Layer field automatically loaded.</li>
+<li>Select the shape file where to transformate. The result points will be written in this shape file.</li>
+<li>Add the used points from Common Points list to Used Points list.</li>
+<li>Select the type of transformation.</li>
+<li>If you would like to correct, use the Remove button.</li>
+<li>Click the Calculate button.</li>
+<li>Result of Calculation prints automatically in result window. Parameters of the Transformation can be checked in the result window.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u22.png"><img alt="_images/u22.png" src="_images/u22.png" style="width: 574.4px; height: 402.4px;" /></a>
+<p class="caption"><em>(21.) Coordinate transformation - Affine transformation</em></p>
+</div>
+</div>
+<div class="section" id="polygon-division">
+<h2>Polygon division<a class="headerlink" href="#polygon-division" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="plot">
+<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="plot-by-template">
+<h3>Plot by Template<a class="headerlink" href="#plot-by-template" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="batch-plotting">
+<h3>Batch plotting<a class="headerlink" href="#batch-plotting" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>
@@ -371,19 +617,21 @@ station elevation are given.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">SurveyingCalculation plugin for QGIS 2.x</a><ul>
-<li><a class="reference internal" href="#user-s-guide">User&#8217;s Guide</a><ul>
+<li><a class="reference internal" href="#">User&#8217;s Guide for SurveyingCalculation plugin for QGIS 2.x</a><ul>
 <li><a class="reference internal" href="#typographical-conventions">Typographical conventions</a></li>
 <li><a class="reference internal" href="#hardware-and-software-requirements">Hardware and software requirements</a></li>
-<li><a class="reference internal" href="#surveyingcalculation-plugin-install">SurveyingCalculation plugin install</a></li>
+<li><a class="reference internal" href="#installation-of-the-surveyingcalculation-plugin">Installation of the SurveyingCalculation plugin</a></li>
 <li><a class="reference internal" href="#settings-before-use">Settings before use</a></li>
-<li><a class="reference internal" href="#loading-fieldbooks">Loading fieldbooks</a><ul>
-<li><a class="reference internal" href="#geodimeter-job-are">Geodimeter JOB/ARE</a></li>
+<li><a class="reference internal" href="#importing-fieldbooks">Importing fieldbooks</a><ul>
 <li><a class="reference internal" href="#leica-gsi">Leica GSI</a></li>
+<li><a class="reference internal" href="#geodimeter-job-are">Geodimeter JOB/ARE</a></li>
 <li><a class="reference internal" href="#sokkia-crd">Sokkia CRD</a></li>
+<li><a class="reference internal" href="#survce-rw5">SurvCE RW5</a></li>
+<li><a class="reference internal" href="#stonex-dat">STONEX DAT</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#using-fieldbook-data">Using fieldbook data</a></li>
+<li><a class="reference internal" href="#add-new-point-to-coordinate-list">Add new point to Coordinate list</a></li>
 <li><a class="reference internal" href="#single-point-calculations">Single Point Calculations</a><ul>
 <li><a class="reference internal" href="#orientation">Orientation</a></li>
 <li><a class="reference internal" href="#radial-survey-polar-point">Radial Survey (Polar Point)</a></li>
@@ -392,14 +640,13 @@ station elevation are given.</p>
 <li><a class="reference internal" href="#free-station">Free Station</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#traverse-calculations">Traverse Calculations</a><ul>
-<li><a class="reference internal" href="#closed-traverse">Closed traverse</a></li>
-<li><a class="reference internal" href="#link-traverse">Link traverse</a></li>
-<li><a class="reference internal" href="#open-traverse">Open traverse</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#traverse-calculations">Traverse Calculations</a></li>
 <li><a class="reference internal" href="#network-adjustment">Network adjustment</a></li>
 <li><a class="reference internal" href="#coordinate-transformation">Coordinate transformation</a></li>
+<li><a class="reference internal" href="#polygon-division">Polygon division</a></li>
+<li><a class="reference internal" href="#plot">Plot</a><ul>
+<li><a class="reference internal" href="#plot-by-template">Plot by Template</a></li>
+<li><a class="reference internal" href="#batch-plotting">Batch plotting</a></li>
 </ul>
 </li>
 </ul>
@@ -442,7 +689,7 @@ station elevation are given.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Dec 22, 2014.
+      Last updated on Jan 03, 2015.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>
