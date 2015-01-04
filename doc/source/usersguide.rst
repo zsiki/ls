@@ -374,7 +374,7 @@ deside whether to continue to store point.
 
    *(12.) Add new point to the Coordinate list*
 
-You can use the standard QGIS *Add Delimited Text Layer* to bulk import coordinates from CSV or TXT files. The restrictions are
+You can use the standard QGIS *Add Delimited Text Layer* button to bulk import coordinates from CSV or TXT files. The restrictions are
 
 - the column names must be the same as discribe before (point_id, e, n, z, pc, pt)
 - the column types must be the same as discribed before, a CSVT file can be created to define column types, the name of the CSVT file must be the same as the CSV file
@@ -401,7 +401,7 @@ can be set in the *config.py*.
 
 In the different lists of the dialog you can see the fieldbook name and the id 
 beside the point name. These are neccessary to distinguis stations if the same 
-station was occupied more then once, or dirctions if the same direction was measured from the same station more then once.
+station was occupied more then once, or directions if the same direction was measured from the same station more then once.
 
 Orientation
 +++++++++++
@@ -414,11 +414,11 @@ To calculate orientation angle on a station do the followings
 #. Click on the Single Point Calculations icon to open the *Single Point Calculation* dialog.
 #. Select the Orientation from the *Calculation* group.
 #. Select the station id from the *Station (1)* list. You can calculate the orientation of one station at a time.
-#. The *Target Points* list is filled automatically, directions to known points.
-#. Add to Used Points list one or more points which ypu would like to use for the orientation. If you would like to change the *Used Points* list, use the Remove button.
-#. Click on the Calculate button.
-#. Result of Calculation displayed automatically in result window.
-#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+#. The *Target Points* list is filled automatically, with the directions to known points from the selected station.
+#. Add to *Used Points* list one or more points which you would like to use for the orientation. If you would like to change the *Used Points* list, use the *Remove* button.
+#. Click on the *Calculate* button.
+#. Results of calculation are displayed automatically in result widget.
+#. You can change settings in the dialog and press *Calculate* to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u14.png
    :scale: 80 %
