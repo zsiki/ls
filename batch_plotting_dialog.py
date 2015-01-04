@@ -403,7 +403,7 @@ class BatchPlottingDialog(QDialog):
             # if batch_plotting is False open a QgsComposerView with current map canvas
             cmap = self.composition.getComposerMapById(0)
             # set the new extent of composer map item
-            newextent = self.iface.mapCanvas().mapSettings().visibleExtent()
+            newextent = self.iface.mapCanvas().mapRenderer().extent()
             currentextent = cmap.extent()
             canvas_ratio = newextent.width()/newextent.height()
             map_ratio = currentextent.width()/currentextent.height()
