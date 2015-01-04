@@ -87,6 +87,8 @@ can be set in the config:
     :area_tolerance: area tolerance for area division, if the difference between the actual area and the requested area is smaller then this value, the iteration is stopped
     :max_iteration: maximal number of iterations for area division
 
+If you change any value in the *config.py* file, the QGIS plug-in must be reloaded or QGIS must be restarted.
+
 Set the default coordinate reference system (CRS) for new projects and
 new layers on the *CRS* tab in the Setting/Options menu to the local CRS. 
 
@@ -375,6 +377,8 @@ deside whether to continue to store point.
 Single Point Calculations
 :::::::::::::::::::::::::
 
+During the calculations the plug-in will use the data from the opened fieldbooks (*fb\_* tables) and from the opened coordinate list (*coord\_* layer).
+
 In the single calculation dialog you can calculate coordinates of single points
 using trigonometric formulas.
 
@@ -432,7 +436,7 @@ points if the instrument height, the target height and the station elevation are
 #. The *Target Points* list is filled automatically.
 #. Add one or more points to the *Used Points* list, which you would like to calculate coordinates for.  If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
-#. Result of calculation is displayed automatically in result widget.
+#. Result of calculation is displayed automatically in result widget and sent to the log file.
 #. You can change settings in the dialog and press calculate to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u16.png
@@ -455,7 +459,7 @@ To calculate intersection do the followings
 #. The Target Points list is filled automatically. It contains the points, which were measured from both stations.
 #. Add one or more points to the *Used Points* list which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
-#. Results of Calculation are displayed automatically in result widget.
+#. Results of Calculation are displayed automatically in result widget and sent to the log file.
 #. You can change settings in the dialog and press calculate to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u17.png
@@ -500,7 +504,7 @@ To calculate resection do the followings
 #. The Target Points list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
 #. Add two or more points to the Used Points list which will be used for calculation. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
-#. Results of calculation is displayed automatically in the result widget.
+#. Results of calculation is displayed automatically in the result widget and sent to the log file.
 #. You can change settings in the dialog and press *Calculate* to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u19.png
@@ -514,6 +518,8 @@ To calculate resection do the followings
 
 Traverse Calculations
 :::::::::::::::::::::
+
+During the traverse calculations the plug-in will use the data from the opened fieldbooks (*fb\_* tables) and from the opened coordinate list (*coord\_* layer).
 
 It is possible to calculate three different types of traverse.
 
@@ -531,9 +537,9 @@ To calculate traverse do the followings
 #. In case of link traverse select the end point from the *End Point* list.
 #. The Target Points list is filled automatically.
 #. Add the traverse points from *Target Points* list to the *Order of Points* list one by one.
-#. The order of traverse points can be changed with *Up* and *Down* button. If you would like to correct, use the Remove button.
+#. The order of traverse points can be changed with *Up* and *Down* button. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
-#. Result of calculation is displayed automatically in result widget.
+#. Result of calculation is displayed automatically in result widget and sent to the log file.
 #. You can change settings in the dialog and press *Calculate* button to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u20.png
@@ -548,14 +554,20 @@ To calculate traverse do the followings
 Network adjustment
 ::::::::::::::::::
 
-#. Click the Network adjustment icon.
-#. Select the fix points from List of Points and add to the Fix points list.
-#. Select points to adjust from List of Points and add to the Adjusted points.
-#. Check the parameters of the adjustment.
-#. If you would like to correct, use the Remove button.
-#. Click the Calculate button.
-#. Result of Calculation prints automatically in result window. Parameters of the Adjustment can be checked in the result window.
-#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+During the network adjusment the plug-in will use the data from the opened fieldbooks (*fb\_* tables) and from the opened coordinate list (*coord\_* layer).
+
+Network adjustment is the best method to calculate the most probably position ofobserved points, when more observation were made then neccessary. By the help of GNU Gama adjustment the blunder errors can be tetected, eliminated.
+
+To calculate network adjustment do the followings
+
+#. Click on the Network adjustment icon to open the *Network Adjustment* dialog.
+#. Select the fix points from *List of Points* and add them to the *Fix points* list. During the adjustment the coordinates of fix points will not be changed. Points in bold face in the *List of Points* have coordinates in the actual coordinate list, so only those can be added to the *Fix Points* list. In the *List of points* you can find only those points which an observation was made to.
+#. Select points to adjust from the *List of Points* and add them to the *Adjusted points* list. You can add any point to the *Adjusted Points*.
+#. Set the parameters of the adjustment. To set the standard deviations are very impotant from the view of adjustment calculation. Set these corresponding the used total station.
+#. If you would like to correct, use the *Remove* button.
+#. Click on the *Calculate* button.
+#. Result of calculation is displayed automatically in result widget and sent to the log file.
+#. You can change settings in the dialog and press calculate to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u21.png
    :scale: 80 %
@@ -563,21 +575,32 @@ Network adjustment
        
    *(21.) Traverse Calculation - Link traverse*
 
+The result list of the adjustment is very long conslt the GNU Game documentation for further details.
+
 Coordinate transformation
 :::::::::::::::::::::::::
-It is possible to calculate five types of Transformation. Each Transformations work, if you selected enough common points.
 
-#. First add the coordinate file containing the points to transformate. Use the Add layer icon.
-#. Click the Coordinate transformation icon.
-#. The From Layer field automatically loaded.
-#. Select the shape file where to transformate. The result points will be written in this shape file.
-#. Add the used points from Common Points list to Used Points list.
-#. Select the type of transformation.
-#. If you would like to correct, use the Remove button.
-#. Click the Calculate button.
-#. Result of Calculation prints automatically in result window. Parameters of the Transformation can be checked in the result window.
-#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+Beside the on the fly reprojection service of QGIS, the SurveyingCalculation provides coordinate transformation based on common points having coordinates in both coordinate systems. Two separate coordinate lists must be created before starting the coordinate transformation with the coordinates in the two coordinate systems.
 
+The pulg-in provides different type of transformations. The calculation of the transformation parameters uses the least squares estimation if you select more common points then the minimal.
+
+    :Orthogonal transformation: at least two common points
+    :Affine transformation: at least three common point
+    :3rd order transformation: at least ten common points
+    :4th order transformation: at least fifteen common points
+    :5th order transformation: at least twentyone common points
+
+#. The coordninate list you would like to transform from must be opened in the actual QGIS project. **Do not open the coordinate list of the target system.**
+#. Click on the Coordinate transformation icon in the toolbar to open the *Coordinate Transformation* dialog.
+#. The *From Layer* field is filled automatically with the opened coordinate list.
+#. Select the *To Shape file* where to transform to, push the button with ellipses (...) to open the file selection dialog. The transformed points will be added to this shape file.
+#. The list of *Common Points* is filled automatically.
+#. Add points from the *Common Points* list to the *Used Points* list.
+#. Select the type of transformation, only those types are enabled for which anough common points were selected.
+#. If you would like to correct, use the *Remove* button.
+#. Click the on the *Calculate* button.
+#. Result of calculation is displayed automatically in result widget and sent to the log file.
+#. You can change settings in the dialog and press *Calculate* button to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u22.png
    :scale: 80 %
@@ -585,22 +608,25 @@ It is possible to calculate five types of Transformation. Each Transformations w
        
    *(22.) Coordinate transformation - Affine transformation*
 
+At the beginning of the result list you can find the used common points with th coordinates in both systems and the discrepancies between the target and transformed coordinates. If you find big discrepancies in the list then there are mistakes in the coordinates. At the end of the list you can find transformed points where the discrepancies are empty. These points are added to the target coordinate list.
 
-
+The coordinates of those common points which were not selected for the transformation won't be changed in the target coordinate list.
 
 Polygon division
 ::::::::::::::::
 
-In Area Division dialog window you can divide parcel (area, polygon etc.). The Division is possible *Paralel to the given line*, or
-*Through the first given point* with size of the area.
+With the *Polygon Division* tool you can divide parcel into two at a given area.There are two possible division types
 
-#. Turn on *Toggle Editing Mode*.
-#. Select a parcel, which you want to divide.
-#. Click on the *Polygon Division* icon in the *SurveyingCalculation* toolbar.
-#. Holding down the right mouse button, draw a line where would you like to divide the area.
-#. After drawing the dialog window appear automatically.
-#. Set the type of Division and click the *Divide* button.
+    :Paralel to a given line: the line will be shifted until the right side polygon of the division line will have the given area.
+    :Through the first given point: the line will be rotated around the firt point until the right side polygon of the division line will have the given area.
 
+#. Select the polygon layer in the layer list on which you would like divide a polygon
+#. Select the parcel with the *Select Single Feaure* tool, which you want to divide.
+#. Click on the *Polygon Division* tool in the *SurveyingCalculation* toolbar.
+#. Click at the start point of the division line and drag the rubberband line and release mouse button at the end point. 
+#. The *Area Division* dialog appears automatically.
+#. Set the *Area* field and select method. The full area is not editable, it shows the total area of selected polygon.
+#. Set the type of division and click on the *Divide* button.
 
 .. figure:: images/u23.png
    :scale: 80 %
@@ -622,8 +648,8 @@ In Area Division dialog window you can divide parcel (area, polygon etc.). The D
        
    *(25.) Polygon division - Divided polygon*
 
-
-
+If the given divider line does not intersect the polygon border then the plug-in will extend the line.
+You can give a divider line outside the selected polygon, this case only paralel division is available in the *Area Division* dialog.
 
 Plot
 ::::
