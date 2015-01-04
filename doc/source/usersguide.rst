@@ -620,24 +620,24 @@ The pulg-in provides different type of transformations. The calculation of the t
        
    *(22.) Coordinate transformation - Affine transformation*
 
-At the beginning of the result list you can find the used common points with th coordinates in both systems and the discrepancies between the target and transformed coordinates. If you find big discrepancies in the list then there are mistakes in the coordinates. At the end of the list you can find transformed points where the discrepancies are empty. These points are added to the target coordinate list.
+At the beginning of the result list you can find the used common points with the coordinates in both systems and the discrepancies between the target and transformed coordinates. If you find big discrepancies in the list then there are mistakes in the coordinates. At the end of the list you can find transformed points where the discrepancies are empty. These points are added to the target coordinate list.
 
 The coordinates of those common points which were not selected for the transformation won't be changed in the target coordinate list.
 
 Polygon division
 ::::::::::::::::
 
-With the *Polygon Division* tool you can divide parcel into two at a given area.There are two possible division types
+With the *Polygon Division* tool you can divide a parcel into two at a given area. There are two possible division types
 
     :Paralel to a given line: the line will be shifted until the right side polygon of the division line will have the given area.
     :Through the first given point: the line will be rotated around the first point until the right side polygon of the division line will have the given area.
 
-#. Select the polygon layer in the layer list on which you would like divide a polygon
+#. Select the polygon layer in the layer list in which you would like to divide a polygon
 #. Select the parcel with the *Select Single Feaure* tool, which you want to divide.
 #. Click on the *Polygon Division* tool in the *SurveyingCalculation* toolbar.
-#. Click at the start point of the division line and drag the rubberband line and release mouse button at the end point. 
+#. Click at the start point of the division line and drag the rubberband line and release the mouse button at the end point. 
 #. The *Area Division* dialog appears automatically.
-#. Set the *Area* field and select method. The full area is not editable, it shows the total area of the selected polygon.
+#. Set the *Area* field and the select method. The full area field is not editable, it shows the total area of the selected polygon.
 #. Set the type of division and click on the *Divide* button.
 
 .. figure:: images/u23.png
@@ -666,20 +666,20 @@ You can give a divider line outside the selected polygon, this case only paralel
 Plot
 ::::
 
-The plugin offers the possibility to plot the actual map view or selected polygons using a previously created composer template file *(.qpt)*.
-
+The plugin offers the possibility to plot the actual map view or selected polygons using a precreated composer template file *(.qpt)*.
+Templates can be created by the print composer (Save as template from the menu).
 
 Plot by Template
 ++++++++++++++++
 
-With *Plot by template* command you can plot the actual map view with the given scale.
+With *Plot by template* command you can plot the actual map view at the given scale.
 
-#. So first set the map view to the required area and perhaps the required scale.
-#. Then open the *Plot by template* dialog.
+#. First zoom the map view to the required area and perhaps the required scale.
+#. Click on the *Plot by template* button in the toolbar to open the *Plot by template* dialog.
 #. In the dialog you can select a composer template and the scale.
-#. With the *Change dir...* button you can change the directory of the template files.
-#. In the scale list the previously set scale also appears beside some predefined scales. The default sclae is *<extent>* which means that the scale will be adjusted to the map view extent.
-#. You can give a name to the composition but it's not necessary. If you leave blank QGIS gives a name automatically.
+#. Use the *Change dir...* button to select a template from another directory. The default directory for templates is the *template* subdirectory in the plug-in intallation directory.
+#. In the scale list the previously set scale also appears beside some predefined scales. The default scale is *<extent>* which means that the scale will be adjusted to the map view extent.
+#. You can give a name to the composition optionally. If you leave blank QGIS will generate a name automatically.
 
 
 .. figure:: images/u26.png
@@ -698,20 +698,20 @@ Batch plotting
 With the "Batch plotting" command you can plot selected polygons using a composer template file. *Batch plotting* creates a QGIS atlas composition, which is a multi-page composition. One polygon will be on one page. In the dialog you can choose the output of the plot.
 
 #. This utility needs at least one polygon type layer open!
-#. Select the polygons you want to plot.
-#. Then open the *Batch Plotting* dialog.
-#. In the dialog choose the layer which contains the selected polygons.
-#. Select the composer template from the list. With the *Change dir...* button you can change the directory of the template files.
-#. From the scale list you can choose from predefined scales or give a number manually. It must be a positive integer value.
+#. Select the polygons you want to plot they must be in the same layer.
+#. Click on the *Batch plotting* button in the toolbar to open the *Batch Plotting* dialog.
+#. In the dialog select the layer which contains the selected polygons.
+#. Select the composer template from the list. Use the *Change dir...* button to select a template from another directory. The default directory for templates is the *template* subdirectory in the plug-in intallation directory.
+#. From the scale list you can choose from predefined scales or give a new scale manually. It must be a positive integer value.
 
-There are three possible output:
+There are three possible output of batch plot:
 
 - export to PDF
 - plot to a system printer
 - open in composer view 
 
 Export to pdf
-    You can export the composition to a single multi-page PDF file or to separate files (one polygon to one PDF). In the first case give the PDF file after Plot button pressed. In the second case you must fill the *Output filename pattern* editbox according to the *Output filename expression* of QGIS. After Plot button pressed select the directory where you want to save the PDF files.
+    You can export the composition to a single multi-page PDF file or to separate files (individual single page PDF file for each selected polygon). In the first case give the PDF file after pressing the Plot button. In the second case you must fill the *Output filename pattern* field according to the *Output filename expression* of QGIS. After pressing the Plot button, select the directory where you want to save the PDF files.
 
 
 .. figure:: images/u27.png
@@ -721,11 +721,11 @@ Export to pdf
    *(27.) Batch plotting - Export to pdf*
 
 
-Plot to system printer
-    It is possible to print the composition. After pushing the Plot button the Print setting dialog will be shown. At this point you can set only the printer itself and the number of copies. You can't change the other settings, e.g. the first and last pages since we don't know the order of polygons. Push the *Print* and the composition will be printed.  
+Plot to the system printer
+    It is possible to send the composition directly to the printer. After pushing the Plot button the Print setting dialog will be shown. At this point you can select the printer and the number of copies. You can't change the other settings, because the page order is not known. Push the *Print* and the composition will be printed.  
     
 Open in composer view
-    The third option is to view the composition in composer view. This is very similar as in the *Plot by template* section. Since it is an atlas composition, in the composer view dialog you can look at all of the pages separately. Use the arrows in the toolbar to see the pages. In the *Atlas generation* panel the setting of the atlas composition can be modified. From the composer view it is possible to print either page or all pages to a system printer or export that to PDF file.  
+    The third option is to view the composition in composer view. This is very similar to the *Plot by template* function. Since it is an atlas composition, in the composer view you can look at each page separately. Use the arrows in the toolbar to move to the previous/next page. In the *Atlas generation* panel the settings of the atlas composition can be modified. From the composer view you can print either a single page or all pages or export them to a PDF file.  
 
     
 .. figure:: images/u28.png
