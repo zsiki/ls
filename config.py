@@ -6,18 +6,17 @@
 
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 
-Variables set::
+Variables set:
 
-    appname: name of the plugin
-    fontname: monospace font used in calculation results widgets
-    fontsize: font size used in calculation results widgets
-    homedir: start dir used for loading fieldbooks
-    log_path: path to log file
-    line_tolerance: snapping tolerance to line tool
-    area_tolerance: area tolerance for area division
+    :fontname: monospace font used in calculation results widgets
+    :fontsize: font size used in calculation results widgets
+    :homedir: start dir used for loading fieldbooks
+    :log_path: path to log file
+    :line_tolerance: snapping tolerance to line tool
+    :area_tolerance: area tolerance for area division
+	:max_iteration: maximal number of iterations for area division
 """
 
-appname = 'SurveyingCalculation'
 # dialogs
 fontname = 'DejaVu Sans Mono'
 fontsize = 9

@@ -697,14 +697,27 @@ Y = Y0 + b1 * x + b2 * y + b3 * xy + b4 * x^2 + b5 * y^2 + ...</p>
 <span id="config"></span><h2>Config<a class="headerlink" href="#module-SurveyingCalculation.config" title="Permalink to this headline">¶</a></h2>
 <p id="module-config"><em>Platforms: </em>Linux, Windows</p>
 <p>Variables set:</p>
-<div class="highlight-python"><pre>appname: name of the plugin
-fontname: monospace font used in calculation results widgets
-fontsize: font size used in calculation results widgets
-homedir: start dir used for loading fieldbooks
-log_path: path to log file
-line_tolerance: snapping tolerance to line tool
-area_tolerance: area tolerance for area division</pre>
-</div>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">fontname:</th><td class="field-body">monospace font used in calculation results widgets</td>
+</tr>
+<tr class="field"><th class="field-name">fontsize:</th><td class="field-body">font size used in calculation results widgets</td>
+</tr>
+<tr class="field"><th class="field-name">homedir:</th><td class="field-body">start dir used for loading fieldbooks</td>
+</tr>
+<tr class="field"><th class="field-name">log_path:</th><td class="field-body">path to log file</td>
+</tr>
+<tr class="field"><th class="field-name">line_tolerance:</th><td class="field-body">snapping tolerance to line tool</td>
+</tr>
+<tr class="field"><th class="field-name">area_tolerance:</th><td class="field-body">area tolerance for area division
+:max_iteration: maximal number of iterations for area division</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
 </div>
 <div class="section" id="module-SurveyingCalculation.gama_interface">
 <span id="interface-to-gnu-gama"></span><h2>Interface to GNU Gama<a class="headerlink" href="#module-SurveyingCalculation.gama_interface" title="Permalink to this headline">¶</a></h2>
@@ -2346,7 +2359,7 @@ if open traverse is chosen.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Jan 03, 2015.
+      Last updated on Jan 04, 2015.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>
