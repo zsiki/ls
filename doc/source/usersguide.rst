@@ -1,4 +1,4 @@
-=========================================================
+﻿=========================================================
 User's Guide for SurveyingCalculation plugin for QGIS 2.x
 =========================================================
 
@@ -434,7 +434,7 @@ points if the instrument height, the target height and the station elevation are
 #. Select the *Radial Survey* from the *Calculation* group.
 #. Select the Station id from the *Station (1)* list. You can calculate several polar points from the same station at a time.
 #. The *Target Points* list is filled automatically.
-#. Add one or more points to the *Used Points* list, which you would like to calculate coordinates for.  If you would like to change the *Used Points* list, use the *Remove* button.
+#. Add one or more points to the *Used Points* list, which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
 #. You can change settings in the dialog and press calculate to make another calculation, use the *Reset* button to reset the dialog to its original state.
@@ -669,13 +669,21 @@ With *Plot by template* command you can plot the actual map view with the given 
 #. In the scale list the previously set scale also appears beside some predefined scales. The default sclae is *<extent>* which means that the scale will be adjusted to the map view extent.
 #. You can give a name to the composition but it's not necessary. If you leave blank QGIS gives a name automatically.
 
+
+.. figure:: images/u26.png
+   :scale: 80 %
+   :align: center
+       
+   *(26.) Plot by Template*
+
+
 At the end a composer window will appear with the map composition and it can be printed to a system printer or exported to PDF file.
 
 
 Batch plotting
 ++++++++++++++
 
-With the "Batch plotting" command you can plot selected polygons  using a composer template file. In the dialog you can choose the output of the plot.
+With the "Batch plotting" command you can plot selected polygons using a composer template file. In the dialog you can choose the output of the plot.
 
 #. This utility needs at least one polygon type layer open!
 #. Select the polygons you want to plot.
@@ -693,9 +701,25 @@ There are three possible output:
 Export to pdf
     You can export the composition to a single multi-page PDF file or to separate files (one polygon to one PDF). In the first case give the PDF file after Plot button pressed. In the second case you must fill the *Output filename pattern* editbox according to the *Output filename expression* of QGIS. After Plot button pressed select the directory where you want to save the PDF files.
 
+
+.. figure:: images/u27.png
+   :scale: 80 %
+   :align: center
+       
+   *(27.) Batch plotting - Export to pdf*
+
+
 Plot to system printer
     TODO
     
 Open in composer view
     TODO
+
     
+.. figure:: images/u28.png
+   :scale: 80 %
+   :align: center
+       
+   *(28.) Batch plotting - Open in composer view*
+
+
