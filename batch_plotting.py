@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'batch_plotting.ui'
 #
-# Created: Tue Dec 30 10:20:49 2014
-#      by: PyQt4 UI code generator 4.10.2
+# Created: Sun Jan 04 11:08:15 2015
+#      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,26 +12,24 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_BatchPlottingDialog(object):
     def setupUi(self, BatchPlottingDialog):
         BatchPlottingDialog.setObjectName(_fromUtf8("BatchPlottingDialog"))
-        BatchPlottingDialog.resize(291, 396)
+        BatchPlottingDialog.resize(290, 390)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(BatchPlottingDialog.sizePolicy().hasHeightForWidth())
+        BatchPlottingDialog.setSizePolicy(sizePolicy)
+        BatchPlottingDialog.setMinimumSize(QtCore.QSize(290, 390))
+        BatchPlottingDialog.setMaximumSize(QtCore.QSize(290, 390))
         self.TemplateList = QtGui.QListWidget(BatchPlottingDialog)
-        self.TemplateList.setGeometry(QtCore.QRect(10, 70, 271, 101))
+        self.TemplateList.setGeometry(QtCore.QRect(10, 80, 271, 101))
         self.TemplateList.setObjectName(_fromUtf8("TemplateList"))
         self.TemplateLabel = QtGui.QLabel(BatchPlottingDialog)
-        self.TemplateLabel.setGeometry(QtCore.QRect(10, 50, 111, 16))
+        self.TemplateLabel.setGeometry(QtCore.QRect(10, 53, 111, 16))
         self.TemplateLabel.setObjectName(_fromUtf8("TemplateLabel"))
         self.PlotButton = QtGui.QPushButton(BatchPlottingDialog)
         self.PlotButton.setGeometry(QtCore.QRect(50, 360, 81, 23))
@@ -50,10 +48,10 @@ class Ui_BatchPlottingDialog(object):
         self.CloseButton.setSizePolicy(sizePolicy)
         self.CloseButton.setObjectName(_fromUtf8("CloseButton"))
         self.ScaleLabel = QtGui.QLabel(BatchPlottingDialog)
-        self.ScaleLabel.setGeometry(QtCore.QRect(10, 180, 91, 21))
+        self.ScaleLabel.setGeometry(QtCore.QRect(10, 190, 91, 21))
         self.ScaleLabel.setObjectName(_fromUtf8("ScaleLabel"))
         self.ScaleCombo = QtGui.QComboBox(BatchPlottingDialog)
-        self.ScaleCombo.setGeometry(QtCore.QRect(120, 180, 81, 22))
+        self.ScaleCombo.setGeometry(QtCore.QRect(120, 190, 81, 22))
         self.ScaleCombo.setInputMethodHints(QtCore.Qt.ImhDigitsOnly)
         self.ScaleCombo.setEditable(True)
         self.ScaleCombo.setObjectName(_fromUtf8("ScaleCombo"))
@@ -86,7 +84,7 @@ class Ui_BatchPlottingDialog(object):
         self.LayersComboBox.setEditable(False)
         self.LayersComboBox.setObjectName(_fromUtf8("LayersComboBox"))
         self.OutputTab = QtGui.QTabWidget(BatchPlottingDialog)
-        self.OutputTab.setGeometry(QtCore.QRect(10, 220, 271, 121))
+        self.OutputTab.setGeometry(QtCore.QRect(10, 230, 271, 121))
         self.OutputTab.setObjectName(_fromUtf8("OutputTab"))
         self.toPDF = QtGui.QWidget()
         self.toPDF.setObjectName(_fromUtf8("toPDF"))
@@ -120,7 +118,7 @@ class Ui_BatchPlottingDialog(object):
         self.ComposerEmptyLabel.setObjectName(_fromUtf8("ComposerEmptyLabel"))
         self.OutputTab.addTab(self.toComposerView, _fromUtf8(""))
         self.ScaleLabel_2 = QtGui.QLabel(BatchPlottingDialog)
-        self.ScaleLabel_2.setGeometry(QtCore.QRect(100, 180, 20, 21))
+        self.ScaleLabel_2.setGeometry(QtCore.QRect(100, 190, 20, 21))
         self.ScaleLabel_2.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.ScaleLabel_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.ScaleLabel_2.setObjectName(_fromUtf8("ScaleLabel_2"))
@@ -137,31 +135,31 @@ class Ui_BatchPlottingDialog(object):
         BatchPlottingDialog.setTabOrder(self.PlotButton, self.CloseButton)
 
     def retranslateUi(self, BatchPlottingDialog):
-        BatchPlottingDialog.setWindowTitle(_translate("BatchPlottingDialog", "Batch Plotting", None))
-        self.TemplateLabel.setText(_translate("BatchPlottingDialog", "Available templates:", None))
-        self.PlotButton.setText(_translate("BatchPlottingDialog", "Plot", None))
-        self.CloseButton.setText(_translate("BatchPlottingDialog", "Close", None))
-        self.ScaleLabel.setText(_translate("BatchPlottingDialog", "Map Scale:", None))
-        self.ScaleCombo.setItemText(0, _translate("BatchPlottingDialog", "100", None))
-        self.ScaleCombo.setItemText(1, _translate("BatchPlottingDialog", "250", None))
-        self.ScaleCombo.setItemText(2, _translate("BatchPlottingDialog", "500", None))
-        self.ScaleCombo.setItemText(3, _translate("BatchPlottingDialog", "1000", None))
-        self.ScaleCombo.setItemText(4, _translate("BatchPlottingDialog", "2000", None))
-        self.ScaleCombo.setItemText(5, _translate("BatchPlottingDialog", "2500", None))
-        self.ScaleCombo.setItemText(6, _translate("BatchPlottingDialog", "5000", None))
-        self.ScaleCombo.setItemText(7, _translate("BatchPlottingDialog", "10000", None))
-        self.ScaleCombo.setItemText(8, _translate("BatchPlottingDialog", "20000", None))
-        self.ScaleCombo.setItemText(9, _translate("BatchPlottingDialog", "25000", None))
-        self.ScaleCombo.setItemText(10, _translate("BatchPlottingDialog", "50000", None))
-        self.ScaleCombo.setItemText(11, _translate("BatchPlottingDialog", "100000", None))
-        self.TempDirButton.setText(_translate("BatchPlottingDialog", "Change Dir ...", None))
-        self.LayersLabel.setText(_translate("BatchPlottingDialog", "Polygon layers:", None))
-        self.OutputPDFLabel.setText(_translate("BatchPlottingDialog", "Output filename pattern:", None))
-        self.SingleFileCheckbox.setText(_translate("BatchPlottingDialog", "Single PDF file (multi-page)", None))
-        self.OutputTab.setTabText(self.OutputTab.indexOf(self.toPDF), _translate("BatchPlottingDialog", "To PDF", None))
-        self.OutputTab.setTabText(self.OutputTab.indexOf(self.toPrinter), _translate("BatchPlottingDialog", "To Printer", None))
-        self.ComposerLabel.setText(_translate("BatchPlottingDialog", "Composer name:", None))
-        self.ComposerEmptyLabel.setText(_translate("BatchPlottingDialog", "If empty name will be genrated automatically.", None))
-        self.OutputTab.setTabText(self.OutputTab.indexOf(self.toComposerView), _translate("BatchPlottingDialog", "To Composer View", None))
-        self.ScaleLabel_2.setText(_translate("BatchPlottingDialog", "1:", None))
+        BatchPlottingDialog.setWindowTitle(QtGui.QApplication.translate("BatchPlottingDialog", "Batch Plotting", None, QtGui.QApplication.UnicodeUTF8))
+        self.TemplateLabel.setText(QtGui.QApplication.translate("BatchPlottingDialog", "Available templates:", None, QtGui.QApplication.UnicodeUTF8))
+        self.PlotButton.setText(QtGui.QApplication.translate("BatchPlottingDialog", "Plot", None, QtGui.QApplication.UnicodeUTF8))
+        self.CloseButton.setText(QtGui.QApplication.translate("BatchPlottingDialog", "Close", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleLabel.setText(QtGui.QApplication.translate("BatchPlottingDialog", "Map Scale:", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(0, QtGui.QApplication.translate("BatchPlottingDialog", "100", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(1, QtGui.QApplication.translate("BatchPlottingDialog", "250", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(2, QtGui.QApplication.translate("BatchPlottingDialog", "500", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(3, QtGui.QApplication.translate("BatchPlottingDialog", "1000", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(4, QtGui.QApplication.translate("BatchPlottingDialog", "2000", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(5, QtGui.QApplication.translate("BatchPlottingDialog", "2500", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(6, QtGui.QApplication.translate("BatchPlottingDialog", "5000", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(7, QtGui.QApplication.translate("BatchPlottingDialog", "10000", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(8, QtGui.QApplication.translate("BatchPlottingDialog", "20000", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(9, QtGui.QApplication.translate("BatchPlottingDialog", "25000", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(10, QtGui.QApplication.translate("BatchPlottingDialog", "50000", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleCombo.setItemText(11, QtGui.QApplication.translate("BatchPlottingDialog", "100000", None, QtGui.QApplication.UnicodeUTF8))
+        self.TempDirButton.setText(QtGui.QApplication.translate("BatchPlottingDialog", "Change Dir ...", None, QtGui.QApplication.UnicodeUTF8))
+        self.LayersLabel.setText(QtGui.QApplication.translate("BatchPlottingDialog", "Polygon layers:", None, QtGui.QApplication.UnicodeUTF8))
+        self.OutputPDFLabel.setText(QtGui.QApplication.translate("BatchPlottingDialog", "Output filename pattern:", None, QtGui.QApplication.UnicodeUTF8))
+        self.SingleFileCheckbox.setText(QtGui.QApplication.translate("BatchPlottingDialog", "Single PDF file (multi-page)", None, QtGui.QApplication.UnicodeUTF8))
+        self.OutputTab.setTabText(self.OutputTab.indexOf(self.toPDF), QtGui.QApplication.translate("BatchPlottingDialog", "To PDF", None, QtGui.QApplication.UnicodeUTF8))
+        self.OutputTab.setTabText(self.OutputTab.indexOf(self.toPrinter), QtGui.QApplication.translate("BatchPlottingDialog", "To Printer", None, QtGui.QApplication.UnicodeUTF8))
+        self.ComposerLabel.setText(QtGui.QApplication.translate("BatchPlottingDialog", "Composer name:", None, QtGui.QApplication.UnicodeUTF8))
+        self.ComposerEmptyLabel.setText(QtGui.QApplication.translate("BatchPlottingDialog", "If empty name will be genrated automatically.", None, QtGui.QApplication.UnicodeUTF8))
+        self.OutputTab.setTabText(self.OutputTab.indexOf(self.toComposerView), QtGui.QApplication.translate("BatchPlottingDialog", "To Composer View", None, QtGui.QApplication.UnicodeUTF8))
+        self.ScaleLabel_2.setText(QtGui.QApplication.translate("BatchPlottingDialog", "1:", None, QtGui.QApplication.UnicodeUTF8))
 

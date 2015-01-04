@@ -6,9 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>291</width>
-    <height>396</height>
+    <width>290</width>
+    <height>390</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>290</width>
+    <height>390</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>290</width>
+    <height>390</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Batch Plotting</string>
@@ -17,7 +35,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>70</y>
+     <y>80</y>
      <width>271</width>
      <height>101</height>
     </rect>
@@ -27,7 +45,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>50</y>
+     <y>53</y>
      <width>111</width>
      <height>16</height>
     </rect>
@@ -78,7 +96,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>180</y>
+     <y>190</y>
      <width>91</width>
      <height>21</height>
     </rect>
@@ -91,7 +109,7 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>180</y>
+     <y>190</y>
      <width>81</width>
      <height>22</height>
     </rect>
@@ -221,7 +239,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>220</y>
+     <y>230</y>
      <width>271</width>
      <height>121</height>
     </rect>
@@ -327,7 +345,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>180</y>
+     <y>190</y>
      <width>20</width>
      <height>21</height>
     </rect>
