@@ -545,9 +545,9 @@ To calculate traverse do the followings
 #. Select the start point of traverse from the *Start Point* list.
 #. Select the end point from the *End Point* list.
 
-    #. In case of closed traverse the *End Point* list is disabled and changes according to the *Start Point* list.
-    #. In case of link traverse the *End Point* list contains all known stations.
-    #. In case of open traverse the *End Point* list contains the points measured from the last point in the *Order of points* list. Therefore the end point should be selected after inserting and sorting all angle points in the *Order of points* list.
+    - In case of closed traverse the *End Point* list is disabled and changes according to the *Start Point* list.
+    - In case of link traverse the *End Point* list contains all known stations.
+    - In case of open traverse the *End Point* list contains the points measured from the last point in the *Order of points* list. Therefore the end point should be selected after inserting and sorting all angle points in the *Order of points* list.
 
 #. The Target Points list is filled automatically. The points in bold face have coordinates.
 #. Add the traverse points from *Target Points* list to the *Order of Points* list one by one.
@@ -596,12 +596,12 @@ The result list of the adjustment is very long. Consult the GNU Gama documentati
 Coordinate transformation
 :::::::::::::::::::::::::
 
-Beside the on the fly reprojection service of QGIS, the SurveyingCalculation plug-in provides coordinate transformation based on common points having coordinates in both coordinate systems. Two separate coordinate lists must be created before starting the coordinate transformation with the coordinates in the two coordinate systems.
+Beside the on the fly reprojection service of QGIS, the SurveyingCalculation plug-in provides coordinate transformation based on common points having coordinates in both coordinate systems. Two separate coordinate lists must be created with the coordinates in the two coordinate systems before starting the coordinate transformation.
 
 The pulg-in provides different type of transformations. The calculation of the transformation parameters uses the least squares estimation if you select more common points then the minimal neccessary.
 
     :Orthogonal transformation: at least two common points
-    :Affine transformation: at least three common point
+    :Affine transformation: at least three common points
     :3rd order transformation: at least ten common points
     :4th order transformation: at least fifteen common points
     :5th order transformation: at least twentyone common points
@@ -614,7 +614,7 @@ The pulg-in provides different type of transformations. The calculation of the t
 #. Add points from the *Common Points* list to the *Used Points* list.
 #. Select the type of transformation, only those types are enabled for which enough common points were selected.
 #. If you would like to correct, use the *Remove* button.
-#. Click the on the *Calculate* button.
+#. Click on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
 #. You can change settings in the dialog and press *Calculate* button to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
@@ -631,7 +631,7 @@ The coordinates of those common points which were not selected for the transform
 Polygon division
 ::::::::::::::::
 
-With the *Polygon Division* tool you can divide a parcel into two at a given area. There are two possible division types
+With the *Polygon Division* tool you can divide a parcel into two at a given area. There are two possible division types:
 
     :Paralel to a given line: the line will be shifted until the right side polygon of the division line will have the given area.
     :Through the first given point: the line will be rotated around the first point until the right side polygon of the division line will have the given area.
@@ -648,7 +648,7 @@ With the *Polygon Division* tool you can divide a parcel into two at a given are
    :scale: 80 %
    :align: center
        
-   *(23.) Polygon division - Selected polygon to division*
+   *(23.) Polygon division - Selected polygon to divide*
 
 
 .. figure:: images/u24.png
@@ -662,7 +662,7 @@ With the *Polygon Division* tool you can divide a parcel into two at a given are
    :scale: 80 %
    :align: center
        
-   *(25.) Polygon division - Divided polygon*
+   *(25.) Polygon division - Divided polygons*
 
 If the given divider line does not intersect the polygon border then the plug-in will extend the line.
 You can give a divider line outside the selected polygon, this case only paralel division is available in the *Area Division* dialog.
@@ -671,7 +671,7 @@ Plot
 ::::
 
 The plugin offers the possibility to plot the actual map view or selected polygons using a precreated composer template file *(.qpt)*.
-Templates can be created by the print composer (Save as template from the menu).
+Templates can be created by the print composer of QGIS (Save as template from the menu).
 
 Plot by Template
 ++++++++++++++++
@@ -681,8 +681,8 @@ With *Plot by template* command you can plot the actual map view at the given sc
 #. First zoom the map view to the required area and perhaps the required scale.
 #. Click on the *Plot by template* button in the toolbar to open the *Plot by template* dialog.
 #. In the dialog you can select a composer template and the scale.
-#. Use the *Change dir...* button to select a template from another directory. The default directory for templates is the *template* subdirectory in the plug-in intallation directory.
-#. In the scale list the previously set scale also appears beside some predefined scales. The default scale is *<extent>* which means that the scale will be adjusted to the map view extent.
+#. Use the *Change dir...* button to select a template from another directory. The default directory for templates is the *template* subdirectory in the plug-in installation directory.
+#. In the scale list the previously set scale also appears beside some predefined scales. You can also give a new scale manually but it must be a positive integer value. The default scale is *<extent>* which means that the scale will be adjusted to the map view extent.
 #. You can give a name to the composition optionally. If you leave blank QGIS will generate a name automatically.
 
 
@@ -699,13 +699,13 @@ At the end a composer window will appear with the map composition and it can be 
 Batch plotting
 ++++++++++++++
 
-With the "Batch plotting" command you can plot selected polygons using a composer template file. *Batch plotting* creates a QGIS atlas composition, which is a multi-page composition. One polygon will be on one page. In the dialog you can choose the output of the plot.
+With the "Batch plotting" command you can plot selected polygons from one layer using a composer template file. *Batch plotting* creates a QGIS atlas composition, which is a multi-page composition. One polygon will be on one page. In the dialog you can choose the output of the plot.
 
 #. This utility needs at least one polygon type layer open!
-#. Select the polygons you want to plot they must be in the same layer.
+#. Select the polygons you want to plot they must be on the same layer.
 #. Click on the *Batch plotting* button in the toolbar to open the *Batch Plotting* dialog.
 #. In the dialog select the layer which contains the selected polygons.
-#. Select the composer template from the list. Use the *Change dir...* button to select a template from another directory. The default directory for templates is the *template* subdirectory in the plug-in intallation directory.
+#. Select the composer template from the list. Use the *Change dir...* button to select a template from another directory. The default directory for templates is the *template* subdirectory in the plug-in installation directory.
 #. From the scale list you can choose from predefined scales or give a new scale manually. It must be a positive integer value.
 
 There are three possible output of batch plot:
@@ -715,7 +715,7 @@ There are three possible output of batch plot:
 - open in composer view 
 
 Export to pdf
-    You can export the composition to a single multi-page PDF file or to separate files (individual single page PDF file for each selected polygon). In the first case give the PDF file after pressing the Plot button. In the second case you must fill the *Output filename pattern* field according to the *Output filename expression* of QGIS. After pressing the Plot button, select the directory where you want to save the PDF files.
+    You can export the composition to a single multi-page PDF file or to separate files (individual single page PDF file for each selected polygons). In the first case give the PDF file after pressing the Plot button. In the second case you must fill the *Output filename pattern* field according to the *Output filename expression* of QGIS. After pressing the Plot button, select the directory to where you want to save the PDF files.
 
 
 .. figure:: images/u27.png
@@ -726,7 +726,7 @@ Export to pdf
 
 
 Plot to the system printer
-    It is possible to send the composition directly to the printer. After pushing the Plot button the Print setting dialog will be shown. At this point you can select the printer and the number of copies. You can't change the other settings, because the page order is not known. Push the *Print* and the composition will be printed.  
+    It is possible to send the composition directly to the printer. After pushing the Plot button the Print settings dialog will be shown. At this point you can select the printer and the number of copies. You can't change the other settings, because the page order is not known. Push the *Print* button and the composition will be printed.  
     
 Open in composer view
     The third option is to view the composition in composer view. This is very similar to the *Plot by template* function. Since it is an atlas composition, in the composer view you can look at each page separately. Use the arrows in the toolbar to move to the previous/next page. In the *Atlas generation* panel the settings of the atlas composition can be modified. From the composer view you can print either a single page or all pages or export them to a PDF file.  
