@@ -713,7 +713,7 @@ Plot to system printer
     It is possible to print the composition. After pushing the Plot button the Print setting dialog will be shown. At this point you can set only the printer itself and the number of copies. You can't change the other settings, e.g. the first and last pages since we don't know the order of polygons. Push the *Print* and the composition will be printed.  
     
 Open in composer view
-    The third option is to view the composition in composer view. This is very similar as in the *Plot by template* section. Since it is an atlas composition, in the composer view dialog you can look at all of the pages separately. From the composer view it is possible to print either page or all pages to a system printer or export that to PDF file.  
+    The third option is to view the composition in composer view. This is very similar as in the *Plot by template* section. Since it is an atlas composition, in the composer view dialog you can look at all of the pages separately. Use the arrows int the toolbar to see the pages. Inthe *Atlas generation* panel the setting of the atlas composition can be modified. From the composer view it is possible to print either page or all pages to a system printer or export that to PDF file.  
 
     
 .. figure:: images/u28.png
