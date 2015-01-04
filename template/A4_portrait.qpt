@@ -1,0 +1,115 @@
+<Composer title="test2" visible="1">
+ <Composition snapGridTolerance="2" gridVisible="0" printResolution="300" paperWidth="210" snapGridOffsetX="0" guidesVisible="1" snapGridResolution="10" snapGridOffsetY="0" alignmentSnap="1" snapping="0" numPages="1" paperHeight="297" alignmentSnapTolerance="2" smartGuides="1" printAsRaster="0" generateWorldFile="0">
+  <symbol alpha="1" type="fill" name="">
+   <layer pass="0" class="SimpleFill" locked="0">
+    <prop k="border_width_unit" v="MM"/>
+    <prop k="color" v="255,255,255,255"/>
+    <prop k="color_border" v="0,0,0,255"/>
+    <prop k="offset" v="0,0"/>
+    <prop k="offset_unit" v="MM"/>
+    <prop k="style" v="solid"/>
+    <prop k="style_border" v="no"/>
+    <prop k="width_border" v="0.26"/>
+   </layer>
+  </symbol>
+  <ComposerLabel valign="32" labelText="Title of Map&#xa;" htmlState="0" halign="1" margin="1">
+   <LabelFont description="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0"/>
+   <FontColor red="0" blue="0" green="0"/>
+   <ComposerItem width="89.3579" x="18.6454" transparency="0" y="243.978" height="8.278" positionMode="0" frame="false" outlineWidth="0.3" zValue="8" itemRotation="0" lastValidViewScaleFactor="2.33073" uuid="{ddc4497e-eaf6-4485-a59e-01c97b9b66c6}" id="" background="true" blendMode="0" positionLock="false">
+    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+   </ComposerItem>
+  </ComposerLabel>
+  <ComposerLabel valign="32" labelText="FREE TEXTS IN BOXES (2)&#xa;" htmlState="0" halign="1" margin="1">
+   <LabelFont description="MS Shell Dlg 2,10,-1,5,50,0,0,0,0,0"/>
+   <FontColor red="0" blue="0" green="0"/>
+   <ComposerItem width="59.3244" x="91.3875" transparency="0" y="253.148" height="30.5719" positionMode="0" frame="false" outlineWidth="0.3" zValue="7" itemRotation="0" lastValidViewScaleFactor="2.33073" uuid="{fdb474ca-10af-4f78-8aa2-415ce849cd5d}" id="" background="true" blendMode="0" positionLock="false">
+    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+   </ComposerItem>
+  </ComposerLabel>
+  <ComposerLabel valign="128" labelText="Scale:" htmlState="0" halign="1" margin="1">
+   <LabelFont description="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0"/>
+   <FontColor red="0" blue="0" green="0"/>
+   <ComposerItem width="14.2798" x="154.945" transparency="0" y="244.87" height="8.278" positionMode="0" frame="false" outlineWidth="0.3" zValue="6" itemRotation="0" lastValidViewScaleFactor="2.33073" uuid="{d2e89986-4966-4443-8a66-c7b1d673c5db}" id="" background="true" blendMode="0" positionLock="false">
+    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+   </ComposerItem>
+  </ComposerLabel>
+  <ComposerScaleBar penColor="#000000" style="Numeric" numMapUnitsPerScaleBarUnit="2" alignment="0" brushColor="#000000" numSegments="4" segmentMillimeters="14.0032" fontColor="#000000" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" numUnitsPerSegment="10" units="1" labelBarSpace="3" outlineWidth="0.7" numSegmentsLeft="0" height="2" mapId="0" boxContentSpace="2" unitLabel="m">
+   <ComposerItem width="19.7039" x="169.224" transparency="0" y="244.87" height="8.278" positionMode="0" frame="false" outlineWidth="0.3" zValue="5" itemRotation="0" lastValidViewScaleFactor="1.76398" uuid="{6b38af55-8969-43a7-acf0-e8b4377982a9}" id="" background="true" blendMode="0" positionLock="false">
+    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+   </ComposerItem>
+  </ComposerScaleBar>
+  <ComposerLabel valign="32" labelText="FREE TEXTS IN BOXES (1)&#xa;" htmlState="0" halign="1" margin="1">
+   <LabelFont description="MS Shell Dlg 2,10,-1,5,50,0,0,0,0,0"/>
+   <FontColor red="0" blue="0" green="0"/>
+   <ComposerItem width="68.3345" x="18.6454" transparency="0" y="253.148" height="30.5719" positionMode="0" frame="false" outlineWidth="0.3" zValue="4" itemRotation="0" lastValidViewScaleFactor="2.33073" uuid="{48d02097-68f9-4af2-91bc-8594492576fd}" id="" background="true" blendMode="0" positionLock="false">
+    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+   </ComposerItem>
+  </ComposerLabel>
+  <ComposerLabel valign="128" labelText="Date: [% day(  $now )%]. [%month(  $now )%]. [% year(  $now )%]" htmlState="0" halign="4" margin="1">
+   <LabelFont description="Arial,12,-1,5,50,0,0,0,0,0"/>
+   <FontColor red="0" blue="0" green="0"/>
+   <ComposerItem width="43.0206" x="147.714" transparency="0" y="251.288" height="11.9967" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" itemRotation="0" lastValidViewScaleFactor="2.33073" uuid="{0cc439b1-140e-456d-800d-d5be18d97cbc}" id="" background="true" blendMode="0" positionLock="false">
+    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+   </ComposerItem>
+  </ComposerLabel>
+  <ComposerPicture pictureRotation="0" pictureWidth="15.5949" file="C:/PROGRA~1/QGISVA~1/apps/qgis/./svg/arrows/Arrow_03.svg" pictureHeight="15.5949" mapId="0">
+   <ComposerItem width="15.5949" x="42.1529" transparency="0" y="37.3046" height="16.0026" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" itemRotation="0" lastValidViewScaleFactor="2.33073" uuid="{85a3665c-704a-4bd2-b24a-90404a413cfd}" id="" background="true" blendMode="0" positionLock="false">
+    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+   </ComposerItem>
+  </ComposerPicture>
+  <ComposerMap mapRotation="0" keepLayerSet="false" overviewFrameMap="-1" id="0" previewMode="Cache" drawCanvasItems="true">
+   <overviewFrame overviewBlendMode="0" overviewFrameMap="-1" overviewCentered="false" overviewInverted="false">
+    <symbol alpha="0.3" type="fill" name="">
+     <layer pass="0" class="SimpleFill" locked="0">
+      <prop k="border_width_unit" v="MM"/>
+      <prop k="color" v="255,0,0,255"/>
+      <prop k="color_border" v="0,0,0,255"/>
+      <prop k="offset" v="0,0"/>
+      <prop k="offset_unit" v="MM"/>
+      <prop k="style" v="solid"/>
+      <prop k="style_border" v="no"/>
+      <prop k="width_border" v="0.26"/>
+     </layer>
+    </symbol>
+   </overviewFrame>
+   <Extent ymin="277957.44637563638389111" xmin="652210.59126866888254881" ymax="278105.06998787762131542" xmax="652330.09126879088580608"/>
+   <LayerSet/>
+   <Grid gridStyle="1" crossLength="2" gridFramePenThickness="0.5" intervalX="25" offsetX="0" intervalY="25" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" gridBlendMode="0" show="1">
+    <framePenColor alpha="255" red="0" blue="0" green="0"/>
+    <frameFillColor1 alpha="255" red="255" blue="255" green="255"/>
+    <frameFillColor2 alpha="255" red="0" blue="0" green="0"/>
+    <symbol alpha="1" type="line" name="">
+     <layer pass="0" class="SimpleLine" locked="0">
+      <prop k="capstyle" v="flat"/>
+      <prop k="color" v="0,0,0,255"/>
+      <prop k="customdash" v="5;2"/>
+      <prop k="customdash_unit" v="MM"/>
+      <prop k="draw_inside_polygon" v="0"/>
+      <prop k="joinstyle" v="bevel"/>
+      <prop k="offset" v="0"/>
+      <prop k="offset_unit" v="MM"/>
+      <prop k="penstyle" v="solid"/>
+      <prop k="use_custom_dash" v="0"/>
+      <prop k="width" v="0.3"/>
+      <prop k="width_unit" v="MM"/>
+     </layer>
+    </symbol>
+    <Annotation rightDirection="0" bottomDirection="1" format="0" topPosition="1" precision="0" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="4" show="1" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="1">
+     <fontColor alpha="255" red="0" blue="0" green="0"/>
+    </Annotation>
+   </Grid>
+   <AtlasMap fixedScale="0" atlasDriven="0" margin="0.10000000000000001"/>
+   <ComposerItem width="167.338" x="21.4408" transparency="0" y="22.0199" height="206.72" positionMode="0" frame="true" outlineWidth="0.3" zValue="1" itemRotation="0" lastValidViewScaleFactor="2.33073" uuid="{7101a3fa-e0d9-4a0b-b11f-f81c55825f5a}" id="" background="true" blendMode="0" positionLock="false">
+    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+   </ComposerItem>
+  </ComposerMap>
+ </Composition>
+</Composer>
