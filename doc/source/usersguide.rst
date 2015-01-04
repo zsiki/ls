@@ -447,7 +447,7 @@ points if the instrument height, the target height and the station elevation are
 #. Add one or more points to the *Used Points* list, which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
-#. You can change settings in the dialog and press calculate to make another calculation, use the *Reset* button to reset the dialog to its original state.
+#. You can change settings in the dialog and press *Calculate* to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u16.png
    :scale: 80 %
@@ -461,16 +461,18 @@ Intersection
 
 You can calculate horizontal coordinates for one or more points, which directions were observed from two known stations.
 
+Before the intersection calculation the used stations must be oriented.
+
 To calculate intersection do the followings
 
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog.
 #. Select the Intersection from the *Calculation* group.
 #. Select two known stations from the *Station(1)* and *Station(2)* lists
-#. The Target Points list is filled automatically. It contains the points, which were measured from both stations.
+#. The *Target Points* list is filled automatically. It contains the points, which were measured from both stations.
 #. Add one or more points to the *Used Points* list which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Results of Calculation are displayed automatically in result widget and sent to the log file.
-#. You can change settings in the dialog and press calculate to make another calculation, use the *Reset* button to reset the dialog to its original state.
+#. You can change settings in the dialog and press *Calculate* to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u17.png
    :scale: 80 %
@@ -489,10 +491,10 @@ To calculate resection do the followings
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog.
 #. Select the Resection from the *Calculation* group.
 #. Select the station id from the *Station (1)* list.
-#. The Target Points list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
-#. Add three points to the *Used Points* list which will be used for resection. If you would like to correct, use the Remove button.
+#. The *Target Points* list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
+#. Add three points to the *Used Points* list which will be used for resection. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
-#. Result of Calculation is displayed automatically in result wiget.
+#. Result of calculation is displayed automatically in result wiget and sent to the log file.
 #. You can change settings in the dialog and press *Calculate* button to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u18.png
@@ -506,12 +508,12 @@ Free Station
 
 You can calculate the horizontal coordinates of a station from directions and distances using the least squares method.
 
-To calculate resection do the followings
+To calculate free station do the followings
 
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog..
 #. Select the Free Station from the *Calculation* group.
 #. Select the station id from the *Station (1)* list.
-#. The Target Points list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
+#. The Target Points list is filled automatically. The list contains the known points, which were measured from the selected station. You can calculate the coordinates of one station at a time.
 #. Add two or more points to the Used Points list which will be used for calculation. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Results of calculation is displayed automatically in the result widget and sent to the log file.
@@ -523,8 +525,7 @@ To calculate resection do the followings
        
    *(19.) Free Station - Adjusted coordinates*
 
-**TODO**
-*explanation of result list*
+The result list of the adjustment is very long consult the GNU Game documentation for further details.
 
 Traverse Calculations
 :::::::::::::::::::::
@@ -534,7 +535,7 @@ During the traverse calculations the plug-in will use the data from the opened f
 It is possible to calculate three different types of traverse.
 
 #. **Closed traverse**: Closed (polygonal or loop) traverse starts and finishes at the same known point.
-#. **Link traverse**: A closed link traverse joins two dofferent known points.
+#. **Link traverse**: A closed link traverse joins two different known points.
 #. **Open traverse**: An open (free) traverse starts at a known point and finishes at an unknown point.
 
 Before calculating traverse the start and end points must be oriented in case of link traverse, in other cases orientation is neccessary only on the start point.
@@ -558,15 +559,14 @@ To calculate traverse do the followings
        
    *(20.) Traverse Calculation - Link traverse*
 
-**TODO**
-*explanation of result list*
+In the result of calculation you can find the angle and coordinate corrections, and the coordinates of the traversing points.
 
 Network adjustment
 ::::::::::::::::::
 
 During the network adjusment the plug-in will use the data from the opened fieldbooks (*fb\_* tables) and from the opened coordinate list (*coord\_* layer).
 
-Network adjustment is the best method to calculate the most probably position ofobserved points, when more observation were made then neccessary. By the help of GNU Gama adjustment the blunder errors can be tetected, eliminated.
+Network adjustment is the best method to calculate the most probably position of observed points, when more observation were made then neccessary. By the help of GNU Gama adjustment the blunder errors can be detected, eliminated.
 
 To calculate network adjustment do the followings
 
@@ -585,7 +585,7 @@ To calculate network adjustment do the followings
        
    *(21.) Traverse Calculation - Link traverse*
 
-The result list of the adjustment is very long conslt the GNU Game documentation for further details.
+The result list of the adjustment is very long consult the GNU Game documentation for further details.
 
 Coordinate transformation
 :::::::::::::::::::::::::
