@@ -3,8 +3,8 @@ User's Guide for SurveyingCalculation plugin for QGIS 2.x
 =========================================================
 
 The SurveyingCalculation plugin was created by the `DigiKom Ltd (Hungary) 
-<www.digikom.hu>`_. It was supported by the SMOLE II for Niras Finland Oy.
-It was developped for the Land Parcel Cadastre of Zanzibar.
+<http://www.digikom.hu>`_. It was supported by the SMOLE II for Niras Finland Oy.
+It was developed for the Land Parcel Cadastre of Zanzibar.
 
 Hardware and software requirements
 ::::::::::::::::::::::::::::::::::
@@ -15,7 +15,7 @@ versions or Linux distros it should work. QGIS version 2.2, 2.4 and 2.6 were
 used for testing the plugin.
 
 The network adjustment and the free station calculation in the plug-in is base 
-on the GNU Gama open source project. `GNU Gama <https://www.gnu.org/software/gama/>`_ must be installed separatelly to use these calculations.
+on the GNU Gama open source project. `GNU Gama <https://www.gnu.org/software/gama/>`_ must be installed separately to use these calculations.
 
 Installation of the SurveyingCalculation plugin
 :::::::::::::::::::::::::::::::::::::::::::::::
@@ -23,24 +23,24 @@ Installation of the SurveyingCalculation plugin
 **Installing from QGIS Plug-in repo**
 
 #. Start QGIS
-#. In the the plug-in dialog enable experiental plugins (after evaluating the plugin by the QGIS community it will be changed to standard (non experimental) plugin)
+#. In the the plug-in dialog enable experimental plugins (after evaluating the plugin by the QGIS community it will be changed to standard (non experimental) plugin)
 #. Look for SurveyingCalculation plug-in in the list of *All* or *Not installed* list and press Install button
 
 **Installing from GitHub**
 
-If you have a Git client on your machine (Git Bash or other clients)
+If you have a Git client on your machine (Git Bash or other clients):
 
-#. git clone the plug-in from from https://github.com/zsiki/ls to *~/.qgis2/python/plugins/SurveyingCalculation* on your local machine (~ is your home directory on Linux, replace it on Windows)
+#. git clone the plug-in from https://github.com/zsiki/ls to *~/.qgis2/python/plugins/SurveyingCalculation* on your local machine (~ is your home directory on Linux, replace it on Windows)
 #. Open the QGIS Desktop
 
-If you don't have a Git client
+If you don't have a Git client:
 
 #. Download the ZIP file from https://github.com/zsiki/ls/archive/master.zip to your computer
 #. Unzip it to *~/.qgis2/python/plugins/SurveyingCalculation*
 #. Open the QGIS Desktop
 
 After installing the plug-in you must enable it in the *Manage and Install 
-Plugins* dialog. After it the menu and the toolbar of the plug-in
+Plugins* dialog. Then the menu and the toolbar of the plug-in
 will be visible.
 
 .. figure:: images/u01.png
@@ -69,7 +69,7 @@ Is the SurveyingCalculation plugin switched on?
 **GNU Gama project: gama-local**
 
 Beside installing the plug-in you must also install gama-local (part of the GNU
-Gama project) for adjustment calculations. See: https://www.gnu.org/software/gama
+Gama project) for free station and adjustment calculations. See: https://www.gnu.org/software/gama
 
 Settings before use
 :::::::::::::::::::
