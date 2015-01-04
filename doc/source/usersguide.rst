@@ -568,12 +568,14 @@ During the network adjusment the plug-in will use the data from the opened field
 
 Network adjustment is the best method to calculate the most probably position of observed points, when more observation were made then neccessary. By the help of GNU Gama adjustment the blunder errors can be detected, eliminated.
 
+Free network can also be adjusted, when there are no fixed coordinates in the network. This case some points must have approximate coordinates.
+
 To calculate network adjustment do the followings
 
 #. Click on the Network adjustment icon to open the *Network Adjustment* dialog.
 #. Select the fix points from *List of Points* and add them to the *Fix points* list. During the adjustment the coordinates of fix points will not be changed. Points in bold face in the *List of Points* have coordinates in the actual coordinate list, so only those can be added to the *Fix Points* list. In the *List of points* you can find only those points which an observation was made to.
 #. Select points to adjust from the *List of Points* and add them to the *Adjusted points* list. You can add any point to the *Adjusted Points*.
-#. Set the parameters of the adjustment. To set the standard deviations are very impotant from the view of adjustment calculation. Set these corresponding the used total station.
+#. Set the parameters of the adjustment. To set the correct standard deviations are very impotant from the view of adjustment calculation. Set these corresponding to the used total station.
 #. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
@@ -590,9 +592,9 @@ The result list of the adjustment is very long consult the GNU Game documentatio
 Coordinate transformation
 :::::::::::::::::::::::::
 
-Beside the on the fly reprojection service of QGIS, the SurveyingCalculation provides coordinate transformation based on common points having coordinates in both coordinate systems. Two separate coordinate lists must be created before starting the coordinate transformation with the coordinates in the two coordinate systems.
+Beside the on the fly reprojection service of QGIS, the SurveyingCalculation plug-in provides coordinate transformation based on common points having coordinates in both coordinate systems. Two separate coordinate lists must be created before starting the coordinate transformation with the coordinates in the two coordinate systems.
 
-The pulg-in provides different type of transformations. The calculation of the transformation parameters uses the least squares estimation if you select more common points then the minimal.
+The pulg-in provides different type of transformations. The calculation of the transformation parameters uses the least squares estimation if you select more common points then the minimal neccessary.
 
     :Orthogonal transformation: at least two common points
     :Affine transformation: at least three common point
@@ -600,13 +602,13 @@ The pulg-in provides different type of transformations. The calculation of the t
     :4th order transformation: at least fifteen common points
     :5th order transformation: at least twentyone common points
 
-#. The coordninate list you would like to transform from must be opened in the actual QGIS project. **Do not open the coordinate list of the target system.**
+#. The coordinate list you would like to transform from must be opened in the actual QGIS project. **Do not open the coordinate list of the target system.**
 #. Click on the Coordinate transformation icon in the toolbar to open the *Coordinate Transformation* dialog.
 #. The *From Layer* field is filled automatically with the opened coordinate list.
 #. Select the *To Shape file* where to transform to, push the button with ellipses (...) to open the file selection dialog. The transformed points will be added to this shape file.
 #. The list of *Common Points* is filled automatically.
 #. Add points from the *Common Points* list to the *Used Points* list.
-#. Select the type of transformation, only those types are enabled for which anough common points were selected.
+#. Select the type of transformation, only those types are enabled for which enough common points were selected.
 #. If you would like to correct, use the *Remove* button.
 #. Click the on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
@@ -628,14 +630,14 @@ Polygon division
 With the *Polygon Division* tool you can divide parcel into two at a given area.There are two possible division types
 
     :Paralel to a given line: the line will be shifted until the right side polygon of the division line will have the given area.
-    :Through the first given point: the line will be rotated around the firt point until the right side polygon of the division line will have the given area.
+    :Through the first given point: the line will be rotated around the first point until the right side polygon of the division line will have the given area.
 
 #. Select the polygon layer in the layer list on which you would like divide a polygon
 #. Select the parcel with the *Select Single Feaure* tool, which you want to divide.
 #. Click on the *Polygon Division* tool in the *SurveyingCalculation* toolbar.
 #. Click at the start point of the division line and drag the rubberband line and release mouse button at the end point. 
 #. The *Area Division* dialog appears automatically.
-#. Set the *Area* field and select method. The full area is not editable, it shows the total area of selected polygon.
+#. Set the *Area* field and select method. The full area is not editable, it shows the total area of the selected polygon.
 #. Set the type of division and click on the *Divide* button.
 
 .. figure:: images/u23.png
