@@ -443,7 +443,7 @@ points if the instrument height, the target height and the station elevation are
 #. Click on the Single Point Calculations icon to open the *Single Point Calculation* dialog
 #. Select the *Radial Survey* from the *Calculation* group.
 #. Select the Station id from the *Station (1)* list. The list contains only points with orientation angle. You can calculate several polar points from the same station at a time.
-#. The *Target Points* list is filled automatically with the points observed from the selected station. The points with bold font have coordinates.
+#. The *Target Points* list is filled automatically with the points observed from the selected station. The points in bold face have coordinates.
 #. Add one or more points to the *Used Points* list, which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
@@ -468,7 +468,7 @@ To calculate intersection do the followings
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog.
 #. Select the Intersection from the *Calculation* group.
 #. Select two known stations from the *Station(1)* and *Station(2)* lists. The lists contain only points with orientation angle.
-#. The *Target Points* list is filled automatically. It contains the points measured from both stations. The points with bold font have coordinates.
+#. The *Target Points* list is filled automatically. It contains the points measured from both stations. The points in bold face have coordinates.
 #. Add one or more points to the *Used Points* list which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Results of Calculation are displayed automatically in result widget and sent to the log file.
@@ -490,7 +490,7 @@ To calculate resection do the followings
 
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog.
 #. Select the Resection from the *Calculation* group.
-#. Select the station id from the *Station (1)* list. The lis contains all stations. The stations with bold font have coordinates.
+#. Select the station id from the *Station (1)* list. The lis contains all stations. The stations in bold face have coordinates.
 #. The *Target Points* list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
 #. Add exactly three points to the *Used Points* list which will be used for resection. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
@@ -512,7 +512,7 @@ To calculate free station do the followings
 
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog..
 #. Select the Free Station from the *Calculation* group.
-#. Select the station id from the *Station (1)* list. The list contains all stations. The stations with bold font have coordinates.
+#. Select the station id from the *Station (1)* list. The list contains all stations. The stations in bold face have coordinates.
 #. The Target Points list is filled automatically. The list contains the known points, which were measured from the selected station. You can calculate the coordinates of one station at a time.
 #. Add two or more points to the Used Points list which will be used for calculation. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
@@ -525,7 +525,7 @@ To calculate free station do the followings
        
    *(19.) Free Station - Adjusted coordinates*
 
-The result list of the adjustment is very long consult the GNU Game documentation for further details.
+The result list of the adjustment is very long. Consult the GNU Gama documentation for further details.
 
 Traverse Calculations
 :::::::::::::::::::::
@@ -545,11 +545,11 @@ To calculate traverse do the followings
 #. Select the start point of traverse from the *Start Point* list.
 #. Select the end point from the *End Point* list.
 
-    - In case of closed traverse the *End Point* list is disabled and changes according to the *Start Point* list.
-    - In case of link traverse the *End Point* list contains all known stations.
-    - In case of open traverse the *End Point* list contains the points measured from the last point in the *Order of points* list. Therefore the end point should be selected after inserting and sorting all angle points to the *Order of points* list.
+    #. In case of closed traverse the *End Point* list is disabled and changes according to the *Start Point* list.
+    #. In case of link traverse the *End Point* list contains all known stations.
+    #. In case of open traverse the *End Point* list contains the points measured from the last point in the *Order of points* list. Therefore the end point should be selected after inserting and sorting all angle points in the *Order of points* list.
 
-#. The Target Points list is filled automatically. The points with bold font have coordinates.
+#. The Target Points list is filled automatically. The points in bold face have coordinates.
 #. Add the traverse points from *Target Points* list to the *Order of Points* list one by one.
 #. The order of traverse points can be changed with *Up* and *Down* button. If you would like to correct, use the *Remove* button.
 #. In case of open traverse select the end point now.
@@ -570,16 +570,16 @@ Network adjustment
 
 During the network adjusment the plug-in will use the data from the opened fieldbooks (*fb\_* tables) and from the opened coordinate list (*coord\_* layer).
 
-Network adjustment is the best method to calculate the most probably position of observed points, when more observation were made then neccessary. By the help of GNU Gama adjustment the blunder errors can be detected, eliminated.
+Network adjustment is the best method to calculate the most probably position of observed points, when more observation were made than neccessary. By the help of GNU Gama adjustment the blunder errors can be detected, eliminated.
 
-Free network can also be adjusted, when there are no fixed coordinates in the network. This case some points must have approximate coordinates.
+Free network can also be adjusted, when there are no fixed coordinates in the network. In this case some points must have approximate coordinates.
 
 To calculate network adjustment do the followings
 
 #. Click on the Network adjustment icon to open the *Network Adjustment* dialog.
 #. Select the fix points from *List of Points* and add them to the *Fix points* list. During the adjustment the coordinates of fix points will not be changed. Points in bold face in the *List of Points* have coordinates in the actual coordinate list, so only those can be added to the *Fix Points* list. In the *List of points* you can find only those points which an observation was made to.
 #. Select points to adjust from the *List of Points* and add them to the *Adjusted points* list. You can add any point to the *Adjusted Points*.
-#. Set the parameters of the adjustment. To set the correct standard deviations are very impotant from the view of adjustment calculation. Set these corresponding to the used total station.
+#. Set the parameters of the adjustment. Setting the correct standard deviations are very impotant from the view of adjustment calculation. Set these corresponding to the used total station.
 #. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
@@ -589,9 +589,9 @@ To calculate network adjustment do the followings
    :scale: 80 %
    :align: center
        
-   *(21.) Traverse Calculation - Link traverse*
+   *(21.) Network adjustment*
 
-The result list of the adjustment is very long consult the GNU Game documentation for further details.
+The result list of the adjustment is very long. Consult the GNU Gama documentation for further details.
 
 Coordinate transformation
 :::::::::::::::::::::::::
