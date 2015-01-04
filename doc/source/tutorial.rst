@@ -205,7 +205,7 @@ list.
    :scale: 80 %
    :align: center
 
-   *(19.) Intersection of point 5004*
+   *(19.) Intersection of points 5002 and 5004*
 
 Select one or more target points and add them to used point, click calculate 
 and coordinates will be calculated. Results of the calculation can be 
@@ -282,10 +282,6 @@ First select station point (the fieldbook name and the id in fieldbook is shown 
 Select one or more target points (the id in fieldbook is shown in brackets) and 
 add to used points, click calculate and coordinates will be calculated. 
 Results of the calculation can be seen in the result widget.
-
-**TODO**
-*This example for point 5002 is not ideal. Why do not we add simple polar
-points? There are observed detail points from 1_tr and 3_tr!*
 
 Traverse calculations
 :::::::::::::::::::::
@@ -452,5 +448,58 @@ Different transformation types require different number of point. Only those tra
    *(41.) Calculating transformation*
    
 Click calculate button and the transformation parameters and transformed 
-coordinates will be calculated. Results of the calculation can be checked in the result widget.*
+coordinates will be calculated. Results of the calculation can be checked in the *result widget.*
 
+Polygon division
+::::::::::::::::
+
+For demonstrating division of polygons, we need a vector layer containing polygons. Click *Add Vector Layer*, 
+in the file selection dialog navigate to sample directory of the installed plugin and select the *parcels.shp* file.
+
+.. figure:: images/t071.png
+   :scale: 80 %
+   :align: center
+
+   *(42.) Selecting a polygon*
+
+First a polygon has to be selected with *Select Features* QGIS tool.
+
+.. figure:: images/t072.png
+   :scale: 80 %
+   :align: center
+
+   *(43.) Starting Polygon division*
+
+After starting *Polygon division* a cross will appear, and a division line has to be given.
+
+.. figure:: images/t073.png
+   :scale: 80 %
+   :align: center
+
+   *(44.) Default parameters of division*
+
+In the division window the full area of selected polygon is displayed, 
+and the area of wanted part-polygon can be given, which is on the right side of the given direction. 
+When area will not be changed, the polygon will be divided by the given line.
+The method of division also has to be chosen. The polygon can be divided parallel to the given line, 
+or by the rotation of the given line around first given point.
+
+.. figure:: images/t074.png
+   :scale: 80 %
+   :align: center
+
+   *(45.) Set the parameters of division*
+
+We have set the area of wanted part-polygon to *5000* units and the method of division to *parallel division*.
+
+.. figure:: images/t075.png
+   :scale: 80 %
+   :align: center
+
+   *(46.) Measured area of the smaller new polygon.*
+
+Click *divide* button and division will be executed. The two new polygons are now also in attribute table to be seen.
+
+Plotting map content
+::::::::::::::::::::
+ 
