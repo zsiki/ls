@@ -512,7 +512,7 @@ To calculate free station do the followings
 
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog..
 #. Select the Free Station from the *Calculation* group.
-#. Select the station id from the *Station (1)* list. The lis contains all stations. The stations with bold font have coordinates.
+#. Select the station id from the *Station (1)* list. The list contains all stations. The stations with bold font have coordinates.
 #. The Target Points list is filled automatically. The list contains the known points, which were measured from the selected station. You can calculate the coordinates of one station at a time.
 #. Add two or more points to the Used Points list which will be used for calculation. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
@@ -534,21 +534,23 @@ During the traverse calculations the plug-in will use the data from the opened f
 
 It is possible to calculate three different types of traverse.
 
-#. **Closed traverse**: Closed (polygonal or loop) traverse starts and finishes at the same known point.
-#. **Link traverse**: A closed link traverse joins two different known points.
-#. **Open traverse**: An open (free) traverse starts at a known point and finishes at an unknown point.
-
-Before calculating traverse the start and end points must be oriented in case of link traverse, in other cases orientation is neccessary only on the start point.
+#. **Closed traverse**: Closed (polygonal or loop) traverse starts and finishes at the same known point. This point must be oriented.
+#. **Link traverse**: A closed link traverse joins two different known points. None, one or both ends can be oriented.
+#. **Open traverse**: An open (free) traverse starts at a known point with orientation and finishes at an unknown point.
 
 To calculate traverse do the followings
 
 #. Click on the Traverse Calculations icon in the toolbar to open the *Traverse Calculations* dialog.
 #. Select the type of traverse from *Type* group.
 #. Select the start point of traverse from the *Start Point* list.
-#. In case of link traverse select the end point from the *End Point* list.
-#. The Target Points list is filled automatically.
+#. Select the end point from the *End Point* list.
+    In case of closed traverse the *End Point* list is disabled and changes according to the *Start Point* list.
+    In case of link traverse the *End Point* list contains all known stations.
+    In case of open traverse the *End Point* list contains the points measured from the last point in the *Order of points* list. Therefore the end point should be selected after inserting and sorting all angle points to the *Order of points* list.
+#. The Target Points list is filled automatically. The points with bold font have coordinates.
 #. Add the traverse points from *Target Points* list to the *Order of Points* list one by one.
 #. The order of traverse points can be changed with *Up* and *Down* button. If you would like to correct, use the *Remove* button.
+#. In case of open traverse select the end point now.
 #. Click on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
 #. You can change settings in the dialog and press *Calculate* button to make another calculation, use the *Reset* button to reset the dialog to its original state.
