@@ -217,7 +217,7 @@ Leica GSI
 Both the 8 byte and 16 byte GSI files are supported. As there is no standard
 markers for station start in GSI files, you can use code block to mark a new
 station in observations or you must have a record with station coordinates or
-instrument height to mark a start of a new station.
+instrument height to mark the start of a new station.
 
 Code block to mark the start of a station:
 
@@ -337,7 +337,7 @@ Distances, instrument and target heights are in meters.
 
 Sort the fieldbook by the id column, to have the right order of observations.
 
-It is possible to change the fieldbook, insert and delete feature. You can use
+Data in the loaded fieldbooks can be changed, records can be inserted, updated and deleted. You can use
 the standard QGIS tools to change or extend fieldbook data. Open the 
 fieldbook Attribute Table, turn on *Toggle Editing Mode*.
 
@@ -346,9 +346,9 @@ right id (first column) for the row to get the right position in the fieldbook.
 
 **Delete record**: Select the record to be deleted and click on the *Delete selected features* button.
 
-**Update record**: Double click on the field you want to change and edit the field
+**Update record**: Double click on the field you want to change and edit the data
 
-After editing the fieldbook data you have to save the changes, click the Save Edits or Toggle Editing Mode button.
+After editing the fieldbook data you have to save the changes, click the *Save Edits* or *Toggle Editing Mode* button.
 
 .. figure:: images/u11.png
    :scale: 80 %
@@ -365,7 +365,7 @@ Use the *Add* button to add the point to the coordinate list. The *Add* button s
 The *Close* button closes the dialog window.
 
 This dialog can be used to overwrite existing coordinates in the coordinate 
-list. If you input an existing point, a warning will be displayed and you can 
+list too. If you input an existing point, a warning will be displayed and you can 
 deside whether to continue to store point.
 
 .. figure:: images/u12.png
@@ -373,6 +373,16 @@ deside whether to continue to store point.
    :align: center
 
    *(12.) Add new point to the Coordinate list*
+
+You can use the standard QGIS *Add Delimited Text Layer* to bulk import coordinates from CSV or TXT files. The restrictions are
+
+- the column names must be the same as discribe before (point_id, e, n, z, pc, pt)
+- the column types must be the same as discribed before, a CSVT file can be created to define column types, the name of the CSVT file must be the same as the CSV file
+- the name of result shape file must start with *coord_*
+
+Sample CSVT file to load coordinate lists::
+
+   String(20),Real(12.3),Real(12.3),Real(8.3),String(20),String(20)
 
 Single Point Calculations
 :::::::::::::::::::::::::
