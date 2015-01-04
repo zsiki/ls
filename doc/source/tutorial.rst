@@ -498,8 +498,75 @@ We have set the area of wanted part-polygon to *5000* units and the method of di
 
    *(46.) Measured area of the smaller new polygon.*
 
-Click *divide* button and division will be executed. The two new polygons are now also in attribute table to be seen.
+Click *divide* button and division will be executed. The two new polygons are now also in attribute table to be seen, where attributes of new polygons can be given (e.g. *parcel_id*).
 
-Plotting map content
-::::::::::::::::::::
- 
+Plot by template
+::::::::::::::::
+
+Let's plot the actual view of the map window now first.
+
+.. figure:: images/t076.png
+   :scale: 80 %
+   :align: center
+
+   *(47.) Starting Plot by template.*
+
+Polygons can be labeled with *parcel_id* column in the map window using the 
+standard QGIS labelling tools. We have given new *parcel_id* (101, 102) to the two new polygons.
+
+.. figure:: images/t077.png
+   :scale: 80 %
+   :align: center
+
+   *(48.) Set plot parameters*
+
+In the plot window select a template file, set the scale of the plot and give him a name.
+
+.. figure:: images/t078.png
+   :scale: 80 %
+   :align: center
+
+   *(49.) Composer window of the map composition*
+
+Click *Plot* button and with the map composition a composer window will appear, which is a standard QGIS tool.
+The composition can be printed to a system printer or exported to PDF file.
+
+Batch plotting
+::::::::::::::
+
+Selected polygon can be plotted by using *Batch plotting*.
+
+.. figure:: images/t079.png
+   :scale: 80 %
+   :align: center
+
+   *(50.) Add another layer to the map*
+
+Any number of layers can be added to the map.
+
+.. figure:: images/t080.png
+   :scale: 80 %
+   :align: center
+
+   *(51.) Select the parcels and start Batch plotting*
+
+Select one or more parcels to be plotted and click *Batch plotting* button.
+
+.. figure:: images/t081.png
+   :scale: 80 %
+   :align: center
+
+   *(52.) Set plot parameters*
+
+In the plot window select a template file and set the scale of the plot. 
+The compositions of the parcels with the given scale can be exported to *.pdf* files, 
+plotted to a printer or opened in composer windows.
+
+.. figure:: images/t081.png
+   :scale: 80 %
+   :align: center
+
+   *(52.) Set plot parameters*
+
+By clicking *Plot* button a file selection dialog appear and compositions will be exported to 
+a multi-paged *.pdf* file using the selected composer template.
