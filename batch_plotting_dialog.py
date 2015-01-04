@@ -14,8 +14,7 @@ from PyQt4.QtGui import QDialog, QFileDialog, QListWidgetItem, QMessageBox, \
                         QProgressDialog, QApplication
 from PyQt4.QtXml import QDomDocument
 from batch_plotting import Ui_BatchPlottingDialog
-from qgis.core import QGis, QgsProject, QgsComposition, QgsAtlasComposition, \
-                        QgsComposerMap
+from qgis.core import *
 from surveying_util import get_vector_layers_by_type, get_features
 from base_classes import tr
 
@@ -114,10 +113,10 @@ class BatchPlottingDialog(QDialog):
     def onTempDirButton(self):
         """ Change the directory that contains print composer templates.
         """
-        templatepath = str(QFileDialog.getExistingDirectory(self, 
-                        tr("Select Directory"),self.templatepath))
+        templatepath = QFileDialog.getExistingDirectory(self, 
+                        tr("Select Directory"),self.templatepath, QFileDialog.ShowDirsOnly)
         if templatepath!="":
-            self.templatepath = templatepath 
+            self.templatepath = templatepath
         self.fillTemplateList()
         
     def changedSingleFileCheckbox(self, state):
