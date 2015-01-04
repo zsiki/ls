@@ -417,7 +417,7 @@ To calculate orientation angle on a station do the followings
 #. The *Target Points* list is filled automatically, with the directions to known points from the selected station.
 #. Add to *Used Points* list one or more points which you would like to use for the orientation. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
-#. Results of calculation are displayed automatically in result widget.
+#. Results of calculation are displayed automatically in result widget and sent to the log file.
 #. You can change settings in the dialog and press *Calculate* to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u14.png
@@ -442,8 +442,8 @@ points if the instrument height, the target height and the station elevation are
 
 #. Click on the Single Point Calculations icon to open the *Single Point Calculation* dialog
 #. Select the *Radial Survey* from the *Calculation* group.
-#. Select the Station id from the *Station (1)* list. You can calculate several polar points from the same station at a time.
-#. The *Target Points* list is filled automatically.
+#. Select the Station id from the *Station (1)* list. The list contains only points with orientation angle. You can calculate several polar points from the same station at a time.
+#. The *Target Points* list is filled automatically with the points observed from the selected station. The points with bold font have coordinates.
 #. Add one or more points to the *Used Points* list, which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
@@ -467,8 +467,8 @@ To calculate intersection do the followings
 
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog.
 #. Select the Intersection from the *Calculation* group.
-#. Select two known stations from the *Station(1)* and *Station(2)* lists
-#. The *Target Points* list is filled automatically. It contains the points, which were measured from both stations.
+#. Select two known stations from the *Station(1)* and *Station(2)* lists. The lists contain only points with orientation angle.
+#. The *Target Points* list is filled automatically. It contains the points measured from both stations. The points with bold font have coordinates.
 #. Add one or more points to the *Used Points* list which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Results of Calculation are displayed automatically in result widget and sent to the log file.
@@ -484,17 +484,17 @@ To calculate intersection do the followings
 Resection
 +++++++++
 
-You can calculate horizontal coordinates of a station if three known points were observed from there.
+You can calculate horizontal coordinates of a station if at least three known points were observed from there.
 
 To calculate resection do the followings
 
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog.
 #. Select the Resection from the *Calculation* group.
-#. Select the station id from the *Station (1)* list.
+#. Select the station id from the *Station (1)* list. The lis contains all stations. The stations with bold font have coordinates.
 #. The *Target Points* list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
-#. Add three points to the *Used Points* list which will be used for resection. If you would like to correct, use the *Remove* button.
+#. Add exactly three points to the *Used Points* list which will be used for resection. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
-#. Result of calculation is displayed automatically in result wiget and sent to the log file.
+#. Result of calculation is displayed automatically in result widget and sent to the log file.
 #. You can change settings in the dialog and press *Calculate* button to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u18.png
@@ -512,7 +512,7 @@ To calculate free station do the followings
 
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog..
 #. Select the Free Station from the *Calculation* group.
-#. Select the station id from the *Station (1)* list.
+#. Select the station id from the *Station (1)* list. The lis contains all stations. The stations with bold font have coordinates.
 #. The Target Points list is filled automatically. The list contains the known points, which were measured from the selected station. You can calculate the coordinates of one station at a time.
 #. Add two or more points to the Used Points list which will be used for calculation. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
