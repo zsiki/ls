@@ -544,9 +544,9 @@ To calculate traverse do the followings
 #. Select the type of traverse from *Type* group.
 #. Select the start point of traverse from the *Start Point* list.
 #. Select the end point from the *End Point* list.
-    In case of closed traverse the *End Point* list is disabled and changes according to the *Start Point* list.
-    In case of link traverse the *End Point* list contains all known stations.
-    In case of open traverse the *End Point* list contains the points measured from the last point in the *Order of points* list. Therefore the end point should be selected after inserting and sorting all angle points to the *Order of points* list.
+    - In case of closed traverse the *End Point* list is disabled and changes according to the *Start Point* list.
+    - In case of link traverse the *End Point* list contains all known stations.
+    - In case of open traverse the *End Point* list contains the points measured from the last point in the *Order of points* list. Therefore the end point should be selected after inserting and sorting all angle points to the *Order of points* list.
 #. The Target Points list is filled automatically. The points with bold font have coordinates.
 #. Add the traverse points from *Target Points* list to the *Order of Points* list one by one.
 #. The order of traverse points can be changed with *Up* and *Down* button. If you would like to correct, use the *Remove* button.
