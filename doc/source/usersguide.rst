@@ -1,4 +1,4 @@
-﻿=========================================================
+=========================================================
 User's Guide for SurveyingCalculation plugin for QGIS 2.x
 =========================================================
 
@@ -683,7 +683,7 @@ At the end a composer window will appear with the map composition and it can be 
 Batch plotting
 ++++++++++++++
 
-With the "Batch plotting" command you can plot selected polygons using a composer template file. In the dialog you can choose the output of the plot.
+With the "Batch plotting" command you can plot selected polygons using a composer template file. *Batch plotting* creates a QGIS atlas composition, which is a multi-page composition. One polygon will be on one page. In the dialog you can choose the output of the plot.
 
 #. This utility needs at least one polygon type layer open!
 #. Select the polygons you want to plot.
@@ -710,10 +710,10 @@ Export to pdf
 
 
 Plot to system printer
-    TODO
+    It is possible to print the composition. After pushing the Plot button the Print setting dialog will be shown. At this point you can set only the printer itself and the number of copies. You can't change the other settings, e.g. the first and last pages since we don't know the order of polygons. Push the *Print* and the composition will be printed.  
     
 Open in composer view
-    TODO
+    The third option is to view the composition in composer view. This is very similar as in the *Plot by template* section. Since it is an atlas composition, in the composer view dialog you can look at all of the pages separately. From the composer view it is possible to print either page or all pages to a system printer or export that to PDF file.  
 
     
 .. figure:: images/u28.png
