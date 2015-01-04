@@ -217,7 +217,7 @@ Leica GSI
 Both the 8 byte and 16 byte GSI files are supported. As there is no standard
 markers for station start in GSI files, you can use code block to mark a new
 station in observations or you must have a record with station coordinates or
-instrument height to mark a start of a new station.
+instrument height to mark the start of a new station.
 
 Code block to mark the start of a station:
 
@@ -337,7 +337,7 @@ Distances, instrument and target heights are in meters.
 
 Sort the fieldbook by the id column, to have the right order of observations.
 
-It is possible to change the fieldbook, insert and delete feature. You can use
+Data in the loaded fieldbooks can be changed, records can be inserted, updated and deleted. You can use
 the standard QGIS tools to change or extend fieldbook data. Open the 
 fieldbook Attribute Table, turn on *Toggle Editing Mode*.
 
@@ -346,9 +346,9 @@ right id (first column) for the row to get the right position in the fieldbook.
 
 **Delete record**: Select the record to be deleted and click on the *Delete selected features* button.
 
-**Update record**: Double click on the field you want to change and edit the field
+**Update record**: Double click on the field you want to change and edit the data
 
-After editing the fieldbook data you have to save the changes, click the Save Edits or Toggle Editing Mode button.
+After editing the fieldbook data you have to save the changes, click the *Save Edits* or *Toggle Editing Mode* button.
 
 .. figure:: images/u11.png
    :scale: 80 %
@@ -365,7 +365,7 @@ Use the *Add* button to add the point to the coordinate list. The *Add* button s
 The *Close* button closes the dialog window.
 
 This dialog can be used to overwrite existing coordinates in the coordinate 
-list. If you input an existing point, a warning will be displayed and you can 
+list too. If you input an existing point, a warning will be displayed and you can 
 deside whether to continue to store point.
 
 .. figure:: images/u12.png
@@ -373,6 +373,16 @@ deside whether to continue to store point.
    :align: center
 
    *(12.) Add new point to the Coordinate list*
+
+You can use the standard QGIS *Add Delimited Text Layer* button to bulk import coordinates from CSV or TXT files. The restrictions are
+
+- the column names must be the same as discribe before (point_id, e, n, z, pc, pt)
+- the column types must be the same as discribed before, a CSVT file can be created to define column types, the name of the CSVT file must be the same as the CSV file
+- the name of result shape file must start with *coord_*
+
+Sample CSVT file to load coordinate lists::
+
+   String(20),Real(12.3),Real(12.3),Real(8.3),String(20),String(20)
 
 Single Point Calculations
 :::::::::::::::::::::::::
@@ -391,7 +401,7 @@ can be set in the *config.py*.
 
 In the different lists of the dialog you can see the fieldbook name and the id 
 beside the point name. These are neccessary to distinguis stations if the same 
-station was occupied more then once, or dirctions if the same direction was measured from the same station more then once.
+station was occupied more then once, or directions if the same direction was measured from the same station more then once.
 
 Orientation
 +++++++++++
@@ -404,11 +414,11 @@ To calculate orientation angle on a station do the followings
 #. Click on the Single Point Calculations icon to open the *Single Point Calculation* dialog.
 #. Select the Orientation from the *Calculation* group.
 #. Select the station id from the *Station (1)* list. You can calculate the orientation of one station at a time.
-#. The *Target Points* list is filled automatically, directions to known points.
-#. Add to Used Points list one or more points which ypu would like to use for the orientation. If you would like to change the *Used Points* list, use the Remove button.
-#. Click on the Calculate button.
-#. Result of Calculation displayed automatically in result window.
-#. You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.
+#. The *Target Points* list is filled automatically, with the directions to known points from the selected station.
+#. Add to *Used Points* list one or more points which you would like to use for the orientation. If you would like to change the *Used Points* list, use the *Remove* button.
+#. Click on the *Calculate* button.
+#. Results of calculation are displayed automatically in result widget.
+#. You can change settings in the dialog and press *Calculate* to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u14.png
    :scale: 80 %
@@ -437,7 +447,7 @@ points if the instrument height, the target height and the station elevation are
 #. Add one or more points to the *Used Points* list, which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
-#. You can change settings in the dialog and press calculate to make another calculation, use the *Reset* button to reset the dialog to its original state.
+#. You can change settings in the dialog and press *Calculate* to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u16.png
    :scale: 80 %
@@ -451,16 +461,18 @@ Intersection
 
 You can calculate horizontal coordinates for one or more points, which directions were observed from two known stations.
 
+Before the intersection calculation the used stations must be oriented.
+
 To calculate intersection do the followings
 
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog.
 #. Select the Intersection from the *Calculation* group.
 #. Select two known stations from the *Station(1)* and *Station(2)* lists
-#. The Target Points list is filled automatically. It contains the points, which were measured from both stations.
+#. The *Target Points* list is filled automatically. It contains the points, which were measured from both stations.
 #. Add one or more points to the *Used Points* list which you would like to calculate coordinates for. If you would like to change the *Used Points* list, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Results of Calculation are displayed automatically in result widget and sent to the log file.
-#. You can change settings in the dialog and press calculate to make another calculation, use the *Reset* button to reset the dialog to its original state.
+#. You can change settings in the dialog and press *Calculate* to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u17.png
    :scale: 80 %
@@ -479,10 +491,10 @@ To calculate resection do the followings
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog.
 #. Select the Resection from the *Calculation* group.
 #. Select the station id from the *Station (1)* list.
-#. The Target Points list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
-#. Add three points to the *Used Points* list which will be used for resection. If you would like to correct, use the Remove button.
+#. The *Target Points* list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
+#. Add three points to the *Used Points* list which will be used for resection. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
-#. Result of Calculation is displayed automatically in result wiget.
+#. Result of calculation is displayed automatically in result wiget and sent to the log file.
 #. You can change settings in the dialog and press *Calculate* button to make another calculation, use the *Reset* button to reset the dialog to its original state.
 
 .. figure:: images/u18.png
@@ -496,12 +508,12 @@ Free Station
 
 You can calculate the horizontal coordinates of a station from directions and distances using the least squares method.
 
-To calculate resection do the followings
+To calculate free station do the followings
 
 #. Click on the Single Point Calculations icon in the toolbar to open the *Single Point Calculation* dialog..
 #. Select the Free Station from the *Calculation* group.
 #. Select the station id from the *Station (1)* list.
-#. The Target Points list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.
+#. The Target Points list is filled automatically. The list contains the known points, which were measured from the selected station. You can calculate the coordinates of one station at a time.
 #. Add two or more points to the Used Points list which will be used for calculation. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Results of calculation is displayed automatically in the result widget and sent to the log file.
@@ -513,8 +525,7 @@ To calculate resection do the followings
        
    *(19.) Free Station - Adjusted coordinates*
 
-**TODO**
-*explanation of result list*
+The result list of the adjustment is very long consult the GNU Game documentation for further details.
 
 Traverse Calculations
 :::::::::::::::::::::
@@ -524,7 +535,7 @@ During the traverse calculations the plug-in will use the data from the opened f
 It is possible to calculate three different types of traverse.
 
 #. **Closed traverse**: Closed (polygonal or loop) traverse starts and finishes at the same known point.
-#. **Link traverse**: A closed link traverse joins two dofferent known points.
+#. **Link traverse**: A closed link traverse joins two different known points.
 #. **Open traverse**: An open (free) traverse starts at a known point and finishes at an unknown point.
 
 Before calculating traverse the start and end points must be oriented in case of link traverse, in other cases orientation is neccessary only on the start point.
@@ -548,22 +559,23 @@ To calculate traverse do the followings
        
    *(20.) Traverse Calculation - Link traverse*
 
-**TODO**
-*explanation of result list*
+In the result of calculation you can find the angle and coordinate corrections, and the coordinates of the traversing points.
 
 Network adjustment
 ::::::::::::::::::
 
 During the network adjusment the plug-in will use the data from the opened fieldbooks (*fb\_* tables) and from the opened coordinate list (*coord\_* layer).
 
-Network adjustment is the best method to calculate the most probably position ofobserved points, when more observation were made then neccessary. By the help of GNU Gama adjustment the blunder errors can be tetected, eliminated.
+Network adjustment is the best method to calculate the most probably position of observed points, when more observation were made then neccessary. By the help of GNU Gama adjustment the blunder errors can be detected, eliminated.
+
+Free network can also be adjusted, when there are no fixed coordinates in the network. This case some points must have approximate coordinates.
 
 To calculate network adjustment do the followings
 
 #. Click on the Network adjustment icon to open the *Network Adjustment* dialog.
 #. Select the fix points from *List of Points* and add them to the *Fix points* list. During the adjustment the coordinates of fix points will not be changed. Points in bold face in the *List of Points* have coordinates in the actual coordinate list, so only those can be added to the *Fix Points* list. In the *List of points* you can find only those points which an observation was made to.
 #. Select points to adjust from the *List of Points* and add them to the *Adjusted points* list. You can add any point to the *Adjusted Points*.
-#. Set the parameters of the adjustment. To set the standard deviations are very impotant from the view of adjustment calculation. Set these corresponding the used total station.
+#. Set the parameters of the adjustment. To set the correct standard deviations are very impotant from the view of adjustment calculation. Set these corresponding to the used total station.
 #. If you would like to correct, use the *Remove* button.
 #. Click on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
@@ -575,14 +587,14 @@ To calculate network adjustment do the followings
        
    *(21.) Traverse Calculation - Link traverse*
 
-The result list of the adjustment is very long conslt the GNU Game documentation for further details.
+The result list of the adjustment is very long consult the GNU Game documentation for further details.
 
 Coordinate transformation
 :::::::::::::::::::::::::
 
-Beside the on the fly reprojection service of QGIS, the SurveyingCalculation provides coordinate transformation based on common points having coordinates in both coordinate systems. Two separate coordinate lists must be created before starting the coordinate transformation with the coordinates in the two coordinate systems.
+Beside the on the fly reprojection service of QGIS, the SurveyingCalculation plug-in provides coordinate transformation based on common points having coordinates in both coordinate systems. Two separate coordinate lists must be created before starting the coordinate transformation with the coordinates in the two coordinate systems.
 
-The pulg-in provides different type of transformations. The calculation of the transformation parameters uses the least squares estimation if you select more common points then the minimal.
+The pulg-in provides different type of transformations. The calculation of the transformation parameters uses the least squares estimation if you select more common points then the minimal neccessary.
 
     :Orthogonal transformation: at least two common points
     :Affine transformation: at least three common point
@@ -590,13 +602,13 @@ The pulg-in provides different type of transformations. The calculation of the t
     :4th order transformation: at least fifteen common points
     :5th order transformation: at least twentyone common points
 
-#. The coordninate list you would like to transform from must be opened in the actual QGIS project. **Do not open the coordinate list of the target system.**
+#. The coordinate list you would like to transform from must be opened in the actual QGIS project. **Do not open the coordinate list of the target system.**
 #. Click on the Coordinate transformation icon in the toolbar to open the *Coordinate Transformation* dialog.
 #. The *From Layer* field is filled automatically with the opened coordinate list.
 #. Select the *To Shape file* where to transform to, push the button with ellipses (...) to open the file selection dialog. The transformed points will be added to this shape file.
 #. The list of *Common Points* is filled automatically.
 #. Add points from the *Common Points* list to the *Used Points* list.
-#. Select the type of transformation, only those types are enabled for which anough common points were selected.
+#. Select the type of transformation, only those types are enabled for which enough common points were selected.
 #. If you would like to correct, use the *Remove* button.
 #. Click the on the *Calculate* button.
 #. Result of calculation is displayed automatically in result widget and sent to the log file.
@@ -618,14 +630,14 @@ Polygon division
 With the *Polygon Division* tool you can divide parcel into two at a given area.There are two possible division types
 
     :Paralel to a given line: the line will be shifted until the right side polygon of the division line will have the given area.
-    :Through the first given point: the line will be rotated around the firt point until the right side polygon of the division line will have the given area.
+    :Through the first given point: the line will be rotated around the first point until the right side polygon of the division line will have the given area.
 
 #. Select the polygon layer in the layer list on which you would like divide a polygon
 #. Select the parcel with the *Select Single Feaure* tool, which you want to divide.
 #. Click on the *Polygon Division* tool in the *SurveyingCalculation* toolbar.
 #. Click at the start point of the division line and drag the rubberband line and release mouse button at the end point. 
 #. The *Area Division* dialog appears automatically.
-#. Set the *Area* field and select method. The full area is not editable, it shows the total area of selected polygon.
+#. Set the *Area* field and select method. The full area is not editable, it shows the total area of the selected polygon.
 #. Set the type of division and click on the *Divide* button.
 
 .. figure:: images/u23.png
