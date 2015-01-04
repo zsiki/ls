@@ -169,11 +169,11 @@ you can use them in the plug-in. Different fieldbook types are supported:
 Any number of electric fieldbooks can be opened/loaded into a QGIS project.
 You can even create a new empty fieldbook and fill it manually.
 
-#. There must be az open coordinate list in your actual project (a point layer which name starts with *coord\_*). Otherwise coordinates read from the filedbook will be lost
+#. There must be an open coordinate list in your actual project (a point layer which name starts with *coord\_*). Otherwise coordinates read from the filedbook will be lost
 #. Click on the Load fieldbook icon or select it from the *SurveyingCalculation* menu
 #. Choose the type of the fieldbook (`Geodimeter JOB/ARE`_; `Leica GSI`_; `Sokkia CRD`_, `SurvCE RW5`_, `STONEX DAT`_)
 #. Select the output DBF file where your observations will be stored, the name will start with *fb_*, the program will add it to the name automatically if you forget
-#. After giving the path to the DBF file a new fieldbook is added to your QGIS project. The name of the fieldbook always starts with "fb\_". This database table stores measurements only, it has no graphical (map) data. Fields in the table:
+#. After giving the path to the DBF file the new fieldbook will be added to your QGIS project. The name of the fieldbook always starts with "fb\_". This database table stores measurements only, it has no graphical (map) data. Fields in the table:
 
         :id:          ordinal number of observation in fieldbook, sort by this field normally
         :point_id:    point number (max 20 characters)
@@ -190,7 +190,7 @@ to the table.
 The loader adds an extra column to the observation data, the id column, sorting 
 the table by this column gives the right order of the observations.
 
-You can create an empty fieldbook for manual input using the *Create fieldbook*
+You can create an empty fieldbook for manual input using the *New fieldbook*
 from the SurveyingCalculation menu.
 
 .. figure:: images/u08.png
@@ -260,7 +260,7 @@ Geodimeter JOB/ARE
 ++++++++++++++++++
 
 JOB and ARE are separate data files. Observations and optionally coordinates are stored in JOB file. Only coordinates are stored in ARE file.
-After loading a .JOB, you can optionally load an .ARE file in the same way.
+After loading a .JOB you can optionally load an .ARE file in the same way.
 
 Data codes handled, loaded from JOB/ARE:
 
@@ -344,7 +344,7 @@ fieldbook Attribute Table, turn on *Toggle Editing Mode*.
 **Insert record**: Click the *Add feature* button and fill in the record. Use the
 right id (first column) for the row to get the right position in the fieldbook.
 
-**Delete record**: Select the record to be deleted and click on the *Delete selected features* button.
+**Delete record**: Select the records to be deleted and click on the *Delete selected features* button.
 
 **Update record**: Double click on the field you want to change and edit the data
 
@@ -359,8 +359,8 @@ After editing the fieldbook data you have to save the changes, click the *Save E
 Add new point to the Coordinate list
 ::::::::::::::::::::::::::::::::::::
 
-In the *Add new point* dialog you can manually add new point to the coordinate list. The *Add new point* dialog can be opened for the *SurveyingCalculation* menu.
-The *Point ID*, *East*, *North* fields must be filled, iothers are optional.
+In the *Add new point* dialog you can manually add new point to the coordinate list. The *Add new point* dialog can be opened from the *SurveyingCalculation* menu.
+The *Point ID*, *East*, *North* fields must be filled, the others are optional.
 Use the *Add* button to add the point to the coordinate list. The *Add* button saves the new point and resets the form.
 The *Close* button closes the dialog window.
 
