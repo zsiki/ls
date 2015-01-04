@@ -47,10 +47,6 @@
 <h1>User&#8217;s Guide for SurveyingCalculation plugin for QGIS 2.x<a class="headerlink" href="#user-s-guide-for-surveyingcalculation-plugin-for-qgis-2-x" title="Permalink to this headline">¶</a></h1>
 <p>The SurveyingCalculation plugin was created by the <a class="reference external" href="www.digikom.hu">DigiKom Ltd (Hungary)</a>. It was supported by the SMOLE II for Niras Finland Oy.
 It was developped for the Land Parcel Cadastre of Zanzibar.</p>
-<div class="section" id="typographical-conventions">
-<h2>Typographical conventions<a class="headerlink" href="#typographical-conventions" title="Permalink to this headline">¶</a></h2>
-<p><strong>TODO</strong></p>
-</div>
 <div class="section" id="hardware-and-software-requirements">
 <h2>Hardware and software requirements<a class="headerlink" href="#hardware-and-software-requirements" title="Permalink to this headline">¶</a></h2>
 <p>The SurveyingCalculation plug-in can be used on any computer on which QGIS 2.x
@@ -71,12 +67,12 @@ on the GNU Gama open source project. <a class="reference external" href="https:/
 <p><strong>Installing from GitHub</strong></p>
 <p>If you have a Git client on your machine (Git Bash or other clients)</p>
 <ol class="arabic simple">
-<li>git clone from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to <em>~/.qgis2/python/plugins/SurveyingCalculation</em> (~ is your home directory on Linux, replace it on Windows)</li>
+<li>git clone the plug-in from from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to <em>~/.qgis2/python/plugins/SurveyingCalculation</em> on your local machine (~ is your home directory on Linux, replace it on Windows)</li>
 <li>Open the QGIS Desktop</li>
 </ol>
 <p>If you don&#8217;t have a Git client</p>
 <ol class="arabic simple">
-<li>Download the ZIP file from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to your computer</li>
+<li>Download the ZIP file from <a class="reference external" href="https://github.com/zsiki/ls/archive/master.zip">https://github.com/zsiki/ls/archive/master.zip</a> to your computer</li>
 <li>Unzip it to <em>~/.qgis2/python/plugins/SurveyingCalculation</em></li>
 <li>Open the QGIS Desktop</li>
 </ol>
@@ -103,6 +99,31 @@ Gama project) for adjustment calculations. See: <a class="reference external" hr
 <div class="section" id="settings-before-use">
 <h2>Settings before use<a class="headerlink" href="#settings-before-use" title="Permalink to this headline">¶</a></h2>
 <p>Settings described in this section are optional.</p>
+<p>Check and change the settings in the <em>config.py</em> file. The following variables
+can be set in the config:</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">fontname:</th><td class="field-body">monospace font used in the calculation results widgets on Linux, the default courier font doesn&#8217;t not exists on most Linux boxes</td>
+</tr>
+<tr class="field"><th class="field-name">fontsize:</th><td class="field-body">font size used in the calculation results widgets on Linux</td>
+</tr>
+<tr class="field"><th class="field-name">homedir:</th><td class="field-body">start directory used for loading fieldbooks from</td>
+</tr>
+<tr class="field"><th class="field-name">log_path:</th><td class="field-body">full path to log file, the program must have write access right to the directory and the file</td>
+</tr>
+<tr class="field"><th class="field-name">line_tolerance:</th><td class="field-body">snapping to vertex tolerance used by line tool</td>
+</tr>
+<tr class="field"><th class="field-name">area_tolerance:</th><td class="field-body">area tolerance for area division, if the difference between the actual area and the requested area is smaller then this value, the iteration is stopped</td>
+</tr>
+<tr class="field"><th class="field-name">max_iteration:</th><td class="field-body">maximal number of iterations for area division</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>If you change any value in the <em>config.py</em> file, the QGIS plug-in must be reloaded or QGIS must be restarted.</p>
 <p>Set the default coordinate reference system (CRS) for new projects and
 new layers on the <em>CRS</em> tab in the Setting/Options menu to the local CRS.</p>
 <p>Set to empty string the <em>Representation for NULL values</em> on the Data sources
@@ -147,6 +168,11 @@ a point layer in your project with the following columns in the attribute table
 </div></blockquote>
 <p>The first three columns (<em>point_id</em>, <em>e</em> and <em>n</em>) are obligatory, you must fill them.
 You mustn&#8217;t rename or erase these columns but you can add new columns to the attribute table.</p>
+<p>You can edit the coordinate list if you push <em>Toggle Editing Mode</em> for this layer. Be careful:</p>
+<div class="highlight-python"><pre>do not edit the coordinates manually, because the point position won't change automatically
+do not add new point by mouse click, because the coordinate columns in the table won't change automatically</pre>
+</div>
+<p>Use the <em>Add new point</em> dialog to update coordinates and location together.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/u06.png"><img alt="_images/u06.png" src="_images/u06.png" style="width: 600.0px; height: 280.8px;" /></a>
 <p class="caption"><em>(6.) New coordinate list</em></p>
@@ -160,8 +186,8 @@ You mustn&#8217;t rename or erase these columns but you can add new columns to t
 <div class="section" id="importing-fieldbooks">
 <h2>Importing fieldbooks<a class="headerlink" href="#importing-fieldbooks" title="Permalink to this headline">¶</a></h2>
 <p>Observations made by total stations and GPS are stored in electric fieldbooks.
-The files storing the filedbook data must be downloaded to the computer before
-you can use them in the plug-in. Different filedbook types are supported:</p>
+The files storing the fieldbook data must be downloaded to the computer before
+you can use them in the plug-in. Different fieldbook types are supported:</p>
 <ul class="simple">
 <li>Leica GSI 8/16</li>
 <li>Geodimeter JOB/ARE</li>
@@ -415,7 +441,7 @@ Distances, instrument and target heights are in meters.</p>
 <p>It is possible to change the fieldbook, insert and delete feature. You can use
 the standard QGIS tools to change or extend fieldbook data. Open the
 fieldbook Attribute Table, turn on <em>Toggle Editing Mode</em>.</p>
-<p><strong>Insert record</strong>: Click the Add feature button and fill in the record. Use the
+<p><strong>Insert record</strong>: Click the <em>Add feature</em> button and fill in the record. Use the
 right id (first column) for the row to get the right position in the fieldbook.</p>
 <p><strong>Delete record</strong>: Select the record to be deleted and click on the <em>Delete selected features</em> button.</p>
 <p><strong>Update record</strong>: Double click on the field you want to change and edit the field</p>
@@ -425,30 +451,45 @@ right id (first column) for the row to get the right position in the fieldbook.<
 <p class="caption"><em>(11.) Add feature to Fieldbook</em></p>
 </div>
 </div>
-<div class="section" id="add-new-point-to-coordinate-list">
-<h2>Add new point to Coordinate list<a class="headerlink" href="#add-new-point-to-coordinate-list" title="Permalink to this headline">¶</a></h2>
-<p>In the <em>Add new point</em> dialog you can manually add point with coordinates. Before start using, you have to
-select Toggle Editing Mode at Layer.
-Use the Add button if you would like to add more points. The Add button save the new point and clear the board.
-The Close button save the new point and close the dialog window.</p>
+<div class="section" id="add-new-point-to-the-coordinate-list">
+<h2>Add new point to the Coordinate list<a class="headerlink" href="#add-new-point-to-the-coordinate-list" title="Permalink to this headline">¶</a></h2>
+<p>In the <em>Add new point</em> dialog you can manually add new point to the coordinate list. The <em>Add new point</em> dialog can be opened for the <em>SurveyingCalculation</em> menu.
+The <em>Point ID</em>, <em>East</em>, <em>North</em> fields must be filled, iothers are optional.
+Use the <em>Add</em> button to add the point to the coordinate list. The <em>Add</em> button saves the new point and resets the form.
+The <em>Close</em> button closes the dialog window.</p>
+<p>This dialog can be used to overwrite existing coordinates in the coordinate
+list. If you input an existing point, a warning will be displayed and you can
+deside whether to continue to store point.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/u12.png"><img alt="_images/u12.png" src="_images/u12.png" style="width: 915.2px; height: 511.2px;" /></a>
-<p class="caption"><em>(12.) Add new point with coordinates to Coordinate list</em></p>
+<p class="caption"><em>(12.) Add new point to the Coordinate list</em></p>
 </div>
 </div>
 <div class="section" id="single-point-calculations">
 <h2>Single Point Calculations<a class="headerlink" href="#single-point-calculations" title="Permalink to this headline">¶</a></h2>
+<p>During the calculations the plug-in will use the data from the opened fieldbooks (<em>fb_</em> tables) and from the opened coordinate list (<em>coord_</em> layer).</p>
 <p>In the single calculation dialog you can calculate coordinates of single points
 using trigonometric formulas.</p>
+<p>All calculations can be repeated, the last calculated values will be stored,
+the previous values are lost.</p>
+<p>A SurveyingCalculation plug-in maintains a log file, a simple text fájl. The
+details of calculations are written to the log. The location of the log file
+can be set in the <em>config.py</em>.</p>
+<p>In the different lists of the dialog you can see the fieldbook name and the id
+beside the point name. These are neccessary to distinguis stations if the same
+station was occupied more then once, or dirctions if the same direction was measured from the same station more then once.</p>
 <div class="section" id="orientation">
 <h3>Orientation<a class="headerlink" href="#orientation" title="Permalink to this headline">¶</a></h3>
+<p>Orientation of stations is neccessary to solve intersection, radial survey and
+some type of traversing line. During the orientation no coordinates are calculated.</p>
+<p>To calculate orientation angle on a station do the followings</p>
 <ol class="arabic simple">
-<li>Click the Single Point Calculations icon.</li>
-<li>Select the Orientation from the type of Calculations.</li>
-<li>Select the Station from the list. You can calculate only the orientation of one station at a time.</li>
-<li>The Target Points list loads automatically.</li>
+<li>Click on the Single Point Calculations icon to open the <em>Single Point Calculation</em> dialog.</li>
+<li>Select the Orientation from the <em>Calculation</em> group.</li>
+<li>Select the station id from the <em>Station (1)</em> list. You can calculate the orientation of one station at a time.</li>
+<li>The <em>Target Points</em> list is filled automatically, directions to known points.</li>
 <li>Add to Used Points list one or more points which ypu would like to use for the orientation. If you would like to change the <em>Used Points</em> list, use the Remove button.</li>
-<li>Click the Calculate button.</li>
+<li>Click on the Calculate button.</li>
 <li>Result of Calculation displayed automatically in result window.</li>
 <li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
 </ol>
@@ -463,17 +504,17 @@ using trigonometric formulas.</p>
 </div>
 <div class="section" id="radial-survey-polar-point">
 <h3>Radial Survey (Polar Point)<a class="headerlink" href="#radial-survey-polar-point" title="Permalink to this headline">¶</a></h3>
-<p>Elevation is calculated for polar points if the instrument height and the
-station elevation are given.</p>
+<p>Beside the horizontal coordinates the elevation is also calculated for polar
+points if the instrument height, the target height and the station elevation are given.</p>
 <ol class="arabic simple">
-<li>Click the Single Point Calculations icon.</li>
-<li>Select the Radial Survey from the type of Calculations.</li>
-<li>Select the Station from the list. You can calculate several polar point from the same station at a time.</li>
-<li>The Target Points list loads automatically.</li>
-<li>Add to Used Points list one or more points which you would like to calculate coordinates for. If you would like to correct, use the Remove button.</li>
-<li>Click the Calculate button.</li>
-<li>Result of Calculation displayed automatically in result window.</li>
-<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+<li>Click on the Single Point Calculations icon to open the <em>Single Point Calculation</em> dialog</li>
+<li>Select the <em>Radial Survey</em> from the <em>Calculation</em> group.</li>
+<li>Select the Station id from the <em>Station (1)</em> list. You can calculate several polar points from the same station at a time.</li>
+<li>The <em>Target Points</em> list is filled automatically.</li>
+<li>Add one or more points to the <em>Used Points</em> list, which you would like to calculate coordinates for.  If you would like to change the <em>Used Points</em> list, use the <em>Remove</em> button.</li>
+<li>Click on the <em>Calculate</em> button.</li>
+<li>Result of calculation is displayed automatically in result widget and sent to the log file.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/u16.png"><img alt="_images/u16.png" src="_images/u16.png" style="width: 580.8px; height: 396.0px;" /></a>
@@ -482,15 +523,17 @@ station elevation are given.</p>
 </div>
 <div class="section" id="intersection">
 <h3>Intersection<a class="headerlink" href="#intersection" title="Permalink to this headline">¶</a></h3>
+<p>You can calculate horizontal coordinates for one or more points, which directions were observed from two known stations.</p>
+<p>To calculate intersection do the followings</p>
 <ol class="arabic simple">
-<li>Click the Single Point Calculations icon.</li>
-<li>Select the Intersection from the type of Calculations.</li>
-<li>Select two stations from the Station(1) and Station(2) lists</li>
-<li>The Target Points list loads automatically. It contains the points, which were measured from both stations.</li>
-<li>Add to Used Points list one or more points which would like to calculate coordinates. If you would like to correct, use the Remove button.</li>
-<li>Click the Calculate button.</li>
-<li>Result of Calculation prints automatically in result window.</li>
-<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+<li>Click on the Single Point Calculations icon in the toolbar to open the <em>Single Point Calculation</em> dialog.</li>
+<li>Select the Intersection from the <em>Calculation</em> group.</li>
+<li>Select two known stations from the <em>Station(1)</em> and <em>Station(2)</em> lists</li>
+<li>The Target Points list is filled automatically. It contains the points, which were measured from both stations.</li>
+<li>Add one or more points to the <em>Used Points</em> list which you would like to calculate coordinates for. If you would like to change the <em>Used Points</em> list, use the <em>Remove</em> button.</li>
+<li>Click on the <em>Calculate</em> button.</li>
+<li>Results of Calculation are displayed automatically in result widget and sent to the log file.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/u17.png"><img alt="_images/u17.png" src="_images/u17.png" style="width: 581.6px; height: 396.0px;" /></a>
@@ -499,15 +542,17 @@ station elevation are given.</p>
 </div>
 <div class="section" id="resection">
 <h3>Resection<a class="headerlink" href="#resection" title="Permalink to this headline">¶</a></h3>
+<p>You can calculate horizontal coordinates of a station if three known points were observed from there.</p>
+<p>To calculate resection do the followings</p>
 <ol class="arabic simple">
-<li>Click the Single Point Calculations icon.</li>
-<li>Select the Resection from the type of Calculations.</li>
-<li>Select the station from Station (1) list.</li>
-<li>The Target Points list loads automatically. The list contains the points, which were measured from the station. You can calculate only one station coordinates at a time.</li>
-<li>Add three points to the Used Points list which will be used for resection. If you would like to correct, use the Remove button.</li>
-<li>Click the Calculate button.</li>
-<li>Result of Calculation prints automatically in result window.</li>
-<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+<li>Click on the Single Point Calculations icon in the toolbar to open the <em>Single Point Calculation</em> dialog.</li>
+<li>Select the Resection from the <em>Calculation</em> group.</li>
+<li>Select the station id from the <em>Station (1)</em> list.</li>
+<li>The Target Points list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.</li>
+<li>Add three points to the <em>Used Points</em> list which will be used for resection. If you would like to correct, use the Remove button.</li>
+<li>Click on the <em>Calculate</em> button.</li>
+<li>Result of Calculation is displayed automatically in result wiget.</li>
+<li>You can change settings in the dialog and press <em>Calculate</em> button to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/u18.png"><img alt="_images/u18.png" src="_images/u18.png" style="width: 581.6px; height: 396.0px;" /></a>
@@ -516,95 +561,206 @@ station elevation are given.</p>
 </div>
 <div class="section" id="free-station">
 <h3>Free Station<a class="headerlink" href="#free-station" title="Permalink to this headline">¶</a></h3>
+<p>You can calculate the horizontal coordinates of a station from directions and distances using the least squares method.</p>
+<p>To calculate resection do the followings</p>
 <ol class="arabic simple">
-<li>Click the Single Point Calculations icon.</li>
-<li>Select the Free Station from the type of Calculations.</li>
-<li>Select the station from Station (1) list.</li>
-<li>The Target Points list loads automatically. The list contains the points, which were measured from the station. You can calculate only one station coordinates at a time.</li>
-<li>Add two or more points to the Used Points list which will be used for calculate. If you would like to correct, use the Remove button.</li>
-<li>Click the Calculate button.</li>
-<li>Result of Calculation prints automatically in result window.</li>
-<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+<li>Click on the Single Point Calculations icon in the toolbar to open the <em>Single Point Calculation</em> dialog..</li>
+<li>Select the Free Station from the <em>Calculation</em> group.</li>
+<li>Select the station id from the <em>Station (1)</em> list.</li>
+<li>The Target Points list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.</li>
+<li>Add two or more points to the Used Points list which will be used for calculation. If you would like to correct, use the <em>Remove</em> button.</li>
+<li>Click on the <em>Calculate</em> button.</li>
+<li>Results of calculation is displayed automatically in the result widget and sent to the log file.</li>
+<li>You can change settings in the dialog and press <em>Calculate</em> to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/u19.png"><img alt="_images/u19.png" src="_images/u19.png" style="width: 581.6px; height: 396.0px;" /></a>
 <p class="caption"><em>(19.) Free Station - Adjusted coordinates</em></p>
 </div>
+<p><strong>TODO</strong>
+<em>explanation of result list</em></p>
 </div>
 </div>
 <div class="section" id="traverse-calculations">
 <h2>Traverse Calculations<a class="headerlink" href="#traverse-calculations" title="Permalink to this headline">¶</a></h2>
-<p>It is possible to calculate three types of Traverse.</p>
+<p>During the traverse calculations the plug-in will use the data from the opened fieldbooks (<em>fb_</em> tables) and from the opened coordinate list (<em>coord_</em> layer).</p>
+<p>It is possible to calculate three different types of traverse.</p>
 <ol class="arabic simple">
-<li><strong>Closed traverse</strong>: Closed (polygonal or loop) traverse starts and finishes on the same known point.</li>
-<li><strong>Link traverse</strong>: A closed link traverse joins two known points.</li>
-<li><strong>Open traverse</strong>: An open (free) traverse starts on a known point and finishes on an unknown point.</li>
+<li><strong>Closed traverse</strong>: Closed (polygonal or loop) traverse starts and finishes at the same known point.</li>
+<li><strong>Link traverse</strong>: A closed link traverse joins two dofferent known points.</li>
+<li><strong>Open traverse</strong>: An open (free) traverse starts at a known point and finishes at an unknown point.</li>
 </ol>
-<p>How can I use?</p>
+<p>Before calculating traverse the start and end points must be oriented in case of link traverse, in other cases orientation is neccessary only on the start point.</p>
+<p>To calculate traverse do the followings</p>
 <ol class="arabic simple">
-<li>Click the Traverse Calculations icon.</li>
-<li>Select the type of Traverse Calculation from the list.</li>
-<li>Select the Endpoint from Start Point list.</li>
-<li>If necessary select the Endpoint from End Point list.</li>
-<li>The Target Points list loads automatically. The list contains the points, which were measured from the station.</li>
-<li>Add points of Traversing from Target Points list one by one to Order of Points list.</li>
-<li>The Order can be changed with Up and Down button. If you would like to correct, use the Remove button.</li>
-<li>Click the Calculate button.</li>
-<li>Result of Calculation prints automatically in result window.</li>
-<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+<li>Click on the Traverse Calculations icon in the toolbar to open the <em>Traverse Calculations</em> dialog.</li>
+<li>Select the type of traverse from <em>Type</em> group.</li>
+<li>Select the start point of traverse from the <em>Start Point</em> list.</li>
+<li>In case of link traverse select the end point from the <em>End Point</em> list.</li>
+<li>The Target Points list is filled automatically.</li>
+<li>Add the traverse points from <em>Target Points</em> list to the <em>Order of Points</em> list one by one.</li>
+<li>The order of traverse points can be changed with <em>Up</em> and <em>Down</em> button. If you would like to correct, use the <em>Remove</em> button.</li>
+<li>Click on the <em>Calculate</em> button.</li>
+<li>Result of calculation is displayed automatically in result widget and sent to the log file.</li>
+<li>You can change settings in the dialog and press <em>Calculate</em> button to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/u20.png"><img alt="_images/u20.png" src="_images/u20.png" style="width: 608.8px; height: 390.4px;" /></a>
 <p class="caption"><em>(20.) Traverse Calculation - Link traverse</em></p>
 </div>
+<p><strong>TODO</strong>
+<em>explanation of result list</em></p>
 </div>
 <div class="section" id="network-adjustment">
 <h2>Network adjustment<a class="headerlink" href="#network-adjustment" title="Permalink to this headline">¶</a></h2>
+<p>During the network adjusment the plug-in will use the data from the opened fieldbooks (<em>fb_</em> tables) and from the opened coordinate list (<em>coord_</em> layer).</p>
+<p>Network adjustment is the best method to calculate the most probably position ofobserved points, when more observation were made then neccessary. By the help of GNU Gama adjustment the blunder errors can be tetected, eliminated.</p>
+<p>To calculate network adjustment do the followings</p>
 <ol class="arabic simple">
-<li>Click the Network adjustment icon.</li>
-<li>Select the fix points from List of Points and add to the Fix points list.</li>
-<li>Select points to adjust from List of Points and add to the Adjusted points.</li>
-<li>Check the parameters of the adjustment.</li>
-<li>If you would like to correct, use the Remove button.</li>
-<li>Click the Calculate button.</li>
-<li>Result of Calculation prints automatically in result window. Parameters of the Adjustment can be checked in the result window.</li>
-<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+<li>Click on the Network adjustment icon to open the <em>Network Adjustment</em> dialog.</li>
+<li>Select the fix points from <em>List of Points</em> and add them to the <em>Fix points</em> list. During the adjustment the coordinates of fix points will not be changed. Points in bold face in the <em>List of Points</em> have coordinates in the actual coordinate list, so only those can be added to the <em>Fix Points</em> list. In the <em>List of points</em> you can find only those points which an observation was made to.</li>
+<li>Select points to adjust from the <em>List of Points</em> and add them to the <em>Adjusted points</em> list. You can add any point to the <em>Adjusted Points</em>.</li>
+<li>Set the parameters of the adjustment. To set the standard deviations are very impotant from the view of adjustment calculation. Set these corresponding the used total station.</li>
+<li>If you would like to correct, use the <em>Remove</em> button.</li>
+<li>Click on the <em>Calculate</em> button.</li>
+<li>Result of calculation is displayed automatically in result widget and sent to the log file.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/u21.png"><img alt="_images/u21.png" src="_images/u21.png" style="width: 516.0px; height: 460.0px;" /></a>
 <p class="caption"><em>(21.) Traverse Calculation - Link traverse</em></p>
 </div>
+<p>The result list of the adjustment is very long conslt the GNU Game documentation for further details.</p>
 </div>
 <div class="section" id="coordinate-transformation">
 <h2>Coordinate transformation<a class="headerlink" href="#coordinate-transformation" title="Permalink to this headline">¶</a></h2>
-<p>It is possible to calculate five types of Transformation. Each Transformations work, if you selected enough common points.</p>
+<p>Beside the on the fly reprojection service of QGIS, the SurveyingCalculation provides coordinate transformation based on common points having coordinates in both coordinate systems. Two separate coordinate lists must be created before starting the coordinate transformation with the coordinates in the two coordinate systems.</p>
+<p>The pulg-in provides different type of transformations. The calculation of the transformation parameters uses the least squares estimation if you select more common points then the minimal.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name" colspan="2">Orthogonal transformation:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">at least two common points</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Affine transformation:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">at least three common point</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">3rd order transformation:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">at least ten common points</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">4th order transformation:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">at least fifteen common points</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">5th order transformation:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">at least twentyone common points</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
 <ol class="arabic simple">
-<li>First add the coordinate file containing the points to transformate. Use the Add layer icon.</li>
-<li>Click the Coordinate transformation icon.</li>
-<li>The From Layer field automatically loaded.</li>
-<li>Select the shape file where to transformate. The result points will be written in this shape file.</li>
-<li>Add the used points from Common Points list to Used Points list.</li>
-<li>Select the type of transformation.</li>
-<li>If you would like to correct, use the Remove button.</li>
-<li>Click the Calculate button.</li>
-<li>Result of Calculation prints automatically in result window. Parameters of the Transformation can be checked in the result window.</li>
-<li>You can change settings in the dialog and press calculate to make another calculation, use the Reset button to reset the dialog to its original state.</li>
+<li>The coordninate list you would like to transform from must be opened in the actual QGIS project. <strong>Do not open the coordinate list of the target system.</strong></li>
+<li>Click on the Coordinate transformation icon in the toolbar to open the <em>Coordinate Transformation</em> dialog.</li>
+<li>The <em>From Layer</em> field is filled automatically with the opened coordinate list.</li>
+<li>Select the <em>To Shape file</em> where to transform to, push the button with ellipses (...) to open the file selection dialog. The transformed points will be added to this shape file.</li>
+<li>The list of <em>Common Points</em> is filled automatically.</li>
+<li>Add points from the <em>Common Points</em> list to the <em>Used Points</em> list.</li>
+<li>Select the type of transformation, only those types are enabled for which anough common points were selected.</li>
+<li>If you would like to correct, use the <em>Remove</em> button.</li>
+<li>Click the on the <em>Calculate</em> button.</li>
+<li>Result of calculation is displayed automatically in result widget and sent to the log file.</li>
+<li>You can change settings in the dialog and press <em>Calculate</em> button to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/u22.png"><img alt="_images/u22.png" src="_images/u22.png" style="width: 574.4px; height: 402.4px;" /></a>
-<p class="caption"><em>(21.) Coordinate transformation - Affine transformation</em></p>
+<p class="caption"><em>(22.) Coordinate transformation - Affine transformation</em></p>
 </div>
+<p>At the beginning of the result list you can find the used common points with th coordinates in both systems and the discrepancies between the target and transformed coordinates. If you find big discrepancies in the list then there are mistakes in the coordinates. At the end of the list you can find transformed points where the discrepancies are empty. These points are added to the target coordinate list.</p>
+<p>The coordinates of those common points which were not selected for the transformation won&#8217;t be changed in the target coordinate list.</p>
 </div>
 <div class="section" id="polygon-division">
 <h2>Polygon division<a class="headerlink" href="#polygon-division" title="Permalink to this headline">¶</a></h2>
+<p>With the <em>Polygon Division</em> tool you can divide parcel into two at a given area.There are two possible division types</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name" colspan="2">Paralel to a given line:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">the line will be shifted until the right side polygon of the division line will have the given area.</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Through the first given point:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">the line will be rotated around the firt point until the right side polygon of the division line will have the given area.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple">
+<li>Select the polygon layer in the layer list on which you would like divide a polygon</li>
+<li>Select the parcel with the <em>Select Single Feaure</em> tool, which you want to divide.</li>
+<li>Click on the <em>Polygon Division</em> tool in the <em>SurveyingCalculation</em> toolbar.</li>
+<li>Click at the start point of the division line and drag the rubberband line and release mouse button at the end point.</li>
+<li>The <em>Area Division</em> dialog appears automatically.</li>
+<li>Set the <em>Area</em> field and select method. The full area is not editable, it shows the total area of selected polygon.</li>
+<li>Set the type of division and click on the <em>Divide</em> button.</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u23.png"><img alt="_images/u23.png" src="_images/u23.png" style="width: 938.4px; height: 529.6px;" /></a>
+<p class="caption"><em>(23.) Polygon division - Selected polygon to division</em></p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u24.png"><img alt="_images/u24.png" src="_images/u24.png" style="width: 938.4px; height: 529.6px;" /></a>
+<p class="caption"><em>(24.) Polygon division - Area Division</em></p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u25.png"><img alt="_images/u25.png" src="_images/u25.png" style="width: 938.4px; height: 529.6px;" /></a>
+<p class="caption"><em>(25.) Polygon division - Divided polygon</em></p>
+</div>
+<p>If the given divider line does not intersect the polygon border then the plug-in will extend the line.
+You can give a divider line outside the selected polygon, this case only paralel division is available in the <em>Area Division</em> dialog.</p>
 </div>
 <div class="section" id="plot">
 <h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h2>
+<p>The plugin offers the possibility to plot the actual map view or selected polygons using a previously created composer template file <em>(.qpt)</em>.</p>
 <div class="section" id="plot-by-template">
 <h3>Plot by Template<a class="headerlink" href="#plot-by-template" title="Permalink to this headline">¶</a></h3>
+<p>With <em>Plot by template</em> command you can plot the actual map view with the given scale.</p>
+<ol class="arabic simple">
+<li>So first set the map view to the required area and perhaps the required scale.</li>
+<li>Then open the <em>Plot by template</em> dialog.</li>
+<li>In the dialog you can select a composer template and the scale.</li>
+<li>With the <em>Change dir...</em> button you can change the directory of the template files.</li>
+<li>In the scale list the previously set scale also appears beside some predefined scales. The default sclae is <em>&lt;extent&gt;</em> which means that the scale will be adjusted to the map view extent.</li>
+<li>You can give a name to the composition but it&#8217;s not necessary. If you leave blank QGIS gives a name automatically.</li>
+</ol>
+<p>At the end a composer window will appear with the map composition and it can be printed to a system printer or exported to PDF file.</p>
 </div>
 <div class="section" id="batch-plotting">
 <h3>Batch plotting<a class="headerlink" href="#batch-plotting" title="Permalink to this headline">¶</a></h3>
+<p>With the &#8220;Batch plotting&#8221; command you can plot selected polygons  using a composer template file. In the dialog you can choose the output of the plot.</p>
+<ol class="arabic simple">
+<li>This utility needs at least one polygon type layer open!</li>
+<li>Select the polygons you want to plot.</li>
+<li>Then open the <em>Batch Plotting</em> dialog.</li>
+<li>In the dialog choose the layer which contains the selected polygons.</li>
+<li>Select the composer template from the list. With the <em>Change dir...</em> button you can change the directory of the template files.</li>
+<li>From the scale list you can choose from predefined scales or give a number manually. It must be a positive integer value.</li>
+</ol>
+<p>There are three possible output:</p>
+<ul class="simple">
+<li>export to PDF</li>
+<li>plot to a system printer</li>
+<li>open in composer view</li>
+</ul>
+<dl class="docutils">
+<dt>Export to pdf</dt>
+<dd>You can export the composition to a single multi-page PDF file or to separate files (one polygon to one PDF). In the first case give the PDF file after Plot button pressed. In the second case you must fill the <em>Output filename pattern</em> editbox according to the <em>Output filename expression</em> of QGIS. After Plot button pressed select the directory where you want to save the PDF files.</dd>
+<dt>Plot to system printer</dt>
+<dd>TODO</dd>
+<dt>Open in composer view</dt>
+<dd>TODO</dd>
+</dl>
 </div>
 </div>
 </div>
@@ -618,7 +774,6 @@ station elevation are given.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">User&#8217;s Guide for SurveyingCalculation plugin for QGIS 2.x</a><ul>
-<li><a class="reference internal" href="#typographical-conventions">Typographical conventions</a></li>
 <li><a class="reference internal" href="#hardware-and-software-requirements">Hardware and software requirements</a></li>
 <li><a class="reference internal" href="#installation-of-the-surveyingcalculation-plugin">Installation of the SurveyingCalculation plugin</a></li>
 <li><a class="reference internal" href="#settings-before-use">Settings before use</a></li>
@@ -631,7 +786,7 @@ station elevation are given.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#using-fieldbook-data">Using fieldbook data</a></li>
-<li><a class="reference internal" href="#add-new-point-to-coordinate-list">Add new point to Coordinate list</a></li>
+<li><a class="reference internal" href="#add-new-point-to-the-coordinate-list">Add new point to the Coordinate list</a></li>
 <li><a class="reference internal" href="#single-point-calculations">Single Point Calculations</a><ul>
 <li><a class="reference internal" href="#orientation">Orientation</a></li>
 <li><a class="reference internal" href="#radial-survey-polar-point">Radial Survey (Polar Point)</a></li>
@@ -689,7 +844,7 @@ station elevation are given.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Jan 03, 2015.
+      Last updated on Jan 04, 2015.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>
