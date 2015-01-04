@@ -79,7 +79,7 @@ Settings described in this section are optional.
 Check and change the settings in the *config.py* file. The following variables 
 can be set in the config:
 
-    :fontname: monospace font used in the calculation results widgets on Linux, the default courier font doesn't not exists on most Linux boxes
+    :fontname: monospace font used in the calculation results widgets on Linux, the default courier font doesn't exists on most Linux boxes
     :fontsize: font size used in the calculation results widgets on Linux
     :homedir: start directory used for loading fieldbooks from
     :log_path: full path to log file, the program must have write access right to the directory and the file
@@ -92,7 +92,7 @@ If you change any value in the *config.py* file, the QGIS plug-in must be reload
 Set the default coordinate reference system (CRS) for new projects and
 new layers on the *CRS* tab in the Setting/Options menu to the local CRS. 
 
-Set to empty string the *Representation for NULL values* on the Data sources
+Set the *Representation for NULL values* to empty string on the Data sources
 tab in the Setting/Options menu. It makes the Attribute Table (Fieldbook) more
 readable.
 
@@ -111,11 +111,11 @@ readable.
 
 Most of the cases you need an open coordinate list to store calculation results.
 Open an existing QGIS project which contains a coordinate list (a point shape
-file which name must stat with *coord\_*) or create a new project and add an
+file which name must start with *coord\_*) or create a new project and add an
 existing coordinate list to the project by the add vector layer icon or create 
 a new project and create a new coordinate list from the *SurveyingCalculation/New coordinate list ...* menu.
 
-Check the coordinate reference system (CRS) of your coordinate list (*properties* from the popup menu of the layer) and the map.
+Check the coordinate reference system (CRS) of your coordinate list (*Properties* from the popup menu of the layer) and the map.
 
 After loading an existing one or creating a new Coordinate list shape file, you get
 a point layer in your project with the following columns in the attribute table
