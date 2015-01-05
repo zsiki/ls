@@ -179,8 +179,8 @@ You can even create a new empty fieldbook and fill it manually.
         :point_id:    point number (max 20 characters)
         :station:     if record data belongs to a station it must be *station* otherwise empty
         :hz:          horizontal angle or orientation angle in station record
-        :v:           vertical angle
-        :sd:          slope distance
+        :v:           zenith angle
+        :sd:          slope distance (horizontal distance if zenith angle is empty)
         :th:          target height or instrument height in station record
         :pc:          point code
 
