@@ -426,7 +426,6 @@ class Sdr(TotalStation):
                 self.th =  float(self.dist(buf[4:].strip()))
             elif line_code == '07':
                 # orientation
-                # TODO
                 pass
             elif line_code == '08':
                 # coordinate
@@ -549,7 +548,7 @@ class SurvCE(TotalStation):
                 for field in buf[1:]:
                     fcode = field[0:2]
                     if fcode == 'OP':
-                        pass    # TODO check last station
+                        pass
                     elif fcode == 'FP':
                         self.res['point_id'] = field[2:].strip()
                     elif fcode == 'AL':
@@ -594,7 +593,7 @@ class SurvCE(TotalStation):
                 for field in buf[1:]:
                     fcode = field[0:2]
                     if fcode == 'OP':
-                        pass    # TODO check last station
+                        pass
                     elif fcode == 'BP':
                         self.res['point_id'] = field[2:].strip()
                     elif fcode == 'BS':
@@ -638,7 +637,6 @@ class Stonex(TotalStation):
 
             :returns: observation data
         """
-        # TODO units?
         last_res = {}
         if self.fp is None:
             return None
@@ -662,7 +660,6 @@ class Stonex(TotalStation):
                 self.res['n'] = float(buf[2].strip())
                 self.res['e'] = float(buf[3].strip())
                 self.res['z'] = float(buf[4].strip())
-                # TODO orientation angle???
                 self.res['hz'] = Angle(float(buf[5].strip()) / 10000.0, self.angle_unit).get_angle('GON')
                 self.res['th'] = float(buf[6].strip()) 
                 self.res['station'] = 'station'
@@ -678,12 +675,12 @@ class Stonex(TotalStation):
                 self.res['n'] = float(buf[2].strip())
                 self.res['e'] = float(buf[3].strip())
                 self.res['z'] = float(buf[4].strip())
-            elif buf[0] == 'C':        # coordinate + ???? TODO
+            elif buf[0] == 'C':        # coordinate + ????
                 self.res['point_id'] = point_id
                 self.res['n'] = float(buf[2].strip())
                 self.res['e'] = float(buf[3].strip())
                 self.res['z'] = float(buf[4].strip())
-            elif buf[0] == 'L':        # coordinate + hz ??? TODO
+            elif buf[0] == 'L':        # coordinate + hz ???
                 self.res['point_id'] = point_id
                 self.res['n'] = float(buf[2].strip())
                 self.res['e'] = float(buf[3].strip())
