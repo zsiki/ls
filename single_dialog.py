@@ -10,9 +10,6 @@ import platform
 from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox, \
     QStandardItem
 from PyQt4.QtCore import Qt
-# debugging
-from PyQt4.QtCore import pyqtRemoveInputHook
-import pdb
 
 import config
 from single_calc import Ui_SingleCalcDialog
@@ -385,7 +382,7 @@ class SingleDialog(QDialog):
             self.log.write(ResultLog.resultlog_message)
         elif self.ui.FreeRadio.isChecked():
             # free station
-            g = GamaInterface()    # TODO standard devs!
+            g = GamaInterface()  # default standard deviations are used!
             s = get_station(stn1[0], stn1[1], stn1[2])
             g.add_point(s.p, 'ADJ')
             g.add_observation(s.o)
