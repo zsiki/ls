@@ -10,9 +10,6 @@
 from qgis.core import *
 import re
 from base_classes import *
-# debugging
-from PyQt4.QtCore import pyqtRemoveInputHook
-import pdb
 
 def get_namelist(pattern):
     """ Find layers matching name with the pattern.
@@ -294,10 +291,6 @@ def get_targets(point_id, fieldbook, fid, known=False, polar=False):
         return None
     if known:
         known_list = get_known()
-    #pyqtRemoveInputHook()
-    #pdb.set_trace()
-    #for feat in lay.getFeatures():
-    # TODO binary search?
     sorted_features = sorted(lay.getFeatures(), key=lambda x: x["id"])
     for feat in sorted_features:
         if feat['id'] == fid and feat['station'] == 'station' and feat['point_id'] == point_id:
@@ -354,8 +347,6 @@ def get_fieldbookrow(point_id, fieldbook, fid):
     lay = get_layer_by_name(fieldbook)
     if lay is None:
         return None
-    #for feat in lay.getFeatures():
-    # TODO binary search
     sorted_features = sorted(lay.getFeatures(), key=lambda x: x["id"])
     for feat in sorted_features:
         if feat['id'] == fid and feat['point_id'] == point_id:
@@ -389,8 +380,6 @@ def set_orientationangle(point_id, fieldbook, fid, angle):
     lay = get_layer_by_name(fieldbook)
     if lay is None:
         return False
-    #for feat in lay.getFeatures():
-    # TODO binary search
     sorted_features = sorted(lay.getFeatures(), key=lambda x: x["id"])
     for feat in sorted_features:
         if feat['id'] == fid and feat['point_id'] == point_id:
@@ -437,8 +426,6 @@ class ScPoint(Point):
             self.z = p.z
             self.pc = p.pc
             self.pt = p.pt
-            # TODO get_coord should return a tuple (p coo)
-            #self.coo = coord_list
         return
 
     def store_coord(self, dimension=3, clist=None):
@@ -458,7 +445,6 @@ class ScPoint(Point):
             self.coo = clist
         # e, n coordinates must be given (geometry)
         if self.e is None or self.n is None:
-            # TODO error report
             return False
         lay = get_layer_by_name(self.coo)
         if lay is None:
@@ -466,8 +452,6 @@ class ScPoint(Point):
         for feat in lay.getFeatures():
             if feat['point_id'] ==  self.id:
                 # set feature geometry and attributes
-                #pyqtRemoveInputHook()
-                #pdb.set_trace()
                 fid = feat.id()
                 attrs = {feat.fieldNameIndex('point_id') : self.id}
                 if dimension in [2, 3]:
@@ -480,7 +464,6 @@ class ScPoint(Point):
                 lay.dataProvider().changeAttributeValues({ fid : attrs })
                 # feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(self.e, self.n)))
                 lay.dataProvider().changeGeometryValues({ fid : QgsGeometry.fromPoint(QgsPoint(self.e, self.n)) })
-                # TODO refresh canvas
                 return True
         # add new point
         feat = QgsFeature()
@@ -488,8 +471,6 @@ class ScPoint(Point):
         #feat.setFields(lay.dataProvider().fields(), True)
         fields = lay.dataProvider().fields()
         feat.setFields(fields, True)
-        #pyqtRemoveInputHook()
-        #pdb.set_trace()
         feat.setAttribute(feat.fieldNameIndex('point_id'), self.id)
         if dimension in [2, 3]:
             feat.setAttribute(feat.fieldNameIndex('e'), self.e)
@@ -500,7 +481,6 @@ class ScPoint(Point):
         feat.setAttribute(feat.fieldNameIndex('pt'), self.pt)
         feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(self.e, self.n)))
         lay.dataProvider().addFeatures([feat])
-        # TODO refresh canvas
         return True
     
     def set_coord(self, p):
