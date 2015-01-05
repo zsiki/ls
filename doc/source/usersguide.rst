@@ -527,6 +527,8 @@ To calculate free station do the followings
 
 The result list of the adjustment is very long. Consult the GNU Gama documentation for further details.
 
+Free station calculation uses the default standard deviations (3cc, 3mm+3ppm) for the adjustment.
+
 Traverse Calculations
 :::::::::::::::::::::
 
