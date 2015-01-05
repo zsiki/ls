@@ -25,7 +25,7 @@ QGIS. The installation process of the plugin can be found in the User's Guide.
    :scale: 80 %
    :align: center
 
-   *(2.) Search for SurveyingCalculation plugin and enable it*
+   *(2.) Enabling SurveyingCalculation plugin*
 
 After enabling the plugin a new pulldown menu (SurveyingCalculation) and a
 toolbar are visible in the main window of QGIS.
@@ -33,9 +33,9 @@ toolbar are visible in the main window of QGIS.
 Preparing the work
 ::::::::::::::::::
 
-The SurveyingCalculation plugin is fully integrated into QGIS. We will use 
-QGIS project to save our working environment. Some special data sets must be
-added to the project to be able to use the different calculations (e.g.
+The SurveyingCalculation plugin is fully integrated into QGIS. We will use a
+QGIS project to save our working environment. Some plug-in specific data sets must be
+added to the project before using the different calculations (e.g.
 traversing, network adjustment).
 
 .. figure:: images/t003.png
@@ -44,8 +44,8 @@ traversing, network adjustment).
 
    *(3.) From the SurveyingCalculation menu select New coordinate list ...*
 
-A new empty 2D point shape file is created to store benchmarks (points with
-known coordinates). The plugin adds *coord_* to the beginning of the
+Let's create a new empty 2D point shape file to store benchmarks (points with
+known coordinates). Select the sample subdirectory of the plug-in, use the *test1* name for the file.  The plugin adds *coord_* to the beginning of the
 name to distinguish it from the other elements of the project.
 Besides the point identifier, the coordinates (easting, 
 northing, elevation), a point code and a point type can be stored in the 
@@ -57,7 +57,7 @@ attribute table of the shape file.
 
    *(4.) The attribute table of the coordinate file is empty*
 
-To demonstrate the calculations we need some benchmarks and observations.
+To demonstrate the calculations we have to load some benchmarks and observations.
 During the next step an electric fieldbook will be imported. Electric fieldbooks 
 from total stations can contain observations (direction, distance) and
 coordinates too.
