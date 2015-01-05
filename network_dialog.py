@@ -14,10 +14,6 @@ from network_calc import Ui_NetworkCalcDialog
 from base_classes import *
 from surveying_util import *
 from gama_interface import *
-# debugging
-from PyQt4.QtCore import pyqtRemoveInputHook
-import pdb
-
 
 class NetworkDialog(QDialog):
     """ Class for network calculation dialog
@@ -180,7 +176,6 @@ class NetworkDialog(QDialog):
                             o.th = feat['th'] if type(feat['th']) is float else None
                             o.pc = feat['pc'] if type(feat['pc']) is str else None
                             g.add_observation(o)
-                            # TODO empty station? without observation
                     else:
                         if st is not None and (pid in fix_names or pid in adj_names):
                             if dimension in [2, 3] and (type(feat['hz']) is float or \
