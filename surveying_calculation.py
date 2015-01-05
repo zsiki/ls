@@ -17,6 +17,7 @@ import os.path
 from os import unlink
 import re
 from shutil import copyfile
+import webbrowser
 
 # plugin specific python modules
 import config
@@ -440,5 +441,6 @@ class SurveyingCalculation:
             tr('Surveying Calculation Plugin\n\n (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu\nVersion 0.1a'))
 
     def help(self):
-        # TODO
-        pass
+        """ Open user's guide of the plugin in the default web browser.
+        """
+        webbrowser.open("http://www.digikom.hu/SurveyingCalculation/usersguide.html")
