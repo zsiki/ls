@@ -10,7 +10,7 @@
 name=SurveyingCalculation
 qgisMinimumVersion=2.0
 description=To solve surveying calculations
-version=0.1
+version=0.1b
 author=DigiKom Kft.
 email=mail@digikom.hu
 
