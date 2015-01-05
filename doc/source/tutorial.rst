@@ -563,11 +563,5 @@ In the plot window select a template file and set the scale of the plot.
 The compositions of the parcels with the given scale can be exported to *.pdf* files, 
 plotted to a printer or opened in composer window.
 
-.. figure:: images/t081.png
-   :scale: 80 %
-   :align: center
-
-   *(52.) Set plot parameters*
-
 By clicking *Plot* button a file selection dialog appear and compositions will be exported to 
 a multi-page *.pdf* file using the selected composer template.
