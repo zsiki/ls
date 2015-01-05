@@ -670,8 +670,11 @@ You can give a divider line outside the selected polygon, this case only paralel
 Plot
 ::::
 
-The plugin offers the possibility to plot the actual map view or selected polygons using a precreated composer template file *(.qpt)*.
-Templates can be created by the print composer of QGIS (Save as template from the menu).
+This utility was added to the plugin for the ability to print land parcels or other ploygon type features automatically.
+The plugin offers two ways to achieve this:
+#. Firstly you can plot the actual map view by *Plot by Template* command using a precreated composer template file *(.qpt)*.
+#. Secondly it is also possible to plot selected parcels (polygons) by *Batch plotting* command using a precreated composer template file *(.qpt)*.
+Templates can be created by the print composer of QGIS (Save as template from the menu). Look at the QGIS documentation for help.
 
 Plot by Template
 ++++++++++++++++
