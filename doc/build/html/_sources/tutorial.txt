@@ -282,7 +282,7 @@ in the *Station (1)* list.
 
    *(23.) Free station calculation for station 5001*
 
-Select three target points (the id in fieldbook is shown in brackets) and add them to the *Used Points* list, click on *Calculate* button and coordinates will be calculated. Details of the calculation can be seen in the result widget.
+Select target points (the id in fieldbook is shown in brackets) and add them to the *Used Points* list, click on *Calculate* button and coordinates will be calculated. Details of the calculation can be seen in the result widget.
 Free station calculation uses the least squares method. The calculation result
 list contains all details about calculation, provided by GNU-Gama project.
 Repeat the free station calculation using all possible observations.
