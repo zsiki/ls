@@ -13,7 +13,7 @@ Enable SurveyingCalculation plugin in QGIS
 ::::::::::::::::::::::::::::::::::::::::::
 
 Before using the installed SurveyingCalculation plugin, it has to be enabled in 
-QGIS. The installation process of the plugin can be found in the User's Guide.
+QGIS. The installation process of the plugin can be found in the User\'s Guide.
 
 .. figure:: images/t001.png
    :scale: 80 %
@@ -44,7 +44,7 @@ traversing, network adjustment).
 
    *(3.) From the SurveyingCalculation menu select New coordinate list ...*
 
-Let's create a new empty 2D point shape file to store benchmarks (points with
+Let\'s create a new empty 2D point shape file to store benchmarks (points with
 known coordinates). Select the sample subdirectory of the plug-in, use the *test1* name for the file.  The plugin adds *coord_* to the beginning of the
 name to distinguish it from the other elements of the project.
 Besides the point identifier, the coordinates (easting, 
@@ -62,7 +62,7 @@ During the next step an electric fieldbook will be imported. Electric fieldbooks
 from total stations can contain observations (direction, distance) and
 coordinates too.
 
-For the transparency of the fieldbooks the representation of NULL values should
+For the easier readability of the fieldbooks the representation of NULL values should
 be changed before importing.
 
 .. figure:: images/t008.png
@@ -123,7 +123,7 @@ standard QGIS labeling tools.
    :scale: 80 %
    :align: center
 
-   *(11.) Points labeled with point id in the map window*
+   *(11.) Points labeled by point id in the map window*
 
 QGIS project can be saved by clicking on the save (floppy disk) icon.
 
@@ -131,7 +131,6 @@ Single Point Calculations
 :::::::::::::::::::::::::
 
 Now we are able to start the coordinate calculations from the observations.
-
 
 .. figure:: images/t012.png
    :scale: 80 %
@@ -145,8 +144,7 @@ Now we are able to start the coordinate calculations from the observations.
 
    *(13.) First select the type of calculation*
 
-Before starting the coordinate calculation the orientation angles must be set 
-for known station.
+Before starting the coordinate calculation the orientation angles must be calculated for known stations.
 
 .. figure:: images/t014.png
    :scale: 80 %
@@ -164,7 +162,7 @@ in brackets.
 
    *(15.) Selecting target points for orientation*
    
-Select one or more target points and add them to used points (the id in fieldbook is shown in bracket).
+Select both target points and add them to used points (the id in fieldbook is shown in bracket).
 
 .. figure:: images/t016.png
    :scale: 80 %
@@ -172,7 +170,7 @@ Select one or more target points and add them to used points (the id in fieldboo
 
    *(16.) Starting the calculation*
 
-Click Calculate button and the orientation angle will be calculated.
+Click on the *Calculate* button and the orientation angle will be calculated.
 Results can be seen in the *Result of calculations* widget. 
 The results are also written to the log file. The name and location of the 
 log file can be set in *config.py*.
@@ -197,7 +195,7 @@ So coordinates can be calculated as an intersection for them.
    *(18.) Starting intersection*
 
 For the intersection two oriented stations must be selected in *Station (1)* and
-*Station (2)* list.
+*Station (2)* lists.
 The fieldbook name and the id in fieldbook is shown in brackets in the station 
 list.
 
@@ -207,7 +205,7 @@ list.
 
    *(19.) Intersection of points 5002 and 5004*
 
-Select one or more target points and add them to used points. In all lists
+Select both target points and add them to used points. In all lists
 points in bold face have coordinates. Click calculate 
 and coordinates will be calculated. Results of the calculation can be 
 seen in the result widget. Calculated coordinates are added to the coordinate 
@@ -222,8 +220,8 @@ resection.
 
    *(20.) Preparing resection*
 
-By the resection select the station 5001 (the fieldbook name and the id in 
-fieldbook is shown in brackets, known points are displayed in bold face).
+Using the resection select the station 5001 (the fieldbook name and the id in 
+fieldbook are shown in brackets, known points are displayed in bold face).
 
 .. figure:: images/t022.png
    :scale: 80 %
@@ -241,7 +239,7 @@ Please repeat the resection calculation for station 5003.
 
 There are distance measurements from station 5001 to other known points (10001 and 10003). 
 Free station calculation can be used to consider all observations (directions
-and distances) from a station. Let's calculate the coordinates of station 5001
+and distances) from a station. Let\'s recalculate the coordinates of station 5001
 using free station calculation.
 
 .. figure:: images/t023.png
@@ -260,10 +258,12 @@ in the *Station (1)* list.
 
    *(23.) Free station calculation for station 5001*
 
-Select two or more target points (the id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Details of the calculation can be seen in the result widget.
+Select three target points (the id in fieldbook is shown in brackets) and add them to the *Used Points* list, click on *Calculate* button and coordinates will be calculated. Details of the calculation can be seen in the result widget.
 Free station calculation uses the least squares method. The calculation result
 list contains all details about calculation, provided by GNU-Gama project.
 Repeat the free station calculation using all possible observations!
+
+Let\'s calculate the coordinates of some detail points.
 
 .. figure:: images/t026.png
    :scale: 80 %
@@ -271,7 +271,7 @@ Repeat the free station calculation using all possible observations!
 
    *(24.) Preparing Radial Survey calculation*
    
-By the radial survey the position of several polar points can be calculated.
+Using the radial survey the position of several polar points can be calculated.
 First select station point (the fieldbook name and the id in fieldbook is shown in brackets), only oriented known points can be selected.
 
 .. figure:: images/t027.png
@@ -280,16 +280,16 @@ First select station point (the fieldbook name and the id in fieldbook is shown 
 
    *(25.) Radial Survey calculation*
 
-Select one or more target points (the id in fieldbook is shown in brackets) and 
-add to used points, click calculate and coordinates will be calculated. 
+Select target points 101-104 (the id in fieldbook is shown in brackets) and 
+add them to the *Used Points* list, click on *Calculate* button and coordinates will be calculated. 
 Results of the calculation can be seen in the result widget.
 
 Traverse calculations
 :::::::::::::::::::::
 
 A link traverse will be calculated between point 5001 and 5002 in this section.
-If orientation is available on the start and/or end point, it should be 
-calculated before starting the traversing calculation. 
+The orientations on the start and end point were 
+calculated before. Let\'s repeat the orientation for point 5001 and 5002.
 
 .. figure:: images/t029.png
    :scale: 80 %
@@ -312,7 +312,7 @@ resection, the second is for traversing. Calculate orientation for line 370.
 
    *(28.) Starting traverse calculation*
 
-Click Traverse calculations icon on SurveyingCalculation toolbar.
+Click on *Traverse calculations* icon in the SurveyingCalculation toolbar.
 
 .. figure:: images/t032.png
    :scale: 80 %
@@ -330,7 +330,7 @@ selected).
 
    *(30.) End point of traverse*
 
-Select the end point (the fieldbook name and the id in fieldbook is shown in brackets, only known oriented points can be selected except open traverse)
+Select the end point (the fieldbook name and the id in fieldbook is shown in brackets, only known oriented points can be selected)
 
 .. figure:: images/t034.png
    :scale: 80 %
@@ -338,8 +338,8 @@ Select the end point (the fieldbook name and the id in fieldbook is shown in bra
 
    *(31.) Points in traverse*
    
-Select the traverse point from target points and add them to the used points.
-Change the order of points if necessary using the up and down button. The 
+Select the traverse points from target points and add them to the used points.
+Change the order of points if necessary using the up and down button, the coorect order is 1_tr, 2_tr, 3_tr. The 
 fieldbook name and the id in fieldbook is shown in brackets, known points are 
 displayed in bold face.
 
@@ -349,17 +349,17 @@ displayed in bold face.
 
    *(32.) Traverse calculation* 
 
-Click Calculate button and the coordinates will be calculated. Results of the 
-calculation can be seen in the result window. The coordinates of traverse points
+Click on the *Calculate* button and the coordinates will be calculated. Results of the 
+calculation can be seen in the result widget. The coordinates of traverse points
 are updated in coordinate list too.
 
 Network adjustment
 ::::::::::::::::::
 
 We have more observations then necessary for the coordinate calculation of 
-point 5001-5004. If we would like to consider all, we have to use network 
+points 5001-5004. If we would like to consider all observations, we have to use network 
 adjustment (least squares estimation). Free station calculation also uses the 
-least squares method, but the external directions are not considered.
+least squares method, but the external directions are not considered in that case.
 
 .. figure:: images/t051.png
    :scale: 80 %
@@ -367,7 +367,7 @@ least squares method, but the external directions are not considered.
 
    *(33.) Starting network adjustment*
    
-Click Network adjustment icon on the SurveyingCalculation toolbar.
+Click on the *Network adjustment* icon on the SurveyingCalculation toolbar.
 
 .. figure:: images/t052.png
    :scale: 80 %
@@ -376,7 +376,7 @@ Click Network adjustment icon on the SurveyingCalculation toolbar.
    *(34.) Selecting the fix points*
 
 Select fix points from the *List of Points* (the coordinates of these points
-will not be changed) and add them to the *Fix points* list. Only points in bold 
+will not be changed during adjustment) and add them to the *Fix points* list. Only points in bold 
 face can be added to the fix points list (those have coordinates in the coordinate list).
 
 .. figure:: images/t053.png
@@ -385,7 +385,7 @@ face can be added to the fix points list (those have coordinates in the coordina
 
    *(35.) Selecting points to adjust*
 
-Select points to adjust  from the *List of Points* and add them to the
+Select points to adjust from the *List of Points* and add them to the
 *Adjusted Points* list.
 
 .. figure:: images/t054.png
@@ -394,8 +394,8 @@ Select points to adjust  from the *List of Points* and add them to the
 
    *(36.) Adjustment parameters*
    
-Set the parameters of the adjustment: horizontal network (2D), the standard 
-deviation of observations. Click calculate and coordinates will be calculated. 
+Set the parameters of the adjustment, horizontal network (2D), the standard 
+deviation of observations. Click on the *Calculate* button and coordinates will be calculated. 
 Results of the calculation can be seen in the result widget. In this long list,
 generated by GNU Gama, several details of the adjustment calculation can be 
 studied. For more details see the `GNU Gama <https://www.gnu.org/software/gama/>`_ documentation.
@@ -403,7 +403,7 @@ studied. For more details see the `GNU Gama <https://www.gnu.org/software/gama/>
 Coordinate transformation
 :::::::::::::::::::::::::
 
-Let's transform the points in our data set to an other coordinate system using common points, which are known in both coordinate systems.
+Let\'s transform the points in *test1* data set to an other coordinate system using common points, which are known in both coordinate systems.
 A second coordinate list was prepared with the coordinates in the target system.
 
 .. figure:: images/t64.png
@@ -412,7 +412,7 @@ A second coordinate list was prepared with the coordinates in the target system.
 
    *(37.) Starting coordinate transformation*
    
-Click Coordinate transformation icon on SurveyingCalculation toolbar to start 
+Click on the *Coordinate transformation* icon in SurveyingCalculation toolbar to start 
 the calculation.
 
 .. figure:: images/t65.png
@@ -421,8 +421,8 @@ the calculation.
 
    *(38.) Selecting from coordinate list*
    
-Select the shape file to transform from, only the loaded coordinate lists can be selected from the list.
-Then press the button with ellipses (...) to select the target shape file of the
+The *coord_test1* shape file is automatically selected to transform from, it is the only one loaded coordinate lists.
+Press the button with ellipses (...) to select the target shape file of the
 transformation.
 
 .. figure:: images/t66.png
@@ -431,8 +431,8 @@ transformation.
 
    *(39.) Selecting points*
    
-After specifying the source and the target of transformation the *Common Points*
-list is filled automatically. Add points from the common points to the *Used Points* list.
+After specifying the source and the target of the transformation the *Common Points*
+list is filled automatically. Add all points from the *Common Points* list to the *Used Points* list.
 
 .. figure:: images/t67.png
    :scale: 80 %
@@ -448,14 +448,14 @@ Different transformation types require different number of point. Only those tra
 
    *(41.) Calculating transformation*
    
-Click calculate button and the transformation parameters and transformed 
-coordinates will be calculated. Results of the calculation can be checked in the *result widget.*
+Click on the *Calculate* button and the transformation parameters and transformed 
+coordinates will be calculated. Results of the calculation can be seen in the result widget.
 
 Polygon division
 ::::::::::::::::
 
-For demonstrating division of polygons, we need a vector layer containing polygons. Click *Add Vector Layer*, 
-in the file selection dialog navigate to sample directory of the installed plugin and select the *parcels.shp* file.
+For demonstrating division of polygons, we need a vector layer containing polygons. Click on *Add Vector Layer* button in the toolbar, 
+in the file selection dialog navigate to the *sample* directory of the installed plugin and select the *parcels.shp* file.
 
 .. figure:: images/t071.png
    :scale: 80 %
@@ -471,7 +471,8 @@ First a polygon has to be selected with *Select Features* QGIS tool.
 
    *(43.) Starting Polygon division*
 
-After starting *Polygon division* a cross will appear, and a division line has to be given.
+Click on *Polygon division* button, the mouse cursor is changed to a cross.
+Draw a rubberband line crossing the selected parcel.
 
 .. figure:: images/t073.png
    :scale: 80 %
@@ -479,9 +480,8 @@ After starting *Polygon division* a cross will appear, and a division line has t
 
    *(44.) Default parameters of division*
 
-In the division window the full area of selected polygon is displayed, 
-and the area of wanted part-polygon can be given, which is on the right side of the given direction. 
-When area will not be changed, the polygon will be divided by the given line.
+In the *Area Division* dialog the full area of selected polygon is displayed.
+The area of wanted part-polygon can be given, which is on the right side of the given line. The default value for the area is calculated from the actual division line.
 The method of division also has to be chosen. The polygon can be divided parallel to the given line, 
 or by the rotation of the given line around first given point.
 
@@ -504,7 +504,7 @@ Click *divide* button and division will be executed. The two new polygons are no
 Plot by template
 ::::::::::::::::
 
-Let's plot the actual view of the map window now first.
+Let\'s plot the actual view of the map window now first.
 
 .. figure:: images/t076.png
    :scale: 80 %
@@ -521,7 +521,7 @@ standard QGIS labeling tools. We have given new *parcel_id* (101, 102) to the tw
 
    *(48.) Set plot parameters*
 
-In the plot window select a template file, set the scale of the plot and give him a name.
+In the plot window select a template file, set the scale of the plot and give it a name.
 
 .. figure:: images/t078.png
    :scale: 80 %
@@ -529,8 +529,8 @@ In the plot window select a template file, set the scale of the plot and give hi
 
    *(49.) Composer window of the map composition*
 
-Click *Plot* button and a composer window will appear with the map composition, which is a standard QGIS tool.
-The composition can be printed to a system printer or exported to PDF file.
+Click on *Plot* button and a composer window will appear with the map composition.
+The composition can be printed to a printer or exported to a PDF file.
 
 Batch plotting
 ::::::::::::::
@@ -560,8 +560,9 @@ Select one or more parcels to be plotted and click *Batch plotting* button.
    *(52.) Set plot parameters*
 
 In the plot window select a template file and set the scale of the plot. 
-The compositions of the parcels with the given scale can be exported to *.pdf* files, 
-plotted to a printer or opened in composer window.
+The compositions of the parcels with the given scale can be exported to *.pdf* files or 
+printed or opened in composer window.
+Select *Single PDF file (multi-page) on the *To PDF* tab.
 
-By clicking *Plot* button a file selection dialog appear and compositions will be exported to 
+By clicking on the *Plot* button a file selection dialog appears and compositions will be exported to 
 a multi-page *.pdf* file using the selected composer template.
