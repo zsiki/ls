@@ -144,7 +144,6 @@ class LineMapTool(QgsMapToolEmitPoint):
             if QGis.QGIS_VERSION > '2.4':
                 cp = geom.pointOnSurface().vertexAt(0)
             else:
-                # TODO centroid may be outside
                 cp = geom.centroid().vertexAt(0)
             # offset line to go through cp
             dx = point2.x() - point1.x()
