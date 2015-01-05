@@ -670,7 +670,7 @@ You can give a divider line outside the selected polygon, this case only paralel
 Plot
 ::::
 
-This utility was added to the plugin for the ability to print land parcels or other ploygon type features automatically.
+This utility was added to the plugin for the ability to plot land parcels or other polygon type features automatically.
 The plugin offers two ways to achieve this:
 
 #. Firstly you can plot the actual map view by *Plot by Template* command using a precreated composer template file *(.qpt)*.
