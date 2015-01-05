@@ -157,7 +157,6 @@ class NetworkDialog(QDialog):
                 n_ori = 0    # number of orientation directions
                 n_adj = 0    # number of adjusted targets
                 #for feat in lay.getFeatures():
-                # TODO binary search?
                 sorted_features = sorted(lay.getFeatures(), key=lambda x: x["id"])
                 for feat in sorted_features:
                     pid = feat['point_id']
