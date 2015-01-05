@@ -17,9 +17,6 @@ import os.path
 from os import unlink
 import re
 from shutil import copyfile
-# debugging
-from PyQt4.QtCore import pyqtRemoveInputHook
-import pdb
 
 # plugin specific python modules
 import config
