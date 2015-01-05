@@ -362,6 +362,7 @@ class SurveyingCalculation:
             return
         # show the dialog
         self.newp_dlg.show()
+        self.newp_dlg.activateWindow()
         # Run the dialog event loop
         result = self.newp_dlg.exec_()
 
@@ -371,6 +372,7 @@ class SurveyingCalculation:
         """
         # show the dialog
         self.single_dlg.show()
+        self.single_dlg.activateWindow()
         # Run the dialog event loop
         result = self.single_dlg.exec_()
 
@@ -379,6 +381,7 @@ class SurveyingCalculation:
         """
         # show the dialog
         self.traverse_dlg.show()
+        self.traverse_dlg.activateWindow()
         # Run the dialog event loop
         result = self.traverse_dlg.exec_()
 
@@ -387,6 +390,7 @@ class SurveyingCalculation:
         """
         # show the dialog
         self.network_dlg.show()
+        self.network_dlg.activateWindow()
         # Run the dialog event loop
         result = self.network_dlg.exec_()
 
@@ -395,6 +399,7 @@ class SurveyingCalculation:
         """
         # show the dialog
         self.transformation_dlg.show()
+        self.transformation_dlg.activateWindow()
         # Run the dialog event loop
         result = self.transformation_dlg.exec_()
         
@@ -415,6 +420,7 @@ class SurveyingCalculation:
     def plot_by_temp(self):
         # show the dialog
         self.plotbytemplate_dlg.show()
+        self.plotbytemplate_dlg.activateWindow()
         # Run the dialog event loop
         result = self.plotbytemplate_dlg.exec_()
 
@@ -430,6 +436,7 @@ class SurveyingCalculation:
 
         # show the dialog
         self.batchplotting_dlg.show()
+        self.batchplotting_dlg.activateWindow()
         # Run the dialog event loop
         result = self.batchplotting_dlg.exec_()
         
