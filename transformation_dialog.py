@@ -16,9 +16,6 @@ from transformation_calc import Ui_TransformationCalcDialog
 from base_classes import *
 from surveying_util import *
 from calculation import *
-# debugging
-from PyQt4.QtCore import pyqtRemoveInputHook
-import pdb
 
 class TransformationDialog(QDialog):
     """ Class for transformation calculation dialog
