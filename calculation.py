@@ -407,7 +407,7 @@ class Calculation(object):
             pcode = (trav_obs[i][0].p.pc if trav_obs[i][0].p.pc is not None else "-")
             t_1 = "%8.3f" % t1[i].d if t1[i] is not None else "-"
             t_2 = "%8.3f" % t2[i].d if t2[i] is not None else "-"
-            ResultLog.resultlog_message += "           %10.4f %8s\n" % (Angle(delta[i]).get_angle("GON"), t_1)
+            ResultLog.resultlog_message += "           %10.4f %8s\n" % (delta[i]*200/math.pi, t_1)
 
             if i > 0:
                 if beta[i] is None:
@@ -438,14 +438,14 @@ class Calculation(object):
                              (pcode, "", t_2, w1, w2, ee[i], nn[i])
                 else:
                     ResultLog.resultlog_message += u"%-10s %10.4f %8s %8.3f %8.3f %10.3f %10.3f\n" % \
-                             (pcode, Angle(vbeta[i]).get_angle('GON'), t_2, ve[i], vn[i], ee[i], nn[i])
+                             (pcode, vbeta[i]*200/math.pi, t_2, ve[i], vn[i], ee[i], nn[i])
             else:
                 if beta[0] is None or beta[n-1] is None:
-                    ResultLog.resultlog_message += u"%-10s %10s                           %10.3f %10.3f\n" % \
+                    ResultLog.resultlog_message += u"%-10s %10s                            %10.3f %10.3f\n" % \
                              (pcode, "", ee[i], nn[i])
                 else:
-                    ResultLog.resultlog_message += u"%-10s %10.4s                           %10.3f %10.3f\n" % \
-                             (pcode, Angle(vbeta[i]).get_angle('GON'), ee[i], nn[i])
+                    ResultLog.resultlog_message += u"%-10s %10.4f                            %10.3f %10.3f\n" % \
+                             (pcode, vbeta[i]*200/math.pi, ee[i], nn[i])
             pass
 
         ResultLog.resultlog_message += "\n"
@@ -457,14 +457,14 @@ class Calculation(object):
             if not free:
                 ResultLog.resultlog_message += "           %10s          %8.3f %8.3f\n" % ("",dde,ddn)
         else:
-            ResultLog.resultlog_message += "           %10.4s                            %10.3f %10.3f\n" % \
+            ResultLog.resultlog_message += "           %10.4f                            %10.3f %10.3f\n" % \
                      (Angle(0).get_angle('GON'), ee[n-1]-ee[0], nn[n-1]-nn[0])
-            ResultLog.resultlog_message += "           %10.4s %8.3f %8.3f %8.3f\n" % \
-                     (Angle(sumbeta).get_angle('GON'),sumt,sumde,sumdn)
+            ResultLog.resultlog_message += "           %10.4f %8.3f %8.3f %8.3f\n" % \
+                     (sumbeta*200.0/math.pi,sumt,sumde,sumdn)
             ResultLog.resultlog_message += "           %10.4f\n" % \
-                     (Angle((n-1) * math.pi).get_angle('GON'))
-            ResultLog.resultlog_message += "           %10.4s          %8.3f %8.3f\n" % \
-                     (Angle(dbeta).get_angle('GON'), dde, ddn)
+                     ((n-1)*200)
+            ResultLog.resultlog_message += "           %10.4f          %8.3f %8.3f\n" % \
+                     (dbeta*200/math.pi, dde, ddn)
         if not free:
             ResultLog.resultlog_message += "                                   %8.3f\n" % ddist
      
