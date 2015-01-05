@@ -279,7 +279,8 @@ class PolarObservation(object):
     def horiz_dist(self):
         if self.d is None:
             return None
-        if self.d.mode == 'HD':
+        if self.d.mode == 'HD' or self.v is None:
+			# no zenith angle use as horizontal
             return self.d.d
         elif self.d.mode == 'SD':
             return self.d.d * math.sin(self.v.get_angle())
