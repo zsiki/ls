@@ -7,13 +7,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SurveyingCalculation plugin for QGIS 2.x &mdash; Surveying Calculation v0.0.1a1 documentation</title>
+    <title>SurveyingCalculation plugin for QGIS 2.x &mdash; Surveying Calculation v0.0.1b1 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.1a1',
+        VERSION:     '0.0.1b1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,7 +22,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Surveying Calculation v0.0.1a1 documentation" href="index.html" /> 
+    <link rel="top" title="Surveying Calculation v0.0.1b1 documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">Surveying Calculation v0.0.1a1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Surveying Calculation v0.0.1b1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -53,7 +53,7 @@ installation of the plugin. To use this tutorial you must have QGIS 2.x
 installed on your machine. Linux or Windows operating system can be used.</p>
 <div class="section" id="enable-surveyingcalculation-plugin-in-qgis">
 <h3>Enable SurveyingCalculation plugin in QGIS<a class="headerlink" href="#enable-surveyingcalculation-plugin-in-qgis" title="Permalink to this headline">¶</a></h3>
-<p>Befor using the installed SurveyingCalculation plugin, it has to be enabled in
+<p>Before using the installed SurveyingCalculation plugin, it has to be enabled in
 QGIS. The installation process of the plugin can be found in the User&#8217;s Guide.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t001.png"><img alt="_images/t001.png" src="_images/t001.png" style="width: 1092.8px; height: 582.4px;" /></a>
@@ -61,23 +61,23 @@ QGIS. The installation process of the plugin can be found in the User&#8217;s Gu
 </div>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t002.png"><img alt="_images/t002.png" src="_images/t002.png" style="width: 1092.8px; height: 582.4px;" /></a>
-<p class="caption"><em>(2.) Search for SurveyingCalculation plugin and enable it</em></p>
+<p class="caption"><em>(2.) Enabling SurveyingCalculation plugin</em></p>
 </div>
 <p>After enabling the plugin a new pulldown menu (SurveyingCalculation) and a
 toolbar are visible in the main window of QGIS.</p>
 </div>
 <div class="section" id="preparing-the-work">
 <h3>Preparing the work<a class="headerlink" href="#preparing-the-work" title="Permalink to this headline">¶</a></h3>
-<p>The SurveyingCalculation plugin is fully integrated into QGIS. We will use
-QGIS project to save our working environment. Some special data sets must be
-added to the project to be able to use the different calculations (e.g.
+<p>The SurveyingCalculation plugin is fully integrated into QGIS. We will use a
+QGIS project to save our working environment. Some plug-in specific data sets must be
+added to the project before using the different calculations (e.g.
 traversing, network adjustment).</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t003.png"><img alt="_images/t003.png" src="_images/t003.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(3.) From the SurveyingCalculation menu select New coordinate list ...</em></p>
 </div>
-<p>A new empty 2D point shape file is created to store benchmarks (points with
-known coordinates). The plugin adds <em>coord_</em> to the beginning of the
+<p>Let&#8217;s create a new empty 2D point shape file to store benchmarks (points with
+known coordinates). Select the sample subdirectory of the plug-in, use the <em>test1</em> name for the file.  The plugin adds <em>coord_</em> to the beginning of the
 name to distinguish it from the other elements of the project.
 Besides the point identifier, the coordinates (easting,
 northing, elevation), a point code and a point type can be stored in the
@@ -86,11 +86,11 @@ attribute table of the shape file.</p>
 <a class="reference internal image-reference" href="_images/t005.png"><img alt="_images/t005.png" src="_images/t005.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(4.) The attribute table of the coordinate file is empty</em></p>
 </div>
-<p>To demonstrate the calculations we need some benchmarks and observations.
-During the next step an electric fieldbook is imported. Electric fieldbooks
+<p>To demonstrate the calculations we have to load some benchmarks and observations.
+During the next step an electric fieldbook will be imported. Electric fieldbooks
 from total stations can contain observations (direction, distance) and
 coordinates too.</p>
-<p>For the transparency of the fieldbooks the representation of NULL values should
+<p>For the easier readability of the fieldbooks the representation of NULL values should
 be changed before importing.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t008.png"><img alt="_images/t008.png" src="_images/t008.png" style="width: 1092.8px; height: 582.4px;" /></a>
@@ -129,10 +129,10 @@ coordinate list file.</p>
 <p class="caption"><em>(10.) To view the points in the map window, right click on the coordinate file and select Zoom to Layer</em></p>
 </div>
 <p>Points can be labeled with <em>point_id</em> column in the map window using the
-standard QGIS labelling tools.</p>
+standard QGIS labeling tools.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t055.png"><img alt="_images/t055.png" src="_images/t055.png" style="width: 1092.8px; height: 582.4px;" /></a>
-<p class="caption"><em>(11.) Points labelled with point id in the map window</em></p>
+<p class="caption"><em>(11.) Points labeled by point id in the map window</em></p>
 </div>
 <p>QGIS project can be saved by clicking on the save (floppy disk) icon.</p>
 </div>
@@ -147,8 +147,7 @@ standard QGIS labelling tools.</p>
 <a class="reference internal image-reference" href="_images/t013.png"><img alt="_images/t013.png" src="_images/t013.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(13.) First select the type of calculation</em></p>
 </div>
-<p>Before starting the coordinate calculation the orientation angles must be set
-for known station.</p>
+<p>Before starting the coordinate calculation the orientation angles must be calculated for known stations.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t014.png"><img alt="_images/t014.png" src="_images/t014.png" style="width: 587.2px; height: 400.0px;" /></a>
 <p class="caption"><em>(14.) Selecting station 10001</em></p>
@@ -160,12 +159,12 @@ in brackets.</p>
 <a class="reference internal image-reference" href="_images/t015.png"><img alt="_images/t015.png" src="_images/t015.png" style="width: 587.2px; height: 400.0px;" /></a>
 <p class="caption"><em>(15.) Selecting target points for orientation</em></p>
 </div>
-<p>Select one or more target points and add them to used points (the id in fieldbook is shown in bracket).</p>
+<p>Select both target points and add them to used points (the id in fieldbook is shown in bracket).</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t016.png"><img alt="_images/t016.png" src="_images/t016.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(16.) Staring calculation</em></p>
+<p class="caption"><em>(16.) Starting the calculation</em></p>
 </div>
-<p>Click Calculate button and the orientation angle will be calculated.
+<p>Click on the <em>Calculate</em> button and the orientation angle will be calculated.
 Results can be seen in the <em>Result of calculations</em> widget.
 The results are also written to the log file. The name and location of the
 log file can be set in <em>config.py</em>.
@@ -183,14 +182,15 @@ So coordinates can be calculated as an intersection for them.</p>
 <p class="caption"><em>(18.) Starting intersection</em></p>
 </div>
 <p>For the intersection two oriented stations must be selected in <em>Station (1)</em> and
-<em>Station (2)</em> list.
+<em>Station (2)</em> lists.
 The fieldbook name and the id in fieldbook is shown in brackets in the station
 list.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t020.png"><img alt="_images/t020.png" src="_images/t020.png" style="width: 587.2px; height: 400.0px;" /></a>
-<p class="caption"><em>(19.) Intersection of point 5004</em></p>
+<p class="caption"><em>(19.) Intersection of points 5002 and 5004</em></p>
 </div>
-<p>Select one or more target points and add them to used point, click calculate
+<p>Select both target points and add them to used points. In all lists
+points in bold face have coordinates. Click calculate
 and coordinates will be calculated. Results of the calculation can be
 seen in the result widget. Calculated coordinates are added to the coordinate
 list too.</p>
@@ -200,8 +200,8 @@ resection.</p>
 <a class="reference internal image-reference" href="_images/t021.png"><img alt="_images/t021.png" src="_images/t021.png" style="width: 587.2px; height: 400.0px;" /></a>
 <p class="caption"><em>(20.) Preparing resection</em></p>
 </div>
-<p>By the resection select the station 5001 (the fieldbook name and the id in
-fieldbook is shown in brackets, known points are displayed in bold face).</p>
+<p>Using the resection select the station 5001 (the fieldbook name and the id in
+fieldbook are shown in brackets, known points are displayed in bold face).</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t022.png"><img alt="_images/t022.png" src="_images/t022.png" style="width: 587.2px; height: 400.0px;" /></a>
 <p class="caption"><em>(21.) Resection of station 5001</em></p>
@@ -214,7 +214,7 @@ Calculated coordinates are added to the coordinate list too.</p>
 <p>Please repeat the resection calculation for station 5003.</p>
 <p>There are distance measurements from station 5001 to other known points (10001 and 10003).
 Free station calculation can be used to consider all observations (directions
-and distances) from a station. Let&#8217;s calculate the coordinates of station 5001
+and distances) from a station. Let&#8217;s recalculate the coordinates of station 5001
 using free station calculation.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t023.png"><img alt="_images/t023.png" src="_images/t023.png" style="width: 587.2px; height: 400.0px;" /></a>
@@ -227,32 +227,30 @@ in the <em>Station (1)</em> list.</p>
 <a class="reference internal image-reference" href="_images/t024.png"><img alt="_images/t024.png" src="_images/t024.png" style="width: 587.2px; height: 400.0px;" /></a>
 <p class="caption"><em>(23.) Free station calculation for station 5001</em></p>
 </div>
-<p>Select two or more target points (the id in fieldbook is shown in brackets) and add to used points, click calculate and coordinates will be calculated. Details of the calculation can be seen in the result widget.
+<p>Select three target points (the id in fieldbook is shown in brackets) and add them to the <em>Used Points</em> list, click on <em>Calculate</em> button and coordinates will be calculated. Details of the calculation can be seen in the result widget.
 Free station calculation uses the least squares method. The calculation result
 list contains all details about calculation, provided by GNU-Gama project.
 Repeat the free station calculation using all possible observations!</p>
+<p>Let&#8217;s calculate the coordinates of some detail points.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t026.png"><img alt="_images/t026.png" src="_images/t026.png" style="width: 587.2px; height: 400.0px;" /></a>
 <p class="caption"><em>(24.) Preparing Radial Survey calculation</em></p>
 </div>
-<p>By the radial survey the position of several polar points can be calculated.
+<p>Using the radial survey the position of several polar points can be calculated.
 First select station point (the fieldbook name and the id in fieldbook is shown in brackets), only oriented known points can be selected.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t027.png"><img alt="_images/t027.png" src="_images/t027.png" style="width: 587.2px; height: 400.0px;" /></a>
 <p class="caption"><em>(25.) Radial Survey calculation</em></p>
 </div>
-<p>Select one or more target points (the id in fieldbook is shown in brackets) and
-add to used points, click calculate and coordinates will be calculated.
+<p>Select target points 101-104 (the id in fieldbook is shown in brackets) and
+add them to the <em>Used Points</em> list, click on <em>Calculate</em> button and coordinates will be calculated.
 Results of the calculation can be seen in the result widget.</p>
-<p><strong>TODO</strong>
-<em>This example for point 5002 is not ideal. Why do not we add simple polar
-points? There are observed detail points from 1_tr and 3_tr!</em></p>
 </div>
 <div class="section" id="traverse-calculations">
 <h3>Traverse calculations<a class="headerlink" href="#traverse-calculations" title="Permalink to this headline">¶</a></h3>
 <p>A link traverse will be calculated between point 5001 and 5002 in this section.
-If orientation is available on the start and/or end point, it should be
-calculated before starting the traversing calculation.</p>
+The orientations on the start and end point were
+calculated before. Let&#8217;s repeat the orientation for point 5001 and 5002.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t029.png"><img alt="_images/t029.png" src="_images/t029.png" style="width: 587.2px; height: 400.0px;" /></a>
 <p class="caption"><em>(26.) Orientation on start point (5001)</em></p>
@@ -267,7 +265,7 @@ resection, the second is for traversing. Calculate orientation for line 370.</p>
 <a class="reference internal image-reference" href="_images/t031.png"><img alt="_images/t031.png" src="_images/t031.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(28.) Starting traverse calculation</em></p>
 </div>
-<p>Click Traverse calculations icon on SurveyingCalculation toolbar.</p>
+<p>Click on <em>Traverse calculations</em> icon in the SurveyingCalculation toolbar.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t032.png"><img alt="_images/t032.png" src="_images/t032.png" style="width: 615.2px; height: 392.8px;" /></a>
 <p class="caption"><em>(29.) Start point of traverse</em></p>
@@ -279,80 +277,80 @@ selected).</p>
 <a class="reference internal image-reference" href="_images/t033.png"><img alt="_images/t033.png" src="_images/t033.png" style="width: 615.2px; height: 392.8px;" /></a>
 <p class="caption"><em>(30.) End point of traverse</em></p>
 </div>
-<p>Select the end point (the fieldbook name and the id in fieldbook is shown in brackets, only known oriented points can be selected except open traverse)</p>
+<p>Select the end point (the fieldbook name and the id in fieldbook is shown in brackets, only known oriented points can be selected)</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t034.png"><img alt="_images/t034.png" src="_images/t034.png" style="width: 615.2px; height: 392.8px;" /></a>
 <p class="caption"><em>(31.) Points in traverse</em></p>
 </div>
-<p>Select the traverse point from target points and add them to the used points.
-Change the order of points if necessary using the up and down button. The
-fieldbook name and the id in fieldbook is shown in brackets, known point are
+<p>Select the traverse points from target points and add them to the used points.
+Change the order of points if necessary using the up and down button, the coorect order is 1_tr, 2_tr, 3_tr. The
+fieldbook name and the id in fieldbook is shown in brackets, known points are
 displayed in bold face.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t035.png"><img alt="_images/t035.png" src="_images/t035.png" style="width: 615.2px; height: 392.8px;" /></a>
 <p class="caption"><em>(32.) Traverse calculation</em></p>
 </div>
-<p>Click Calculate button and the coordinates will be calculated. Results of the
-calculation can be seen in the result window. The coordinates of traverse points
+<p>Click on the <em>Calculate</em> button and the coordinates will be calculated. Results of the
+calculation can be seen in the result widget. The coordinates of traverse points
 are updated in coordinate list too.</p>
 </div>
 <div class="section" id="network-adjustment">
 <h3>Network adjustment<a class="headerlink" href="#network-adjustment" title="Permalink to this headline">¶</a></h3>
 <p>We have more observations then necessary for the coordinate calculation of
-point 5001-5004. If we would like to consider all, we have to use network
+points 5001-5004. If we would like to consider all observations, we have to use network
 adjustment (least squares estimation). Free station calculation also uses the
-least squares method, but the external directions are not considered.</p>
+least squares method, but the external directions are not considered in that case.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t051.png"><img alt="_images/t051.png" src="_images/t051.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(33.) Starting network adjustment</em></p>
 </div>
-<p>Click Network adjustment icon on the SurveyingCalculation toolbar.</p>
+<p>Click on the <em>Network adjustment</em> icon on the SurveyingCalculation toolbar.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t052.png"><img alt="_images/t052.png" src="_images/t052.png" style="width: 521.6px; height: 462.4px;" /></a>
 <p class="caption"><em>(34.) Selecting the fix points</em></p>
 </div>
-<p>Select fix points (the coordinates of these point will not be changed) from the
-<em>List of Points</em> and add them to the <em>Fix points</em> list. Only points in bold
+<p>Select fix points from the <em>List of Points</em> (the coordinates of these points
+will not be changed during adjustment) and add them to the <em>Fix points</em> list. Only points in bold
 face can be added to the fix points list (those have coordinates in the coordinate list).</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t053.png"><img alt="_images/t053.png" src="_images/t053.png" style="width: 521.6px; height: 462.4px;" /></a>
-<p class="caption"><em>(35.) Selecting adjusted points</em></p>
+<p class="caption"><em>(35.) Selecting points to adjust</em></p>
 </div>
-<p>Select points to adjust  from the <em>List of Points</em> and add them to the
+<p>Select points to adjust from the <em>List of Points</em> and add them to the
 <em>Adjusted Points</em> list.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t054.png"><img alt="_images/t054.png" src="_images/t054.png" style="width: 521.6px; height: 462.4px;" /></a>
 <p class="caption"><em>(36.) Adjustment parameters</em></p>
 </div>
 <p>Set the parameters of the adjustment, horizontal network (2D), the standard
-deviation of observations. Click calculate and coordinates will be calculated.
+deviation of observations. Click on the <em>Calculate</em> button and coordinates will be calculated.
 Results of the calculation can be seen in the result widget. In this long list,
 generated by GNU Gama, several details of the adjustment calculation can be
 studied. For more details see the <a class="reference external" href="https://www.gnu.org/software/gama/">GNU Gama</a> documentation.</p>
 </div>
 <div class="section" id="coordinate-transformation">
 <h3>Coordinate transformation<a class="headerlink" href="#coordinate-transformation" title="Permalink to this headline">¶</a></h3>
-<p>Let&#8217;s transform the points in our data set to an other coordinate system using common points, which are known in both coordinate systems.
+<p>Let&#8217;s transform the points in <em>test1</em> data set to an other coordinate system using common points, which are known in both coordinate systems.
 A second coordinate list was prepared with the coordinates in the target system.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t64.png"><img alt="_images/t64.png" src="_images/t64.png" style="width: 1092.8px; height: 582.4px;" /></a>
 <p class="caption"><em>(37.) Starting coordinate transformation</em></p>
 </div>
-<p>Click Coordinate transformation icon on SurveyingCalculation toolbar to start
+<p>Click on the <em>Coordinate transformation</em> icon in SurveyingCalculation toolbar to start
 the calculation.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t65.png"><img alt="_images/t65.png" src="_images/t65.png" style="width: 582.4px; height: 408.0px;" /></a>
 <p class="caption"><em>(38.) Selecting from coordinate list</em></p>
 </div>
-<p>Select the shape file to transform from, only the loaded coordinate lists can be selected from the list.
-Then press the button with ellipses (...) to select the target shape file of the
+<p>The <em>coord_test1</em> shape file is automatically selected to transform from, it is the only one loaded coordinate lists.
+Press the button with ellipses (...) to select the target shape file of the
 transformation.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t66.png"><img alt="_images/t66.png" src="_images/t66.png" style="width: 582.4px; height: 408.0px;" /></a>
 <p class="caption"><em>(39.) Selecting points</em></p>
 </div>
-<p>After specifying the source and the target of transformation the <em>Common Points</em>
-list is filled automatically. Add points from the common points to the <em>Used Points</em> list.</p>
+<p>After specifying the source and the target of the transformation the <em>Common Points</em>
+list is filled automatically. Add all points from the <em>Common Points</em> list to the <em>Used Points</em> list.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/t67.png"><img alt="_images/t67.png" src="_images/t67.png" style="width: 582.4px; height: 408.0px;" /></a>
 <p class="caption"><em>(40.) Selecting the type of transformation</em></p>
@@ -362,8 +360,87 @@ list is filled automatically. Add points from the common points to the <em>Used 
 <a class="reference internal image-reference" href="_images/t68.png"><img alt="_images/t68.png" src="_images/t68.png" style="width: 582.4px; height: 408.0px;" /></a>
 <p class="caption"><em>(41.) Calculating transformation</em></p>
 </div>
-<p>Click calculate button and the transformation parameters and transformed
-coordinates will be calculated. Results of the calculation can be checked in the result widget.*</p>
+<p>Click on the <em>Calculate</em> button and the transformation parameters and transformed
+coordinates will be calculated. Results of the calculation can be seen in the result widget.</p>
+</div>
+<div class="section" id="polygon-division">
+<h3>Polygon division<a class="headerlink" href="#polygon-division" title="Permalink to this headline">¶</a></h3>
+<p>For demonstrating division of polygons, we need a vector layer containing polygons. Click on <em>Add Vector Layer</em> button in the toolbar,
+in the file selection dialog navigate to the <em>sample</em> directory of the installed plugin and select the <em>parcels.shp</em> file.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t071.png"><img alt="_images/t071.png" src="_images/t071.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(42.) Selecting a polygon</em></p>
+</div>
+<p>First a polygon has to be selected with <em>Select Features</em> QGIS tool.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t072.png"><img alt="_images/t072.png" src="_images/t072.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(43.) Starting Polygon division</em></p>
+</div>
+<p>Click on <em>Polygon division</em> button, the mouse cursor is changed to a cross.
+Draw a rubberband line crossing the selected parcel.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t073.png"><img alt="_images/t073.png" src="_images/t073.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(44.) Default parameters of division</em></p>
+</div>
+<p>In the <em>Area Division</em> dialog the full area of selected polygon is displayed.
+The area of wanted part-polygon can be given, which is on the right side of the given line. The default value for the area is calculated from the actual division line.
+The method of division also has to be chosen. The polygon can be divided parallel to the given line,
+or by the rotation of the given line around first given point.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t074.png"><img alt="_images/t074.png" src="_images/t074.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(45.) Set the parameters of division</em></p>
+</div>
+<p>We have set the area of wanted part-polygon to <em>5000</em> units and the method of division to <em>parallel division</em>.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t075.png"><img alt="_images/t075.png" src="_images/t075.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(46.) Measured area of the smaller new polygon.</em></p>
+</div>
+<p>Click <em>divide</em> button and division will be executed. The two new polygons are now visible in the attribute table, where attributes of new polygons can be given (e.g. <em>parcel_id</em>).</p>
+</div>
+<div class="section" id="plot-by-template">
+<h3>Plot by template<a class="headerlink" href="#plot-by-template" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s plot the actual view of the map window now first.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t076.png"><img alt="_images/t076.png" src="_images/t076.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(47.) Starting Plot by template.</em></p>
+</div>
+<p>Polygons can be labeled with <em>parcel_id</em> column in the map window using the
+standard QGIS labeling tools. We have given new <em>parcel_id</em> (101, 102) to the two new polygons.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t077.png"><img alt="_images/t077.png" src="_images/t077.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(48.) Set plot parameters</em></p>
+</div>
+<p>In the plot window select a template file, set the scale of the plot and give it a name.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t078.png"><img alt="_images/t078.png" src="_images/t078.png" style="width: 932.0px; height: 564.0px;" /></a>
+<p class="caption"><em>(49.) Composer window of the map composition</em></p>
+</div>
+<p>Click on <em>Plot</em> button and a composer window will appear with the map composition.
+The composition can be printed to a printer or exported to a PDF file.</p>
+</div>
+<div class="section" id="batch-plotting">
+<h3>Batch plotting<a class="headerlink" href="#batch-plotting" title="Permalink to this headline">¶</a></h3>
+<p>Selected polygons can be plotted by using <em>Batch plotting</em>.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t079.png"><img alt="_images/t079.png" src="_images/t079.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(50.) Add another layer to the map</em></p>
+</div>
+<p>Any number of layers can be added to the map.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t080.png"><img alt="_images/t080.png" src="_images/t080.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(51.) Select the parcels and start Batch plotting</em></p>
+</div>
+<p>Select one or more parcels to be plotted and click <em>Batch plotting</em> button.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/t081.png"><img alt="_images/t081.png" src="_images/t081.png" style="width: 1092.8px; height: 582.4px;" /></a>
+<p class="caption"><em>(52.) Set plot parameters</em></p>
+</div>
+<p>In the plot window select a template file and set the scale of the plot.
+The compositions of the parcels with the given scale can be exported to <em>.pdf</em> files or
+printed or opened in composer window.
+Select <em>Single PDF file (multi-page) on the *To PDF</em> tab.</p>
+<p>By clicking on the <em>Plot</em> button a file selection dialog appears and compositions will be exported to
+a multi-page <em>.pdf</em> file using the selected composer template.</p>
 </div>
 </div>
 </div>
@@ -384,6 +461,9 @@ coordinates will be calculated. Results of the calculation can be checked in the
 <li><a class="reference internal" href="#traverse-calculations">Traverse calculations</a></li>
 <li><a class="reference internal" href="#network-adjustment">Network adjustment</a></li>
 <li><a class="reference internal" href="#coordinate-transformation">Coordinate transformation</a></li>
+<li><a class="reference internal" href="#polygon-division">Polygon division</a></li>
+<li><a class="reference internal" href="#plot-by-template">Plot by template</a></li>
+<li><a class="reference internal" href="#batch-plotting">Batch plotting</a></li>
 </ul>
 </li>
 </ul>
@@ -421,12 +501,12 @@ coordinates will be calculated. Results of the calculation can be checked in the
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">Surveying Calculation v0.0.1a1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Surveying Calculation v0.0.1b1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Jan 03, 2015.
+      Last updated on Jan 05, 2015.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>
