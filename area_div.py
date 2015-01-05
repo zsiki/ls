@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'area_div.ui'
 #
-# Created: Fri Jan  2 13:44:36 2015
+# Created: Mon Jan  5 09:16:58 2015
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -73,7 +73,7 @@ class Ui_AreaDivDialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.TwoPointRadio.sizePolicy().hasHeightForWidth())
         self.TwoPointRadio.setSizePolicy(sizePolicy)
-        self.TwoPointRadio.setText(QtGui.QApplication.translate("AreaDivDialog", "Paralel to the given line", None, QtGui.QApplication.UnicodeUTF8))
+        self.TwoPointRadio.setText(QtGui.QApplication.translate("AreaDivDialog", "Parallel to the given line", None, QtGui.QApplication.UnicodeUTF8))
         self.TwoPointRadio.setObjectName(_fromUtf8("TwoPointRadio"))
         self.TotalLabel = QtGui.QLabel(self.AreaDivGroup)
         self.TotalLabel.setGeometry(QtCore.QRect(10, 40, 151, 16))
