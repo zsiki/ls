@@ -16,9 +16,6 @@ import tempfile
 # surveying calculation modules
 from base_classes import *
 from surveying_util import *
-# debugging
-from PyQt4.QtCore import pyqtRemoveInputHook
-import pdb
 
 class GamaInterface(object):
     """ Interface class to GNU Gama
@@ -217,7 +214,6 @@ class GamaInterface(object):
         status = call([self.gama_prog, tmp_name + '.xml', '--text',
             tmp_name + '.txt', '--xml', tmp_name + 'out.xml'])
         if status != 0:
-            # error running GNU gama TODO
             return None
         doc = minidom.parse(tmp_name + 'out.xml')
         f_txt = open(tmp_name + '.txt', 'r')
