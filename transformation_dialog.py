@@ -8,6 +8,7 @@
 .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 import platform
+import webbrowser
 from PyQt4.QtGui import QDialog, QFileDialog, QFont, QMessageBox
 from PyQt4.QtCore import SIGNAL, QCoreApplication
 
@@ -39,6 +40,7 @@ class TransformationDialog(QDialog):
         self.ui.AddButton.clicked.connect(self.onAddButton)
         self.ui.RemoveButton.clicked.connect(self.onRemoveButton)
         self.ui.CalcButton.clicked.connect(self.onCalcButton)
+        self.ui.HelpButton.clicked.connect(self.onHelpButton)
         # coordinate list changed
         self.connect(self.ui.FromLayerComboBox, SIGNAL("currentIndexChanged(const QString&)"), self.fill_common)
 
@@ -310,3 +312,8 @@ class TransformationDialog(QDialog):
             :returns: list of easting and northin of transformed coordinates
         """
         return self.poly_tr(p, tr, 5)
+
+    def onHelpButton(self):
+        """ Open user's guide at Coordinate Transformation in the default web browser.
+        """
+        webbrowser.open("http://www.digikom.hu/SurveyingCalculation/usersguide.html#coordinate-transformation")

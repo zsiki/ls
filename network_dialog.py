@@ -7,6 +7,7 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import platform
+import webbrowser
 from PyQt4.QtGui import QDialog, QFont, QMessageBox
 
 import config
@@ -41,6 +42,7 @@ class NetworkDialog(QDialog):
         self.ui.RemoveFixButton.clicked.connect(self.onRemoveFixButton)
         self.ui.RemoveAdjButton.clicked.connect(self.onRemoveAdjButton)
         self.ui.CalcButton.clicked.connect(self.onCalcButton)
+        self.ui.HelpButton.clicked.connect(self.onHelpButton)
 
     def showEvent(self, event):
         """ Set up initial state of dialog widgets
@@ -206,3 +208,8 @@ class NetworkDialog(QDialog):
                 self.ui.ResultTextBrowser.append(t)
                 self.log.write_log(tr("Network adjustment"))
                 self.log.write(t)
+
+    def onHelpButton(self):
+        """ Open user's guide at Network Adjustment in the default web browser.
+        """
+        webbrowser.open("http://www.digikom.hu/SurveyingCalculation/usersguide.html#network-adjustment")

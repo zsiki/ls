@@ -7,6 +7,7 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import platform
+import webbrowser
 from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem, QMessageBox
 from PyQt4.QtCore import Qt
 
@@ -43,6 +44,7 @@ class TraverseDialog(QDialog):
         self.ui.CalcButton.clicked.connect(self.onCalcButton)
         self.ui.ResetButton.clicked.connect(self.onResetButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
+        self.ui.HelpButton.clicked.connect(self.onHelpButton)
         self.ui.TargetList.setSortingEnabled(True)
 
     def showEvent(self, event):
@@ -356,3 +358,8 @@ class TraverseDialog(QDialog):
         """ Close the dialog when the Close button pushed.
         """
         self.accept()
+
+    def onHelpButton(self):
+        """ Open user's guide at Traverse Calculations in the default web browser.
+        """
+        webbrowser.open("http://www.digikom.hu/SurveyingCalculation/usersguide.html#traverse-calculations")

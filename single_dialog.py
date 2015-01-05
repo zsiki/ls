@@ -7,6 +7,7 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 import platform
+import webbrowser
 from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox, \
     QStandardItem
 from PyQt4.QtCore import Qt
@@ -48,6 +49,7 @@ class SingleDialog(QDialog):
         self.ui.CalcButton.clicked.connect(self.onCalcButton)
         self.ui.ResetButton.clicked.connect(self.onResetButton)
         self.ui.CloseButton.clicked.connect(self.onCloseButton)
+        self.ui.HelpButton.clicked.connect(self.onHelpButton)
         self.ui.SourceList.setSortingEnabled(True)
 
     def showEvent(self, event):
@@ -408,3 +410,8 @@ class SingleDialog(QDialog):
         """ Close the dialog when the Close button pushed.
         """
         self.accept()
+
+    def onHelpButton(self):
+        """ Open user's guide at Single Point Calculations in the default web browser.
+        """
+        webbrowser.open("http://www.digikom.hu/SurveyingCalculation/usersguide.html#single-point-calculations")
