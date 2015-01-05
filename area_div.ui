@@ -145,7 +145,7 @@
      </sizepolicy>
     </property>
     <property name="text">
-     <string>Paralel to the given line</string>
+     <string>Parallel to the given line</string>
     </property>
    </widget>
    <widget class="QLabel" name="TotalLabel">
