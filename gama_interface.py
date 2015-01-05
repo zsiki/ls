@@ -236,10 +236,6 @@ class GamaInterface(object):
                     elif ppp.nodeName == 'Z' or ppp.nodeName == 'z':
                         p.z = float(ppp.firstChild.data)
                 ScPoint(p).store_coord(self.dimension)
-        # get orientations TODO
-        #oris = doc.getElementsByTagName('orientation')
-        #for ori in oris:
-        #    pass
         # remove input xml and output xml
         try:
             os.remove(tmp_name + '.txt')
