@@ -13,9 +13,6 @@ from PyQt4.QtGui import QMessageBox
 from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand, QgsMapTool
 from qgis.core import *
 from qgis.utils import QGis
-# debugging
-from PyQt4.QtCore import pyqtRemoveInputHook
-import pdb
 
 import config
 from base_classes import tr
@@ -124,7 +121,6 @@ class LineMapTool(QgsMapToolEmitPoint):
         feat = selection[0]             # feature to divide
         geom = feat.geometry()
         save_geom = QgsGeometry(geom)   # save original geometry
-        # TODO multipart ?
         # change to layer coordinates
         point0 = self.toLayerCoordinates(self.layer, QgsPoint(self.startPoint.x(), self.startPoint.y()))   # center of rotation
         point1 = self.toLayerCoordinates(self.layer, QgsPoint(self.startPoint.x(), self.startPoint.y()))
@@ -177,8 +173,6 @@ class LineMapTool(QgsMapToolEmitPoint):
             da = geom.area() - area
             if fabs(da) <= config.area_tolerance:
                 break;               # area OK exit loop
-            #pyqtRemoveInputHook()
-            #pdb.set_trace()
             # length of intersection
             geom_line = QgsGeometry.fromPolyline([point1, point2])
             section = save_geom.intersection(geom_line)
