@@ -6,7 +6,7 @@
 
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
-import os, glob, ctypes
+import os, glob, ctypes, sys
 from PyQt4.QtCore import QCoreApplication, QDir, QFile, QFileInfo, QIODevice, \
                         QSizeF, Qt 
 from PyQt4.QtGui import QDialog, QFileDialog, QListWidgetItem, QMessageBox, \
@@ -104,7 +104,7 @@ class BatchPlottingDialog(QDialog):
         if  os.path.exists(self.templatepath):
             pattern = os.path.join(self.templatepath,'*.qpt')
             for temp in glob.iglob(pattern):
-                tname = os.path.basename(temp)
+                tname = os.path.basename(temp).decode(sys.getfilesystemencoding())
                 item = QListWidgetItem(tname)
                 self.ui.TemplateList.addItem(item)
                 if tname == oldSelectedTemplate:
@@ -114,9 +114,11 @@ class BatchPlottingDialog(QDialog):
         """ Change the directory that contains print composer templates.
         """
         templatepath = QFileDialog.getExistingDirectory(self, 
-                        tr("Select Directory"),self.templatepath, QFileDialog.ShowDirsOnly)
+                        tr("Select Directory"),
+                        self.templatepath.decode(sys.getfilesystemencoding()),
+                        QFileDialog.ShowDirsOnly)
         if templatepath!="":
-            self.templatepath = templatepath
+            self.templatepath = templatepath.encode(sys.getfilesystemencoding())
         self.fillTemplateList()
         
     def changedSingleFileCheckbox(self, state):
@@ -136,7 +138,7 @@ class BatchPlottingDialog(QDialog):
             self.ui.TemplateList.setFocus()
             return
         self.template_file = os.path.join(self.templatepath,
-            self.ui.TemplateList.currentItem().text())
+            self.ui.TemplateList.currentItem().text().encode(sys.getfilesystemencoding()))
         # get the scale
         if self.ui.ScaleCombo.currentText()=="<extent>":
             scale = -1
@@ -196,7 +198,7 @@ class BatchPlottingDialog(QDialog):
             composer.setComposition(self.composition)
 
         # read template file and add to composition
-        template_file = QFile( self.template_file )
+        template_file = QFile( self.template_file.decode(sys.getfilesystemencoding()) )
         template_file.open(QIODevice.ReadOnly | QIODevice.Text)
         template_content = template_file.readAll()
         template_file.close()
@@ -232,25 +234,25 @@ class BatchPlottingDialog(QDialog):
                 self.composition.setAtlasMode( QgsComposition.ExportAtlas )
                 
                 if self.pdfpath=="":
-                    self.pdfpath = QgsProject.instance().homePath()
+                    self.pdfpath = QgsProject.instance().homePath().encode(sys.getfilesystemencoding())
                     
                 if self.ui.SingleFileCheckbox.checkState():
                     #print to single pdf (multi-page)
                     outputFileName = os.path.join(self.pdfpath,"qgis.pdf")
                     outputFileName = QFileDialog.getSaveFileName(self,
                        tr( "Choose a file name to save the map as" ),
-                       outputFileName,
+                       outputFileName.decode(sys.getfilesystemencoding()),
                        tr( "PDF Format" ) + " (*.pdf *.PDF)" )
                     if len(outputFileName) == 0:
                         return
                     if not outputFileName.lower().endswith(".pdf"):
                         outputFileName += ".pdf"
-                    self.pdfpath = os.path.dirname(outputFileName)
+                    self.pdfpath = os.path.dirname(outputFileName.encode(sys.getfilesystemencoding()))
                 else:
                     #print to more pdf
                     outputDir = QFileDialog.getExistingDirectory( self,
                         tr( "Directory where to save PDF files" ),
-                        self.pdfpath,
+                        self.pdfpath.decode(sys.getfilesystemencoding()),
                         QFileDialog.ShowDirsOnly )
                     if len(outputDir) == 0:
                         return
@@ -259,7 +261,7 @@ class BatchPlottingDialog(QDialog):
                         QMessageBox.warning( self, tr( "Unable to write into the directory" ),
                             tr( "The given output directory is not writable. Cancelling." ) )
                         return
-                    self.pdfpath = outputDir
+                    self.pdfpath = outputDir.encode(sys.getfilesystemencoding())
                 
                 printer = QPrinter()
                 painter = QPainter()
