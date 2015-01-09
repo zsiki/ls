@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -40,6 +40,9 @@
      </property>
      <property name="toolTip">
       <string>Default directory for loading fieldbooks.</string>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLabel" name="LogDirLabel">
@@ -111,6 +114,9 @@
      </property>
      <property name="toolTip">
       <string>Directory for log file.</string>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>

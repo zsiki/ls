@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'plugin_settings.ui'
 #
-# Created: Fri Jan 09 14:23:20 2015
+# Created: Fri Jan 09 14:38:53 2015
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -34,6 +34,7 @@ class Ui_PluginSettingsDialog(object):
         self.tab.setObjectName(_fromUtf8("tab"))
         self.HomeDirEdit = QtGui.QLineEdit(self.tab)
         self.HomeDirEdit.setGeometry(QtCore.QRect(10, 30, 321, 20))
+        self.HomeDirEdit.setReadOnly(True)
         self.HomeDirEdit.setObjectName(_fromUtf8("HomeDirEdit"))
         self.LogDirLabel = QtGui.QLabel(self.tab)
         self.LogDirLabel.setGeometry(QtCore.QRect(10, 60, 351, 21))
@@ -49,6 +50,7 @@ class Ui_PluginSettingsDialog(object):
         self.HomeDirButton.setObjectName(_fromUtf8("HomeDirButton"))
         self.LogDirEdit = QtGui.QLineEdit(self.tab)
         self.LogDirEdit.setGeometry(QtCore.QRect(10, 80, 321, 20))
+        self.LogDirEdit.setReadOnly(True)
         self.LogDirEdit.setObjectName(_fromUtf8("LogDirEdit"))
         self.SettingsTab.addTab(self.tab, _fromUtf8(""))
         self.tab_3 = QtGui.QWidget()
@@ -110,7 +112,7 @@ class Ui_PluginSettingsDialog(object):
         self.CancelButton.setObjectName(_fromUtf8("CancelButton"))
 
         self.retranslateUi(PluginSettingsDialog)
-        self.SettingsTab.setCurrentIndex(2)
+        self.SettingsTab.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(PluginSettingsDialog)
 
     def retranslateUi(self, PluginSettingsDialog):
