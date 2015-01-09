@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'plugin_settings.ui'
 #
-# Created: Fri Jan 09 14:38:53 2015
+# Created: Fri Jan 09 15:42:35 2015
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -65,6 +65,11 @@ class Ui_PluginSettingsDialog(object):
         self.FontNameLabel.setObjectName(_fromUtf8("FontNameLabel"))
         self.FontNameCombo = QtGui.QFontComboBox(self.tab_3)
         self.FontNameCombo.setGeometry(QtCore.QRect(90, 60, 156, 21))
+        self.FontNameCombo.setEditable(False)
+        self.FontNameCombo.setFontFilters(QtGui.QFontComboBox.MonospacedFonts)
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Courier New"))
+        self.FontNameCombo.setCurrentFont(font)
         self.FontNameCombo.setObjectName(_fromUtf8("FontNameCombo"))
         self.FontSizeLabel = QtGui.QLabel(self.tab_3)
         self.FontSizeLabel.setGeometry(QtCore.QRect(10, 90, 81, 21))
@@ -112,7 +117,7 @@ class Ui_PluginSettingsDialog(object):
         self.CancelButton.setObjectName(_fromUtf8("CancelButton"))
 
         self.retranslateUi(PluginSettingsDialog)
-        self.SettingsTab.setCurrentIndex(0)
+        self.SettingsTab.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(PluginSettingsDialog)
 
     def retranslateUi(self, PluginSettingsDialog):

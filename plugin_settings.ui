@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -164,6 +164,17 @@
        <width>156</width>
        <height>21</height>
       </rect>
+     </property>
+     <property name="editable">
+      <bool>false</bool>
+     </property>
+     <property name="fontFilters">
+      <set>QFontComboBox::MonospacedFonts</set>
+     </property>
+     <property name="currentFont">
+      <font>
+       <family>Courier New</family>
+      </font>
      </property>
     </widget>
     <widget class="QLabel" name="FontSizeLabel">
