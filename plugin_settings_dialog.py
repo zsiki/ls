@@ -22,3 +22,38 @@ class PluginSettingsDialog(QDialog):
         self.ui.setupUi(self)
         self.ui.OutputTab.setCurrentIndex(2)
 
+        # event handlers
+        self.ui.HomeDirButton.clicked.connect(self.onHomeDirButton)
+        self.ui.LogDirButton.clicked.connect(self.onLogDirButton)
+        self.ui.OKButton.clicked.connect(self.onOKButton)
+        self.ui.CancelButton.clicked.connect(self.onCancelButton)
+
+    def showEvent(self, event):
+        """ Reset dialog when receives a show event.
+        """
+        self.fillWidgets()
+        
+    def fillWidgets(self):
+        """ Fill all widgets of Plugins Settings dialog.
+        """
+        pass
+
+    def onHomeDirButton(self):
+        """ Change the home directory where fieldbooks are stored.
+        """
+        pass
+
+    def onLogDirButton(self):
+        """ Change the directory of the log file.
+        """
+        pass
+
+    def onOKButton(self):
+        """ Close dialog. The changes will be saved.
+        """
+        pass
+
+    def onCancelButton(self):
+        """ Cancel dialog. The changes won't be saved.
+        """
+        pass
