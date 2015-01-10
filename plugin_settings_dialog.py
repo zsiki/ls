@@ -64,39 +64,46 @@ class PluginSettingsDialog(QDialog):
     def onOKButton(self):
         """ Close dialog. The changes will be saved.
         """
+        # check values in widgets
+        try:
+            line_tolerance = float(self.ui.LineToleranceEdit.text())
+        except (ValueError):
+            QMessageBox.warning(self, tr("Warning"), tr("Snap tolerance must be a positive float value in layer units!"))
+            self.ui.LineToleranceEdit.setFocus()
+            return
+        if line_tolerance<=0.0:
+            QMessageBox.warning(self, tr("Warning"), tr("Snap tolerance must be a positive float value in layer units!"))
+            self.ui.LineToleranceEdit.setFocus()
+            return
+        try:
+            area_tolerance = float(self.ui.AreaToleranceEdit.text())
+        except (ValueError):
+            QMessageBox.warning(self, tr("Warning"), tr("Area tolerance must be a positive float value in layer units!"))
+            self.ui.AreaToleranceEdit.setFocus()
+            return
+        if area_tolerance<=0.0:
+            QMessageBox.warning(self, tr("Warning"), tr("Area tolerance must be a positive float value in layer units!"))
+            self.ui.AreaToleranceEdit.setFocus()
+            return
+        try:
+            max_iteration = int(self.ui.MaxIterationEdit.text())
+        except (ValueError):
+            QMessageBox.warning(self, tr("Warning"), tr("Maximum iteration must be a positive integer value!"))
+            self.ui.MaxIterationEdit.setFocus()
+            return
+        if max_iteration<=0:
+            QMessageBox.warning(self, tr("Warning"), tr("Maximum iteration must be a positive integer value!"))
+            self.ui.MaxIterationEdit.setFocus()
+            return
+
+        # store settings
         config.homedir = self.ui.HomeDirEdit.text()
         config.log_path = self.ui.LogDirEdit.text()
-        try:
-            config.line_tolerance = float(self.ui.LineToleranceEdit.text())
-        except (ValueError):
-            QMessageBox.warning(self, tr("Warning"), tr("Snap tolerance must be a positive float value in layer units!"))
-            self.ui.LineToleranceEdit.setFocus()
-            return
-        if config.line_tolerance<=0.0:
-            QMessageBox.warning(self, tr("Warning"), tr("Snap tolerance must be a positive float value in layer units!"))
-            self.ui.LineToleranceEdit.setFocus()
-            return
-        try:
-            config.area_tolerance = float(self.ui.AreaToleranceEdit.text())
-        except (ValueError):
-            QMessageBox.warning(self, tr("Warning"), tr("Area tolerance must be a positive float value in layer units!"))
-            self.ui.AreaToleranceEdit.setFocus()
-            return
-        if config.area_tolerance<=0.0:
-            QMessageBox.warning(self, tr("Warning"), tr("Area tolerance must be a positive float value in layer units!"))
-            self.ui.AreaToleranceEdit.setFocus()
-            return
-        try:
-            config.max_iteration = int(self.ui.MaxIterationEdit.text())
-        except (ValueError):
-            QMessageBox.warning(self, tr("Warning"), tr("Maximum iteration must be a positive integer value!"))
-            self.ui.MaxIterationEdit.setFocus()
-            return
-        if config.max_iteration<=0:
-            QMessageBox.warning(self, tr("Warning"), tr("Maximum iteration must be a positive integer value!"))
-            self.ui.MaxIterationEdit.setFocus()
-            return
-        # TODO store data from widgets 
+        config.line_tolerance = line_tolerance
+        config.area_tolerance = area_tolerance
+        config.max_iteration = max_iteration
+        # TODO store font setting from widgets
+
         self.accept()
 
     def onCancelButton(self):
