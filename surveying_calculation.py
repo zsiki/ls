@@ -28,6 +28,7 @@ from traverse_dialog import TraverseDialog
 from network_dialog import NetworkDialog
 from transformation_dialog import TransformationDialog
 from batch_plotting_dialog import BatchPlottingDialog
+from plugin_settings_dialog import PluginSettingsDialog
 from totalstations import *
 from surveying_util import *
 from calculation import *
@@ -144,14 +145,16 @@ class SurveyingCalculation:
         self.sc_pdiv = QAction(QIcon(os.path.join(self.plugin_dir,'icons','poly_div.png')), tr("Polygon division ..."), self.iface.mainWindow())
         self.sc_plot = QAction(QIcon(os.path.join(self.plugin_dir,'icons','plot.png')), tr("Plot by template ..."), self.iface.mainWindow())
         self.sc_batchplot = QAction(QIcon(os.path.join(self.plugin_dir,'icons','batch_plot.png')), tr("Batch plotting ..."), self.iface.mainWindow())
+        self.sc_settings = QAction(tr("Settings ..."), self.iface.mainWindow())
         self.sc_help = QAction(tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(tr("About"), self.iface.mainWindow())
         self.menu.addActions([self.sc_coord, self.sc_fb, self.sc_load,
             self.sc_addp, self.sc_calc, self.sc_trav, self.sc_netw,
-            self.sc_tran, self.sc_plot, self.sc_batchplot, self.sc_help,
-            self.sc_about])
+            self.sc_tran, self.sc_plot, self.sc_batchplot, self.sc_settings,
+            self.sc_help, self.sc_about])
         self.menu.insertSeparator(self.sc_calc)
         self.menu.insertSeparator(self.sc_plot)
+        self.menu.insertSeparator(self.sc_settings)
         self.menu.insertSeparator(self.sc_help)
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
@@ -172,6 +175,7 @@ class SurveyingCalculation:
         self.sc_pdiv.triggered.connect(self.polygon_division)
         self.sc_plot.triggered.connect(self.plot_by_temp)
         self.sc_batchplot.triggered.connect(self.batch_plotting)
+        self.sc_settings.triggered.connect(self.settings)
         self.sc_about.triggered.connect(self.about)
         self.sc_help.triggered.connect(self.help)
 
@@ -439,7 +443,13 @@ class SurveyingCalculation:
         self.batchplotting_dlg.activateWindow()
         # Run the dialog event loop
         result = self.batchplotting_dlg.exec_()
-        
+
+    def settings(self):
+        """ Setting of the plugin.
+        """
+        settings_dlg = PluginSettingsDialog()
+        result = settings_dlg.exec_()
+    
     def about(self):
         """ About box of the plugin
         """
