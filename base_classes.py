@@ -11,7 +11,8 @@
 import re
 import math
 
-from PyQt4.QtCore import QCoreApplication
+#from PyQt4.QtCore import QCoreApplication
+from PyQt4.QtGui import QApplication
 
 RO = 180 * 60 * 60 / math.pi
 PISEC = 180 * 60 * 60
@@ -471,7 +472,8 @@ def tr(message):
     :returns: translated version of message (QString)
     """
     # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-    return QCoreApplication.translate('SurveyingCalculation', message)
+    #return QCoreApplication.translate('SurveyingCalculation', message)
+    return QApplication.translate('@default', message)
 
 def compare (a, b, tol=0.001):
     """ Compare to objects for equality. Only for testing purposes.

@@ -49,12 +49,15 @@ class SurveyingCalculation:
         self.plugin_dir = os.path.dirname(__file__)
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
+        print locale
+        locale = 'hu'
         locale_path = os.path.join(
             self.plugin_dir,
             'i18n',
             '{}.qm'.format(locale))
-
+        print locale_path
         if os.path.exists(locale_path):
+            print "exists"
             self.translator = QTranslator()
             self.translator.load(locale_path)
 
