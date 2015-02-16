@@ -8,7 +8,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="433"/>
+        <location filename="surveying_calculation.py" line="440"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
@@ -25,11 +25,6 @@
     <message>
         <location filename="traverse_dialog.py" line="263"/>
         <source>Select end point!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="traverse_dialog.py" line="267"/>
-        <source>Add points to angle point list!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -69,12 +64,12 @@ Are you sure you want to calculate an open traverse?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="135"/>
+        <location filename="batch_plotting_dialog.py" line="137"/>
         <source>Select a composer template!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="130"/>
+        <location filename="batch_plotting_dialog.py" line="132"/>
         <source>Select a layer!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -259,112 +254,112 @@ Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="190"/>
+        <location filename="surveying_calculation.py" line="197"/>
         <source>&amp;SurveyingCalculation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="136"/>
+        <location filename="surveying_calculation.py" line="140"/>
         <source>New coordinate list ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="137"/>
+        <location filename="surveying_calculation.py" line="141"/>
         <source>New fieldbook ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="140"/>
+        <location filename="surveying_calculation.py" line="144"/>
         <source>Single point calculations ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="141"/>
+        <location filename="surveying_calculation.py" line="145"/>
         <source>Traverse calculations ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="142"/>
+        <location filename="surveying_calculation.py" line="146"/>
         <source>Network adjustment ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="143"/>
+        <location filename="surveying_calculation.py" line="147"/>
         <source>Coordinate transformation ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="146"/>
+        <location filename="surveying_calculation.py" line="150"/>
         <source>Batch plotting ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="147"/>
+        <location filename="surveying_calculation.py" line="152"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="446"/>
+        <location filename="surveying_calculation.py" line="459"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="200"/>
+        <location filename="surveying_calculation.py" line="207"/>
         <source>QGIS co-ordinate list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="200"/>
+        <location filename="surveying_calculation.py" line="207"/>
         <source>Shape file (*.shp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="219"/>
+        <location filename="surveying_calculation.py" line="226"/>
         <source>New fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="219"/>
+        <location filename="surveying_calculation.py" line="226"/>
         <source>Fieldbook file (*.dbf)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="240"/>
+        <location filename="surveying_calculation.py" line="247"/>
         <source>Electric fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="248"/>
+        <location filename="surveying_calculation.py" line="255"/>
         <source>QGIS fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="248"/>
+        <location filename="surveying_calculation.py" line="255"/>
         <source>DBF file (*.dbf)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="274"/>
+        <location filename="surveying_calculation.py" line="281"/>
         <source>File warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="274"/>
+        <location filename="surveying_calculation.py" line="281"/>
         <source>Unknown fieldbook type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="274"/>
+        <location filename="surveying_calculation.py" line="281"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="433"/>
+        <location filename="surveying_calculation.py" line="440"/>
         <source>This utility needs at least one polygon type layer!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="446"/>
+        <location filename="surveying_calculation.py" line="459"/>
         <source>Surveying Calculation Plugin
 
  (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu
@@ -398,12 +393,12 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="139"/>
+        <location filename="surveying_calculation.py" line="143"/>
         <source>Add new point ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="163"/>
+        <location filename="batch_plotting_dialog.py" line="165"/>
         <source>Select at least one polygon on layer &apos;%s&apos;!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -428,42 +423,42 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="138"/>
+        <location filename="surveying_calculation.py" line="142"/>
         <source>Import fieldbook ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="144"/>
+        <location filename="surveying_calculation.py" line="148"/>
         <source>Polygon division ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="145"/>
+        <location filename="surveying_calculation.py" line="149"/>
         <source>Plot by template ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="239"/>
+        <location filename="surveying_calculation.py" line="246"/>
         <source>No coordinate list is opened, coordinates will be lost from the fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="353"/>
+        <location filename="surveying_calculation.py" line="360"/>
         <source>Fieldbook loaded: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="361"/>
+        <location filename="surveying_calculation.py" line="368"/>
         <source>A coordinate list must be opened!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="413"/>
+        <location filename="surveying_calculation.py" line="420"/>
         <source>Actual layer contains no polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="416"/>
+        <location filename="surveying_calculation.py" line="423"/>
         <source>Not a single polygon is selected in active layer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -488,17 +483,17 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="240"/>
+        <location filename="surveying_calculation.py" line="247"/>
         <source>Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="347"/>
+        <location filename="surveying_calculation.py" line="354"/>
         <source>Neither coordinates nor observations found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="350"/>
+        <location filename="surveying_calculation.py" line="357"/>
         <source>No observations found</source>
         <translation type="unfinished"></translation>
     </message>
@@ -528,63 +523,98 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="151"/>
+        <location filename="batch_plotting_dialog.py" line="153"/>
         <source>Scale must be a positive integer value!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="171"/>
+        <location filename="batch_plotting_dialog.py" line="173"/>
         <source>The filename pattern is empty. A default one will be used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="240"/>
+        <location filename="batch_plotting_dialog.py" line="242"/>
         <source>Choose a file name to save the map as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="240"/>
+        <location filename="batch_plotting_dialog.py" line="242"/>
         <source>PDF Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="251"/>
+        <location filename="batch_plotting_dialog.py" line="253"/>
         <source>Directory where to save PDF files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="259"/>
+        <location filename="batch_plotting_dialog.py" line="261"/>
         <source>Unable to write into the directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="259"/>
+        <location filename="batch_plotting_dialog.py" line="261"/>
         <source>The given output directory is not writable. Cancelling.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="377"/>
+        <location filename="batch_plotting_dialog.py" line="379"/>
         <source>Atlas processing error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="362"/>
+        <location filename="batch_plotting_dialog.py" line="364"/>
         <source>Feature filter parser error: %s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="309"/>
+        <location filename="batch_plotting_dialog.py" line="311"/>
         <source>Error creating %s.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="368"/>
+        <location filename="batch_plotting_dialog.py" line="370"/>
         <source>Rendering maps...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="368"/>
+        <location filename="batch_plotting_dialog.py" line="370"/>
         <source>Abort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="traverse_dialog.py" line="267"/>
+        <source>Add points to point list!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings_dialog.py" line="47"/>
+        <source>Select Home Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings_dialog.py" line="57"/>
+        <source>Select Log Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings_dialog.py" line="75"/>
+        <source>Snap tolerance must be a positive float value in layer units!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings_dialog.py" line="85"/>
+        <source>Area tolerance must be a positive float value in layer units!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings_dialog.py" line="95"/>
+        <source>Maximum iteration must be a positive integer value!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="surveying_calculation.py" line="151"/>
+        <source>Settings ...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -947,6 +977,94 @@ Version 0.1a</source>
     <message>
         <location filename="network_calc.py" line="353"/>
         <source>Dimension</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PluginSettingsDialog</name>
+    <message>
+        <location filename="plugin_settings.ui" line="14"/>
+        <source>Plugin Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="30"/>
+        <source>Directories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="74"/>
+        <source>Default directory for loading fieldbooks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="116"/>
+        <source>Directory for log file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="61"/>
+        <source>Log directory:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="77"/>
+        <source>Home directory:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="103"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="125"/>
+        <source>Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="137"/>
+        <source>Monospace font used in the calculation results widgets on Linux. On Windows it is courier font.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="156"/>
+        <source>Font name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="190"/>
+        <source>Font size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="206"/>
+        <source>Area division</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="218"/>
+        <source>Snap tolerance:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="241"/>
+        <source>Area tolerance:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="264"/>
+        <source>Max. iterations:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="295"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="314"/>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
