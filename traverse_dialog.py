@@ -264,7 +264,7 @@ class TraverseDialog(QDialog):
             self.ui.EndPointComboBox.setFocus()
             return
         if self.ui.OrderList.count()==0:
-            QMessageBox.warning(self, tr("Warning"), tr("Add points to angle point list!"))
+            QMessageBox.warning(self, tr("Warning"), tr("Add points to point list!"))
             self.ui.OrderList.setFocus()
             return
 
