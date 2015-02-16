@@ -52,17 +52,17 @@ Are you sure you want to calculate an open traverse?</source>
     <message>
         <location filename="traverse_dialog.py" line="342"/>
         <source>            bearing    bw dist</source>
-        <translation type="unfinished"></translation>
+        <translation>           Irányszög   Táv.vissz</translation>
     </message>
     <message>
         <location filename="traverse_dialog.py" line="343"/>
         <source>Point        angle     distance  (dE)     (dN)       dE         dN</source>
-        <translation type="unfinished"></translation>
+        <translation>Pontszám   Törésszög   Távolság  (dY)     (dX)       dY         dX</translation>
     </message>
     <message>
         <location filename="traverse_dialog.py" line="344"/>
         <source>           correction  fw dist    corrections      Easting    Northing</source>
-        <translation type="unfinished"></translation>
+        <translation>           Javítás     Táv. oda    Javítások        Kelet      Észak</translation>
     </message>
     <message>
         <location filename="traverse_dialog.py" line="348"/>
@@ -171,7 +171,7 @@ Negyedfokú polinom transzformáció</translation>
     <message>
         <location filename="transformation_dialog.py" line="218"/>
         <source>Point num                E from       N from       E to         N to      dE     dN</source>
-        <translation type="unfinished"></translation>
+        <translation>Pontszám                   y            x            Y            X       dY     dX</translation>
     </message>
     <message>
         <location filename="single_dialog.py" line="240"/>
@@ -201,7 +201,7 @@ Negyedfokú polinom transzformáció</translation>
     <message>
         <location filename="single_dialog.py" line="277"/>
         <source>Point num  Code         Direction    Bearing   Orient ang   Distance   e&quot;    E(m)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pontszám   Pontkód      Irányérték  Irányszög  Táj.szög     Távolság   e&quot;    E(m)</translation>
     </message>
     <message>
         <location filename="single_dialog.py" line="280"/>
@@ -216,7 +216,8 @@ Negyedfokú polinom transzformáció</translation>
     <message>
         <location filename="single_dialog.py" line="298"/>
         <source>Point num  Code              E            N        Z     Bearing  H.Distance</source>
-        <translation type="unfinished"></translation>
+        <translation>                                                       Tájékozott Vízszintes
+Pontszám   Pontkód         Kelet        Észak      M   irányérték  távolság</translation>
     </message>
     <message>
         <location filename="single_dialog.py" line="316"/>
@@ -236,7 +237,7 @@ Negyedfokú polinom transzformáció</translation>
     <message>
         <location filename="single_dialog.py" line="343"/>
         <source>Point num  Code              E            N     Bearing1 Bearing2</source>
-        <translation type="unfinished"></translation>
+        <translation>Pontszám   Pontkód         Kelet        Észak Irányszög1 Irányszög2</translation>
     </message>
     <message>
         <location filename="single_dialog.py" line="357"/>
@@ -256,7 +257,7 @@ Negyedfokú polinom transzformáció</translation>
     <message>
         <location filename="single_dialog.py" line="383"/>
         <source>Point num  Code                E            N      Direction  Angle</source>
-        <translation type="unfinished"></translation>
+        <translation>Pontszám   Pontkód           Kelet        Észak    Irányérték Szög</translation>
     </message>
     <message>
         <location filename="single_dialog.py" line="400"/>
@@ -1015,7 +1016,7 @@ Version 0.1a</source>
     <message>
         <location filename="single_calc.ui" line="244"/>
         <source>&lt; Remove</source>
-        <translation type="unfinished">&lt; Eltávolít</translation>
+        <translation>&lt; Eltávolít</translation>
     </message>
     <message>
         <location filename="single_calc.ui" line="263"/>
