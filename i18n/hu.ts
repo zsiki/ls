@@ -868,7 +868,7 @@ Version 0.1a</source>
     <message>
         <location filename="network_calc.py" line="322"/>
         <source>&lt; Remove</source>
-        <translation>Eltávolít &lt;</translation>
+        <translation>&lt; Eltávolít</translation>
     </message>
     <message>
         <location filename="network_calc.py" line="320"/>
@@ -1071,7 +1071,7 @@ Version 0.1a</source>
     <message>
         <location filename="plugin_settings.ui" line="314"/>
         <source>Cancel</source>
-        <translation type="unfinished">Mégsem</translation>
+        <translation>Mégsem</translation>
     </message>
 </context>
 <context>
@@ -1139,7 +1139,7 @@ Version 0.1a</source>
     <message>
         <location filename="single_calc.ui" line="263"/>
         <source>Remove all</source>
-        <translation>Mindet &lt;</translation>
+        <translation>&lt; Mindet</translation>
     </message>
     <message>
         <location filename="single_calc.ui" line="282"/>
