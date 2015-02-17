@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="hu_HU" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="hu_HU">
 <context>
     <name>@default</name>
     <message>
@@ -678,7 +679,7 @@ Version 0.1a</source>
     <message>
         <location filename="add_new_point.ui" line="32"/>
         <source>Add New Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Pont hozzáadása</translation>
     </message>
 </context>
 <context>
@@ -721,7 +722,7 @@ Version 0.1a</source>
     <message>
         <location filename="area_div.ui" line="32"/>
         <source>Area Division</source>
-        <translation type="unfinished"></translation>
+        <translation>Területosztás</translation>
     </message>
 </context>
 <context>
@@ -997,7 +998,7 @@ Version 0.1a</source>
     <message>
         <location filename="network_calc.ui" line="32"/>
         <source>Network Adjustment</source>
-        <translation type="unfinished"></translation>
+        <translation>Hálózatkiegyenlítés</translation>
     </message>
 </context>
 <context>
@@ -1080,7 +1081,7 @@ Version 0.1a</source>
     <message>
         <location filename="plugin_settings.ui" line="295"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="314"/>
@@ -1393,12 +1394,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="traverse_calc.ui" line="359"/>
         <source>A closed link traverse joins two known points.</source>
-        <translation>A beillesztett sokszögonal kezdő és végpontja ismert.</translation>
+        <translation>Mindkét végén kapcsolt sokszögvonalak: egyszeresen tájékozott; kétszeresen tájékozott; beillesztett (tájékozás nélküli).</translation>
     </message>
     <message>
         <location filename="traverse_calc.ui" line="362"/>
         <source>Link Traverse</source>
-        <translation>Beillesztett sokszögvonal</translation>
+        <translation>Kapcsolt sokszögvonalak</translation>
     </message>
     <message>
         <location filename="traverse_calc.ui" line="384"/>
@@ -1438,7 +1439,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="traverse_calc.ui" line="32"/>
         <source>Traverse Calculations</source>
-        <translation type="unfinished"></translation>
+        <translation>Sokszögvonal számítás</translation>
     </message>
 </context>
 </TS>
