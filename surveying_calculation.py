@@ -50,7 +50,6 @@ class SurveyingCalculation:
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
         print locale
-        locale = 'hu'
         locale_path = os.path.join(
             self.plugin_dir,
             'i18n',
