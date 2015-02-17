@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'network_calc.ui'
 #
-# Created: Sat Jan 03 11:16:46 2015
-#      by: PyQt4 UI code generator 4.8.3
+# Created: Tue Feb 17 11:28:43 2015
+#      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_NetworkCalcDialog(object):
     def setupUi(self, NetworkCalcDialog):
@@ -25,7 +34,6 @@ class Ui_NetworkCalcDialog(object):
         NetworkCalcDialog.setSizePolicy(sizePolicy)
         NetworkCalcDialog.setMinimumSize(QtCore.QSize(638, 542))
         NetworkCalcDialog.setMaximumSize(QtCore.QSize(638, 542))
-        NetworkCalcDialog.setWindowTitle(_fromUtf8("Network Adjustment"))
         NetworkCalcDialog.setAccessibleName(_fromUtf8(""))
         NetworkCalcDialog.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedKingdom))
         self.PointsGroup = QtGui.QGroupBox(NetworkCalcDialog)
@@ -313,42 +321,43 @@ class Ui_NetworkCalcDialog(object):
         NetworkCalcDialog.setTabOrder(self.ResetButton, self.CloseButton)
 
     def retranslateUi(self, NetworkCalcDialog):
-        self.PointsGroup.setTitle(QtGui.QApplication.translate("NetworkCalcDialog", "Points", None, QtGui.QApplication.UnicodeUTF8))
-        self.AddFixButton.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Add >", None, QtGui.QApplication.UnicodeUTF8))
-        self.AddAdjButton.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Add >", None, QtGui.QApplication.UnicodeUTF8))
-        self.RemoveFixButton.setText(QtGui.QApplication.translate("NetworkCalcDialog", "< Remove", None, QtGui.QApplication.UnicodeUTF8))
-        self.PointsLabel.setText(QtGui.QApplication.translate("NetworkCalcDialog", "List of Points", None, QtGui.QApplication.UnicodeUTF8))
-        self.FixLabel.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Fix Points", None, QtGui.QApplication.UnicodeUTF8))
-        self.RemoveAdjButton.setText(QtGui.QApplication.translate("NetworkCalcDialog", "< Remove", None, QtGui.QApplication.UnicodeUTF8))
-        self.AdjustedLabel.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Adjusted Points", None, QtGui.QApplication.UnicodeUTF8))
-        self.ResetButton.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Reset", None, QtGui.QApplication.UnicodeUTF8))
-        self.CloseButton.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Close", None, QtGui.QApplication.UnicodeUTF8))
-        self.ResultGroup.setTitle(QtGui.QApplication.translate("NetworkCalcDialog", "Result of Calculations", None, QtGui.QApplication.UnicodeUTF8))
-        self.HelpButton.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Help", None, QtGui.QApplication.UnicodeUTF8))
-        self.CalcButton.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Calculate", None, QtGui.QApplication.UnicodeUTF8))
-        self.ParametersGroup.setTitle(QtGui.QApplication.translate("NetworkCalcDialog", "Parameters", None, QtGui.QApplication.UnicodeUTF8))
-        self.ConfidenceComboBox.setItemText(0, QtGui.QApplication.translate("NetworkCalcDialog", "0.95", None, QtGui.QApplication.UnicodeUTF8))
-        self.ConfidenceComboBox.setItemText(1, QtGui.QApplication.translate("NetworkCalcDialog", "0.997", None, QtGui.QApplication.UnicodeUTF8))
-        self.ConfidenceLabel.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Confidence Level", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMComboBox.setItemText(0, QtGui.QApplication.translate("NetworkCalcDialog", "1", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMComboBox.setItemText(1, QtGui.QApplication.translate("NetworkCalcDialog", "2", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMComboBox.setItemText(2, QtGui.QApplication.translate("NetworkCalcDialog", "3", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMComboBox.setItemText(3, QtGui.QApplication.translate("NetworkCalcDialog", "5", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevLabel.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Distance standard deviation", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMKMComboBox.setItemText(0, QtGui.QApplication.translate("NetworkCalcDialog", "1", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMKMComboBox.setItemText(1, QtGui.QApplication.translate("NetworkCalcDialog", "2", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMKMComboBox.setItemText(2, QtGui.QApplication.translate("NetworkCalcDialog", "3", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMKMComboBox.setItemText(3, QtGui.QApplication.translate("NetworkCalcDialog", "5", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMLabel.setText(QtGui.QApplication.translate("NetworkCalcDialog", "[mm]", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMKMLabel.setText(QtGui.QApplication.translate("NetworkCalcDialog", "[mm/km]", None, QtGui.QApplication.UnicodeUTF8))
-        self.AngleDevComboBox.setItemText(0, QtGui.QApplication.translate("NetworkCalcDialog", "1", None, QtGui.QApplication.UnicodeUTF8))
-        self.AngleDevComboBox.setItemText(1, QtGui.QApplication.translate("NetworkCalcDialog", "3", None, QtGui.QApplication.UnicodeUTF8))
-        self.AngleDevComboBox.setItemText(2, QtGui.QApplication.translate("NetworkCalcDialog", "5", None, QtGui.QApplication.UnicodeUTF8))
-        self.AngleDevComboBox.setItemText(3, QtGui.QApplication.translate("NetworkCalcDialog", "7", None, QtGui.QApplication.UnicodeUTF8))
-        self.ZenitDevLabel.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Angle standard deviation", None, QtGui.QApplication.UnicodeUTF8))
-        self.DistDevMMLabel_2.setText(QtGui.QApplication.translate("NetworkCalcDialog", "[cc]", None, QtGui.QApplication.UnicodeUTF8))
-        self.DimensionComboBox.setItemText(0, QtGui.QApplication.translate("NetworkCalcDialog", "2", None, QtGui.QApplication.UnicodeUTF8))
-        self.DimensionComboBox.setItemText(1, QtGui.QApplication.translate("NetworkCalcDialog", "3", None, QtGui.QApplication.UnicodeUTF8))
-        self.DimensionComboBox.setItemText(2, QtGui.QApplication.translate("NetworkCalcDialog", "1", None, QtGui.QApplication.UnicodeUTF8))
-        self.ZenitDevLabel_2.setText(QtGui.QApplication.translate("NetworkCalcDialog", "Dimension", None, QtGui.QApplication.UnicodeUTF8))
+        NetworkCalcDialog.setWindowTitle(_translate("NetworkCalcDialog", "Network Adjustment", None))
+        self.PointsGroup.setTitle(_translate("NetworkCalcDialog", "Points", None))
+        self.AddFixButton.setText(_translate("NetworkCalcDialog", "Add >", None))
+        self.AddAdjButton.setText(_translate("NetworkCalcDialog", "Add >", None))
+        self.RemoveFixButton.setText(_translate("NetworkCalcDialog", "< Remove", None))
+        self.PointsLabel.setText(_translate("NetworkCalcDialog", "List of Points", None))
+        self.FixLabel.setText(_translate("NetworkCalcDialog", "Fix Points", None))
+        self.RemoveAdjButton.setText(_translate("NetworkCalcDialog", "< Remove", None))
+        self.AdjustedLabel.setText(_translate("NetworkCalcDialog", "Adjusted Points", None))
+        self.ResetButton.setText(_translate("NetworkCalcDialog", "Reset", None))
+        self.CloseButton.setText(_translate("NetworkCalcDialog", "Close", None))
+        self.ResultGroup.setTitle(_translate("NetworkCalcDialog", "Result of Calculations", None))
+        self.HelpButton.setText(_translate("NetworkCalcDialog", "Help", None))
+        self.CalcButton.setText(_translate("NetworkCalcDialog", "Calculate", None))
+        self.ParametersGroup.setTitle(_translate("NetworkCalcDialog", "Parameters", None))
+        self.ConfidenceComboBox.setItemText(0, _translate("NetworkCalcDialog", "0.95", None))
+        self.ConfidenceComboBox.setItemText(1, _translate("NetworkCalcDialog", "0.997", None))
+        self.ConfidenceLabel.setText(_translate("NetworkCalcDialog", "Confidence Level", None))
+        self.DistDevMMComboBox.setItemText(0, _translate("NetworkCalcDialog", "1", None))
+        self.DistDevMMComboBox.setItemText(1, _translate("NetworkCalcDialog", "2", None))
+        self.DistDevMMComboBox.setItemText(2, _translate("NetworkCalcDialog", "3", None))
+        self.DistDevMMComboBox.setItemText(3, _translate("NetworkCalcDialog", "5", None))
+        self.DistDevLabel.setText(_translate("NetworkCalcDialog", "Distance standard deviation", None))
+        self.DistDevMMKMComboBox.setItemText(0, _translate("NetworkCalcDialog", "1", None))
+        self.DistDevMMKMComboBox.setItemText(1, _translate("NetworkCalcDialog", "2", None))
+        self.DistDevMMKMComboBox.setItemText(2, _translate("NetworkCalcDialog", "3", None))
+        self.DistDevMMKMComboBox.setItemText(3, _translate("NetworkCalcDialog", "5", None))
+        self.DistDevMMLabel.setText(_translate("NetworkCalcDialog", "[mm]", None))
+        self.DistDevMMKMLabel.setText(_translate("NetworkCalcDialog", "[mm/km]", None))
+        self.AngleDevComboBox.setItemText(0, _translate("NetworkCalcDialog", "1", None))
+        self.AngleDevComboBox.setItemText(1, _translate("NetworkCalcDialog", "3", None))
+        self.AngleDevComboBox.setItemText(2, _translate("NetworkCalcDialog", "5", None))
+        self.AngleDevComboBox.setItemText(3, _translate("NetworkCalcDialog", "7", None))
+        self.ZenitDevLabel.setText(_translate("NetworkCalcDialog", "Angle standard deviation", None))
+        self.DistDevMMLabel_2.setText(_translate("NetworkCalcDialog", "[cc]", None))
+        self.DimensionComboBox.setItemText(0, _translate("NetworkCalcDialog", "2", None))
+        self.DimensionComboBox.setItemText(1, _translate("NetworkCalcDialog", "3", None))
+        self.DimensionComboBox.setItemText(2, _translate("NetworkCalcDialog", "1", None))
+        self.ZenitDevLabel_2.setText(_translate("NetworkCalcDialog", "Dimension", None))
 

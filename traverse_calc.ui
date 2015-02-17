@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string notr="true">Traverse Calculations</string>
+   <string>Traverse Calculations</string>
   </property>
   <property name="accessibleName">
    <string/>

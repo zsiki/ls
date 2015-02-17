@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string notr="true">Add New Point</string>
+   <string>Add New Point</string>
   </property>
   <property name="accessibleName">
    <string/>

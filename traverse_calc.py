@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'traverse_calc.ui'
 #
-# Created: Tue Nov 25 01:47:02 2014
+# Created: Tue Feb 17 11:27:07 2015
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -34,7 +34,6 @@ class Ui_TraverseCalcDialog(object):
         TraverseCalcDialog.setSizePolicy(sizePolicy)
         TraverseCalcDialog.setMinimumSize(QtCore.QSize(754, 456))
         TraverseCalcDialog.setMaximumSize(QtCore.QSize(754, 456))
-        TraverseCalcDialog.setWindowTitle(_fromUtf8("Traverse Calculations"))
         TraverseCalcDialog.setAccessibleName(_fromUtf8(""))
         TraverseCalcDialog.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedKingdom))
         self.EndpointsGroup = QtGui.QGroupBox(TraverseCalcDialog)
@@ -257,6 +256,7 @@ class Ui_TraverseCalcDialog(object):
         TraverseCalcDialog.setTabOrder(self.ResetButton, self.CloseButton)
 
     def retranslateUi(self, TraverseCalcDialog):
+        TraverseCalcDialog.setWindowTitle(_translate("TraverseCalcDialog", "Traverse Calculations", None))
         self.EndpointsGroup.setTitle(_translate("TraverseCalcDialog", "Endpoints", None))
         self.StartPointLabel.setText(_translate("TraverseCalcDialog", "Start Point", None))
         self.EndPointLabel.setText(_translate("TraverseCalcDialog", "End Point", None))

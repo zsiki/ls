@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string notr="true">Area Division</string>
+   <string>Area Division</string>
   </property>
   <property name="accessibleName">
    <string/>
