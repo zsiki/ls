@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="hu_HU">
+<!DOCTYPE TS><TS version="2.0" language="hu_HU" sourcelanguage="">
 <context>
     <name>@default</name>
     <message>
@@ -9,7 +8,7 @@
         <translation>Jó reggelt</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="440"/>
+        <location filename="surveying_calculation.py" line="439"/>
         <source>Warning</source>
         <translation>Figyelmeztetés</translation>
     </message>
@@ -260,112 +259,112 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
         <translation>gama-local nincs telepítve vagy más programfutási hiba</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="197"/>
+        <location filename="surveying_calculation.py" line="196"/>
         <source>&amp;SurveyingCalculation</source>
         <translation>&amp;Geodéziai számítások</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="140"/>
+        <location filename="surveying_calculation.py" line="139"/>
         <source>New coordinate list ...</source>
         <translation>Új koordinátajegyzék ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="141"/>
+        <location filename="surveying_calculation.py" line="140"/>
         <source>New fieldbook ...</source>
         <translation>Új mérési jegyzőkönyv ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="144"/>
+        <location filename="surveying_calculation.py" line="143"/>
         <source>Single point calculations ...</source>
         <translation>Pontkapcsolások ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="145"/>
+        <location filename="surveying_calculation.py" line="144"/>
         <source>Traverse calculations ...</source>
         <translation>Sokszögvonal számítás ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="146"/>
+        <location filename="surveying_calculation.py" line="145"/>
         <source>Network adjustment ...</source>
         <translation>Hálózatkiegyenlítés ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="147"/>
+        <location filename="surveying_calculation.py" line="146"/>
         <source>Coordinate transformation ...</source>
         <translation>Koordináta transzformáció ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="150"/>
+        <location filename="surveying_calculation.py" line="149"/>
         <source>Batch plotting ...</source>
         <translation>Kötegelt nyomtatás ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="152"/>
+        <location filename="surveying_calculation.py" line="151"/>
         <source>Help</source>
         <translation>Súgó</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="459"/>
+        <location filename="surveying_calculation.py" line="458"/>
         <source>About</source>
         <translation>Névjegy</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="207"/>
+        <location filename="surveying_calculation.py" line="206"/>
         <source>QGIS co-ordinate list</source>
         <translation>QGIS koordinátajegyzék</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="207"/>
+        <location filename="surveying_calculation.py" line="206"/>
         <source>Shape file (*.shp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="226"/>
+        <location filename="surveying_calculation.py" line="225"/>
         <source>New fieldbook</source>
         <translation>Új mérési jegyzőkönyv</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="226"/>
+        <location filename="surveying_calculation.py" line="225"/>
         <source>Fieldbook file (*.dbf)</source>
         <translation>Mérési jegyzőkönyv file (*.dbf)</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="247"/>
+        <location filename="surveying_calculation.py" line="246"/>
         <source>Electric fieldbook</source>
         <translation>Mérési jegyzőkönyv</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="255"/>
+        <location filename="surveying_calculation.py" line="254"/>
         <source>QGIS fieldbook</source>
         <translation>QGIS mérési jegyzőkönyv</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="255"/>
+        <location filename="surveying_calculation.py" line="254"/>
         <source>DBF file (*.dbf)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="281"/>
+        <location filename="surveying_calculation.py" line="280"/>
         <source>File warning</source>
         <translation>Hibás file</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="281"/>
+        <location filename="surveying_calculation.py" line="280"/>
         <source>Unknown fieldbook type</source>
         <translation>Ismeretlen jegyzőkönyv típus</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="281"/>
+        <location filename="surveying_calculation.py" line="280"/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="440"/>
+        <location filename="surveying_calculation.py" line="439"/>
         <source>This utility needs at least one polygon type layer!</source>
         <translation>Ehhez a művelethez legalább egy polygon típusú rétegre van szükség!</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="459"/>
+        <location filename="surveying_calculation.py" line="458"/>
         <source>Surveying Calculation Plugin
 
  (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu
@@ -399,7 +398,7 @@ Version 0.1a</source>
         <translation>A pontot nem tároltam</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="143"/>
+        <location filename="surveying_calculation.py" line="142"/>
         <source>Add new point ...</source>
         <translation>Pont hozzáadása ...</translation>
     </message>
@@ -429,42 +428,42 @@ Version 0.1a</source>
         <translation>Hálózatkiegyenlítés</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="142"/>
+        <location filename="surveying_calculation.py" line="141"/>
         <source>Import fieldbook ...</source>
         <translation>Mérési jegyzőkönyv betöltése ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="148"/>
+        <location filename="surveying_calculation.py" line="147"/>
         <source>Polygon division ...</source>
         <translation>Területosztás ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="149"/>
+        <location filename="surveying_calculation.py" line="148"/>
         <source>Plot by template ...</source>
         <translation>Nyomtatás sablonnal ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="246"/>
+        <location filename="surveying_calculation.py" line="245"/>
         <source>No coordinate list is opened, coordinates will be lost from the fieldbook</source>
         <translation>Nincs megnyitott koordinátajegyzék, a jegyzőkönyvben szereplő koordináták elvesznek</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="360"/>
+        <location filename="surveying_calculation.py" line="359"/>
         <source>Fieldbook loaded: </source>
         <translation>Mérési jegyzőkönyv betöltve:</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="368"/>
+        <location filename="surveying_calculation.py" line="367"/>
         <source>A coordinate list must be opened!</source>
         <translation>Legalább egy koordinátajegyzék megnyitása szükséges!</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="420"/>
+        <location filename="surveying_calculation.py" line="419"/>
         <source>Actual layer contains no polygons</source>
         <translation>Az aktuális réteg nem tartalmaz polygonokat</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="423"/>
+        <location filename="surveying_calculation.py" line="422"/>
         <source>Not a single polygon is selected in active layer</source>
         <translation>Nem egy elem van szelektálva az aktív rétegen</translation>
     </message>
@@ -489,17 +488,17 @@ Version 0.1a</source>
         <translation>Hiba a területosztásban</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="247"/>
+        <location filename="surveying_calculation.py" line="246"/>
         <source>Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="354"/>
+        <location filename="surveying_calculation.py" line="353"/>
         <source>Neither coordinates nor observations found</source>
         <translation>Nincs sem koordináta, sem mérés</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="357"/>
+        <location filename="surveying_calculation.py" line="356"/>
         <source>No observations found</source>
         <translation>Nincs mérés</translation>
     </message>
@@ -619,7 +618,7 @@ Version 0.1a</source>
         <translation>A maximális iteráció pozitív egész szám!</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="151"/>
+        <location filename="surveying_calculation.py" line="150"/>
         <source>Settings ...</source>
         <translation>Beállítások...</translation>
     </message>
@@ -676,6 +675,11 @@ Version 0.1a</source>
         <source>Close</source>
         <translation>Bezár</translation>
     </message>
+    <message>
+        <location filename="add_new_point.ui" line="32"/>
+        <source>Add New Point</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AreaDivDialog</name>
@@ -713,6 +717,11 @@ Version 0.1a</source>
         <location filename="area_div.ui" line="161"/>
         <source>Full area</source>
         <translation>Teljes terület</translation>
+    </message>
+    <message>
+        <location filename="area_div.ui" line="32"/>
+        <source>Area Division</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -856,134 +865,139 @@ Version 0.1a</source>
 <context>
     <name>NetworkCalcDialog</name>
     <message>
-        <location filename="network_calc.py" line="316"/>
+        <location filename="network_calc.ui" line="56"/>
         <source>Points</source>
         <translation>Pontok</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="318"/>
+        <location filename="network_calc.ui" line="93"/>
         <source>Add &gt;</source>
         <translation>Hozzáad &gt;</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="322"/>
+        <location filename="network_calc.ui" line="169"/>
         <source>&lt; Remove</source>
         <translation>&lt; Eltávolít</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="320"/>
+        <location filename="network_calc.ui" line="131"/>
         <source>List of Points</source>
         <translation>Pontlista</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="321"/>
+        <location filename="network_calc.ui" line="150"/>
         <source>Fix Points</source>
         <translation>Fix pontok</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="323"/>
+        <location filename="network_calc.ui" line="188"/>
         <source>Adjusted Points</source>
         <translation>Kiegyenlített pontok</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="324"/>
+        <location filename="network_calc.ui" line="265"/>
         <source>Reset</source>
         <translation>Töröl</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="325"/>
+        <location filename="network_calc.ui" line="284"/>
         <source>Close</source>
         <translation>Bezár</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="326"/>
+        <location filename="network_calc.ui" line="303"/>
         <source>Result of Calculations</source>
         <translation>Számítások eredménye</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="327"/>
+        <location filename="network_calc.ui" line="344"/>
         <source>Help</source>
         <translation>Súgó</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="328"/>
+        <location filename="network_calc.ui" line="363"/>
         <source>Calculate</source>
         <translation>Számít</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="329"/>
+        <location filename="network_calc.ui" line="382"/>
         <source>Parameters</source>
         <translation>Paraméterek</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="330"/>
+        <location filename="network_calc.ui" line="401"/>
         <source>0.95</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="331"/>
+        <location filename="network_calc.ui" line="406"/>
         <source>0.997</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="332"/>
+        <location filename="network_calc.ui" line="426"/>
         <source>Confidence Level</source>
         <translation>Konfidencia szint</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="352"/>
+        <location filename="network_calc.ui" line="659"/>
         <source>1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="350"/>
+        <location filename="network_calc.ui" line="649"/>
         <source>2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="351"/>
+        <location filename="network_calc.ui" line="654"/>
         <source>3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="346"/>
+        <location filename="network_calc.ui" line="585"/>
         <source>5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="337"/>
+        <location filename="network_calc.ui" line="481"/>
         <source>Distance standard deviation</source>
         <translation>Távmérési középhiba</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="342"/>
+        <location filename="network_calc.ui" line="536"/>
         <source>[mm]</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="343"/>
+        <location filename="network_calc.ui" line="555"/>
         <source>[mm/km]</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="347"/>
+        <location filename="network_calc.ui" line="590"/>
         <source>7</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="348"/>
+        <location filename="network_calc.ui" line="610"/>
         <source>Angle standard deviation</source>
         <translation>Szögmérési középhiba</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="349"/>
+        <location filename="network_calc.ui" line="629"/>
         <source>[cc]</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="353"/>
+        <location filename="network_calc.ui" line="679"/>
         <source>Dimension</source>
         <translation>Tizedesek</translation>
+    </message>
+    <message>
+        <location filename="network_calc.ui" line="32"/>
+        <source>Network Adjustment</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1420,6 +1434,11 @@ p, li { white-space: pre-wrap; }
         <location filename="traverse_calc.ui" line="507"/>
         <source>Reset</source>
         <translation>Töröl</translation>
+    </message>
+    <message>
+        <location filename="traverse_calc.ui" line="32"/>
+        <source>Traverse Calculations</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
