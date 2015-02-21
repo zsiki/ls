@@ -606,7 +606,7 @@ Version 0.1a</source>
     <message>
         <location filename="plugin_settings_dialog.py" line="75"/>
         <source>Snap tolerance must be a positive float value in layer units!</source>
-        <translation type="unfinished"></translation>
+        <translation>A pont toleranciának a réteg egységekben adott számértéknek kell lennie!</translation>
     </message>
     <message>
         <location filename="plugin_settings_dialog.py" line="85"/>
@@ -993,7 +993,7 @@ Version 0.1a</source>
     <message>
         <location filename="network_calc.ui" line="679"/>
         <source>Dimension</source>
-        <translation>Tizedesek</translation>
+        <translation>Dimenzió</translation>
     </message>
     <message>
         <location filename="network_calc.ui" line="32"/>
@@ -1046,12 +1046,12 @@ Version 0.1a</source>
     <message>
         <location filename="plugin_settings.ui" line="137"/>
         <source>Monospace font used in the calculation results widgets on Linux. On Windows it is courier font.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aznonos szélességű betűket tartalmazó betűkészlet Linuxon. Windows-on a Courier betűkészletet használjuk.</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="156"/>
         <source>Font name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Betűkészlet:</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="190"/>
@@ -1066,17 +1066,17 @@ Version 0.1a</source>
     <message>
         <location filename="plugin_settings.ui" line="218"/>
         <source>Snap tolerance:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pont tolerancia:</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="241"/>
         <source>Area tolerance:</source>
-        <translation type="unfinished"></translation>
+        <translation>Terület tolerancia:</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="264"/>
         <source>Max. iterations:</source>
-        <translation type="unfinished"></translation>
+        <translation>Max iteráció:</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="295"/>
