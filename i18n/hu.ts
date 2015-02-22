@@ -134,7 +134,7 @@ Are you sure you want to calculate an open traverse?</source>
         <source>
 Orthogonal transformation</source>
         <translation>
-Ortogonális transzformáció</translation>
+Helmert transzformáció</translation>
     </message>
     <message>
         <location filename="transformation_dialog.py" line="196"/>
@@ -1267,7 +1267,7 @@ Version 0.1a</source>
     <message>
         <location filename="transformation_calc.ui" line="316"/>
         <source>Orthogonal</source>
-        <translation>Ortogonális</translation>
+        <translation>Helmert</translation>
     </message>
     <message>
         <location filename="transformation_calc.ui" line="335"/>
