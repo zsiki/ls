@@ -55,7 +55,7 @@ class ResultLog(object):
                 f = open(self.logfile, "a")
                 for i in range(self.repeat_count):
                     try:
-                        f.write(msg + '\n')
+                        f.write( (msg + '\n').encode('utf8') )
                         break
                     except (IOError):
                         pass
