@@ -141,7 +141,7 @@ Helmert transzformáció</translation>
         <source>
 Affine transformation</source>
         <translation>
-Affine transzformáció</translation>
+Affin transzformáció</translation>
     </message>
     <message>
         <location filename="transformation_dialog.py" line="200"/>
@@ -1272,7 +1272,7 @@ Version 0.1a</source>
     <message>
         <location filename="transformation_calc.ui" line="335"/>
         <source>Affine</source>
-        <translation></translation>
+        <translation>Affin</translation>
     </message>
     <message>
         <location filename="transformation_calc.ui" line="354"/>
