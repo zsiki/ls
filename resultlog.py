@@ -7,10 +7,10 @@
 
 .. moduleauthor:: Zoltan Siki <siki@agt.bme.hu>
 """
-import os
-import tempfile
 import datetime
 import time
+
+from PyQt4.QtCore import QDir, QFile, QIODevice, QTextStream
 
 class ResultLog(object):
     """ File based logging for Surveying Calculations. Events & calculation results are logged into this file.
@@ -25,13 +25,11 @@ class ResultLog(object):
         """
         self.repeat_count = repeat_count   # retry count for i/o operations
         for i in range(self.repeat_count * 2):
-            try:
-                f = open(logfile, "a")
-                break
-            except(IOError):
+            f = QFile( logfile )
+            if not f.open(QIODevice.Append | QIODevice.Text):
                 f = None
                 if i == self.repeat_count:
-                    logfile = os.path.join(tempfile.gettempdir(), "SurveyingCalculation.log")
+                    logfile = QDir.temp().absoluteFilePath("SurveyingCalculation.log")
         f.close()
         self.logfile = logfile
 
@@ -39,11 +37,8 @@ class ResultLog(object):
         """ Delete content of log file
         """
         for i in range(self.repeat_count):
-            try:
-                os.remove(self.logfile)
+            if QFile(self.logfile).remove():
                 break
-            except(OSError):
-                pass
 
     def write(self, msg = ""):
         """ Write a  simple message to log
@@ -51,21 +46,13 @@ class ResultLog(object):
             :param msg: message to write
         """
         for i in range(self.repeat_count):
-            try:
-                f = open(self.logfile, "a")
-                for i in range(self.repeat_count):
-                    try:
-                        f.write( (msg + '\n').encode('utf8') )
-                        break
-                    except (IOError):
-                        pass
-                break
-            except (IOError):
-                pass
-        try:
-            f.close()
-        except (IOError):
-            pass
+            f = QFile( self.logfile )
+            if not f.open(QIODevice.Append | QIODevice.Text):
+                continue
+            stream = QTextStream(f)                
+            stream << (msg+'\n')
+            break
+        f.close()
 
     def write_log(self, msg):
         """ Write log message with date & time
