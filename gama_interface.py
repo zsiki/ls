@@ -9,13 +9,12 @@
 """
 
 import re
-import os
-from xml.dom import minidom, Node
 from subprocess import call
-import tempfile
 # surveying calculation modules
 from base_classes import *
 from surveying_util import *
+from PyQt4.QtCore import QDir, QFile, QFileInfo, QIODevice, QTemporaryFile
+from PyQt4.QtXml import QDomDocument, QXmlSimpleReader, QXmlInputSource
 
 class GamaInterface(object):
     """ Interface class to GNU Gama
@@ -37,13 +36,17 @@ class GamaInterface(object):
         self.points = []
         self.observations = []
         # get operating system dependent file name of gama_local
-        plugin_dir = os.path.dirname(os.path.abspath(__file__))
-        gama_prog = os.path.join(plugin_dir, 'gama-local')
-        if not os.path.exists(gama_prog):
-            gama_prog += '.exe'
-            if not os.path.exists(gama_prog):
+        plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
+        gama_prog = QDir(plugin_dir).absoluteFilePath("gama-local")
+        if not QFileInfo(gama_prog).exists():
+            if QFileInfo(gama_prog+".exe").exists():
+                gama_prog += '.exe'
+            elif QFileInfo(gama_prog+"64.exe").exists():
+                gama_prog += '64.exe'
+            else:
                 gama_prog = None
         self.gama_prog = gama_prog
+                
 
     def add_point(self, point, state='ADJ'):
         """ Add point to adjustment
@@ -93,7 +96,8 @@ class GamaInterface(object):
         if adj == 0 or len(self.observations) == 0:
             # no unknowns or observations
             return None
-        doc = minidom.Document()
+        
+        doc = QDomDocument()
         doc.appendChild(doc.createComment('Gama XML created by Land Surveying plugin for QGIS'))
         gama_local = doc.createElement('gama-local')
         gama_local.setAttribute('version', '2.0')
@@ -203,46 +207,58 @@ class GamaInterface(object):
                     return None
         #print doc.toprettyxml(indent="  ")
         # generate temp file name
-        f =  tempfile.NamedTemporaryFile('w')
-        tmp_name = f.name
-        f.close()
-        doc.writexml(open(tmp_name + '.xml', 'w'))
-        doc.unlink()
+        tmpf = QTemporaryFile( QDir.temp().absoluteFilePath('w') )
+        tmpf.open(QIODevice.WriteOnly)
+        tmpf.close()
+        tmp_name = tmpf.fileName()
+        f = QFile(tmp_name + '.xml')
+        if f.open(QIODevice.WriteOnly):
+            f.write(doc.toByteArray())
+            f.close()
+       
         # run gama-local
         if self.gama_prog is None:
             return None
-        status = call([self.gama_prog, tmp_name + '.xml', '--text',
-            tmp_name + '.txt', '--xml', tmp_name + 'out.xml'])
+        status = call([str(self.gama_prog), str(tmp_name) + '.xml', '--text',
+            str(tmp_name) + '.txt', '--xml', str(tmp_name) + 'out.xml'])
         if status != 0:
             return None
-        doc = minidom.parse(tmp_name + 'out.xml')
-        f_txt = open(tmp_name + '.txt', 'r')
-        res = f_txt.read()
-        f.close()
+        
+        xmlParser = QXmlSimpleReader()
+        xmlFile = QFile(tmp_name + 'out.xml')
+        xmlInputSource = QXmlInputSource(xmlFile)
+        doc.setContent(xmlInputSource,xmlParser)
+        
+        f_txt = QFile(tmp_name + '.txt') 
+        f_txt.open(QIODevice.ReadOnly)
+        res = f_txt.readAll().data()
+        f_txt.close()
+        
         # store coordinates
-        adj_nodes = doc.getElementsByTagName('adjusted')
-        if len(adj_nodes) < 1:
+        adj_nodes = doc.elementsByTagName('adjusted')
+        if adj_nodes.count() < 1:
             return res
-        adj_node = adj_nodes[0]
-        for pp in adj_node.childNodes:
-            if pp.nodeName == 'point':
-                for ppp in pp.childNodes:
-                    if ppp.nodeName == 'id':
-                        p = Point(ppp.firstChild.data)
-                    elif ppp.nodeName == 'Y' or ppp.nodeName == 'y':
-                        p.e = float(ppp.firstChild.data)
-                    elif ppp.nodeName == 'X' or ppp.nodeName == 'x':
-                        p.n = float(ppp.firstChild.data)
-                    elif ppp.nodeName == 'Z' or ppp.nodeName == 'z':
-                        p.z = float(ppp.firstChild.data)
+        adj_node = adj_nodes.at(0)
+        for i in range(len(adj_node.childNodes())):
+            pp = adj_node.childNodes().at(i)
+            if pp.nodeName() == 'point':
+                for ii in range(len(pp.childNodes())):
+                    ppp = pp.childNodes().at(ii)
+                    if ppp.nodeName() == 'id':
+                        p = Point(ppp.firstChild().nodeValue())
+                    elif ppp.nodeName() == 'Y' or ppp.nodeName() == 'y':
+                        p.e = float(ppp.firstChild().nodeValue())
+                    elif ppp.nodeName() == 'X' or ppp.nodeName() == 'x':
+                        p.n = float(ppp.firstChild().nodeValue())
+                    elif ppp.nodeName() == 'Z' or ppp.nodeName() == 'z':
+                        p.z = float(ppp.firstChild().nodeValue())
                 ScPoint(p).store_coord(self.dimension)
         # remove input xml and output xml
-        try:
-            os.remove(tmp_name + '.txt')
-            os.remove(tmp_name + '.xml')
-            os.remove(tmp_name + 'out.xml')
-        except OSError:
-            pass
+        tmpf.remove()
+        f_txt.remove()
+        f.remove()
+        xmlFile.remove()
+        
         return res
 
 if __name__ == "__main__":
