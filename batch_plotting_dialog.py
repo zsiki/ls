@@ -6,9 +6,9 @@
 
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
-import os, glob, ctypes, sys
+import ctypes, sys
 from PyQt4.QtCore import QCoreApplication, QDir, QFile, QFileInfo, QIODevice, \
-                        QSizeF, Qt 
+                        QSizeF, Qt
 from PyQt4.QtGui import QDialog, QFileDialog, QListWidgetItem, QMessageBox, \
                         QPrintDialog, QPrinter, QAbstractPrintDialog, QPainter, \
                         QProgressDialog, QApplication
@@ -44,8 +44,8 @@ class BatchPlottingDialog(QDialog):
         self.ui.TemplateList.setSortingEnabled(True)
 
         # set paths        
-        self.plugin_dir = os.path.dirname(os.path.abspath(__file__))
-        self.templatepath = os.path.join(self.plugin_dir, 'template')
+        self.plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
+        self.templatepath = QDir(self.plugin_dir).absoluteFilePath("template")
         self.pdfpath = ""
         
         if self.batch_plotting:
@@ -101,13 +101,14 @@ class BatchPlottingDialog(QDialog):
         else:
             oldSelectedTemplate = ""
         self.ui.TemplateList.clear()
-        if  os.path.exists(self.templatepath):
-            pattern = os.path.join(self.templatepath,'*.qpt')
-            for temp in glob.iglob(pattern):
-                tname = os.path.basename(temp).decode(sys.getfilesystemencoding())
-                item = QListWidgetItem(tname)
+        
+        tempdir = QDir(self.templatepath)
+        if  tempdir.exists():
+            fileinfolist = tempdir.entryInfoList(["*.qpt"], QDir.Files | QDir.NoDotAndDotDot | QDir.NoSymLinks, QDir.NoSort)
+            for fi in fileinfolist:
+                item = QListWidgetItem(fi.fileName())
                 self.ui.TemplateList.addItem(item)
-                if tname == oldSelectedTemplate:
+                if fi.fileName() == oldSelectedTemplate:
                     self.ui.TemplateList.setCurrentItem( item )
 
     def onTempDirButton(self):
@@ -115,10 +116,10 @@ class BatchPlottingDialog(QDialog):
         """
         templatepath = QFileDialog.getExistingDirectory(self, 
                         tr("Select Directory"),
-                        self.templatepath.decode(sys.getfilesystemencoding()),
+                        self.templatepath,
                         QFileDialog.ShowDirsOnly)
         if templatepath!="":
-            self.templatepath = templatepath.encode(sys.getfilesystemencoding())
+            self.templatepath = templatepath
         self.fillTemplateList()
         
     def changedSingleFileCheckbox(self, state):
@@ -137,8 +138,9 @@ class BatchPlottingDialog(QDialog):
             QMessageBox.warning(self, tr("Warning"), tr("Select a composer template!"))
             self.ui.TemplateList.setFocus()
             return
-        self.template_file = os.path.join(self.templatepath,
-            self.ui.TemplateList.currentItem().text().encode(sys.getfilesystemencoding()))
+        template_filename = QDir(self.templatepath).absoluteFilePath(
+                                      self.ui.TemplateList.currentItem().text())
+        
         # get the scale
         if self.ui.ScaleCombo.currentText()=="<extent>":
             scale = -1
@@ -198,7 +200,7 @@ class BatchPlottingDialog(QDialog):
             composer.setComposition(self.composition)
 
         # read template file and add to composition
-        template_file = QFile( self.template_file.decode(sys.getfilesystemencoding()) )
+        template_file = QFile( template_filename )
         template_file.open(QIODevice.ReadOnly | QIODevice.Text)
         template_content = template_file.readAll()
         template_file.close()
@@ -238,30 +240,30 @@ class BatchPlottingDialog(QDialog):
                     
                 if self.ui.SingleFileCheckbox.checkState():
                     #print to single pdf (multi-page)
-                    outputFileName = os.path.join(self.pdfpath,"qgis.pdf")
+                    outputFileName = QDir(self.pdfpath).absoluteFilePath("qgis.pdf")
                     outputFileName = QFileDialog.getSaveFileName(self,
                        tr( "Choose a file name to save the map as" ),
-                       outputFileName.decode(sys.getfilesystemencoding()),
+                       outputFileName,
                        tr( "PDF Format" ) + " (*.pdf *.PDF)" )
-                    if len(outputFileName) == 0:
+                    if not outputFileName:
                         return
                     if not outputFileName.lower().endswith(".pdf"):
                         outputFileName += ".pdf"
-                    self.pdfpath = os.path.dirname(outputFileName.encode(sys.getfilesystemencoding()))
+                    self.pdfpath = QDir(outputFileName).absolutePath()
                 else:
                     #print to more pdf
                     outputDir = QFileDialog.getExistingDirectory( self,
                         tr( "Directory where to save PDF files" ),
-                        self.pdfpath.decode(sys.getfilesystemencoding()),
+                        self.pdfpath,
                         QFileDialog.ShowDirsOnly )
-                    if len(outputDir) == 0:
+                    if not outputDir:
                         return
                     # test directory (if it exists and is writable)
                     if not QDir(outputDir).exists() or not QFileInfo(outputDir).isWritable():
                         QMessageBox.warning( self, tr( "Unable to write into the directory" ),
                             tr( "The given output directory is not writable. Cancelling." ) )
                         return
-                    self.pdfpath = outputDir.encode(sys.getfilesystemencoding())
+                    self.pdfpath = outputDir
                 
                 printer = QPrinter()
                 painter = QPainter()
