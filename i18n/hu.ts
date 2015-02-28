@@ -112,12 +112,12 @@ Are you sure you want to calculate an open traverse?</source>
     <message>
         <location filename="calculation.py" line="271"/>
         <source>Error: No angle at point %s!</source>
-        <translation>Hiba: Hiányzó szögérték a(z) % pontokon!</translation>
+        <translation>Hiba: Hiányzó szögérték a(z) %s pontokon!</translation>
     </message>
     <message>
         <location filename="calculation.py" line="307"/>
         <source>Error: No distance between points %s and %s!</source>
-        <translation>Hiba: Nincs távolságmérés a(z) % és % pontok között!</translation>
+        <translation>Hiba: Nincs távolságmérés a(z) %s és %s pontok között!</translation>
     </message>
     <message>
         <location filename="transformation_dialog.py" line="93"/>
@@ -217,7 +217,7 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
     <message>
         <location filename="single_dialog.py" line="316"/>
         <source>Radial survey on %s cannot be calculated!</source>
-        <translation>A(z) % poláris pontok nem számíthatók!</translation>
+        <translation>A(z) %s poláris pontok nem számíthatók!</translation>
     </message>
     <message>
         <location filename="single_dialog.py" line="323"/>
@@ -237,7 +237,7 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
     <message>
         <location filename="single_dialog.py" line="357"/>
         <source>Intersecion on %s cannot be calculated!</source>
-        <translation>Az előmetszés a(z) % pontokon nem számítható!</translation>
+        <translation>Az előmetszés a(z) %s pontokon nem számítható!</translation>
     </message>
     <message>
         <location filename="single_dialog.py" line="363"/>
@@ -406,7 +406,7 @@ Version 0.1a</source>
     <message>
         <location filename="batch_plotting_dialog.py" line="165"/>
         <source>Select at least one polygon on layer &apos;%s&apos;!</source>
-        <translation>Válasszon ki legalább egy elemet a &apos;%&apos; rétegen!</translation>
+        <translation>Válasszon ki legalább egy elemet a &apos;%s&apos; rétegen!</translation>
     </message>
     <message>
         <location filename="transformation_dialog.py" line="173"/>
@@ -571,7 +571,7 @@ Version 0.1a</source>
     <message>
         <location filename="batch_plotting_dialog.py" line="364"/>
         <source>Feature filter parser error: %s</source>
-        <translation>Elemszűrő értelmezési hiba: %</translation>
+        <translation>Elemszűrő értelmezési hiba: %s</translation>
     </message>
     <message>
         <location filename="batch_plotting_dialog.py" line="311"/>
