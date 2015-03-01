@@ -11,8 +11,8 @@ Hardware and software requirements
 
 The SurveyingCalculation plug-in can be used on any computer on which QGIS 2.x
 can run. It was tested on Windows 7 and Fedora Linux, but it should work on 
-other Windows versions or Linux distros . QGIS version 2.2, 2.4 and 2.6 were 
-used for testing the plugin.
+other Windows versions or Linux distros. QGIS version 2.2, 2.4, 2.6 and 2.8
+were used for testing the plugin.
 
 The network adjustment and the free station calculation in the plug-in is based 
 on the GNU Gama open source project. `GNU Gama <https://www.gnu.org/software/gama/>`_ must be installed separately to use these calculations.
