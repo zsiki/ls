@@ -12,7 +12,7 @@
 from base_classes import *
 from surveying_util import *
 from PyQt4.QtCore import QDir, QFile, QFileInfo, QIODevice, QTemporaryFile, \
-                        QProcess, QStringList
+                        QProcess
 from PyQt4.QtXml import QDomDocument, QXmlSimpleReader, QXmlInputSource
 
 class GamaInterface(object):
@@ -220,8 +220,8 @@ class GamaInterface(object):
             return None
 #        status = call([str(self.gama_prog), str(tmp_name) + '.xml', '--text',
 #            str(tmp_name) + '.txt', '--xml', str(tmp_name) + 'out.xml'])
-        status = QProcess.execute(self.gama_prog, QStringList() << tmp_name+'.xml' << '--text' << \
-            tmp_name+'.txt' << '--xml' << tmp_name+'out.xml')
+        status = QProcess.execute(self.gama_prog, [ tmp_name+'.xml', '--text',
+            tmp_name+'.txt', '--xml', tmp_name+'out.xml'])
         if status != 0:
             return None
         
