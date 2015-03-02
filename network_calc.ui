@@ -320,7 +320,7 @@
     <property name="font">
      <font>
       <family>Courier New</family>
-      <pointsize>11</pointsize>
+      <pointsize>8</pointsize>
      </font>
     </property>
    </widget>
