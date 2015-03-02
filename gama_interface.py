@@ -8,12 +8,11 @@
 .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 
-import re
-from subprocess import call
 # surveying calculation modules
 from base_classes import *
 from surveying_util import *
-from PyQt4.QtCore import QDir, QFile, QFileInfo, QIODevice, QTemporaryFile
+from PyQt4.QtCore import QDir, QFile, QFileInfo, QIODevice, QTemporaryFile, \
+                        QProcess, QStringList
 from PyQt4.QtXml import QDomDocument, QXmlSimpleReader, QXmlInputSource
 
 class GamaInterface(object):
@@ -219,8 +218,10 @@ class GamaInterface(object):
         # run gama-local
         if self.gama_prog is None:
             return None
-        status = call([str(self.gama_prog), str(tmp_name) + '.xml', '--text',
-            str(tmp_name) + '.txt', '--xml', str(tmp_name) + 'out.xml'])
+#        status = call([str(self.gama_prog), str(tmp_name) + '.xml', '--text',
+#            str(tmp_name) + '.txt', '--xml', str(tmp_name) + 'out.xml'])
+        status = QProcess.execute(self.gama_prog, QStringList() << tmp_name+'.xml' << '--text' << \
+            tmp_name+'.txt' << '--xml' << tmp_name+'out.xml')
         if status != 0:
             return None
         
