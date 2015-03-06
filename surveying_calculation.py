@@ -8,15 +8,13 @@
 
 """
 # generic python modules
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, \
+                        QDir, QFileInfo, QRegExp, Qt
 from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox, QFileDialog, QDialog
 from qgis.core import *
 # Initialize Qt resources from file resources.py
 import resources_rc
-import os.path
-from os import unlink
-import re
-from shutil import copyfile
+#from os import unlink
 import webbrowser
 
 # plugin specific python modules
@@ -35,6 +33,11 @@ from calculation import *
 from resultlog import *
 from line_tool import LineMapTool
 
+#import sys
+#sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
+#import pydevd
+
+
 class SurveyingCalculation:
     """SurveyingCalculation QGIS Plugin Implementation."""
 
@@ -43,19 +46,18 @@ class SurveyingCalculation:
 
         :param iface: an interface instance that will be passed to this class which provides the hook by which you can manipulate the QGIS application at run time (QgsInterface)
         """
+#        pydevd.settrace()
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
-        self.plugin_dir = os.path.dirname(__file__)
+        self.plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
         print locale
-        locale_path = os.path.join(
-            self.plugin_dir,
-            'i18n',
-            '{}.qm'.format(locale))
+        locale_path = QDir.cleanPath(self.plugin_dir + QDir.separator() + 'i18n' +
+                                     QDir.separator() + '{}.qm'.format(locale))
         print locale_path
-        if os.path.exists(locale_path):
+        if QFileInfo(locale_path).exists():
             print "exists"
             self.translator = QTranslator()
             self.translator.load(locale_path)
@@ -67,7 +69,8 @@ class SurveyingCalculation:
         if hasattr(config, 'log_path') and len(config.log_path) > 0:
             log_path = config.log_path
         else:
-            log_path = os.path.join(self.plugin_dir,'log','log.txt')
+            log_path = QDir.cleanPath(self.plugin_dir + QDir.separator() + 'log' + 
+                                      QDir.separator() + 'log.txt')
         self.log = ResultLog(log_path)
 
         self.newp_dlg = NewPointDialog()
@@ -132,21 +135,23 @@ class SurveyingCalculation:
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
         icon_path = ':/plugins/SurveyingCalculation/icon.png'
+        
+        icon_dir = QDir.cleanPath( self.plugin_dir + QDir.separator() + 'icons')
         # build menu
         self.actions = []
         self.menu = QMenu()
         self.menu.setTitle(tr(u'&SurveyingCalculation'))
-        self.sc_coord = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_coord.png')), tr("New coordinate list ..."), self.iface.mainWindow())
-        self.sc_fb = QAction(QIcon(os.path.join(self.plugin_dir,'icons','new_fb.png')),tr("New fieldbook ..."), self.iface.mainWindow())
-        self.sc_load = QAction(QIcon(os.path.join(self.plugin_dir,'icons','import_fieldbook.png')), tr("Import fieldbook ..."), self.iface.mainWindow())
-        self.sc_addp = QAction(QIcon(os.path.join(self.plugin_dir,'icons','addp.png')), tr("Add new point ..."), self.iface.mainWindow())
-        self.sc_calc = QAction(QIcon(os.path.join(self.plugin_dir,'icons','single_calc.png')), tr("Single point calculations ..."), self.iface.mainWindow())
-        self.sc_trav = QAction(QIcon(os.path.join(self.plugin_dir,'icons','traverse_calc.png')), tr("Traverse calculations ..."), self.iface.mainWindow())
-        self.sc_netw = QAction(QIcon(os.path.join(self.plugin_dir,'icons','network_calc.png')), tr("Network adjustment ..."), self.iface.mainWindow())
-        self.sc_tran = QAction(QIcon(os.path.join(self.plugin_dir,'icons','coord_calc.png')), tr("Coordinate transformation ..."), self.iface.mainWindow())
-        self.sc_pdiv = QAction(QIcon(os.path.join(self.plugin_dir,'icons','poly_div.png')), tr("Polygon division ..."), self.iface.mainWindow())
-        self.sc_plot = QAction(QIcon(os.path.join(self.plugin_dir,'icons','plot.png')), tr("Plot by template ..."), self.iface.mainWindow())
-        self.sc_batchplot = QAction(QIcon(os.path.join(self.plugin_dir,'icons','batch_plot.png')), tr("Batch plotting ..."), self.iface.mainWindow())
+        self.sc_coord = QAction(QIcon(QDir(icon_dir).absoluteFilePath('new_coord.png')), tr("New coordinate list ..."), self.iface.mainWindow())
+        self.sc_fb = QAction(QIcon(QDir(icon_dir).absoluteFilePath('new_fb.png')),tr("New fieldbook ..."), self.iface.mainWindow())
+        self.sc_load = QAction(QIcon(QDir(icon_dir).absoluteFilePath('import_fieldbook.png')), tr("Import fieldbook ..."), self.iface.mainWindow())
+        self.sc_addp = QAction(QIcon(QDir(icon_dir).absoluteFilePath('addp.png')), tr("Add new point ..."), self.iface.mainWindow())
+        self.sc_calc = QAction(QIcon(QDir(icon_dir).absoluteFilePath('single_calc.png')), tr("Single point calculations ..."), self.iface.mainWindow())
+        self.sc_trav = QAction(QIcon(QDir(icon_dir).absoluteFilePath('traverse_calc.png')), tr("Traverse calculations ..."), self.iface.mainWindow())
+        self.sc_netw = QAction(QIcon(QDir(icon_dir).absoluteFilePath('network_calc.png')), tr("Network adjustment ..."), self.iface.mainWindow())
+        self.sc_tran = QAction(QIcon(QDir(icon_dir).absoluteFilePath('coord_calc.png')), tr("Coordinate transformation ..."), self.iface.mainWindow())
+        self.sc_pdiv = QAction(QIcon(QDir(icon_dir).absoluteFilePath('poly_div.png')), tr("Polygon division ..."), self.iface.mainWindow())
+        self.sc_plot = QAction(QIcon(QDir(icon_dir).absoluteFilePath('plot.png')), tr("Plot by template ..."), self.iface.mainWindow())
+        self.sc_batchplot = QAction(QIcon(QDir(icon_dir).absoluteFilePath('batch_plot.png')), tr("Batch plotting ..."), self.iface.mainWindow())
         self.sc_settings = QAction(tr("Settings ..."), self.iface.mainWindow())
         self.sc_help = QAction(tr("Help"), self.iface.mainWindow())
         self.sc_about = QAction(tr("About"), self.iface.mainWindow())
@@ -208,14 +213,16 @@ class SurveyingCalculation:
             filter = tr('Shape file (*.shp)'))
         if not ofname:
             return
-        if not re.match('coord_', os.path.basename(ofname)):
-            ofname = os.path.join(os.path.dirname(ofname),
-                'coord_' + os.path.basename(ofname))
-        ofbase = os.path.splitext(ofname)[0]
-        tempbase = os.path.join(self.plugin_dir, 'template', 'coord_template')
+        if QRegExp('coord_').indexIn(QFileInfo(ofname).baseName()):
+            ofname = QDir.cleanPath(QFileInfo(ofname).absolutePath() + 
+                QDir().separator() + 'coord_' + QFileInfo(ofname).fileName())
+        ofbase = QDir.cleanPath(QFileInfo(ofname).absolutePath() + 
+                    QDir().separator() + QFileInfo(ofname).baseName())
+        tempbase = QDir.cleanPath(self.plugin_dir + QDir().separator() + 
+                                  'template' + QDir().separator() + 'coord_template')
         for ext in ['.shp', '.shx', '.dbf']:
-            copyfile(tempbase+ext, ofbase+ext)
-        coord = QgsVectorLayer(ofbase+'.shp', os.path.splitext(os.path.basename(ofname))[0], "ogr")
+            QFile(tempbase+ext).copy(ofbase+ext)
+        coord = QgsVectorLayer(ofbase+'.shp', QFileInfo(ofbase).baseName(), "ogr")
         if coord.isValid():
             QgsMapLayerRegistry.instance().addMapLayer(coord)
 
@@ -227,14 +234,16 @@ class SurveyingCalculation:
             filter = tr('Fieldbook file (*.dbf)'))
         if not ofname:
             return
-        if not re.match('fb_', os.path.basename(ofname)):
-            ofname = os.path.join(os.path.dirname(ofname),
-                'fb_' + os.path.basename(ofname))
-        ofbase = os.path.splitext(ofname)[0]
-        tempbase = os.path.join(self.plugin_dir, 'template', 'fb_template')
+        if QRegExp('fb_').indexIn(QFileInfo(ofname).baseName()):
+            ofname = QDir.cleanPath(QFileInfo(ofname).absolutePath() + 
+                QDir().separator() + 'fb_' + QFileInfo(ofname).fileName())
+        ofbase = QDir.cleanPath(QFileInfo(ofname).absolutePath() + 
+                    QDir().separator() + QFileInfo(ofname).baseName())
+        tempbase = QDir.cleanPath(self.plugin_dir + QDir().separator() + 
+                                  'template' + QDir().separator() + 'fb_template')
         for ext in ['.dbf']:
-            copyfile(tempbase+ext, ofbase+ext)
-        fb = QgsVectorLayer(ofbase+ext, os.path.splitext(os.path.basename(ofname))[0], "ogr")
+            QFile(tempbase+ext).copy(ofbase+ext)
+        fb = QgsVectorLayer(ofbase+'.dbf', QFileInfo(ofbase).baseName(), "ogr")
         if fb.isValid():
             QgsMapLayerRegistry.instance().addMapLayer(fb)
 
@@ -249,32 +258,36 @@ class SurveyingCalculation:
         if fname:
             # file selected
             # make a copy of dbf template if not are is loaded
-            if not re.search('\.are$', fname, re.IGNORECASE):
+            if QRegExp('\.are$', Qt.CaseInsensitive).indexIn(fname) == -1:
                 # ask for table name
                 ofname = QFileDialog.getSaveFileName(self.iface.mainWindow(),
                     tr('QGIS fieldbook'),
-                    os.path.split(fname)[0],
+                    QFileInfo(fname).absolutePath(),
                     filter = tr('DBF file (*.dbf)'))
                 if not ofname:
                     return
                 # remember last input dir
-                config.homedir = os.path.dirname(fname)
-                if not re.match('fb_', os.path.basename(ofname)):
-                    ofname = os.path.join(os.path.dirname(ofname),
-                        'fb_' + os.path.basename(ofname) + '.dbf')
-                copyfile(os.path.join(self.plugin_dir, 'template', 'fb_template.dbf'), ofname)
-                fb_dbf = QgsVectorLayer(ofname, os.path.splitext(os.path.basename(ofname))[0], "ogr")
+                config.homedir = QFileInfo(fname).absolutePath()
+                if QRegExp('fb_').indexIn(QFileInfo(ofname).baseName()):
+                    ofname = QDir.cleanPath(QFileInfo(ofname).absolutePath() + 
+                                    QDir().separator() + 'fb_' + QFileInfo(ofname).fileName())
+
+                tempname = QDir.cleanPath(self.plugin_dir + QDir().separator() + 
+                                'template' + QDir().separator() + 'fb_template.dbf')
+                QFile(tempname).copy(ofname)
+                
+                fb_dbf = QgsVectorLayer(ofname, QFileInfo(ofname).baseName(), "ogr")
                 QgsMapLayerRegistry.instance().addMapLayer(fb_dbf)
-            if re.search('\.gsi$', fname, re.IGNORECASE):
+            if QRegExp('\.gsi$', Qt.CaseInsensitive).indexIn(fname) > -1:
                 fb = LeicaGsi(fname)
-            elif re.search('\.job$', fname, re.IGNORECASE) or \
-                re.search('\.are$', fname, re.IGNORECASE):
+            elif QRegExp('\.job$', Qt.CaseInsensitive).indexIn(fname) > -1 or \
+                QRegExp('\.are$', Qt.CaseInsensitive).indexIn(fname) > -1:
                 fb = JobAre(fname)
-            elif re.search('\.crd$', fname, re.IGNORECASE):
+            elif QRegExp('\.crd$', Qt.CaseInsensitive).indexIn(fname) > -1:
                 fb = Sdr(fname)
-            elif re.search('\.rw5$', fname, re.IGNORECASE):
+            elif QRegExp('\.rw5$', Qt.CaseInsensitive).indexIn(fname) > -1:
                 fb = SurvCE(fname)
-            elif re.search('\.dat$', fname, re.IGNORECASE):
+            elif QRegExp('\.dat$', Qt.CaseInsensitive).indexIn(fname) > -1:
                 fb = Stonex(fname)
             else:
                 QMessageBox.warning(self.iface.mainWindow(),
@@ -344,11 +357,11 @@ class SurveyingCalculation:
                     n_co += 1
                 i += 10
             #fb_dbf.commitChanges()
-            if not re.search('\.are$', fname, re.IGNORECASE):
+            if QRegExp('\.are$', Qt.CaseInsensitive).indexIn(fname) == -1:
                 if n_fb == 0:        # no observations
                     QgsMapLayerRegistry.instance().removeMapLayer(fb_dbf.id())
                     # remove empty file
-                    unlink(ofname)
+                    QFile(ofname).remove()
                     if n_co == 0:    # no coordinates
                         QMessageBox.warning(self.iface.mainWindow(), tr("Warning"),\
                             tr("Neither coordinates nor observations found"))
