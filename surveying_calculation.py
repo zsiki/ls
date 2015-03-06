@@ -33,10 +33,6 @@ from calculation import *
 from resultlog import *
 from line_tool import LineMapTool
 
-#import sys
-#sys.path.append(r'C:\Program Files\eclipse-standard-luna-R-win32-x86_64\eclipse\plugins\org.python.pydev_3.8.0.201409251235\pysrc')
-#import pydevd
-
 
 class SurveyingCalculation:
     """SurveyingCalculation QGIS Plugin Implementation."""
@@ -46,7 +42,6 @@ class SurveyingCalculation:
 
         :param iface: an interface instance that will be passed to this class which provides the hook by which you can manipulate the QGIS application at run time (QgsInterface)
         """
-#        pydevd.settrace()
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
