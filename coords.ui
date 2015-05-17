@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CoordDialog</class>
+ <widget class="QDialog" name="CoordDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>172</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>320</width>
+    <height>172</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>320</width>
+    <height>172</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Area Division</string>
+  </property>
+  <property name="accessibleName">
+   <string/>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedKingdom"/>
+  </property>
+  <widget class="QPushButton" name="ContinueButton">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>140</y>
+     <width>81</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string>Continue</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="CancelButton">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>140</y>
+     <width>81</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="DivLineGroup">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>301</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Division line</string>
+   </property>
+   <widget class="QLineEdit" name="StartEast">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>20</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="StartEastLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Startpoint east</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="StartNorthLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Startpoint north</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="StartNorth">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>40</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="EndNorthLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Endpoint north</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="EndEast">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>70</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="EndNorth">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>90</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="EndEastLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Endpoint east</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>StartEast</tabstop>
+  <tabstop>ContinueButton</tabstop>
+  <tabstop>CancelButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

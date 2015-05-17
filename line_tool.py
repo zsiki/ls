@@ -17,6 +17,7 @@ from qgis.utils import QGis
 import config
 from base_classes import tr
 from area_dialog import AreaDialog
+from coord_dialog import CoordDialog
 
 class LineMapTool(QgsMapToolEmitPoint):
     """ Class implements rubberband line tool for polygon division
@@ -120,11 +121,23 @@ class LineMapTool(QgsMapToolEmitPoint):
             return
         feat = selection[0]             # feature to divide
         geom = feat.geometry()
+        if geom is None:
+            return
         save_geom = QgsGeometry(geom)   # save original geometry
         # change to layer coordinates
-        point0 = self.toLayerCoordinates(self.layer, QgsPoint(self.startPoint.x(), self.startPoint.y()))   # center of rotation
         point1 = self.toLayerCoordinates(self.layer, QgsPoint(self.startPoint.x(), self.startPoint.y()))
         point2 = self.toLayerCoordinates(self.layer, QgsPoint(self.endPoint.x(), self.endPoint.y()))
+        # show coordinates to change
+        coord_dlg = CoordDialog(point1, point2)
+        if not coord_dlg.exec_():
+            return
+
+        point1 = QgsPoint(float(coord_dlg.ui.StartEast.text()), \
+                          float(coord_dlg.ui.StartNorth.text()))
+        point2 = QgsPoint(float(coord_dlg.ui.EndEast.text()), \
+                          float(coord_dlg.ui.EndNorth.text()))
+        # center of rotation
+        point0 = point1
         rotate = True
         while geom.contains(point1):
             # extend line outside polygon
