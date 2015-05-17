@@ -9,6 +9,7 @@
 """
 
 # surveying calculation modules
+import config
 from base_classes import *
 from surveying_util import *
 from PyQt4.QtCore import QDir, QFile, QFileInfo, QIODevice, QTemporaryFile, \
@@ -34,18 +35,23 @@ class GamaInterface(object):
         self.stdev_dist1 = stdev_dist1
         self.points = []
         self.observations = []
-        # get operating system dependent file name of gama_local
-        plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
-        gama_prog = QDir(plugin_dir).absoluteFilePath("gama-local")
-        if not QFileInfo(gama_prog).exists():
-            if QFileInfo(gama_prog+".exe").exists():
-                gama_prog += '.exe'
-            elif QFileInfo(gama_prog+"64.exe").exists():
-                gama_prog += '64.exe'
+        if hasattr(config, 'gama_path'):
+            if QFileInfo(config.gama_path).exists():
+                gama_prog = config.gama_path
             else:
                 gama_prog = None
+        else:
+            # get operating system dependent file name of gama_local
+            plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
+            gama_prog = QDir(plugin_dir).absoluteFilePath("gama-local")
+            if not QFileInfo(gama_prog).exists():
+                if QFileInfo(gama_prog+".exe").exists():
+                    gama_prog += '.exe'
+                elif QFileInfo(gama_prog+"64.exe").exists():
+                    gama_prog += '64.exe'
+                else:
+                    gama_prog = None
         self.gama_prog = gama_prog
-                
 
     def add_point(self, point, state='ADJ'):
         """ Add point to adjustment
