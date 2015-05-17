@@ -9,7 +9,7 @@
         <translation>Jó reggelt</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="439"/>
+        <location filename="surveying_calculation.py" line="447"/>
         <source>Warning</source>
         <translation>Figyelmeztetés</translation>
     </message>
@@ -65,12 +65,12 @@ Are you sure you want to calculate an open traverse?</source>
         <translation>A sokszögvonal nem számítható!</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="137"/>
+        <location filename="batch_plotting_dialog.py" line="138"/>
         <source>Select a composer template!</source>
         <translation>Válasszon egy sablont!</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="132"/>
+        <location filename="batch_plotting_dialog.py" line="133"/>
         <source>Select a layer!</source>
         <translation>Válasszon egy réteget!</translation>
     </message>
@@ -305,7 +305,7 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
         <translation>Súgó</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="458"/>
+        <location filename="surveying_calculation.py" line="466"/>
         <source>About</source>
         <translation>Névjegy</translation>
     </message>
@@ -320,52 +320,52 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="225"/>
+        <location filename="surveying_calculation.py" line="227"/>
         <source>New fieldbook</source>
         <translation>Új mérési jegyzőkönyv</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="225"/>
+        <location filename="surveying_calculation.py" line="227"/>
         <source>Fieldbook file (*.dbf)</source>
         <translation>Mérési jegyzőkönyv file (*.dbf)</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="246"/>
+        <location filename="surveying_calculation.py" line="250"/>
         <source>Electric fieldbook</source>
         <translation>Mérési jegyzőkönyv</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="254"/>
+        <location filename="surveying_calculation.py" line="258"/>
         <source>QGIS fieldbook</source>
         <translation>QGIS mérési jegyzőkönyv</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="254"/>
+        <location filename="surveying_calculation.py" line="258"/>
         <source>DBF file (*.dbf)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="280"/>
+        <location filename="surveying_calculation.py" line="288"/>
         <source>File warning</source>
         <translation>Hibás file</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="280"/>
+        <location filename="surveying_calculation.py" line="288"/>
         <source>Unknown fieldbook type</source>
         <translation>Ismeretlen jegyzőkönyv típus</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="280"/>
+        <location filename="surveying_calculation.py" line="288"/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="439"/>
+        <location filename="surveying_calculation.py" line="447"/>
         <source>This utility needs at least one polygon type layer!</source>
         <translation>Ehhez a művelethez legalább egy polygon típusú rétegre van szükség!</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="458"/>
+        <location filename="surveying_calculation.py" line="466"/>
         <source>Surveying Calculation Plugin
 
  (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu
@@ -404,7 +404,7 @@ Version 0.1a</source>
         <translation>Pont hozzáadása ...</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="165"/>
+        <location filename="batch_plotting_dialog.py" line="167"/>
         <source>Select at least one polygon on layer &apos;%s&apos;!</source>
         <translation>Válasszon ki legalább egy elemet a &apos;%s&apos; rétegen!</translation>
     </message>
@@ -444,34 +444,34 @@ Version 0.1a</source>
         <translation>Nyomtatás sablonnal ...</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="245"/>
+        <location filename="surveying_calculation.py" line="249"/>
         <source>No coordinate list is opened, coordinates will be lost from the fieldbook</source>
         <translation>Nincs megnyitott koordinátajegyzék, a jegyzőkönyvben szereplő koordináták elvesznek</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="359"/>
+        <location filename="surveying_calculation.py" line="367"/>
         <source>Fieldbook loaded: </source>
         <translation>Mérési jegyzőkönyv betöltve:</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="367"/>
+        <location filename="surveying_calculation.py" line="375"/>
         <source>A coordinate list must be opened!</source>
         <translation>Legalább egy koordinátajegyzék megnyitása szükséges!</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="419"/>
+        <location filename="surveying_calculation.py" line="427"/>
         <source>Actual layer contains no polygons</source>
         <translation>Az aktuális réteg nem tartalmaz polygonokat</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="422"/>
+        <location filename="surveying_calculation.py" line="430"/>
         <source>Not a single polygon is selected in active layer</source>
         <translation>Nem egy elem van szelektálva az aktív rétegen</translation>
     </message>
     <message>
         <location filename="area_dialog.py" line="57"/>
         <source>Invalid area value</source>
-        <translation>Érvénytelen területérték</translation>
+        <translation>Hibás területérték</translation>
     </message>
     <message>
         <location filename="area_dialog.py" line="60"/>
@@ -479,37 +479,37 @@ Version 0.1a</source>
         <translation>Válassza ki a területosztás módját</translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="167"/>
+        <location filename="line_tool.py" line="178"/>
         <source>Area of polygon is smaller then requested area</source>
         <translation>A polygon területe kisebb, mint a megadott területérték</translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="158"/>
+        <location filename="line_tool.py" line="169"/>
         <source>Area division failed </source>
         <translation>Hiba a területosztásban</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="246"/>
+        <location filename="surveying_calculation.py" line="250"/>
         <source>Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="353"/>
+        <location filename="surveying_calculation.py" line="361"/>
         <source>Neither coordinates nor observations found</source>
         <translation>Nincs sem koordináta, sem mérés</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="356"/>
+        <location filename="surveying_calculation.py" line="364"/>
         <source>No observations found</source>
         <translation>Nincs mérés</translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="139"/>
+        <location filename="line_tool.py" line="150"/>
         <source>Line does not intersects polygon, line will be shifted into the polygon. Do you want to continue?</source>
         <translation>A vonal nem metszi a polygont, a vonalat párhuzamosan eltolom a polygonba. Szeretné folytatni?</translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="197"/>
+        <location filename="line_tool.py" line="208"/>
         <source>Area division not finished after max iteration</source>
         <translation>A területosztás a maximális iteráció után is sikertelen</translation>
     </message>
@@ -524,67 +524,67 @@ Version 0.1a</source>
         <translation>&lt;Térkép nézet&gt;</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="116"/>
+        <location filename="batch_plotting_dialog.py" line="117"/>
         <source>Select Directory</source>
         <translation>Válasszon egy könyvtárat</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="153"/>
+        <location filename="batch_plotting_dialog.py" line="155"/>
         <source>Scale must be a positive integer value!</source>
         <translation>A méretaránynak pozitív egész számnak kell lennie!</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="173"/>
+        <location filename="batch_plotting_dialog.py" line="175"/>
         <source>The filename pattern is empty. A default one will be used.</source>
         <translation>A filenév sablon üres. Az alapértelmezettet használom.</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="242"/>
+        <location filename="batch_plotting_dialog.py" line="244"/>
         <source>Choose a file name to save the map as</source>
         <translation>Válasszon egy filenevet a térkép mentéséhez</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="242"/>
+        <location filename="batch_plotting_dialog.py" line="244"/>
         <source>PDF Format</source>
         <translation>PDF formátum</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="253"/>
+        <location filename="batch_plotting_dialog.py" line="255"/>
         <source>Directory where to save PDF files</source>
         <translation>Könyvtár, ahová a PDF fájl mentsem</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="261"/>
+        <location filename="batch_plotting_dialog.py" line="263"/>
         <source>Unable to write into the directory</source>
         <translation>A könyvtár nem írható</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="261"/>
+        <location filename="batch_plotting_dialog.py" line="263"/>
         <source>The given output directory is not writable. Cancelling.</source>
         <translation>A megadott célkönyvtár nem írható. Megszakítás.</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="379"/>
+        <location filename="batch_plotting_dialog.py" line="381"/>
         <source>Atlas processing error</source>
         <translation>Atlasz feldolgozás hiba</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="364"/>
+        <location filename="batch_plotting_dialog.py" line="366"/>
         <source>Feature filter parser error: %s</source>
         <translation>Elemszűrő értelmezési hiba: %s</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="311"/>
+        <location filename="batch_plotting_dialog.py" line="313"/>
         <source>Error creating %s.</source>
         <translation>Létrehozási hiba %s.</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="370"/>
+        <location filename="batch_plotting_dialog.py" line="372"/>
         <source>Rendering maps...</source>
         <translation>Térkép frissítése...</translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="370"/>
+        <location filename="batch_plotting_dialog.py" line="372"/>
         <source>Abort</source>
         <translation>Megszakít</translation>
     </message>
@@ -622,6 +622,11 @@ Version 0.1a</source>
         <location filename="surveying_calculation.py" line="150"/>
         <source>Settings ...</source>
         <translation>Beállítások...</translation>
+    </message>
+    <message>
+        <location filename="coord_dialog.py" line="53"/>
+        <source>Invalid coordinate value</source>
+        <translation>Hibás koordináta érték</translation>
     </message>
 </context>
 <context>
@@ -697,7 +702,7 @@ Version 0.1a</source>
     <message>
         <location filename="area_div.ui" line="110"/>
         <source>Area (in layer units)</source>
-        <translation>Terület (a réteg egységében)</translation>
+        <translation type="unfinished">Terület (a réteg egységekben)</translation>
     </message>
     <message>
         <location filename="area_div.ui" line="75"/>
@@ -861,6 +866,49 @@ Version 0.1a</source>
         <location filename="batch_plotting.py" line="164"/>
         <source>1:</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>CoordDialog</name>
+    <message>
+        <location filename="coords.ui" line="32"/>
+        <source>Area Division</source>
+        <translation>Területosztás</translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="56"/>
+        <source>Continue</source>
+        <translation>Folytatás</translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="75"/>
+        <source>Cancel</source>
+        <translation>Mégsem</translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="88"/>
+        <source>Division line</source>
+        <translation>Osztóvonal</translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="110"/>
+        <source>Startpoint east</source>
+        <translation>Kezdőpont kelet</translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="123"/>
+        <source>Startpoint north</source>
+        <translation>Kezsőpont észak</translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="149"/>
+        <source>Endpoint north</source>
+        <translation>Végpont észak</translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="185"/>
+        <source>Endpoint east</source>
+        <translation>Végpont kelet</translation>
     </message>
 </context>
 <context>
