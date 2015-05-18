@@ -96,6 +96,9 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="maxLength">
+     <number>32</number>
+    </property>
    </widget>
    <widget class="QLabel" name="StartEastLabel">
     <property name="geometry">
@@ -107,7 +110,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Startpoint east</string>
+     <string>Start point east</string>
     </property>
    </widget>
    <widget class="QLabel" name="StartNorthLabel">
@@ -120,7 +123,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Startpoint north</string>
+     <string>Start point north</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="StartNorth">
@@ -132,8 +135,11 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="maxLength">
+     <number>32</number>
+    </property>
     <property name="readOnly">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="EndNorthLabel">
@@ -146,7 +152,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Endpoint north</string>
+     <string>End point north</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="EndEast">
@@ -158,18 +164,24 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="maxLength">
+     <number>32</number>
+    </property>
    </widget>
    <widget class="QLineEdit" name="EndNorth">
     <property name="geometry">
      <rect>
       <x>170</x>
       <y>90</y>
-      <width>121</width>
+      <width>120</width>
       <height>20</height>
      </rect>
     </property>
+    <property name="maxLength">
+     <number>32</number>
+    </property>
     <property name="readOnly">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="EndEastLabel">
@@ -182,7 +194,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Endpoint east</string>
+     <string>End point east</string>
     </property>
    </widget>
   </widget>
