@@ -473,12 +473,12 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="178"/>
+        <location filename="line_tool.py" line="180"/>
         <source>Area of polygon is smaller then requested area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="169"/>
+        <location filename="line_tool.py" line="171"/>
         <source>Area division failed </source>
         <translation type="unfinished"></translation>
     </message>
@@ -498,12 +498,12 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="150"/>
+        <location filename="line_tool.py" line="152"/>
         <source>Line does not intersects polygon, line will be shifted into the polygon. Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="208"/>
+        <location filename="line_tool.py" line="210"/>
         <source>Area division not finished after max iteration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -885,23 +885,43 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="coords.ui" line="110"/>
+        <location filename="coords.py" line="58"/>
         <source>Startpoint east</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="coords.ui" line="123"/>
+        <location filename="coords.py" line="62"/>
         <source>Startpoint north</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="coords.ui" line="149"/>
+        <location filename="coords.py" line="70"/>
         <source>Endpoint north</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="coords.ui" line="185"/>
+        <location filename="coords.py" line="81"/>
         <source>Endpoint east</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="113"/>
+        <source>Start point east</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="126"/>
+        <source>Start point north</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="155"/>
+        <source>End point north</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="coords.ui" line="197"/>
+        <source>End point east</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
