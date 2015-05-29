@@ -159,11 +159,22 @@ class TransformationDialog(QDialog):
         self.from_points = get_known(2, from_name)
         self.common = []
         self.used = []
-        for from_p in self.from_points:
-            if from_p in to_points:
-                self.common.append(from_p)
-        for p in self.common:
-            self.ui.CommonList.addItem(p)
+        if self.from_points is None:
+            QMessageBox.warning(self, tr("Warning"), \
+                tr("No points with coordinates in source coordinate list"))
+        elif to_points is None:
+            QMessageBox.warning(self, tr("Warning"),\
+                tr("No points with coordinates in target coordinate list"))
+        else:
+            for from_p in self.from_points:
+                if from_p in to_points:
+                    self.common.append(from_p)
+            for p in self.common:
+                self.ui.CommonList.addItem(p)
+            if len(self.common) == 0:
+                QMessageBox.warning(self, tr("Warning"),\
+                    tr("No common points in coordinate lists"))
+                
 
     def onCalcButton(self):
         """ Start transformation calculation

@@ -130,41 +130,41 @@ Are you sure you want to calculate an open traverse?</source>
         <translation>Koordinátajegyzék file (*.shp);;</translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="192"/>
+        <location filename="transformation_dialog.py" line="203"/>
         <source>
 Orthogonal transformation</source>
         <translation>
 Helmert transzformáció</translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="196"/>
+        <location filename="transformation_dialog.py" line="207"/>
         <source>
 Affine transformation</source>
         <translation>
 Affin transzformáció</translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="200"/>
+        <location filename="transformation_dialog.py" line="211"/>
         <source>
 3rd order polynomial transformation</source>
         <translation>
 Harmadfokú polinom transzformáció</translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="204"/>
+        <location filename="transformation_dialog.py" line="215"/>
         <source>
 4th order polynomial transformation</source>
         <translation>
 Negyedfokú polinom transzformáció</translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="208"/>
+        <location filename="transformation_dialog.py" line="219"/>
         <source>
 5th order polynomial transformation</source>
         <translation>Ötödfokú polinom transzformáció</translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="218"/>
+        <location filename="transformation_dialog.py" line="229"/>
         <source>Point num                E from       N from       E to         N to      dE     dN</source>
         <translation>Pontszám                   y            x            Y            X       dY     dX</translation>
     </message>
@@ -409,17 +409,17 @@ Version 0.1a</source>
         <translation>Válasszon ki legalább egy elemet a &apos;%s&apos; rétegen!</translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="173"/>
+        <location filename="transformation_dialog.py" line="184"/>
         <source>Select from layer!</source>
         <translation>Válassza ki a forrás réteget!</translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="179"/>
+        <location filename="transformation_dialog.py" line="190"/>
         <source>Select to shape file!</source>
         <translation>Válassza ki a cél shape file-t!</translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="210"/>
+        <location filename="transformation_dialog.py" line="221"/>
         <source>Select transformation type!</source>
         <translation>Válassza ki a transzformáció típusát!</translation>
     </message>
@@ -627,6 +627,21 @@ Version 0.1a</source>
         <location filename="coord_dialog.py" line="53"/>
         <source>Invalid coordinate value</source>
         <translation>Hibás koordináta érték</translation>
+    </message>
+    <message>
+        <location filename="transformation_dialog.py" line="163"/>
+        <source>No points with coordinates in source coordinate list</source>
+        <translation>Nincs koordinátás point a forrás koordináta listában</translation>
+    </message>
+    <message>
+        <location filename="transformation_dialog.py" line="166"/>
+        <source>No points with coordinates in target coordinate list</source>
+        <translation>Nincs koordinátás point a cél koordináta listában</translation>
+    </message>
+    <message>
+        <location filename="transformation_dialog.py" line="175"/>
+        <source>No common points in coordinate lists</source>
+        <translation>Nincs közös pont a koordináta listákban</translation>
     </message>
 </context>
 <context>
@@ -889,26 +904,6 @@ Version 0.1a</source>
         <location filename="coords.ui" line="88"/>
         <source>Division line</source>
         <translation>Osztóvonal</translation>
-    </message>
-    <message>
-        <location filename="coords.py" line="58"/>
-        <source>Startpoint east</source>
-        <translation>Kezdőpont kelet</translation>
-    </message>
-    <message>
-        <location filename="coords.py" line="62"/>
-        <source>Startpoint north</source>
-        <translation>Kezsőpont észak</translation>
-    </message>
-    <message>
-        <location filename="coords.py" line="70"/>
-        <source>Endpoint north</source>
-        <translation>Végpont észak</translation>
-    </message>
-    <message>
-        <location filename="coords.py" line="81"/>
-        <source>Endpoint east</source>
-        <translation>Végpont kelet</translation>
     </message>
     <message>
         <location filename="coords.ui" line="113"/>

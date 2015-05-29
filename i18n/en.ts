@@ -129,37 +129,37 @@ Are you sure you want to calculate an open traverse?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="192"/>
+        <location filename="transformation_dialog.py" line="203"/>
         <source>
 Orthogonal transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="196"/>
+        <location filename="transformation_dialog.py" line="207"/>
         <source>
 Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="200"/>
+        <location filename="transformation_dialog.py" line="211"/>
         <source>
 3rd order polynomial transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="204"/>
+        <location filename="transformation_dialog.py" line="215"/>
         <source>
 4th order polynomial transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="208"/>
+        <location filename="transformation_dialog.py" line="219"/>
         <source>
 5th order polynomial transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="218"/>
+        <location filename="transformation_dialog.py" line="229"/>
         <source>Point num                E from       N from       E to         N to      dE     dN</source>
         <translation type="unfinished"></translation>
     </message>
@@ -403,17 +403,17 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="173"/>
+        <location filename="transformation_dialog.py" line="184"/>
         <source>Select from layer!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="179"/>
+        <location filename="transformation_dialog.py" line="190"/>
         <source>Select to shape file!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="210"/>
+        <location filename="transformation_dialog.py" line="221"/>
         <source>Select transformation type!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -620,6 +620,21 @@ Version 0.1a</source>
     <message>
         <location filename="coord_dialog.py" line="53"/>
         <source>Invalid coordinate value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="transformation_dialog.py" line="163"/>
+        <source>No points with coordinates in source coordinate list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="transformation_dialog.py" line="166"/>
+        <source>No points with coordinates in target coordinate list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="transformation_dialog.py" line="175"/>
+        <source>No common points in coordinate lists</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -882,26 +897,6 @@ Version 0.1a</source>
     <message>
         <location filename="coords.ui" line="88"/>
         <source>Division line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="coords.py" line="58"/>
-        <source>Startpoint east</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="coords.py" line="62"/>
-        <source>Startpoint north</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="coords.py" line="70"/>
-        <source>Endpoint north</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="coords.py" line="81"/>
-        <source>Endpoint east</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
