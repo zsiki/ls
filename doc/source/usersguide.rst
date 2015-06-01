@@ -163,13 +163,16 @@ tab in the :mnu:`Setting/Options` menu (Figure 5). It makes the Attribute Table
 
 The plugin uses standard QGIS data sets, only the name of them is plugin 
 specific and there are obligatory columns in these data sets. QGIS project files
-can also be used to save your working environment.
+can also be used to save and reload your working environment.
 
 1.4.1 Coordinate lists
 ++++++++++++++++++++++
 
 Most of the cases you need an open coordinate list to have known points for the
-calculations and to store calculated coordinates into. The name of the 
+calculations and to store calculated coordinates into. 
+The coordinate list is a QGIS point vector layer with specific columns.
+All point coordinates in a coordinate list have to be in the same Coordinate 
+Refference System (CRS). The name of the 
 coordinate lists must start with *coord\_* and have to contain some obligatory 
 columns (column names and types are mandatory):
 
@@ -200,8 +203,8 @@ The name of the fieldbook must start with "fb\_". Fields in the table are:
         :th:          target height or instrument height in station record
         :pc:          point code
 
-You musn't change the name of columns or erase them, but you can add new columns
-to the table. The first *id* column is used to define the order of the
+You musn't change the name of columns or erase them, but you can add new
+columns to the table. The first *id* column is used to define the order of the
 observation records.
 
 A fieldbook contains two different record types, station and observation 
@@ -496,6 +499,13 @@ After editing the fieldbook data you have to save the changes, click the :btn:`[
 3 Surveying Calculations
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+The calculation part of the plugin is divided into four parts. The *Single 
+calculations* part contains all calculations for a single point (orientation, 
+radial survey, intersection, reserction, free station). Traversing calculations
+are in the second group, different types of traverse lines are supported
+(closed, link and open traverse). Network adjustment is in the third group and 
+coordinate transformations in the fourth group.
+
 3.1 Single Point Calculations
 :::::::::::::::::::::::::::::
 
@@ -505,7 +515,8 @@ In the single calculation dialog you can calculate coordinates of single points
 using trigonometric formulas.
 
 All calculations can be repeated, the last calculated values will be stored,
-the previous values are lost.
+the previous values are lost. The results of the previous calculations are 
+available in the log file.
 
 A SurveyingCalculation plugin maintains a log file, a simple text file. The 
 details of calculations are written to the log. The location of the log file 
@@ -715,15 +726,38 @@ The result list of the adjustment is very long. Consult the GNU Gama documentati
 3.4 Coordinate transformation
 :::::::::::::::::::::::::::::
 
-Besides the on the fly reprojection service of QGIS, the SurveyingCalculation plugin provides coordinate transformation based on common points having coordinates in both coordinate systems. Two separate coordinate lists have to be created with the coordinates in the two coordinate systems before starting the coordinate transformation.
+Besides the on the fly reprojection service of QGIS, the SurveyingCalculation
+plugin provides coordinate transformation based on common points having
+coordinates in both coordinate systems. If you want to reproject coordinates to
+another projection system which is known by QGIS, use QGIS :mnu:`Save As...` 
+from the menu.
+
+This coordinate transformation can be used if you know nothig about the SRS
+(Spatial Reference System), but there must be points with known point in both
+coordinate system. I can be more precise for smaller areas (10 km2 for 
+orthogonal or affine transformation) than the reprojection with QGIS. 
+Two separate coordinate lists have to be created with the coordinates in the 
+two coordinate systems before starting the coordinate transformation. The point
+id-s have to match in the two coordinate list.
+During the coordinate transformation first the transformation parameters are
+calculated based on common points and durint the second step the points whics
+were not used to calculate the parameters are transformed using the parameters
+calculated in the first step. The transformed coordinates of these points will
+be added to the target coordinate list.
 
 The plugin provides different types of transformation. The calculation of the transformation parameters uses the least squares estimation if you select more common points than the minimal neccessary.
 
-    :Orthogonal transformation: at least two common points
-    :Affine transformation: at least three common points
-    :3rd order transformation: at least ten common points
-    :4th order transformation: at least fifteen common points
-    :5th order transformation: at least twenty-one common points
+    :Orthogonal transformation: at least two common points (4 parameters)
+    :Affine transformation: at least three common points (6 parameters)
+    :3rd order transformation: at least ten common points (20 parameters)
+    :4th order transformation: at least fifteen common points (30 parameters)
+    :5th order transformation: at least twenty-one common points (42 parameters)
+
+The points in the two coordinate lists are groupped to three categories.
+
+    :common points: point id and coordinates are given in both coordinate lists
+    :points to transform: point id and coordinates are given in the source (from) list, these point will be transformed
+    :other points: points which are present in the target coordinate list, these point are not used, not changed
 
 #. The coordinate list you would like to transform from has to be opened in the actual QGIS project. **Do not open the coordinate list of the target system.**
 #. Click on the Coordinate transformation icon in the toolbar to open the *Coordinate Transformation* dialog.
@@ -741,7 +775,7 @@ The plugin provides different types of transformation. The calculation of the tr
 .. figure:: images/u22.png
    :scale: 100 %
    :align: center
-       
+ 
    *(Figure 22) Coordinate transformation - Affine transformation*
 
 At the beginning of the result list you can find the used common points with the coordinates in both systems and the discrepancies between the target and transformed coordinates. If you find big discrepancies in the list, there are mistakes in the coordinates. At the end of the list you can find transformed points where the discrepancies are empty. These points are added to the target coordinate list.
@@ -788,7 +822,7 @@ With the *Polygon Division* tool you can divide a parcel into two at a given are
 If the given divider line does not intersect the polygon border, the plugin will extend the line.
 You can give a divider line outside the selected polygon, in this case only parallel division is available in the *Area Division* dialog.
 
-6 Plot
+5 Plot
 ~~~~~~
 
 This utility was added to the plugin for the ability to plot land parcels or other polygon type features automatically.
@@ -799,7 +833,7 @@ The plugin offers two ways to achieve this:
 
 Templates can be created by the print composer of QGIS (:mnu:`Save as template` from the menu). Look at the QGIS documentation for help.
 
-6.1 Plot by Template
+5.1 Plot by Template
 ::::::::::::::::::::
 
 With *Plot by template* command you can plot the actual map view at the given scale.
@@ -822,7 +856,7 @@ With *Plot by template* command you can plot the actual map view at the given sc
 In the end a composer window will appear with the map composition and it can be printed to a system printer or exported to PDF file.
 
 
-6.2 Batch plotting
+5.2 Batch plotting
 ::::::::::::::::::
 
 With the "Batch plotting" command you can plot selected polygons from one layer using a composer template file. *Batch plotting* creates a QGIS atlas composition, which is a multi-page composition. One polygon will be on one page. In the dialog you can choose the output of the plot.
@@ -864,7 +898,7 @@ Open in composer view
        
    *(Figure 28) Batch plotting - Open in composer view*
 
-7 Localization
+6 Localization
 ~~~~~~~~~~~~~~
 
 The messages, the text labels of the dialog can be translated to your language.
@@ -882,7 +916,7 @@ The plugin will use the language set in QGIS or the English messages if the
 language in not available for the plugin. You cannot change the language in the plugin, only in QGIS. The QGIS language can be changed from the menu 
 :mnu:`Settings/Options`, select the *Locale* tab.
 
-7.1 Add a new language to the plugin
+6.1 Add a new language to the plugin
 ::::::::::::::::::::::::::::::::::::
 
 If you cannot find the message file of your language in the *i18n* directory,
@@ -894,7 +928,7 @@ window (the actual directory have to be *i18n*)
 
     cp en.ts fr.ts
 
-7.2 Translation
+6.2 Translation
 :::::::::::::::
 
 Open the prepared new message file with Qt Linguist (Figure 29).
