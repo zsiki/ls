@@ -6,32 +6,13 @@
 User's Guide for SurveyingCalculation plugin for QGIS 2
 =======================================================
 
-.. class:: center
-
 Version 0.2
 
-.. class:: center
-
-Created by DigiKom Ltd (c) 2015
-
-.. class:: center
+DigiKom Ltd (c) 2015
 
 http://www.digikom.hu
 
-.. class:: center
-
 mail@digikom.hu
-
-.. contents:: Table of Contents
-   :depth: 4
-
-.. header::
-
-   User's Guide for SurveyingCalculation plugin for QGIS 2
-
-.. footer::
-
-   ###Page###
 
 1 Introduction
 ~~~~~~~~~~~~~~~
@@ -68,7 +49,7 @@ users.
 #. Look for SurveyingCalculation plugin in the list on the *All* or the *Not installed* tab, select the SurveyingCalculation plugin and press the :btn:`[Install]` button.
 
 .. figure:: images/u01.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
 
    *(Figure 1) Manage and Install Plugins in the menu*
@@ -94,13 +75,13 @@ Plugins* dialog (Figure 1 and Figure 2). Then the menu and the toolbar of
 the plugin will be visible (Figure 3).
 
 .. figure:: images/u02.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
 
    *(Figure 2) SurveyingCalculation plugin enabled*
 
 .. figure:: images/u03.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
 
    *(Figure 3) SurveyingCalculation plugin in QGIS (menu and toolbar)*
@@ -147,13 +128,13 @@ tab in the :mnu:`Setting/Options` menu (Figure 5). It makes the Attribute Table
 (Fieldbook) more readable.
 
 .. figure:: images/u04.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
 
    *(Figure 4) Settings/Options... menu*
 
 .. figure:: images/u05.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
 
    *(Figure 5) Setting NULL values*
@@ -235,7 +216,7 @@ and adds the new empty coordinate list to the project.
 .. |addvec| image:: images/addvec.png
 
 .. figure:: images/u06.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
 
    *(Figure 6) Creating new coordinate list from the menu*
@@ -245,7 +226,7 @@ Check the coordinate reference system (CRS) of your coordinate list
 part of the QGIS status line).
 
 .. figure:: images/u07.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
 
    *(Figure 7) The new empty coordinate list/table*
@@ -278,7 +259,7 @@ list, too. If you input an existing point number, a warning will be displayed
 and you can decide whether to overwrite the stored point.
 
 .. figure:: images/u12.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
 
    *(Figure 12) Add new point to the Coordinate list*
@@ -331,21 +312,21 @@ You can even create a new empty fieldbook and fill it manually.
 
 
 .. figure:: images/u08.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
 
    *(Figure 8) Import fieldbook menu*
 
 
 .. figure:: images/u09.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
 
    *(Figure 9) Fieldbook attribute window*
 
 
 .. figure:: images/u10.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
 
    *(Figure 10) Coordinate list*
@@ -491,7 +472,7 @@ After editing the fieldbook data you have to save the changes, click the :btn:`[
 
 
 .. figure:: images/u11.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
 
    *(Figure 11) Add feature to Fieldbook*
@@ -545,14 +526,14 @@ To calculate orientation angle on a station do the following:
 
 
 .. figure:: images/u14.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center    
 
    *(Figure 14) Orientation*
        
 
 .. figure:: images/u15.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
 
    *(Figure 15) Result of Orientation*
@@ -575,7 +556,7 @@ points if the instrument height, the target height and the station elevation are
 
 
 .. figure:: images/u16.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
 
    *(Figure 16) Radial Survey*
@@ -601,7 +582,7 @@ To calculate intersection do the following:
 
 
 .. figure:: images/u17.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
 
    *(Figure 17) Intersection*
@@ -624,7 +605,7 @@ To calculate resection do the followings
 
 
 .. figure:: images/u18.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
        
    *(Figure 18) Resection*
@@ -647,7 +628,7 @@ To calculate free station do the following:
 
 
 .. figure:: images/u19.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
        
    *(Figure 19) Free Station - Adjusted coordinates*
@@ -688,7 +669,7 @@ To calculate traverse do the following:
 
 
 .. figure:: images/u20.png
-   :scale: 100 %
+   :scale: 75 %
    :align: center
        
    *(Figure 20) Traverse Calculation - Link traverse*
@@ -716,7 +697,7 @@ To calculate network adjustment do the following:
 #. You can change settings in the dialog and press calculate to make another calculation, use the :btn:`[Reset]` button to reset the dialog to its original state.
 
 .. figure:: images/u21.png
-   :scale: 39 %
+   :scale: 75 %
    :align: center
        
    *(Figure 21) Network adjustment*
@@ -773,7 +754,7 @@ The points in the two coordinate lists are groupped to three categories.
 
 
 .. figure:: images/u22.png
-   :scale: 100 %
+   :scale: 75 %
    :align: center
  
    *(Figure 22) Coordinate transformation - Affine transformation*
@@ -800,21 +781,21 @@ With the *Polygon Division* tool you can divide a parcel into two at a given are
 
 
 .. figure:: images/u23.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
        
    *(Figure 23) Polygon division - Selected polygon to divide*
 
 
 .. figure:: images/u24.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
        
    *(Figure 24) Polygon division - Area Division*
 
 
 .. figure:: images/u25.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
        
    *(Figure 25) Polygon division - Divided polygons*
@@ -847,7 +828,7 @@ With *Plot by template* command you can plot the actual map view at the given sc
 
 
 .. figure:: images/u26.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
        
    *(Figure 26) Plot by Template*
@@ -879,7 +860,7 @@ Export to pdf
 
 
 .. figure:: images/u27.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
        
    *(Figure 27) Batch plotting - Export to pdf*
@@ -893,7 +874,7 @@ Open in composer view
 
     
 .. figure:: images/u28.png
-   :scale: 39 %
+   :scale: 50 %
    :align: center
        
    *(Figure 28) Batch plotting - Open in composer view*
@@ -939,7 +920,7 @@ in the toolbar. For further details read the Qt Linguist documentation
 (http://doc.qt.io/qt-4.8/linguist-manual.html).
 
 .. figure:: images/qt_linguist.png
-   :scale: 90 %
+   :scale: 50 %
    :align: center
        
    *(Figure 29) Translation in Qt Linguist* 
