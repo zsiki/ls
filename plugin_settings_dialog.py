@@ -7,7 +7,7 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 """
 from PyQt4.QtGui import QDialog, QFileDialog, QMessageBox
-from PyQt4.QtCore import Qt
+from PyQt4.QtCore import Qt, QSettings, QVariant
 # plugin specific python modules
 import config
 from plugin_settings import Ui_PluginSettingsDialog
@@ -27,6 +27,7 @@ class PluginSettingsDialog(QDialog):
         # event handlers
         self.ui.HomeDirButton.clicked.connect(self.onHomeDirButton)
         self.ui.LogDirButton.clicked.connect(self.onLogDirButton)
+        self.ui.GamaDirButton.clicked.connect(self.onGamaDirButton)
         self.ui.OKButton.clicked.connect(self.onOKButton)
         self.ui.CancelButton.clicked.connect(self.onCancelButton)
 
@@ -35,11 +36,14 @@ class PluginSettingsDialog(QDialog):
     def fillWidgets(self):
         """ Fill all widgets of Plugins Settings dialog.
         """
-        self.ui.HomeDirEdit.setText(config.homedir)
-        self.ui.LogDirEdit.setText(config.log_path)
-        self.ui.LineToleranceEdit.setText("%f"%config.line_tolerance)
-        self.ui.AreaToleranceEdit.setText("%f"%config.area_tolerance)
-        self.ui.MaxIterationEdit.setText("%d"%config.max_iteration)
+        QSettings().value("SurveyingCalculation/fontname",config.fontname)
+        QSettings().value("SurveyingCalculation/fontsize",config.fontsize)
+        self.ui.HomeDirEdit.setText(QSettings().value("SurveyingCalculation/homedir",config.homedir))
+        self.ui.LogDirEdit.setText(QSettings().value("SurveyingCalculation/log_path",config.log_path))
+        self.ui.GamaDirEdit.setText(QSettings().value("SurveyingCalculation/gama_path",config.gama_path))
+        self.ui.LineToleranceEdit.setText("%f"%float( QSettings().value("SurveyingCalculation/line_tolerance",config.line_tolerance) ))
+        self.ui.AreaToleranceEdit.setText("%f"%float( QSettings().value("SurveyingCalculation/area_tolerance",config.area_tolerance) ))
+        self.ui.MaxIterationEdit.setText("%d"%int( QSettings().value("SurveyingCalculation/max_iteration",config.max_iteration) ))
 
     def onHomeDirButton(self):
         """ Change the home directory where fieldbooks are stored.
@@ -60,6 +64,16 @@ class PluginSettingsDialog(QDialog):
                         QFileDialog.ShowDirsOnly)
         if path!="":
             self.ui.LogDirEdit.setText(path)
+
+    def onGamaDirButton(self):
+        """ Change the directory of the gama-local executable.
+        """
+        path = QFileDialog.getExistingDirectory(self, 
+                        tr("Select GNU Gama Directory"),
+                        self.ui.GamaDirEdit.text(),
+                        QFileDialog.ShowDirsOnly)
+        if path!="":
+            self.ui.GamaDirEdit.setText(path)
 
     def onOKButton(self):
         """ Close dialog. The changes will be saved.
@@ -97,12 +111,16 @@ class PluginSettingsDialog(QDialog):
             return
 
         # store settings
-        config.homedir = self.ui.HomeDirEdit.text()
-        config.log_path = self.ui.LogDirEdit.text()
-        config.line_tolerance = line_tolerance
-        config.area_tolerance = area_tolerance
-        config.max_iteration = max_iteration
-        # TODO store font setting from widgets
+# TODO store font setting from widgets
+        QSettings().setValue("SurveyingCalculation/fontname","DejaVu Sans Mono")
+        QSettings().setValue("SurveyingCalculation/fontsize",9)
+        QSettings().setValue("SurveyingCalculation/homedir",self.ui.HomeDirEdit.text())
+        QSettings().setValue("SurveyingCalculation/log_path",self.ui.LogDirEdit.text())
+        QSettings().setValue("SurveyingCalculation/gama_path",self.ui.GamaDirEdit.text())
+        QSettings().setValue("SurveyingCalculation/line_tolerance",line_tolerance)
+        QSettings().setValue("SurveyingCalculation/area_tolerance",area_tolerance)
+        QSettings().setValue("SurveyingCalculation/max_iteration",max_iteration)
+        QSettings().sync()
 
         self.accept()
 
