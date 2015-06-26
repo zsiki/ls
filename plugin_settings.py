@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'plugin_settings.ui'
 #
-# Created: Fri Jan 09 15:42:35 2015
-#      by: PyQt4 UI code generator 4.10.2
+# Created: Fri Jun 26 15:30:36 2015
+#      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -26,9 +26,9 @@ except AttributeError:
 class Ui_PluginSettingsDialog(object):
     def setupUi(self, PluginSettingsDialog):
         PluginSettingsDialog.setObjectName(_fromUtf8("PluginSettingsDialog"))
-        PluginSettingsDialog.resize(388, 203)
+        PluginSettingsDialog.resize(388, 242)
         self.SettingsTab = QtGui.QTabWidget(PluginSettingsDialog)
-        self.SettingsTab.setGeometry(QtCore.QRect(10, 10, 371, 151))
+        self.SettingsTab.setGeometry(QtCore.QRect(10, 10, 371, 191))
         self.SettingsTab.setObjectName(_fromUtf8("SettingsTab"))
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
@@ -52,6 +52,16 @@ class Ui_PluginSettingsDialog(object):
         self.LogDirEdit.setGeometry(QtCore.QRect(10, 80, 321, 20))
         self.LogDirEdit.setReadOnly(True)
         self.LogDirEdit.setObjectName(_fromUtf8("LogDirEdit"))
+        self.LogDirLabel_2 = QtGui.QLabel(self.tab)
+        self.LogDirLabel_2.setGeometry(QtCore.QRect(10, 110, 351, 21))
+        self.LogDirLabel_2.setObjectName(_fromUtf8("LogDirLabel_2"))
+        self.GamaDirEdit = QtGui.QLineEdit(self.tab)
+        self.GamaDirEdit.setGeometry(QtCore.QRect(10, 130, 321, 20))
+        self.GamaDirEdit.setReadOnly(True)
+        self.GamaDirEdit.setObjectName(_fromUtf8("GamaDirEdit"))
+        self.GamaDirButton = QtGui.QPushButton(self.tab)
+        self.GamaDirButton.setGeometry(QtCore.QRect(330, 130, 31, 23))
+        self.GamaDirButton.setObjectName(_fromUtf8("GamaDirButton"))
         self.SettingsTab.addTab(self.tab, _fromUtf8(""))
         self.tab_3 = QtGui.QWidget()
         self.tab_3.setObjectName(_fromUtf8("tab_3"))
@@ -68,7 +78,7 @@ class Ui_PluginSettingsDialog(object):
         self.FontNameCombo.setEditable(False)
         self.FontNameCombo.setFontFilters(QtGui.QFontComboBox.MonospacedFonts)
         font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Courier New"))
+        font.setFamily(_fromUtf8("Liberation Mono"))
         self.FontNameCombo.setCurrentFont(font)
         self.FontNameCombo.setObjectName(_fromUtf8("FontNameCombo"))
         self.FontSizeLabel = QtGui.QLabel(self.tab_3)
@@ -100,7 +110,7 @@ class Ui_PluginSettingsDialog(object):
         self.MaxIterationEdit.setObjectName(_fromUtf8("MaxIterationEdit"))
         self.SettingsTab.addTab(self.tab_2, _fromUtf8(""))
         self.OKButton = QtGui.QPushButton(PluginSettingsDialog)
-        self.OKButton.setGeometry(QtCore.QRect(190, 170, 81, 23))
+        self.OKButton.setGeometry(QtCore.QRect(190, 210, 81, 23))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -108,7 +118,7 @@ class Ui_PluginSettingsDialog(object):
         self.OKButton.setSizePolicy(sizePolicy)
         self.OKButton.setObjectName(_fromUtf8("OKButton"))
         self.CancelButton = QtGui.QPushButton(PluginSettingsDialog)
-        self.CancelButton.setGeometry(QtCore.QRect(290, 170, 81, 23))
+        self.CancelButton.setGeometry(QtCore.QRect(290, 210, 81, 23))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -117,8 +127,21 @@ class Ui_PluginSettingsDialog(object):
         self.CancelButton.setObjectName(_fromUtf8("CancelButton"))
 
         self.retranslateUi(PluginSettingsDialog)
-        self.SettingsTab.setCurrentIndex(1)
+        self.SettingsTab.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(PluginSettingsDialog)
+        PluginSettingsDialog.setTabOrder(self.SettingsTab, self.HomeDirEdit)
+        PluginSettingsDialog.setTabOrder(self.HomeDirEdit, self.HomeDirButton)
+        PluginSettingsDialog.setTabOrder(self.HomeDirButton, self.LogDirEdit)
+        PluginSettingsDialog.setTabOrder(self.LogDirEdit, self.LogDirButton)
+        PluginSettingsDialog.setTabOrder(self.LogDirButton, self.GamaDirEdit)
+        PluginSettingsDialog.setTabOrder(self.GamaDirEdit, self.GamaDirButton)
+        PluginSettingsDialog.setTabOrder(self.GamaDirButton, self.FontNameCombo)
+        PluginSettingsDialog.setTabOrder(self.FontNameCombo, self.FontSizeCombo)
+        PluginSettingsDialog.setTabOrder(self.FontSizeCombo, self.LineToleranceEdit)
+        PluginSettingsDialog.setTabOrder(self.LineToleranceEdit, self.AreaToleranceEdit)
+        PluginSettingsDialog.setTabOrder(self.AreaToleranceEdit, self.MaxIterationEdit)
+        PluginSettingsDialog.setTabOrder(self.MaxIterationEdit, self.OKButton)
+        PluginSettingsDialog.setTabOrder(self.OKButton, self.CancelButton)
 
     def retranslateUi(self, PluginSettingsDialog):
         PluginSettingsDialog.setWindowTitle(_translate("PluginSettingsDialog", "Plugin Settings", None))
@@ -130,6 +153,10 @@ class Ui_PluginSettingsDialog(object):
         self.LogDirButton.setText(_translate("PluginSettingsDialog", "...", None))
         self.HomeDirButton.setText(_translate("PluginSettingsDialog", "...", None))
         self.LogDirEdit.setToolTip(_translate("PluginSettingsDialog", "Directory for log file.", None))
+        self.LogDirLabel_2.setToolTip(_translate("PluginSettingsDialog", "Directory for log file.", None))
+        self.LogDirLabel_2.setText(_translate("PluginSettingsDialog", "GNU Gama directory:", None))
+        self.GamaDirEdit.setToolTip(_translate("PluginSettingsDialog", "Directory for log file.", None))
+        self.GamaDirButton.setText(_translate("PluginSettingsDialog", "...", None))
         self.SettingsTab.setTabText(self.SettingsTab.indexOf(self.tab), _translate("PluginSettingsDialog", "Directories", None))
         self.FontLabel.setText(_translate("PluginSettingsDialog", "Monospace font used in the calculation results widgets on Linux. On Windows it is courier font.", None))
         self.FontNameLabel.setText(_translate("PluginSettingsDialog", "Font name:", None))
