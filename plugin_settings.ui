@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>388</width>
-    <height>242</height>
+    <height>296</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>371</width>
-     <height>191</height>
+     <height>241</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -162,6 +162,51 @@
      </property>
      <property name="text">
       <string>...</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="PlotTemplateDirEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>321</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Directory for log file.</string>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="PlotTemplateDirButton">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>180</y>
+       <width>31</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="LogDirLabel_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>160</y>
+       <width>351</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Directory for log file.</string>
+     </property>
+     <property name="text">
+      <string>Plot Template directory:</string>
      </property>
     </widget>
    </widget>
@@ -325,7 +370,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>210</y>
+     <y>260</y>
      <width>81</width>
      <height>23</height>
     </rect>
@@ -344,7 +389,7 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>210</y>
+     <y>260</y>
      <width>81</width>
      <height>23</height>
     </rect>
@@ -368,6 +413,8 @@
   <tabstop>LogDirButton</tabstop>
   <tabstop>GamaDirEdit</tabstop>
   <tabstop>GamaDirButton</tabstop>
+  <tabstop>PlotTemplateDirEdit</tabstop>
+  <tabstop>PlotTemplateDirButton</tabstop>
   <tabstop>FontNameCombo</tabstop>
   <tabstop>FontSizeCombo</tabstop>
   <tabstop>LineToleranceEdit</tabstop>
