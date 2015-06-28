@@ -8,7 +8,7 @@
 """
 import ctypes, sys
 from PyQt4.QtCore import QCoreApplication, QDir, QFile, QFileInfo, QIODevice, \
-                        QSizeF, Qt
+                        QSizeF, Qt, QSettings
 from PyQt4.QtGui import QDialog, QFileDialog, QListWidgetItem, QMessageBox, \
                         QPrintDialog, QPrinter, QAbstractPrintDialog, QPainter, \
                         QProgressDialog, QApplication
@@ -44,8 +44,9 @@ class BatchPlottingDialog(QDialog):
         self.ui.TemplateList.setSortingEnabled(True)
 
         # set paths        
-        self.plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
-        self.templatepath = QDir(self.plugin_dir).absoluteFilePath("template")
+        plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
+        templatepath = QDir(plugin_dir).absoluteFilePath("template")
+        self.templatepath = QSettings().value("SurveyingCalculation/template_path",templatepath)
         self.pdfpath = ""
         
         if self.batch_plotting:
@@ -120,6 +121,8 @@ class BatchPlottingDialog(QDialog):
                         QFileDialog.ShowDirsOnly)
         if templatepath!="":
             self.templatepath = templatepath
+            QSettings().setValue("SurveyingCalculation/template_path",templatepath)
+            QSettings().sync()
         self.fillTemplateList()
         
     def changedSingleFileCheckbox(self, state):
