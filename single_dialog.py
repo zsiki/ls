@@ -10,7 +10,7 @@ import platform
 import webbrowser
 from PyQt4.QtGui import QDialog, QListWidgetItem, QFont, QMessageBox, \
     QStandardItem
-from PyQt4.QtCore import Qt
+from PyQt4.QtCore import Qt, QSettings
 
 import config
 from single_calc import Ui_SingleCalcDialog
@@ -31,7 +31,9 @@ class SingleDialog(QDialog):
         self.ui.setupUi(self)
         if platform.system() == 'Linux':
             # change font
-            self.ui.ResultTextBrowser.setFont(QFont(config.fontname, config.fontsize))
+            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
+            fontsize = QSettings().value("SurveyingCalculation/fontsize",config.fontsize)
+            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
         self.log = log
 
         # event handlers
