@@ -37,8 +37,13 @@ class PluginSettingsDialog(QDialog):
     def fillWidgets(self):
         """ Fill all widgets of Plugins Settings dialog.
         """
-        QSettings().value("SurveyingCalculation/fontname",config.fontname)
-        QSettings().value("SurveyingCalculation/fontsize",config.fontsize)
+        for i in range(8,20):
+            self.ui.FontSizeCombo.addItem("%d"%i)
+        fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
+        fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
+        self.ui.FontNameCombo.setCurrentIndex(self.ui.FontNameCombo.findText( fontname ))
+        self.ui.FontSizeCombo.setCurrentIndex(self.ui.FontSizeCombo.findText( "%d"%fontsize ))
+        
         self.ui.HomeDirEdit.setText(QSettings().value("SurveyingCalculation/homedir",config.homedir))
         self.ui.LogPathEdit.setText(QSettings().value("SurveyingCalculation/log_path",config.log_path))
         self.ui.GamaPathEdit.setText(QSettings().value("SurveyingCalculation/gama_path",config.gama_path))
@@ -122,8 +127,8 @@ class PluginSettingsDialog(QDialog):
 
         # store settings
 # TODO store font setting from widgets
-        QSettings().setValue("SurveyingCalculation/fontname","DejaVu Sans Mono")
-        QSettings().setValue("SurveyingCalculation/fontsize",9)
+        QSettings().setValue("SurveyingCalculation/fontname",self.ui.FontNameCombo.currentText())
+        QSettings().setValue("SurveyingCalculation/fontsize",self.ui.FontSizeCombo.currentText())
         QSettings().setValue("SurveyingCalculation/homedir",self.ui.HomeDirEdit.text())
         QSettings().setValue("SurveyingCalculation/log_path",self.ui.LogPathEdit.text())
         QSettings().setValue("SurveyingCalculation/gama_path",self.ui.GamaPathEdit.text())
