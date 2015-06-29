@@ -9,6 +9,7 @@
 import platform
 import webbrowser
 from PyQt4.QtGui import QDialog, QFont, QMessageBox
+from PyQt4.QtCore import QSettings
 
 import config
 from network_calc import Ui_NetworkCalcDialog
@@ -30,7 +31,9 @@ class NetworkDialog(QDialog):
         self.ui.setupUi(self)
         if platform.system() == 'Linux':
             # change font
-            self.ui.ResultTextBrowser.setFont(QFont(config.fontname, config.fontsize))
+            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
+            fontsize = QSettings().value("SurveyingCalculation/fontsize",config.fontsize)
+            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
         self.points = []
         self.fix = []
         self.adj = []
