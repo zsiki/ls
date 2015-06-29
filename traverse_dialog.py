@@ -9,7 +9,7 @@
 import platform
 import webbrowser
 from PyQt4.QtGui import QDialog, QStandardItem, QFont, QListWidgetItem, QMessageBox
-from PyQt4.QtCore import Qt
+from PyQt4.QtCore import Qt, QSettings
 
 import config
 from traverse_calc import Ui_TraverseCalcDialog
@@ -30,7 +30,9 @@ class TraverseDialog(QDialog):
         self.log = log
         if platform.system() == 'Linux':
             # change font
-            self.ui.ResultTextBrowser.setFont(QFont(config.fontname, config.fontsize))
+            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
+            fontsize = QSettings().value("SurveyingCalculation/fontsize",config.fontsize)
+            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
 
         # event handlers
         self.ui.ClosedRadio.toggled.connect(self.radioClicked)
