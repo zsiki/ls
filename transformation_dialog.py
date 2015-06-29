@@ -31,7 +31,7 @@ class TransformationDialog(QDialog):
         if platform.system() == 'Linux':
             # change font
             fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
-            fontsize = QSettings().value("SurveyingCalculation/fontsize",config.fontsize)
+            fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
             self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
         self.from_points = []
         self.common = []
