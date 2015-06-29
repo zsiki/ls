@@ -15,6 +15,8 @@ from PyQt4.QtGui import QDialog, QFileDialog, QListWidgetItem, QMessageBox, \
 from PyQt4.QtXml import QDomDocument
 from batch_plotting import Ui_BatchPlottingDialog
 from qgis.core import *
+
+import config
 from surveying_util import get_vector_layers_by_type, get_features
 from base_classes import tr
 
@@ -44,9 +46,7 @@ class BatchPlottingDialog(QDialog):
         self.ui.TemplateList.setSortingEnabled(True)
 
         # set paths        
-        plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
-        templatepath = QDir(plugin_dir).absoluteFilePath("template")
-        self.templatepath = QSettings().value("SurveyingCalculation/template_path",templatepath)
+        self.templatepath = QSettings().value("SurveyingCalculation/template_path",config.template_path)
         self.pdfpath = ""
         
         if self.batch_plotting:
