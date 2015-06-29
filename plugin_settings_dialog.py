@@ -27,7 +27,7 @@ class PluginSettingsDialog(QDialog):
         # event handlers
         self.ui.HomeDirButton.clicked.connect(self.onHomeDirButton)
         self.ui.LogDirButton.clicked.connect(self.onLogDirButton)
-        self.ui.GamaDirButton.clicked.connect(self.onGamaDirButton)
+        self.ui.GamaPathButton.clicked.connect(self.onGamaPathButton)
         self.ui.PlotTemplateDirButton.clicked.connect(self.onPlotTemplateDirButton)
         self.ui.OKButton.clicked.connect(self.onOKButton)
         self.ui.CancelButton.clicked.connect(self.onCancelButton)
@@ -37,15 +37,12 @@ class PluginSettingsDialog(QDialog):
     def fillWidgets(self):
         """ Fill all widgets of Plugins Settings dialog.
         """
-        plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
-        templatepath = QDir(plugin_dir).absoluteFilePath("template")
-
         QSettings().value("SurveyingCalculation/fontname",config.fontname)
         QSettings().value("SurveyingCalculation/fontsize",config.fontsize)
         self.ui.HomeDirEdit.setText(QSettings().value("SurveyingCalculation/homedir",config.homedir))
         self.ui.LogDirEdit.setText(QSettings().value("SurveyingCalculation/log_path",config.log_path))
-        self.ui.GamaDirEdit.setText(QSettings().value("SurveyingCalculation/gama_path",config.gama_path))
-        self.ui.PlotTemplateDirEdit.setText(QSettings().value("SurveyingCalculation/template_path",templatepath))
+        self.ui.GamaPathEdit.setText(QSettings().value("SurveyingCalculation/gama_path",config.gama_path))
+        self.ui.PlotTemplateDirEdit.setText(QSettings().value("SurveyingCalculation/template_path",config.template_path))
         self.ui.LineToleranceEdit.setText("%f"%float( QSettings().value("SurveyingCalculation/line_tolerance",config.line_tolerance) ))
         self.ui.AreaToleranceEdit.setText("%f"%float( QSettings().value("SurveyingCalculation/area_tolerance",config.area_tolerance) ))
         self.ui.MaxIterationEdit.setText("%d"%int( QSettings().value("SurveyingCalculation/max_iteration",config.max_iteration) ))
@@ -70,15 +67,14 @@ class PluginSettingsDialog(QDialog):
         if path!="":
             self.ui.LogDirEdit.setText(path)
 
-    def onGamaDirButton(self):
+    def onGamaPathButton(self):
         """ Change the directory of the gama-local executable.
         """
-        path = QFileDialog.getExistingDirectory(self, 
-                        tr("Select GNU Gama Directory"),
-                        self.ui.GamaDirEdit.text(),
-                        QFileDialog.ShowDirsOnly)
+        path = QFileDialog.getOpenFileName(self, 
+                        tr("Select Path to GNU Gama Executable"),
+                        self.ui.GamaPathEdit.text())
         if path!="":
-            self.ui.GamaDirEdit.setText(path)
+            self.ui.GamaPathEdit.setText(path)
 
     def onPlotTemplateDirButton(self):
         """ Change the directory of the plot template files.
@@ -131,7 +127,7 @@ class PluginSettingsDialog(QDialog):
         QSettings().setValue("SurveyingCalculation/fontsize",9)
         QSettings().setValue("SurveyingCalculation/homedir",self.ui.HomeDirEdit.text())
         QSettings().setValue("SurveyingCalculation/log_path",self.ui.LogDirEdit.text())
-        QSettings().setValue("SurveyingCalculation/gama_path",self.ui.GamaDirEdit.text())
+        QSettings().setValue("SurveyingCalculation/gama_path",self.ui.GamaPathEdit.text())
         QSettings().setValue("SurveyingCalculation/template_path",self.ui.PlotTemplateDirEdit.text())
         QSettings().setValue("SurveyingCalculation/line_tolerance",line_tolerance)
         QSettings().setValue("SurveyingCalculation/area_tolerance",area_tolerance)

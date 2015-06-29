@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'plugin_settings.ui'
 #
-# Created: Sun Jun 28 21:23:57 2015
+# Created: Mon Jun 29 21:05:37 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,13 +55,13 @@ class Ui_PluginSettingsDialog(object):
         self.LogDirLabel_2 = QtGui.QLabel(self.tab)
         self.LogDirLabel_2.setGeometry(QtCore.QRect(10, 110, 351, 21))
         self.LogDirLabel_2.setObjectName(_fromUtf8("LogDirLabel_2"))
-        self.GamaDirEdit = QtGui.QLineEdit(self.tab)
-        self.GamaDirEdit.setGeometry(QtCore.QRect(10, 130, 321, 20))
-        self.GamaDirEdit.setReadOnly(True)
-        self.GamaDirEdit.setObjectName(_fromUtf8("GamaDirEdit"))
-        self.GamaDirButton = QtGui.QPushButton(self.tab)
-        self.GamaDirButton.setGeometry(QtCore.QRect(330, 130, 31, 23))
-        self.GamaDirButton.setObjectName(_fromUtf8("GamaDirButton"))
+        self.GamaPathEdit = QtGui.QLineEdit(self.tab)
+        self.GamaPathEdit.setGeometry(QtCore.QRect(10, 130, 321, 20))
+        self.GamaPathEdit.setReadOnly(True)
+        self.GamaPathEdit.setObjectName(_fromUtf8("GamaPathEdit"))
+        self.GamaPathButton = QtGui.QPushButton(self.tab)
+        self.GamaPathButton.setGeometry(QtCore.QRect(330, 130, 31, 23))
+        self.GamaPathButton.setObjectName(_fromUtf8("GamaPathButton"))
         self.PlotTemplateDirEdit = QtGui.QLineEdit(self.tab)
         self.PlotTemplateDirEdit.setGeometry(QtCore.QRect(10, 180, 321, 20))
         self.PlotTemplateDirEdit.setReadOnly(True)
@@ -143,9 +143,9 @@ class Ui_PluginSettingsDialog(object):
         PluginSettingsDialog.setTabOrder(self.HomeDirEdit, self.HomeDirButton)
         PluginSettingsDialog.setTabOrder(self.HomeDirButton, self.LogDirEdit)
         PluginSettingsDialog.setTabOrder(self.LogDirEdit, self.LogDirButton)
-        PluginSettingsDialog.setTabOrder(self.LogDirButton, self.GamaDirEdit)
-        PluginSettingsDialog.setTabOrder(self.GamaDirEdit, self.GamaDirButton)
-        PluginSettingsDialog.setTabOrder(self.GamaDirButton, self.PlotTemplateDirEdit)
+        PluginSettingsDialog.setTabOrder(self.LogDirButton, self.GamaPathEdit)
+        PluginSettingsDialog.setTabOrder(self.GamaPathEdit, self.GamaPathButton)
+        PluginSettingsDialog.setTabOrder(self.GamaPathButton, self.PlotTemplateDirEdit)
         PluginSettingsDialog.setTabOrder(self.PlotTemplateDirEdit, self.PlotTemplateDirButton)
         PluginSettingsDialog.setTabOrder(self.PlotTemplateDirButton, self.FontNameCombo)
         PluginSettingsDialog.setTabOrder(self.FontNameCombo, self.FontSizeCombo)
@@ -166,9 +166,9 @@ class Ui_PluginSettingsDialog(object):
         self.HomeDirButton.setText(_translate("PluginSettingsDialog", "...", None))
         self.LogDirEdit.setToolTip(_translate("PluginSettingsDialog", "Directory for log file.", None))
         self.LogDirLabel_2.setToolTip(_translate("PluginSettingsDialog", "Directory for log file.", None))
-        self.LogDirLabel_2.setText(_translate("PluginSettingsDialog", "GNU Gama directory:", None))
-        self.GamaDirEdit.setToolTip(_translate("PluginSettingsDialog", "Directory for log file.", None))
-        self.GamaDirButton.setText(_translate("PluginSettingsDialog", "...", None))
+        self.LogDirLabel_2.setText(_translate("PluginSettingsDialog", "Path to GNU Gama executable:", None))
+        self.GamaPathEdit.setToolTip(_translate("PluginSettingsDialog", "Directory for log file.", None))
+        self.GamaPathButton.setText(_translate("PluginSettingsDialog", "...", None))
         self.PlotTemplateDirEdit.setToolTip(_translate("PluginSettingsDialog", "Directory for log file.", None))
         self.PlotTemplateDirButton.setText(_translate("PluginSettingsDialog", "...", None))
         self.LogDirLabel_3.setToolTip(_translate("PluginSettingsDialog", "Directory for log file.", None))

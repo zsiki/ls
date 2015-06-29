@@ -132,10 +132,10 @@
       <string>Directory for log file.</string>
      </property>
      <property name="text">
-      <string>GNU Gama directory:</string>
+      <string>Path to GNU Gama executable:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="GamaDirEdit">
+    <widget class="QLineEdit" name="GamaPathEdit">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -151,7 +151,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="GamaDirButton">
+    <widget class="QPushButton" name="GamaPathButton">
      <property name="geometry">
       <rect>
        <x>330</x>
@@ -411,8 +411,8 @@
   <tabstop>HomeDirButton</tabstop>
   <tabstop>LogDirEdit</tabstop>
   <tabstop>LogDirButton</tabstop>
-  <tabstop>GamaDirEdit</tabstop>
-  <tabstop>GamaDirButton</tabstop>
+  <tabstop>GamaPathEdit</tabstop>
+  <tabstop>GamaPathButton</tabstop>
   <tabstop>PlotTemplateDirEdit</tabstop>
   <tabstop>PlotTemplateDirButton</tabstop>
   <tabstop>FontNameCombo</tabstop>
