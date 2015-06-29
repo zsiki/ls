@@ -26,7 +26,7 @@ class PluginSettingsDialog(QDialog):
 
         # event handlers
         self.ui.HomeDirButton.clicked.connect(self.onHomeDirButton)
-        self.ui.LogDirButton.clicked.connect(self.onLogDirButton)
+        self.ui.LogPathButton.clicked.connect(self.onLogPathButton)
         self.ui.GamaPathButton.clicked.connect(self.onGamaPathButton)
         self.ui.PlotTemplateDirButton.clicked.connect(self.onPlotTemplateDirButton)
         self.ui.OKButton.clicked.connect(self.onOKButton)
@@ -40,9 +40,9 @@ class PluginSettingsDialog(QDialog):
         QSettings().value("SurveyingCalculation/fontname",config.fontname)
         QSettings().value("SurveyingCalculation/fontsize",config.fontsize)
         self.ui.HomeDirEdit.setText(QSettings().value("SurveyingCalculation/homedir",config.homedir))
-        self.ui.LogDirEdit.setText(QSettings().value("SurveyingCalculation/log_path",config.log_path))
+        self.ui.LogPathEdit.setText(QSettings().value("SurveyingCalculation/log_path",config.log_path))
         self.ui.GamaPathEdit.setText(QSettings().value("SurveyingCalculation/gama_path",config.gama_path))
-        self.ui.PlotTemplateDirEdit.setText(QSettings().value("SurveyingCalculation/template_path",config.template_path))
+        self.ui.PlotTemplateDirEdit.setText(QSettings().value("SurveyingCalculation/template_dir",config.template_dir))
         self.ui.LineToleranceEdit.setText("%f"%float( QSettings().value("SurveyingCalculation/line_tolerance",config.line_tolerance) ))
         self.ui.AreaToleranceEdit.setText("%f"%float( QSettings().value("SurveyingCalculation/area_tolerance",config.area_tolerance) ))
         self.ui.MaxIterationEdit.setText("%d"%int( QSettings().value("SurveyingCalculation/max_iteration",config.max_iteration) ))
@@ -57,15 +57,14 @@ class PluginSettingsDialog(QDialog):
         if path!="":
             self.ui.HomeDirEdit.setText(path)
 
-    def onLogDirButton(self):
+    def onLogPathButton(self):
         """ Change the directory of the log file.
         """
-        path = QFileDialog.getExistingDirectory(self, 
-                        tr("Select Log Directory"),
-                        self.ui.LogDirEdit.text(),
-                        QFileDialog.ShowDirsOnly)
+        path = QFileDialog.getOpenFileName(self, 
+                        tr("Select Log File Path"),
+                        self.ui.LogPathEdit.text())
         if path!="":
-            self.ui.LogDirEdit.setText(path)
+            self.ui.LogPathEdit.setText(path)
 
     def onGamaPathButton(self):
         """ Change the directory of the gama-local executable.
@@ -126,9 +125,9 @@ class PluginSettingsDialog(QDialog):
         QSettings().setValue("SurveyingCalculation/fontname","DejaVu Sans Mono")
         QSettings().setValue("SurveyingCalculation/fontsize",9)
         QSettings().setValue("SurveyingCalculation/homedir",self.ui.HomeDirEdit.text())
-        QSettings().setValue("SurveyingCalculation/log_path",self.ui.LogDirEdit.text())
+        QSettings().setValue("SurveyingCalculation/log_path",self.ui.LogPathEdit.text())
         QSettings().setValue("SurveyingCalculation/gama_path",self.ui.GamaPathEdit.text())
-        QSettings().setValue("SurveyingCalculation/template_path",self.ui.PlotTemplateDirEdit.text())
+        QSettings().setValue("SurveyingCalculation/template_dir",self.ui.PlotTemplateDirEdit.text())
         QSettings().setValue("SurveyingCalculation/line_tolerance",line_tolerance)
         QSettings().setValue("SurveyingCalculation/area_tolerance",area_tolerance)
         QSettings().setValue("SurveyingCalculation/max_iteration",max_iteration)

@@ -46,7 +46,7 @@ class BatchPlottingDialog(QDialog):
         self.ui.TemplateList.setSortingEnabled(True)
 
         # set paths        
-        self.templatepath = QSettings().value("SurveyingCalculation/template_path",config.template_path)
+        self.templatepath = QSettings().value("SurveyingCalculation/template_dir",config.template_dir)
         self.pdfpath = ""
         
         if self.batch_plotting:
@@ -121,7 +121,7 @@ class BatchPlottingDialog(QDialog):
                         QFileDialog.ShowDirsOnly)
         if templatepath!="":
             self.templatepath = templatepath
-            QSettings().setValue("SurveyingCalculation/template_path",templatepath)
+            QSettings().setValue("SurveyingCalculation/template_dir",templatepath)
             QSettings().sync()
         self.fillTemplateList()
         

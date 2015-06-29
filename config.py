@@ -11,18 +11,22 @@ Variables set:
     :fontname: monospace font used in calculation results widgets
     :fontsize: font size used in calculation results widgets
     :homedir: start dir used for loading fieldbooks
+    :template_dir: path to template files for batch plotting
     :log_path: path to log file
     :line_tolerance: snapping tolerance to line tool
     :area_tolerance: area tolerance for area division
     :max_iteration: maximal number of iterations for area division
     :gama_path: full path to gama-local, default plug-in dir
 """
+from PyQt4.QtCore import QDir, QFileInfo
 
 # dialogs
 fontname = 'DejaVu Sans Mono'
 fontsize = 9
 #
-homedir = '/home/siki/qgis2/python/plugins/SurveyingCalculation'
+homedir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
+# plot template
+template_dir = QDir(homedir).absoluteFilePath("template")
 # logging
 log_path = '/tmp/log.log'
 # line tool

@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -45,7 +45,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="LogDirLabel">
+    <widget class="QLabel" name="LogPathLabel">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -58,7 +58,7 @@
       <string>Directory for log file.</string>
      </property>
      <property name="text">
-      <string>Log directory:</string>
+      <string>Path to Log File:</string>
      </property>
     </widget>
     <widget class="QLabel" name="HomeDirLabel">
@@ -77,7 +77,7 @@
       <string>Home directory:</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="LogDirButton">
+    <widget class="QPushButton" name="LogPathButton">
      <property name="geometry">
       <rect>
        <x>330</x>
@@ -103,7 +103,7 @@
       <string>...</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="LogDirEdit">
+    <widget class="QLineEdit" name="LogPathEdit">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -113,13 +113,13 @@
       </rect>
      </property>
      <property name="toolTip">
-      <string>Directory for log file.</string>
+      <string>Path for log file.</string>
      </property>
      <property name="readOnly">
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="LogDirLabel_2">
+    <widget class="QLabel" name="LogPathLabel_2">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -145,7 +145,7 @@
       </rect>
      </property>
      <property name="toolTip">
-      <string>Directory for log file.</string>
+      <string>Full path to gama-local executable.</string>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -174,7 +174,7 @@
       </rect>
      </property>
      <property name="toolTip">
-      <string>Directory for log file.</string>
+      <string>Path to template files for batch plotting.</string>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -193,7 +193,7 @@
       <string>...</string>
      </property>
     </widget>
-    <widget class="QLabel" name="LogDirLabel_3">
+    <widget class="QLabel" name="LogPathLabel_3">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -317,6 +317,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>Snapping tolerance to line tool.</string>
+     </property>
     </widget>
     <widget class="QLabel" name="AreaToleranceLabel">
      <property name="geometry">
@@ -340,6 +343,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>Area tolerance for area division.</string>
+     </property>
     </widget>
     <widget class="QLabel" name="MaxIterationLabel">
      <property name="geometry">
@@ -362,6 +368,9 @@
        <width>121</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>Maximal number of iterations for area division.</string>
      </property>
     </widget>
    </widget>
@@ -409,8 +418,8 @@
   <tabstop>SettingsTab</tabstop>
   <tabstop>HomeDirEdit</tabstop>
   <tabstop>HomeDirButton</tabstop>
-  <tabstop>LogDirEdit</tabstop>
-  <tabstop>LogDirButton</tabstop>
+  <tabstop>LogPathEdit</tabstop>
+  <tabstop>LogPathButton</tabstop>
   <tabstop>GamaPathEdit</tabstop>
   <tabstop>GamaPathButton</tabstop>
   <tabstop>PlotTemplateDirEdit</tabstop>
