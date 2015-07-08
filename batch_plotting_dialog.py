@@ -46,7 +46,6 @@ class BatchPlottingDialog(QDialog):
         self.ui.TemplateList.setSortingEnabled(True)
 
         # set paths        
-        self.templatepath = QSettings().value("SurveyingCalculation/template_dir",config.template_dir)
         self.pdfpath = ""
         
         if self.batch_plotting:
@@ -63,6 +62,7 @@ class BatchPlottingDialog(QDialog):
     def showEvent(self, event):
         """ Reset dialog when receives a show event.
         """
+        self.templatepath = QSettings().value("SurveyingCalculation/template_dir",config.template_dir)
         self.fillLayersCombo()
         self.fillTemplateList()
 
