@@ -65,9 +65,10 @@ class PluginSettingsDialog(QDialog):
     def onLogPathButton(self):
         """ Change the directory of the log file.
         """
-        path = QFileDialog.getOpenFileName(self, 
+        path = QFileDialog.getSaveFileName(self, 
                         tr("Select Log File Path"),
-                        self.ui.LogPathEdit.text())
+                        self.ui.LogPathEdit.text(), "",
+                        QFileDialog.DontConfirmOverwrite)
         if path!="":
             self.ui.LogPathEdit.setText(path)
 
