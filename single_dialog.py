@@ -29,11 +29,6 @@ class SingleDialog(QDialog):
         super(SingleDialog, self).__init__()
         self.ui = Ui_SingleCalcDialog()
         self.ui.setupUi(self)
-        if platform.system() == 'Linux':
-            # change font
-            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
-            fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
-            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
         self.log = log
 
         # event handlers
@@ -59,6 +54,12 @@ class SingleDialog(QDialog):
 
             :param event: NOT USED
         """
+        if platform.system() == 'Linux':
+            # change font
+            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
+            fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
+            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
+
         self.reset()
         
     def reset(self):

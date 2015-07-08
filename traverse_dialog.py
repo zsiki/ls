@@ -28,11 +28,6 @@ class TraverseDialog(QDialog):
         self.ui = Ui_TraverseCalcDialog()
         self.ui.setupUi(self)
         self.log = log
-        if platform.system() == 'Linux':
-            # change font
-            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
-            fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
-            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
 
         # event handlers
         self.ui.ClosedRadio.toggled.connect(self.radioClicked)
@@ -52,6 +47,11 @@ class TraverseDialog(QDialog):
     def showEvent(self, event):
         """ Reset dialog when receives a show event.
         """
+        if platform.system() == 'Linux':
+            # change font
+            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
+            fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
+            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
         self.reset()
 
     def reset(self):

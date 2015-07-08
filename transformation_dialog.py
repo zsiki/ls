@@ -28,11 +28,6 @@ class TransformationDialog(QDialog):
         self.ui = Ui_TransformationCalcDialog()
         self.ui.setupUi(self)
         self.log = log
-        if platform.system() == 'Linux':
-            # change font
-            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
-            fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
-            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
         self.from_points = []
         self.common = []
         self.used = []
@@ -51,6 +46,11 @@ class TransformationDialog(QDialog):
 
             :param event: NOT USED
         """
+        if platform.system() == 'Linux':
+            # change font
+            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
+            fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
+            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
         self.reset()
 
     def reset(self):
