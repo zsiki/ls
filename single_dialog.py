@@ -59,7 +59,8 @@ class SingleDialog(QDialog):
             fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
             fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
             self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
-
+        log_path = QSettings().value("SurveyingCalculation/log_path",config.log_path)
+        self.log.set_log_path(log_path)
         self.reset()
         
     def reset(self):
