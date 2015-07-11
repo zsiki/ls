@@ -1,0 +1,4 @@
+cat source/pdf_head.rst > source/usersguide1.rst
+tail -n +16 source/usersguide.rst >> source/usersguide1.rst
+rst2pdf -b 1 -s source/usersguide.sty source/usersguide1.rst -o usersguide.pdf
+rm source/usersguide1.rst
