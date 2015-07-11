@@ -176,6 +176,12 @@ active layer</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.settings">
+<tt class="descname">settings</tt><big>(</big><big>)</big><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setting of the plugin.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="SurveyingCalculation.surveying_calculation.SurveyingCalculation.transformation">
 <tt class="descname">transformation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SurveyingCalculation/surveying_calculation.html#SurveyingCalculation.transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SurveyingCalculation.surveying_calculation.SurveyingCalculation.transformation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Various coordinate transformations (orthogonal, affine, polynomial)</p>
@@ -718,8 +724,11 @@ Y = Y0 + b1 * x + b2 * y + b3 * xy + b4 * x^2 + b5 * y^2 + ...</p>
 </tr>
 <tr class="field"><th class="field-name">line_tolerance:</th><td class="field-body">snapping tolerance to line tool</td>
 </tr>
-<tr class="field"><th class="field-name">area_tolerance:</th><td class="field-body">area tolerance for area division
-:max_iteration: maximal number of iterations for area division</td>
+<tr class="field"><th class="field-name">area_tolerance:</th><td class="field-body">area tolerance for area division</td>
+</tr>
+<tr class="field"><th class="field-name">max_iteration:</th><td class="field-body">maximal number of iterations for area division</td>
+</tr>
+<tr class="field"><th class="field-name">gama_path:</th><td class="field-body">full path to gama-local, default plug-in dir</td>
 </tr>
 </tbody>
 </table>
@@ -2389,7 +2398,7 @@ if open traverse is chosen.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Jan 05, 2015.
+      Last updated on Jun 02, 2015.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>

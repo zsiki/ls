@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>User’s Guide for SurveyingCalculation plugin for QGIS 2.x &mdash; Surveying Calculation v0.0.1b1 documentation</title>
+    <title>User’s Guide for SurveyingCalculation plugin for QGIS 2 &mdash; Surveying Calculation v0.0.1b1 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -43,109 +43,142 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="user-s-guide-for-surveyingcalculation-plugin-for-qgis-2-x">
-<h1>User&#8217;s Guide for SurveyingCalculation plugin for QGIS 2.x<a class="headerlink" href="#user-s-guide-for-surveyingcalculation-plugin-for-qgis-2-x" title="Permalink to this headline">¶</a></h1>
-<p>The SurveyingCalculation plugin was created by the <a class="reference external" href="http://www.digikom.hu">DigiKom Ltd (Hungary)</a>. It was supported by the SMOLE II for Niras Finland Oy.
+  <div class="section" id="user-s-guide-for-surveyingcalculation-plugin-for-qgis-2">
+<h1>User&#8217;s Guide for SurveyingCalculation plugin for QGIS 2<a class="headerlink" href="#user-s-guide-for-surveyingcalculation-plugin-for-qgis-2" title="Permalink to this headline">¶</a></h1>
+<p>Version 0.2</p>
+<p>DigiKom Ltd (c) 2015</p>
+<p><a class="reference external" href="http://www.digikom.hu">http://www.digikom.hu</a></p>
+<p><a class="reference external" href="mailto:mail&#37;&#52;&#48;digikom&#46;hu">mail<span>&#64;</span>digikom<span>&#46;</span>hu</a></p>
+<div class="section" id="introduction">
+<h2>1 Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The SurveyingCalculation plugin was created by the <a class="reference external" href="http://www.digikom.hu">DigiKom Ltd</a> (Hungary). It was supported by the SMOLE II for
+Niras Finland Oy.
 It was developed for the Land Parcel Cadastre of Zanzibar.</p>
 <div class="section" id="hardware-and-software-requirements">
-<h2>Hardware and software requirements<a class="headerlink" href="#hardware-and-software-requirements" title="Permalink to this headline">¶</a></h2>
-<p>The SurveyingCalculation plug-in can be used on any computer on which QGIS 2.x
+<h3>1.1 Hardware and software requirements<a class="headerlink" href="#hardware-and-software-requirements" title="Permalink to this headline">¶</a></h3>
+<p>The SurveyingCalculation plugin can be used on any computer on which QGIS 2
 can run. It was tested on Windows 7 and Fedora Linux, but it should work on
-other Windows versions or Linux distros . QGIS version 2.2, 2.4 and 2.6 were
-used for testing the plugin.</p>
-<p>The network adjustment and the free station calculation in the plug-in is based
+other Windows versions or Linux distros. QGIS version 2.2, 2.4, 2.6 and 2.8
+were used for testing the plugin.</p>
+<p>The network adjustment and the free station calculation in the plugin is based
 on the GNU Gama open source project. <a class="reference external" href="https://www.gnu.org/software/gama/">GNU Gama</a> must be installed separately to use these calculations.</p>
 </div>
 <div class="section" id="installation-of-the-surveyingcalculation-plugin">
-<h2>Installation of the SurveyingCalculation plugin<a class="headerlink" href="#installation-of-the-surveyingcalculation-plugin" title="Permalink to this headline">¶</a></h2>
-<p><strong>Installing from QGIS Plug-in repo</strong></p>
+<h3>1.2 Installation of the SurveyingCalculation plugin<a class="headerlink" href="#installation-of-the-surveyingcalculation-plugin" title="Permalink to this headline">¶</a></h3>
+<p>There are different methods to install the plugin. The easiest way is to
+install it from the QGIS Plugin repository. To use the latest development
+version you can install it directly from GitHub, it is mainly for advanced
+users.</p>
+<div class="section" id="installing-from-qgis-plugin-repo">
+<h4>1.2.1 Installing from QGIS Plugin repo<a class="headerlink" href="#installing-from-qgis-plugin-repo" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
-<li>Start QGIS</li>
-<li>In the plug-in dialog enable experimental plugins (after evaluating the plugin by the QGIS community it will be changed to standard (non experimental) plugin)</li>
-<li>Look for SurveyingCalculation plug-in in the list of <em>All</em> or <em>Not installed</em> list and press Install button</li>
+<li>Start QGIS on your machine.</li>
+<li>In the plugin dialog enable experimental plugins (after evaluating the plugin by the QGIS community it will be changed to standard - non experimental - plugin). To open the plugin dialog select <span class="mnu">Plugins/Manage and install plugins</span> from the menu then select <em>Settings</em> tab to see the checkbox of experimental plugins.</li>
+<li>Look for SurveyingCalculation plugin in the list on the <em>All</em> or the <em>Not installed</em> tab, select the SurveyingCalculation plugin and press the <span class="btn">[Install]</span> button.</li>
 </ol>
-<p><strong>Installing from GitHub</strong></p>
-<p>If you have a Git client on your machine (Git Bash or other clients):</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u01.png"><img alt="_images/u01.png" src="_images/u01.png" style="width: 558.0px; height: 212.25px;" /></a>
+<p class="caption"><em>(Figure 1) Manage and Install Plugins in the menu</em></p>
+</div>
+</div>
+<div class="section" id="installing-from-github">
+<h4>1.2.2 Installing from GitHub<a class="headerlink" href="#installing-from-github" title="Permalink to this headline">¶</a></h4>
+<p>Before starting the installation exit QGIS.</p>
+<p>If you have a <em>git</em> client on your machine (e.g. TortoiseGit):</p>
 <ol class="arabic simple">
-<li>git clone the plug-in from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to <em>~/.qgis2/python/plugins/SurveyingCalculation</em> on your local machine (~ is your home directory on Linux, replace it on Windows)</li>
-<li>Open the QGIS Desktop</li>
+<li>git clone the plugin from <a class="reference external" href="https://github.com/zsiki/ls">https://github.com/zsiki/ls</a> to <em>~/.qgis2/python/plugins/SurveyingCalculation</em> on your local machine (~ marks your home directory on Linux, replace it on Windows with your home directory).</li>
+<li>Start QGIS on your machine.</li>
 </ol>
-<p>If you don&#8217;t have a Git client:</p>
+<p>If you don&#8217;t have a <em>git</em> client:</p>
 <ol class="arabic simple">
-<li>Download the ZIP file from <a class="reference external" href="https://github.com/zsiki/ls/archive/master.zip">https://github.com/zsiki/ls/archive/master.zip</a> to your computer</li>
-<li>Unzip it to <em>~/.qgis2/python/plugins/SurveyingCalculation</em></li>
-<li>Open the QGIS Desktop</li>
+<li>Download the <em>ZIP</em> file from <a class="reference external" href="https://github.com/zsiki/ls/archive/master.zip">https://github.com/zsiki/ls/archive/master.zip</a> to your computer.</li>
+<li>Unzip it to <em>~/.qgis2/python/plugins/SurveyingCalculation</em> (~ marks your home directory on Linux, replace it on Windows with your home directory).</li>
+<li>Start QGIS on your machine.</li>
 </ol>
-<p>After installing the plug-in you must enable it in the <em>Manage and Install
-Plugins</em> dialog. Then the menu and the toolbar of the plug-in
-will be visible.</p>
+<p>After installing the plugin you have to enable it in the <em>Manage and Install
+Plugins</em> dialog (Figure 1 and Figure 2). Then the menu and the toolbar of
+the plugin will be visible (Figure 3).</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u01.png"><img alt="_images/u01.png" src="_images/u01.png" style="width: 595.2px; height: 226.4px;" /></a>
-<p class="caption"><em>(1.) Manage and Install Plugins</em></p>
-</div>
-<p>Is the SurveyingCalculation plugin switched on?</p>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u02.png"><img alt="_images/u02.png" src="_images/u02.png" style="width: 655.2px; height: 480.8px;" /></a>
-<p class="caption"><em>(2.) Installed SurveyingCalculation plug-in</em></p>
+<a class="reference internal image-reference" href="_images/u02.png"><img alt="_images/u02.png" src="_images/u02.png" style="width: 614.25px; height: 450.75px;" /></a>
+<p class="caption"><em>(Figure 2) SurveyingCalculation plugin enabled</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u03.png"><img alt="_images/u03.png" src="_images/u03.png" style="width: 914.4px; height: 509.6px;" /></a>
-<p class="caption"><em>(3.) SurveyingCalculation plugin in QGIS (menu and toolbar)</em></p>
+<a class="reference internal image-reference" href="_images/u03.png"><img alt="_images/u03.png" src="_images/u03.png" style="width: 571.5px; height: 318.5px;" /></a>
+<p class="caption"><em>(Figure 3) SurveyingCalculation plugin in QGIS (menu and toolbar)</em></p>
 </div>
-<p><strong>GNU Gama project: gama-local</strong></p>
-<p>Beside installing the plug-in you also have to install gama-local (part of the
-GNU Gama project) for free station and adjustment calculations. See: <a class="reference external" href="https://www.gnu.org/software/gama">https://www.gnu.org/software/gama</a></p>
+</div>
+<div class="section" id="gnu-gama-project-gama-local">
+<h4>1.2.3 GNU Gama project: gama-local<a class="headerlink" href="#gnu-gama-project-gama-local" title="Permalink to this headline">¶</a></h4>
+<p>Beside installing the plugin you also have to install gama-local (part of the
+GNU Gama project) to be able to calculate free station and adjustment
+calculations. See: <a class="reference external" href="https://www.gnu.org/software/gama">https://www.gnu.org/software/gama</a>. You can download Windows
+binaries of GNU Gama from <a class="reference external" href="http://sourceforge.net/projects/gnu-gama-builds">http://sourceforge.net/projects/gnu-gama-builds</a>.</p>
+</div>
 </div>
 <div class="section" id="settings-before-use">
-<h2>Settings before use<a class="headerlink" href="#settings-before-use" title="Permalink to this headline">¶</a></h2>
-<p>Settings described in this section are optional.</p>
-<p>Check and change the settings in the <em>config.py</em> file. The following variables
-can be set in the config:</p>
+<h3>1.3 Settings before use<a class="headerlink" href="#settings-before-use" title="Permalink to this headline">¶</a></h3>
+<p>There are some settings which the plugin can be customized with. These are in
+the <em>config.py</em> file. Settings described in this section are optional.</p>
+<p>Check and change the settings in the <em>config.py</em> file, this file is in the
+installation directory of the SurveyingCalculation plugin. The following
+variables can be set in the config:</p>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">fontname:</th><td class="field-body">monospace font used in the calculation results widgets on Linux, the default courier font doesn&#8217;t exists on most Linux boxes</td>
+<tr class="field"><th class="field-name">fontname:</th><td class="field-body">monospace font used in the calculation results widgets</td>
 </tr>
-<tr class="field"><th class="field-name">fontsize:</th><td class="field-body">font size used in the calculation results widgets on Linux</td>
+<tr class="field"><th class="field-name">fontsize:</th><td class="field-body">font size used in the calculation results widget</td>
 </tr>
-<tr class="field"><th class="field-name">homedir:</th><td class="field-body">starting directory used for loading fieldbooks from</td>
+<tr class="field"><th class="field-name">homedir:</th><td class="field-body">starting directory used for loading fieldbooks from, you can select any other directory</td>
 </tr>
 <tr class="field"><th class="field-name">log_path:</th><td class="field-body">full path to log file, the program must have write access right to the directory and the file</td>
 </tr>
-<tr class="field"><th class="field-name">line_tolerance:</th><td class="field-body">snapping to vertex tolerance used by line tool</td>
+<tr class="field"><th class="field-name">line_tolerance:</th><td class="field-body">snapping to vertex tolerance used by line tool in SRS units</td>
 </tr>
 <tr class="field"><th class="field-name">area_tolerance:</th><td class="field-body">area tolerance for area division, if the difference between the actual area and the requested area is smaller than this value, the iteration is stopped</td>
 </tr>
-<tr class="field"><th class="field-name">max_iteration:</th><td class="field-body">maximal number of iterations for area division</td>
+<tr class="field"><th class="field-name">max_iteration:</th><td class="field-body">maximal number of iterations for area divisio</td>
+</tr>
+<tr class="field"><th class="field-name">gama_path:</th><td class="field-body">full path to gama-local (used for network adjustment and free station)</td>
 </tr>
 </tbody>
 </table>
 </div></blockquote>
-<p>If you change any value in the <em>config.py</em> file, the QGIS plug-in have to be reloaded or QGIS must be restarted.</p>
+<p>Before changing any value in the config.py make a backup copy.
+If you change any value in the <em>config.py</em> file, the QGIS plugin have to be
+reloaded or QGIS have to be restarted to use the new value.</p>
+<p>There are some QGIS settings which can make your work more confortable.</p>
 <p>Set the default coordinate reference system (CRS) for new projects and
-new layers on the <em>CRS</em> tab in the Setting/Options menu to the local CRS.</p>
-<p>Set the <em>Representation for NULL values</em> to empty string on the Data sources
-tab in the Setting/Options menu. It makes the Attribute Table (Fieldbook) more
-readable.</p>
+new layers on the <em>CRS</em> tab in the <em>Setting/Options</em> dialog (Figure 4) to the
+locally used CRS.</p>
+<p>Set the <em>Representation for NULL values</em> to empty string on the <em>Data sources</em>
+tab in the <span class="mnu">Setting/Options</span> menu (Figure 5). It makes the Attribute Table
+(Fieldbook) more readable.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u04.png"><img alt="_images/u04.png" src="_images/u04.png" style="width: 593.6px; height: 225.6px;" /></a>
-<p class="caption"><em>(4.) Settings of Attribute Table</em></p>
+<a class="reference internal image-reference" href="_images/u04.png"><img alt="_images/u04.png" src="_images/u04.png" style="width: 556.5px; height: 211.5px;" /></a>
+<p class="caption"><em>(Figure 4) Settings/Options... menu</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u05.png"><img alt="_images/u05.png" src="_images/u05.png" style="width: 683.2px; height: 488.0px;" /></a>
-<p class="caption"><em>(5.) Settings of Attribute Table</em></p>
+<a class="reference internal image-reference" href="_images/u05.png"><img alt="_images/u05.png" src="_images/u05.png" style="width: 640.5px; height: 457.5px;" /></a>
+<p class="caption"><em>(Figure 5) Setting NULL values</em></p>
 </div>
-<p>Most of the cases you need an open coordinate list to store calculation results.
-Open an existing QGIS project which contains a coordinate list (a point shape
-file whose name have to start with <em>coord_</em>) or create a new project and add an
-existing coordinate list to the project by the add vector layer icon or create
-a new project and create a new coordinate list from the <em>SurveyingCalculation/New coordinate list ...</em> menu.</p>
-<p>Check the coordinate reference system (CRS) of your coordinate list (<em>Properties</em> from the popup menu of the layer) and the map.</p>
-<p>After loading an existing one or creating a new Coordinate list shape file, you get
-a point layer in your project with the following columns in the attribute table
-(column names and types are mandatory):</p>
+</div>
+<div class="section" id="data-sets-used-by-the-plugin">
+<h3>1.4 Data sets used by the plugin<a class="headerlink" href="#data-sets-used-by-the-plugin" title="Permalink to this headline">¶</a></h3>
+<p>The plugin uses standard QGIS data sets, only the name of them is plugin
+specific and there are obligatory columns in these data sets. QGIS project files
+can also be used to save and reload your working environment.</p>
+<div class="section" id="coordinate-lists">
+<h4>1.4.1 Coordinate lists<a class="headerlink" href="#coordinate-lists" title="Permalink to this headline">¶</a></h4>
+<p>Most of the cases you need an open coordinate list to have known points for the
+calculations and to store calculated coordinates into.
+The coordinate list is a QGIS point vector layer with specific columns.
+All point coordinates in a coordinate list have to be in the same Coordinate
+Refference System (CRS). The name of the
+coordinate lists must start with <em>coord_</em> and have to contain some obligatory
+columns (column names and types are mandatory):</p>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -166,47 +199,15 @@ a point layer in your project with the following columns in the attribute table
 </tbody>
 </table>
 </div></blockquote>
-<p>The first three columns (<em>point_id</em>, <em>e</em> and <em>n</em>) are obligatory, you have to fill them.
-You mustn&#8217;t rename or erase these columns but you can add new columns to the attribute table.</p>
-<p>You can edit the coordinate list if you push <em>Toggle Editing Mode</em> for this layer. Be careful:</p>
-<div class="highlight-python"><pre>do not edit the coordinates manually, because the point position won't change automatically
-do not add new point by mouse click, because the coordinate columns in the table won't change automatically</pre>
+<p>You mustn&#8217;t rename or erase the standard columns but you can add new columns to extend the attribute table.
+The data in the first three columns (<em>point_id</em>, <em>e</em> and <em>n</em>) have to be filled for each point.</p>
 </div>
-<p>Use the <em>Add new point</em> dialog to update coordinates and location together.</p>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u06.png"><img alt="_images/u06.png" src="_images/u06.png" style="width: 600.0px; height: 280.8px;" /></a>
-<p class="caption"><em>(6.) New coordinate list</em></p>
-</div>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u07.png"><img alt="_images/u07.png" src="_images/u07.png" style="width: 914.4px; height: 510.4px;" /></a>
-<p class="caption"><em>(7.) Empty coordinate table</em></p>
-</div>
-<p>Only one coordinate list should be open in a project at a time.</p>
-</div>
-<div class="section" id="importing-fieldbooks">
-<h2>Importing fieldbooks<a class="headerlink" href="#importing-fieldbooks" title="Permalink to this headline">¶</a></h2>
-<p>Observations made by total stations and GPS are stored in electric fieldbooks.
-The files storing the fieldbook data have to be downloaded to the computer before
-you can use them in the plug-in. Different fieldbook types are supported:</p>
-<ul class="simple">
-<li>Leica GSI 8/16</li>
-<li>Geodimeter JOB/ARE</li>
-<li>Sokkia CRD</li>
-<li>SurvCE RW5</li>
-<li>STONEX DAT</li>
-</ul>
-<p>Any number of electric fieldbooks can be opened/loaded into a QGIS project.
-You can even create a new empty fieldbook and fill it manually.</p>
-<ol class="arabic">
-<li><p class="first">There must be an open coordinate list in your actual project (a point layer whose name starts with <em>coord_</em>). Otherwise coordinates read from the filedbook will be lost</p>
-</li>
-<li><p class="first">Click on the Load fieldbook icon or select it from the <em>SurveyingCalculation</em> menu</p>
-</li>
-<li><p class="first">Choose the type of the fieldbook (<a class="reference internal" href="#geodimeter-job-are">Geodimeter JOB/ARE</a>; <a class="reference internal" href="#leica-gsi">Leica GSI</a>; <a class="reference internal" href="#sokkia-crd">Sokkia CRD</a>, <a class="reference internal" href="#survce-rw5">SurvCE RW5</a>, <a class="reference internal" href="#stonex-dat">STONEX DAT</a>)</p>
-</li>
-<li><p class="first">Select the output DBF file where your observations will be stored, the name will start with <em>fb_</em>, the program will add it to the name automatically if you forget it</p>
-</li>
-<li><p class="first">After giving the path to the DBF file the new fieldbook will be added to your QGIS project. The name of the fieldbook always starts with &#8220;fb_&#8221;. This database table stores measurements only, it has no graphical (map) data. Fields in the table:</p>
+<div class="section" id="fieldbooks">
+<h4>1.4.2 Fieldbooks<a class="headerlink" href="#fieldbooks" title="Permalink to this headline">¶</a></h4>
+<p>Fieldbooks store observation data, angles, distances, etc. You can fill a
+fieldbook manually or you can load electric fieldbooks downloaded from
+totalstations.  Fieldbooks are standard QGIS table data without geometry.
+The name of the fieldbook must start with &#8220;fb_&#8221;. Fields in the table are:</p>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -231,28 +232,129 @@ You can even create a new empty fieldbook and fill it manually.</p>
 </tbody>
 </table>
 </div></blockquote>
-</li>
+<p>You musn&#8217;t change the name of columns or erase them, but you can add new
+columns to the table. The first <em>id</em> column is used to define the order of the
+observation records.</p>
+<p>A fieldbook contains two different record types, station and observation
+records.  The station record marks the start of a new occupied station in the
+observations. These station records are marked by the <strong>station</strong> word in the
+<em>station</em> column. In a station record only
+the <em>id</em>, <em>point_id</em>, <em>station</em>, <em>th</em> columns are used.
+The observation records contain empty (NULL) data in the <em>station</em> column.</p>
+</div>
+</div>
+</div>
+<div class="section" id="creating-and-loading-data-sets">
+<h2>2 Creating and loading data sets<a class="headerlink" href="#creating-and-loading-data-sets" title="Permalink to this headline">¶</a></h2>
+<p>Before you can start the calculations some data sets have to be loaded into
+your QGS project. Use one coordinate list and any number of fieldbooks.</p>
+<div class="section" id="working-with-coordinate-list">
+<h3>2.1 Working with coordinate list<a class="headerlink" href="#working-with-coordinate-list" title="Permalink to this headline">¶</a></h3>
+<p>Before you start your work open an existing QGIS project which contains a
+coordinate list (a point shape file whose name starts with <em>coord_</em>) or create
+a new project and add an existing coordinate list to the project by the
+<span class="btn">[Add vector layer]</span> <img alt="addvec" src="_images/addvec.png" />  icon or create
+a new project and create a new coordinate list from the
+<span class="mnu">SurveyingCalculation/New coordinate list ...</span> menu (Figure 6). The plugin
+automatically adds the <em>coord_</em> (if necessary) in front of the name you gave
+and adds the new empty coordinate list to the project.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u06.png"><img alt="_images/u06.png" src="_images/u06.png" style="width: 562.5px; height: 263.25px;" /></a>
+<p class="caption"><em>(Figure 6) Creating new coordinate list from the menu</em></p>
+</div>
+<p>Check the coordinate reference system (CRS) of your coordinate list
+(<span class="mnu">Properties</span> from the popup menu of the layer) and the map (lower right
+part of the QGIS status line).</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u07.png"><img alt="_images/u07.png" src="_images/u07.png" style="width: 571.5px; height: 319.0px;" /></a>
+<p class="caption"><em>(Figure 7) The new empty coordinate list/table</em></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Be careful!
+Do not edit the coordinates manually, because the point position won&#8217;t change automatically.
+Do not add new point by mouse click, because the coordinate columns in the table won&#8217;t change automatically.</p>
+</div>
+<p>Use the <em>Add new point</em> dialog to update coordinates and location together.
+Expert users can use the <em>Field calculator</em> to update the coordinates in the
+attribute table from the geometry.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only one coordinate list should be open in a project at a time.</p>
+</div>
+<div class="section" id="add-new-point-to-the-coordinate-list">
+<h4>2.1.1 Add new point to the Coordinate list<a class="headerlink" href="#add-new-point-to-the-coordinate-list" title="Permalink to this headline">¶</a></h4>
+<p>In the <em>Add new point</em> dialog you can manually add new points to the coordinate list. The <em>Add new point</em> dialog can be opened from the
+<span class="btn">SurveyingCalculation</span> menu.
+The <em>Point ID</em>, <em>East</em>, <em>North</em> fields must be filled, the others are optional.
+Use the <span class="btn">[Add]</span> button to add the point to the coordinate list. The
+<span class="btn">[Add]</span> button saves the new point and resets the form. You can add more
+points if you edit the fields and push the <span class="btn">[Add]</span> button.
+The <span class="btn">[Close]</span> button closes the dialog window.</p>
+<p>This dialog can be used to overwrite existing coordinates in the coordinate
+list, too. If you input an existing point number, a warning will be displayed
+and you can decide whether to overwrite the stored point.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/u12.png"><img alt="_images/u12.png" src="_images/u12.png" style="width: 572.0px; height: 319.5px;" /></a>
+<p class="caption"><em>(Figure 12) Add new point to the Coordinate list</em></p>
+</div>
+<p>You can use the standard QGIS <span class="btn">[Add Delimited Text Layer]</span> button to bulk
+import coordinates from CSV or TXT files. The restrictions are</p>
+<ul class="simple">
+<li>the column names must be the same as discribed before (point_id, e, n, z, pc, pt)</li>
+<li>the column types must be the same as discribed before, a CSVT file can be created to define column types, the name of the CSVT file have to be the same as the CSV file</li>
+<li>the name of result shape file have to start with <em>coord_</em></li>
+</ul>
+<p>To define the data types for the columns of the CSV file, a CSVT definition
+file can be created. It is a one line text file.
+Sample CSVT file to load coordinate lists:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">String</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">Real</span><span class="p">(</span><span class="mf">12.3</span><span class="p">),</span><span class="n">Real</span><span class="p">(</span><span class="mf">12.3</span><span class="p">),</span><span class="n">Real</span><span class="p">(</span><span class="mf">8.3</span><span class="p">),</span><span class="n">String</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">String</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="working-with-fieldbooks">
+<h3>2.2 Working with fieldbooks<a class="headerlink" href="#working-with-fieldbooks" title="Permalink to this headline">¶</a></h3>
+<p>You can create an empty fieldbook for manual input using the
+<span class="mnu">New fieldbook</span> from the SurveyingCalculation menu.
+You can edit the fieldbook if you push <span class="btn">[Toggle Editing Mode]</span> <img alt="edit" src="_images/edit.png" />
+icon. The loader adds an extra column to the observation data, the id column,
+sorting the table by this column gives the right order of the observations.</p>
+<div class="section" id="importing-fieldbooks">
+<h4>2.2.1 Importing fieldbooks<a class="headerlink" href="#importing-fieldbooks" title="Permalink to this headline">¶</a></h4>
+<p>Observations made by total stations and GPS are stored in electric fieldbooks.
+The files storing the fieldbook data have to be downloaded to the computer
+before you can use them in the plugin. Different fieldbook types are supported:</p>
+<ul class="simple">
+<li>Leica GSI 8/16</li>
+<li>Geodimeter JOB/ARE</li>
+<li>Sokkia CRD</li>
+<li>SurvCE RW5</li>
+<li>STONEX DAT</li>
+</ul>
+<p>Any number of electric fieldbooks can be opened/loaded into a QGIS project.
+You can even create a new empty fieldbook and fill it manually.</p>
+<ol class="arabic simple">
+<li>There must be an open coordinate list in your actual project (a point layer whose name starts with <em>coord_</em>). Otherwise coordinates read from the filedbook will be lost</li>
+<li>Click on the Load fieldbook icon or select it from the :mnu:SurveyingCalculation` menu</li>
+<li>Choose the type of the fieldbook (Geodimeter JOB/ARE, Leica GSI, Sokkia CRD, SurvCE RW5, STONEX DAT)</li>
+<li>Select the output DBF file where your observations will be stored, the name will start with <em>fb_</em>, the program will add it to the name automatically if you forget it</li>
+<li>After giving the path to the DBF file the new fieldbook will be added to your QGIS project.</li>
 </ol>
-<p>You musn&#8217;t change the name of columns or erase them, but you can add new columns
-to the table.</p>
-<p>The loader adds an extra column to the observation data, the id column, sorting
-the table by this column gives the right order of the observations.</p>
-<p>You can create an empty fieldbook for manual input using the <em>New fieldbook</em>
-from the SurveyingCalculation menu.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u08.png"><img alt="_images/u08.png" src="_images/u08.png" style="width: 592.8px; height: 254.4px;" /></a>
-<p class="caption"><em>(8.) Import fieldbook menu</em></p>
+<a class="reference internal image-reference" href="_images/u08.png"><img alt="_images/u08.png" src="_images/u08.png" style="width: 555.75px; height: 238.5px;" /></a>
+<p class="caption"><em>(Figure 8) Import fieldbook menu</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u09.png"><img alt="_images/u09.png" src="_images/u09.png" style="width: 914.4px; height: 508.8px;" /></a>
-<p class="caption"><em>(9.) Fieldbook attribute window</em></p>
+<a class="reference internal image-reference" href="_images/u09.png"><img alt="_images/u09.png" src="_images/u09.png" style="width: 571.5px; height: 318.0px;" /></a>
+<p class="caption"><em>(Figure 9) Fieldbook attribute window</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u10.png"><img alt="_images/u10.png" src="_images/u10.png" style="width: 914.4px; height: 510.4px;" /></a>
-<p class="caption"><em>(10.) Coordinate list</em></p>
+<a class="reference internal image-reference" href="_images/u10.png"><img alt="_images/u10.png" src="_images/u10.png" style="width: 571.5px; height: 319.0px;" /></a>
+<p class="caption"><em>(Figure 10) Coordinate list</em></p>
 </div>
 <div class="section" id="leica-gsi">
-<h3>Leica GSI<a class="headerlink" href="#leica-gsi" title="Permalink to this headline">¶</a></h3>
+<h5>2.2.1.1 Leica GSI<a class="headerlink" href="#leica-gsi" title="Permalink to this headline">¶</a></h5>
 <p>Both the 8 byte and 16 byte GSI files are supported. As there are no standard
 markers for station start in GSI files, you can use code block to mark a new
 station in observations or you have to have a record with station coordinates or
@@ -313,7 +415,7 @@ instrument height to mark the start of a new station.</p>
 during the import.</p>
 </div>
 <div class="section" id="geodimeter-job-are">
-<h3>Geodimeter JOB/ARE<a class="headerlink" href="#geodimeter-job-are" title="Permalink to this headline">¶</a></h3>
+<h5>2.2.1.2 Geodimeter JOB/ARE<a class="headerlink" href="#geodimeter-job-are" title="Permalink to this headline">¶</a></h5>
 <p>JOB and ARE are separate data files. Observations and optional coordinates are stored in JOB file. Only coordinates are stored in ARE file.
 After loading a .JOB you can optionally load an .ARE file in the same way.</p>
 <p>Data codes handled, loaded from JOB/ARE:</p>
@@ -355,7 +457,7 @@ After loading a .JOB you can optionally load an .ARE file in the same way.</p>
 during the import.</p>
 </div>
 <div class="section" id="sokkia-crd">
-<h3>Sokkia CRD<a class="headerlink" href="#sokkia-crd" title="Permalink to this headline">¶</a></h3>
+<h5>2.2.1.3 Sokkia CRD<a class="headerlink" href="#sokkia-crd" title="Permalink to this headline">¶</a></h5>
 <p>Sokkia CRD loader can handle two softly different file format SDR33 and SDR20.</p>
 <p>Data records handled, loaded from CRD:</p>
 <blockquote>
@@ -380,7 +482,7 @@ during the import.</p>
 during the import.</p>
 </div>
 <div class="section" id="survce-rw5">
-<h3>SurvCE RW5<a class="headerlink" href="#survce-rw5" title="Permalink to this headline">¶</a></h3>
+<h5>2.2.1.4 SurvCE RW5<a class="headerlink" href="#survce-rw5" title="Permalink to this headline">¶</a></h5>
 <p>The SurvCE program RW5 format can store total station and GPS observations.
 Both type of data can be loaded into QGIS.</p>
 <p>Data records handled, loaded from CRD:</p>
@@ -411,7 +513,7 @@ Both type of data can be loaded into QGIS.</p>
 during the import.</p>
 </div>
 <div class="section" id="stonex-dat">
-<h3>STONEX DAT<a class="headerlink" href="#stonex-dat" title="Permalink to this headline">¶</a></h3>
+<h5>2.2.1.5 STONEX DAT<a class="headerlink" href="#stonex-dat" title="Permalink to this headline">¶</a></h5>
 <p>Unfortunately we had no description for this fieldbook format, we reverse engineered information from the sample file we got.
 GON angle units and meters are supposed for the data in the DAT file.</p>
 <p>Data records handled, loaded from DAT:</p>
@@ -434,62 +536,49 @@ GON angle units and meters are supposed for the data in the DAT file.</p>
 </div>
 </div>
 <div class="section" id="using-fieldbook-data">
-<h2>Using fieldbook data<a class="headerlink" href="#using-fieldbook-data" title="Permalink to this headline">¶</a></h2>
+<h4>2.2.2 Using fieldbook data<a class="headerlink" href="#using-fieldbook-data" title="Permalink to this headline">¶</a></h4>
 <p>Angles are displayed in the fieldbook in Grads (Gon) units with four decimals.
 Distances, instrument and target heights are in meters.</p>
 <p>Sort the fieldbook by the id column, to have the right order of observations.</p>
 <p>Data in the loaded fieldbooks can be changed, records can be inserted, updated and deleted. You can use
 the standard QGIS tools to change or extend fieldbook data. Open the
-fieldbook Attribute Table, turn on <em>Toggle Editing Mode</em>.</p>
-<p><strong>Insert record</strong>: Click on the <em>Add feature</em> button and fill in the record. Use the
+fieldbook Attribute Table, turn on <span class="btn">[Toggle Editing Mode]</span> <img alt="edit" src="_images/edit.png" />.</p>
+<p><strong>Insert record</strong>: Click on the <span class="btn">[Add feature]</span> button and fill in the record. Use the
 right id (first column) for the row to get the right position in the fieldbook.</p>
-<p><strong>Delete record</strong>: Select the records to be deleted and click on the <em>Delete selected features</em> button.</p>
+<p><strong>Delete record</strong>: Select the records to be deleted and click on the <span class="btn">[Delete selected features]</span> button.</p>
 <p><strong>Update record</strong>: Double click on the field you want to change and edit the data.</p>
-<p>After editing the fieldbook data you have to save the changes, click the <em>Save Edits</em> or <em>Toggle Editing Mode</em> button.</p>
+<p>After editing the fieldbook data you have to save the changes, click the <span class="btn">[Save Edits]</span> or <span class="btn">[Toggle Editing Mode]</span> button.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u11.png"><img alt="_images/u11.png" src="_images/u11.png" style="width: 751.2px; height: 422.4px;" /></a>
-<p class="caption"><em>(11.) Add feature to Fieldbook</em></p>
+<a class="reference internal image-reference" href="_images/u11.png"><img alt="_images/u11.png" src="_images/u11.png" style="width: 704.25px; height: 396.0px;" /></a>
+<p class="caption"><em>(Figure 11) Add feature to Fieldbook</em></p>
 </div>
 </div>
-<div class="section" id="add-new-point-to-the-coordinate-list">
-<h2>Add new point to the Coordinate list<a class="headerlink" href="#add-new-point-to-the-coordinate-list" title="Permalink to this headline">¶</a></h2>
-<p>In the <em>Add new point</em> dialog you can manually add new points to the coordinate list. The <em>Add new point</em> dialog can be opened from the <em>SurveyingCalculation</em> menu.
-The <em>Point ID</em>, <em>East</em>, <em>North</em> fields must be filled, the others are optional.
-Use the <em>Add</em> button to add the point to the coordinate list. The <em>Add</em> button saves the new point and resets the form.
-The <em>Close</em> button closes the dialog window.</p>
-<p>This dialog can be used to overwrite existing coordinates in the coordinate
-list, too. If you input an existing point, a warning will be displayed and you can
-decide whether to continue to store point.</p>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u12.png"><img alt="_images/u12.png" src="_images/u12.png" style="width: 915.2px; height: 511.2px;" /></a>
-<p class="caption"><em>(12.) Add new point to the Coordinate list</em></p>
-</div>
-<p>You can use the standard QGIS <em>Add Delimited Text Layer</em> button to bulk import coordinates from CSV or TXT files. The restrictions are</p>
-<ul class="simple">
-<li>the column names must be the same as discribed before (point_id, e, n, z, pc, pt)</li>
-<li>the column types must be the same as discribed before, a CSVT file can be created to define column types, the name of the CSVT file have to be the same as the CSV file</li>
-<li>the name of result shape file have to start with <em>coord_</em></li>
-</ul>
-<p>Sample CSVT file to load coordinate lists:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">String</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">Real</span><span class="p">(</span><span class="mf">12.3</span><span class="p">),</span><span class="n">Real</span><span class="p">(</span><span class="mf">12.3</span><span class="p">),</span><span class="n">Real</span><span class="p">(</span><span class="mf">8.3</span><span class="p">),</span><span class="n">String</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">String</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-</pre></div>
 </div>
 </div>
+<div class="section" id="surveying-calculations">
+<h2>3 Surveying Calculations<a class="headerlink" href="#surveying-calculations" title="Permalink to this headline">¶</a></h2>
+<p>The calculation part of the plugin is divided into four parts. The <em>Single
+calculations</em> part contains all calculations for a single point (orientation,
+radial survey, intersection, reserction, free station). Traversing calculations
+are in the second group, different types of traverse lines are supported
+(closed, link and open traverse). Network adjustment is in the third group and
+coordinate transformations in the fourth group.</p>
 <div class="section" id="single-point-calculations">
-<h2>Single Point Calculations<a class="headerlink" href="#single-point-calculations" title="Permalink to this headline">¶</a></h2>
-<p>During the calculations the plug-in will use the data from the opened fieldbooks (<em>fb_</em> tables) and from the opened coordinate list (<em>coord_</em> layer).</p>
+<h3>3.1 Single Point Calculations<a class="headerlink" href="#single-point-calculations" title="Permalink to this headline">¶</a></h3>
+<p>During the calculations the plugin will use the data from the opened fieldbooks (<em>fb_</em> tables) and from the opened coordinate list (<em>coord_</em> layer).</p>
 <p>In the single calculation dialog you can calculate coordinates of single points
 using trigonometric formulas.</p>
 <p>All calculations can be repeated, the last calculated values will be stored,
-the previous values are lost.</p>
-<p>A SurveyingCalculation plug-in maintains a log file, a simple text file. The
+the previous values are lost. The results of the previous calculations are
+available in the log file.</p>
+<p>A SurveyingCalculation plugin maintains a log file, a simple text file. The
 details of calculations are written to the log. The location of the log file
 can be set in the <em>config.py</em>.</p>
 <p>In the different lists of the dialog you can see the fieldbook name and the id
 beside the point name. These are neccessary to distinguis stations if the same
 station was occupied more then once, or directions if the same direction was measured from the same station more than once.</p>
 <div class="section" id="orientation">
-<h3>Orientation<a class="headerlink" href="#orientation" title="Permalink to this headline">¶</a></h3>
+<h4>3.1.1 Orientation<a class="headerlink" href="#orientation" title="Permalink to this headline">¶</a></h4>
 <p>Orientation of stations is neccessary to solve intersection, radial survey and
 some type of traversing line. During the orientation no coordinates are calculated.</p>
 <p>To calculate orientation angle on a station do the following:</p>
@@ -498,22 +587,22 @@ some type of traversing line. During the orientation no coordinates are calculat
 <li>Select the Orientation from the <em>Calculation</em> group.</li>
 <li>Select the station id from the <em>Station (1)</em> list. You can calculate the orientation of one station at a time.</li>
 <li>The <em>Target Points</em> list is filled automatically, with the directions to known points from the selected station.</li>
-<li>Add to <em>Used Points</em> list one or more points which you would like to use for the orientation. If you would like to change the <em>Used Points</em> list, use the <em>Remove</em> button.</li>
-<li>Click on the <em>Calculate</em> button.</li>
+<li>Add to <em>Used Points</em> list one or more points which you would like to use for the orientation. If you would like to change the <em>Used Points</em> list, use the <span class="btn">[Remove]</span> button.</li>
+<li>Click on the <span class="btn">[Calculate]</span> button.</li>
 <li>Results of calculation are displayed automatically in result widget and sent to the log file.</li>
-<li>You can change settings in the dialog and press <em>Calculate</em> to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
+<li>You can change settings in the dialog and press <em>Calculate</em> to make another calculation, use the <span class="btn">[Reset]</span> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u14.png"><img alt="_images/u14.png" src="_images/u14.png" style="width: 581.6px; height: 396.8px;" /></a>
-<p class="caption"><em>(14.) Orientation</em></p>
+<a class="reference internal image-reference" href="_images/u14.png"><img alt="_images/u14.png" src="_images/u14.png" style="width: 545.25px; height: 372.0px;" /></a>
+<p class="caption"><em>(Figure 14) Orientation</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u15.png"><img alt="_images/u15.png" src="_images/u15.png" style="width: 581.6px; height: 396.8px;" /></a>
-<p class="caption"><em>(15.) Result of Orientation</em></p>
+<a class="reference internal image-reference" href="_images/u15.png"><img alt="_images/u15.png" src="_images/u15.png" style="width: 545.25px; height: 372.0px;" /></a>
+<p class="caption"><em>(Figure 15) Result of Orientation</em></p>
 </div>
 </div>
 <div class="section" id="radial-survey-polar-point">
-<h3>Radial Survey (Polar Point)<a class="headerlink" href="#radial-survey-polar-point" title="Permalink to this headline">¶</a></h3>
+<h4>3.1.2 Radial Survey (Polar Point)<a class="headerlink" href="#radial-survey-polar-point" title="Permalink to this headline">¶</a></h4>
 <p>Beside the horizontal coordinates the elevation is also calculated for polar
 points if the instrument height, the target height and the station elevation are given.</p>
 <ol class="arabic simple">
@@ -521,18 +610,18 @@ points if the instrument height, the target height and the station elevation are
 <li>Select <em>Radial Survey</em> from the <em>Calculation</em> group.</li>
 <li>Select the Station id from the <em>Station (1)</em> list. The list contains only points with orientation angle. You can calculate several polar points from the same station at a time.</li>
 <li>The <em>Target Points</em> list is filled automatically with the points observed from the selected station. The points in bold face have coordinates.</li>
-<li>Add one or more points to the <em>Used Points</em> list, which you would like to calculate coordinates for. If you would like to change the <em>Used Points</em> list, use the <em>Remove</em> button.</li>
-<li>Click on the <em>Calculate</em> button.</li>
+<li>Add one or more points to the <em>Used Points</em> list, which you would like to calculate coordinates for. If you would like to change the <em>Used Points</em> list, use the <span class="btn">[Remove]</span> button.</li>
+<li>Click on the <span class="btn">[Calculate]</span> button.</li>
 <li>Results of calculation are displayed automatically in result widget and sent to the log file.</li>
-<li>You can change settings in the dialog and press <em>Calculate</em> to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
+<li>You can change settings in the dialog and press <em>Calculate</em> to make another calculation, use the <span class="btn">[Reset]</span> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u16.png"><img alt="_images/u16.png" src="_images/u16.png" style="width: 580.8px; height: 396.0px;" /></a>
-<p class="caption"><em>(16.) Radial Survey</em></p>
+<a class="reference internal image-reference" href="_images/u16.png"><img alt="_images/u16.png" src="_images/u16.png" style="width: 544.5px; height: 371.25px;" /></a>
+<p class="caption"><em>(Figure 16) Radial Survey</em></p>
 </div>
 </div>
 <div class="section" id="intersection">
-<h3>Intersection<a class="headerlink" href="#intersection" title="Permalink to this headline">¶</a></h3>
+<h4>3.1.2 Intersection<a class="headerlink" href="#intersection" title="Permalink to this headline">¶</a></h4>
 <p>You can calculate horizontal coordinates for one or more points, which directions were observed from two known stations.</p>
 <p>Before the intersection calculation the used stations must be oriented.</p>
 <p>To calculate intersection do the following:</p>
@@ -541,18 +630,18 @@ points if the instrument height, the target height and the station elevation are
 <li>Select Intersection from the <em>Calculation</em> group.</li>
 <li>Select two known stations from the <em>Station(1)</em> and <em>Station(2)</em> lists. The lists contain only points with orientation angle.</li>
 <li>The <em>Target Points</em> list is filled automatically. It contains the points measured from both stations. The points in bold face have coordinates.</li>
-<li>Add one or more points to the <em>Used Points</em> list which you would like to calculate coordinates for. If you would like to change the <em>Used Points</em> list, use the <em>Remove</em> button.</li>
-<li>Click on the <em>Calculate</em> button.</li>
+<li>Add one or more points to the <em>Used Points</em> list which you would like to calculate coordinates for. If you would like to change the <em>Used Points</em> list, use the <span class="btn">[Remove]</span> button.</li>
+<li>Click on the <span class="btn">[Calculate]</span> button.</li>
 <li>Results of Calculation are displayed automatically in result widget and sent to the log file.</li>
-<li>You can change settings in the dialog and press <em>Calculate</em> to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
+<li>You can change settings in the dialog and press <em>Calculate</em> to make another calculation, use the <span class="btn">[Reset]</span> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u17.png"><img alt="_images/u17.png" src="_images/u17.png" style="width: 581.6px; height: 396.0px;" /></a>
-<p class="caption"><em>(17.) Intersection</em></p>
+<a class="reference internal image-reference" href="_images/u17.png"><img alt="_images/u17.png" src="_images/u17.png" style="width: 545.25px; height: 371.25px;" /></a>
+<p class="caption"><em>(Figure 17) Intersection</em></p>
 </div>
 </div>
 <div class="section" id="resection">
-<h3>Resection<a class="headerlink" href="#resection" title="Permalink to this headline">¶</a></h3>
+<h4>3.1.4 Resection<a class="headerlink" href="#resection" title="Permalink to this headline">¶</a></h4>
 <p>You can calculate horizontal coordinates of a station if at least three known points were observed from there.</p>
 <p>To calculate resection do the followings</p>
 <ol class="arabic simple">
@@ -560,18 +649,18 @@ points if the instrument height, the target height and the station elevation are
 <li>Select Resection from the <em>Calculation</em> group.</li>
 <li>Select the station id from the <em>Station (1)</em> list. The list contains all stations. The stations in bold face have coordinates.</li>
 <li>The <em>Target Points</em> list is filled automatically. The list contains the known points, which were measured from the station. You can calculate the coordinates of one station at a time.</li>
-<li>Add exactly three points to the <em>Used Points</em> list which will be used for resection. If you would like to correct, use the <em>Remove</em> button.</li>
-<li>Click on the <em>Calculate</em> button.</li>
+<li>Add exactly three points to the <em>Used Points</em> list which will be used for resection. If you would like to correct, use the <span class="btn">[Remove]</span> button.</li>
+<li>Click on the <span class="btn">[Calculate]</span> button.</li>
 <li>Results of calculation are displayed automatically in result widget and sent to the log file.</li>
-<li>You can change settings in the dialog and press <em>Calculate</em> button to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
+<li>You can change settings in the dialog and press <span class="btn">[Calculate]</span> button to make another calculation, use the <span class="btn">[Reset]</span> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u18.png"><img alt="_images/u18.png" src="_images/u18.png" style="width: 581.6px; height: 396.0px;" /></a>
-<p class="caption"><em>(18.) Resection</em></p>
+<a class="reference internal image-reference" href="_images/u18.png"><img alt="_images/u18.png" src="_images/u18.png" style="width: 545.25px; height: 371.25px;" /></a>
+<p class="caption"><em>(Figure 18) Resection</em></p>
 </div>
 </div>
 <div class="section" id="free-station">
-<h3>Free Station<a class="headerlink" href="#free-station" title="Permalink to this headline">¶</a></h3>
+<h4>3.1.5 Free Station<a class="headerlink" href="#free-station" title="Permalink to this headline">¶</a></h4>
 <p>You can calculate the horizontal coordinates of a station from directions and distances using the least squares method.</p>
 <p>To calculate free station do the following:</p>
 <ol class="arabic simple">
@@ -579,22 +668,22 @@ points if the instrument height, the target height and the station elevation are
 <li>Select Free Station from the <em>Calculation</em> group.</li>
 <li>Select station id from the <em>Station (1)</em> list. The list contains all stations. The stations in bold face have coordinates.</li>
 <li>The Target Points list is filled automatically. The list contains the known points, which were measured from the selected station. You can calculate the coordinates of one station at a time.</li>
-<li>Add two or more points to the Used Points list which will be used for calculation. If you would like to correct, use the <em>Remove</em> button.</li>
-<li>Click on the <em>Calculate</em> button.</li>
+<li>Add two or more points to the Used Points list which will be used for calculation. If you would like to correct, use the <span class="btn">[Remove]</span> button.</li>
+<li>Click on the <span class="btn">[Calculate]</span> button.</li>
 <li>Results of calculation are displayed automatically in the result widget and sent to the log file.</li>
-<li>You can change settings in the dialog and press <em>Calculate</em> to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
+<li>You can change settings in the dialog and press <em>Calculate</em> to make another calculation, use the <span class="btn">[Reset</span>] button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u19.png"><img alt="_images/u19.png" src="_images/u19.png" style="width: 581.6px; height: 396.0px;" /></a>
-<p class="caption"><em>(19.) Free Station - Adjusted coordinates</em></p>
+<a class="reference internal image-reference" href="_images/u19.png"><img alt="_images/u19.png" src="_images/u19.png" style="width: 545.25px; height: 371.25px;" /></a>
+<p class="caption"><em>(Figure 19) Free Station - Adjusted coordinates</em></p>
 </div>
 <p>The result list of the adjustment is very long. Consult the GNU Gama documentation for further details.</p>
 <p>Free station calculation uses the default standard deviations (3cc, 3mm+3ppm) for the adjustment.</p>
 </div>
 </div>
 <div class="section" id="traverse-calculations">
-<h2>Traverse Calculations<a class="headerlink" href="#traverse-calculations" title="Permalink to this headline">¶</a></h2>
-<p>During the traverse calculations the plug-in will use the data from the opened fieldbooks (<em>fb_</em> tables) and from the opened coordinate list (<em>coord_</em> layer).</p>
+<h3>3.2 Traverse Calculations<a class="headerlink" href="#traverse-calculations" title="Permalink to this headline">¶</a></h3>
+<p>During the traverse calculations the plugin will use the data from the opened fieldbooks (<em>fb_</em> tables) and from the opened coordinate list (<em>coord_</em> layer).</p>
 <p>It is possible to calculate three different types of traverse.</p>
 <ol class="arabic simple">
 <li><strong>Closed traverse</strong>: Closed (polygonal or loop) traverse starts and finishes at the same known point. This point must be oriented.</li>
@@ -622,26 +711,26 @@ points if the instrument height, the target height and the station elevation are
 </li>
 <li><p class="first">Add the traverse points from the <em>Target Points</em> list to the <em>Order of Points</em> list one by one.</p>
 </li>
-<li><p class="first">The order of traverse points can be changed with <em>Up</em> and <em>Down</em> button. If you would like to correct, use the <em>Remove</em> button.</p>
+<li><p class="first">The order of traverse points can be changed with <span class="btn">[Up]</span> and <span class="btn">[Down]</span> button. If you would like to correct, use the <span class="btn">[Remove]</span> button.</p>
 </li>
 <li><p class="first">In case of open traverse select the end point now.</p>
 </li>
-<li><p class="first">Click on the <em>Calculate</em> button.</p>
+<li><p class="first">Click on the <span class="btn">[Calculate]</span> button.</p>
 </li>
 <li><p class="first">Results of calculation are displayed automatically in result widget and sent to the log file.</p>
 </li>
-<li><p class="first">You can change settings in the dialog and press <em>Calculate</em> button to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</p>
+<li><p class="first">You can change settings in the dialog and press <span class="btn">[Calculate]</span> button to make another calculation, use the <span class="btn">[Reset]</span> button to reset the dialog to its original state.</p>
 </li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u20.png"><img alt="_images/u20.png" src="_images/u20.png" style="width: 616.0px; height: 395.2px;" /></a>
-<p class="caption"><em>(20.) Traverse Calculation - Link traverse</em></p>
+<a class="reference internal image-reference" href="_images/u20.png"><img alt="_images/u20.png" src="_images/u20.png" style="width: 577.5px; height: 370.5px;" /></a>
+<p class="caption"><em>(Figure 20) Traverse Calculation - Link traverse</em></p>
 </div>
 <p>In the result of calculation you can find the angle and coordinate corrections, and the coordinates of the traversing points.</p>
 </div>
 <div class="section" id="network-adjustment">
-<h2>Network adjustment<a class="headerlink" href="#network-adjustment" title="Permalink to this headline">¶</a></h2>
-<p>During the network adjusment the plug-in will use the data from the opened fieldbooks (<em>fb_</em> tables) and from the opened coordinate list (<em>coord_</em> layer).</p>
+<h3>3.3 Network adjustment<a class="headerlink" href="#network-adjustment" title="Permalink to this headline">¶</a></h3>
+<p>During the network adjusment the plugin will use the data from the opened fieldbooks (<em>fb_</em> tables) and from the opened coordinate list (<em>coord_</em> layer).</p>
 <p>Network adjustment is the best method to calculate the most probably position of observed points, when more observations were made than neccessary. By the help of GNU Gama adjustment the blunder errors can be detected, eliminated.</p>
 <p>Free network can also be adjusted, when there are no fixed coordinates in the network. In this case some points have to have approximate coordinates.</p>
 <p>To calculate network adjustment do the following:</p>
@@ -650,40 +739,72 @@ points if the instrument height, the target height and the station elevation are
 <li>Select the fix points from the <em>List of Points</em> and add them to the <em>Fix points</em> list. During the adjustment the coordinates of fix points will not be changed. Points in bold face in the <em>List of Points</em> have coordinates in the actual coordinate list, so only those can be added to the <em>Fix Points</em> list. In the <em>List of points</em> you can find only those points which an observation was made to.</li>
 <li>Select points to adjust from the <em>List of Points</em> and add them to the <em>Adjusted points</em> list. You can add any point to the <em>Adjusted Points</em>.</li>
 <li>Set the parameters of the adjustment. Setting the correct standard deviations are very important from the view of adjustment calculation. Set these corresponding to the used total station.</li>
-<li>If you would like to correct, use the <em>Remove</em> button.</li>
-<li>Click on the <em>Calculate</em> button.</li>
+<li>If you would like to correct, use the <span class="btn">[Remove]</span> button.</li>
+<li>Click on the <span class="btn">[Calculate]</span> button.</li>
 <li>Results of calculation are displayed automatically in result widget and sent to the log file.</li>
-<li>You can change settings in the dialog and press calculate to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
+<li>You can change settings in the dialog and press calculate to make another calculation, use the <span class="btn">[Reset]</span> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u21.png"><img alt="_images/u21.png" src="_images/u21.png" style="width: 516.0px; height: 460.0px;" /></a>
-<p class="caption"><em>(21.) Network adjustment</em></p>
+<a class="reference internal image-reference" href="_images/u21.png"><img alt="_images/u21.png" src="_images/u21.png" style="width: 483.75px; height: 431.25px;" /></a>
+<p class="caption"><em>(Figure 21) Network adjustment</em></p>
 </div>
 <p>The result list of the adjustment is very long. Consult the GNU Gama documentation for further details.</p>
 </div>
 <div class="section" id="coordinate-transformation">
-<h2>Coordinate transformation<a class="headerlink" href="#coordinate-transformation" title="Permalink to this headline">¶</a></h2>
-<p>Besides the on the fly reprojection service of QGIS, the SurveyingCalculation plug-in provides coordinate transformation based on common points having coordinates in both coordinate systems. Two separate coordinate lists have to be created with the coordinates in the two coordinate systems before starting the coordinate transformation.</p>
-<p>The plug-in provides different types of transformation. The calculation of the transformation parameters uses the least squares estimation if you select more common points than the minimal neccessary.</p>
+<h3>3.4 Coordinate transformation<a class="headerlink" href="#coordinate-transformation" title="Permalink to this headline">¶</a></h3>
+<p>Besides the on the fly reprojection service of QGIS, the SurveyingCalculation
+plugin provides coordinate transformation based on common points having
+coordinates in both coordinate systems. If you want to reproject coordinates to
+another projection system which is known by QGIS, use QGIS <span class="mnu">Save As...</span>
+from the menu.</p>
+<p>This coordinate transformation can be used if you know nothig about the SRS
+(Spatial Reference System), but there must be points with known point in both
+coordinate system. I can be more precise for smaller areas (10 km2 for
+orthogonal or affine transformation) than the reprojection with QGIS.
+Two separate coordinate lists have to be created with the coordinates in the
+two coordinate systems before starting the coordinate transformation. The point
+id-s have to match in the two coordinate list.
+During the coordinate transformation first the transformation parameters are
+calculated based on common points and durint the second step the points whics
+were not used to calculate the parameters are transformed using the parameters
+calculated in the first step. The transformed coordinates of these points will
+be added to the target coordinate list.</p>
+<p>The plugin provides different types of transformation. The calculation of the transformation parameters uses the least squares estimation if you select more common points than the minimal neccessary.</p>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name" colspan="2">Orthogonal transformation:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body">at least two common points</td>
+<tr class="field"><td>&nbsp;</td><td class="field-body">at least two common points (4 parameters)</td>
 </tr>
 <tr class="field"><th class="field-name" colspan="2">Affine transformation:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body">at least three common points</td>
+<tr class="field"><td>&nbsp;</td><td class="field-body">at least three common points (6 parameters)</td>
 </tr>
 <tr class="field"><th class="field-name" colspan="2">3rd order transformation:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body">at least ten common points</td>
+<tr class="field"><td>&nbsp;</td><td class="field-body">at least ten common points (20 parameters)</td>
 </tr>
 <tr class="field"><th class="field-name" colspan="2">4th order transformation:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body">at least fifteen common points</td>
+<tr class="field"><td>&nbsp;</td><td class="field-body">at least fifteen common points (30 parameters)</td>
 </tr>
 <tr class="field"><th class="field-name" colspan="2">5th order transformation:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body">at least twenty-one common points</td>
+<tr class="field"><td>&nbsp;</td><td class="field-body">at least twenty-one common points (42 parameters)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The points in the two coordinate lists are groupped to three categories.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">common points:</th><td class="field-body">point id and coordinates are given in both coordinate lists</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">points to transform:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">point id and coordinates are given in the source (from) list, these point will be transformed</td>
+</tr>
+<tr class="field"><th class="field-name">other points:</th><td class="field-body">points which are present in the target coordinate list, these point are not used, not changed</td>
 </tr>
 </tbody>
 </table>
@@ -692,24 +813,25 @@ points if the instrument height, the target height and the station elevation are
 <li>The coordinate list you would like to transform from has to be opened in the actual QGIS project. <strong>Do not open the coordinate list of the target system.</strong></li>
 <li>Click on the Coordinate transformation icon in the toolbar to open the <em>Coordinate Transformation</em> dialog.</li>
 <li>The <em>From Layer</em> field is filled automatically with the opened coordinate list.</li>
-<li>Select <em>To Shape file</em> where to transform to, push the button with ellipses (...) to open the file selection dialog. The transformed points will be added to this shape file.</li>
+<li>Select <em>To Shape file</em> where to transform to, push the button with ellipses (<span class="btn">[...]</span>) to open the file selection dialog. The transformed points will be added to this shape file.</li>
 <li>The list of <em>Common Points</em> is filled automatically.</li>
 <li>Add points from the <em>Common Points</em> list to the <em>Used Points</em> list.</li>
 <li>Select the type of transformation, only those types are enabled for which enough common points were selected.</li>
-<li>If you would like to correct, use the <em>Remove</em> button.</li>
-<li>Click on the <em>Calculate</em> button.</li>
+<li>If you would like to correct, use the <span class="btn">[Remove]</span> button.</li>
+<li>Click on the <span class="btn">[Calculate]</span> button.</li>
 <li>Results of calculation are displayed automatically in result widget and sent to the log file.</li>
-<li>You can change settings in the dialog and press <em>Calculate</em> button to make another calculation, use the <em>Reset</em> button to reset the dialog to its original state.</li>
+<li>You can change settings in the dialog and press <span class="btn">[Calculate]</span> button to make another calculation, use the <span class="btn">[Rese]</span> button to reset the dialog to its original state.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u22.png"><img alt="_images/u22.png" src="_images/u22.png" style="width: 581.6px; height: 407.2px;" /></a>
-<p class="caption"><em>(22.) Coordinate transformation - Affine transformation</em></p>
+<a class="reference internal image-reference" href="_images/u22.png"><img alt="_images/u22.png" src="_images/u22.png" style="width: 545.25px; height: 381.75px;" /></a>
+<p class="caption"><em>(Figure 22) Coordinate transformation - Affine transformation</em></p>
 </div>
 <p>At the beginning of the result list you can find the used common points with the coordinates in both systems and the discrepancies between the target and transformed coordinates. If you find big discrepancies in the list, there are mistakes in the coordinates. At the end of the list you can find transformed points where the discrepancies are empty. These points are added to the target coordinate list.</p>
 <p>The coordinates of those common points which were not selected for the transformation won&#8217;t be changed in the target coordinate list.</p>
 </div>
+</div>
 <div class="section" id="polygon-division">
-<h2>Polygon division<a class="headerlink" href="#polygon-division" title="Permalink to this headline">¶</a></h2>
+<h2>4 Polygon division<a class="headerlink" href="#polygon-division" title="Permalink to this headline">¶</a></h2>
 <p>With the <em>Polygon Division</em> tool you can divide a parcel into two at a given area. There are two possible division types:</p>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
@@ -732,58 +854,58 @@ points if the instrument height, the target height and the station elevation are
 <li>Click at the start point of the division line and drag the rubberband line and release the mouse button at the end point.</li>
 <li>The <em>Area Division</em> dialog appears automatically.</li>
 <li>Set the <em>Area</em> field and the select method. The full area field is not editable, it shows the total area of the selected polygon.</li>
-<li>Set the type of division and click on the <em>Divide</em> button.</li>
+<li>Set the type of division and click on the <span class="btn">[Divide]</span> button.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u23.png"><img alt="_images/u23.png" src="_images/u23.png" style="width: 938.4px; height: 529.6px;" /></a>
-<p class="caption"><em>(23.) Polygon division - Selected polygon to divide</em></p>
+<a class="reference internal image-reference" href="_images/u23.png"><img alt="_images/u23.png" src="_images/u23.png" style="width: 586.5px; height: 331.0px;" /></a>
+<p class="caption"><em>(Figure 23) Polygon division - Selected polygon to divide</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u24.png"><img alt="_images/u24.png" src="_images/u24.png" style="width: 938.4px; height: 529.6px;" /></a>
-<p class="caption"><em>(24.) Polygon division - Area Division</em></p>
+<a class="reference internal image-reference" href="_images/u24.png"><img alt="_images/u24.png" src="_images/u24.png" style="width: 586.5px; height: 331.0px;" /></a>
+<p class="caption"><em>(Figure 24) Polygon division - Area Division</em></p>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u25.png"><img alt="_images/u25.png" src="_images/u25.png" style="width: 938.4px; height: 529.6px;" /></a>
-<p class="caption"><em>(25.) Polygon division - Divided polygons</em></p>
+<a class="reference internal image-reference" href="_images/u25.png"><img alt="_images/u25.png" src="_images/u25.png" style="width: 586.5px; height: 331.0px;" /></a>
+<p class="caption"><em>(Figure 25) Polygon division - Divided polygons</em></p>
 </div>
-<p>If the given divider line does not intersect the polygon border, the plug-in will extend the line.
+<p>If the given divider line does not intersect the polygon border, the plugin will extend the line.
 You can give a divider line outside the selected polygon, in this case only parallel division is available in the <em>Area Division</em> dialog.</p>
 </div>
 <div class="section" id="plot">
-<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h2>
+<h2>5 Plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h2>
 <p>This utility was added to the plugin for the ability to plot land parcels or other polygon type features automatically.
 The plugin offers two ways to achieve this:</p>
 <ol class="arabic simple">
 <li>Firstly you can plot the actual map view by <em>Plot by Template</em> command using a precreated composer template file <em>(.qpt)</em>.</li>
 <li>Secondly it is also possible to plot selected parcels (polygons) by <em>Batch plotting</em> command using a precreated composer template file <em>(.qpt)</em>.</li>
 </ol>
-<p>Templates can be created by the print composer of QGIS (Save as template from the menu). Look at the QGIS documentation for help.</p>
+<p>Templates can be created by the print composer of QGIS (<span class="mnu">Save as template</span> from the menu). Look at the QGIS documentation for help.</p>
 <div class="section" id="plot-by-template">
-<h3>Plot by Template<a class="headerlink" href="#plot-by-template" title="Permalink to this headline">¶</a></h3>
+<h3>5.1 Plot by Template<a class="headerlink" href="#plot-by-template" title="Permalink to this headline">¶</a></h3>
 <p>With <em>Plot by template</em> command you can plot the actual map view at the given scale.</p>
 <ol class="arabic simple">
 <li>First zoom the map view to the required area and perhaps the required scale.</li>
-<li>Click on the <em>Plot by template</em> button in the toolbar to open the <em>Plot by template</em> dialog.</li>
+<li>Click on the <span class="btn">[Plot by template]</span> button in the toolbar to open the <em>Plot by template</em> dialog.</li>
 <li>In the dialog you can select a composer template and the scale.</li>
-<li>Use the <em>Change dir...</em> button to select a template from another directory. The default directory for templates is the <em>template</em> subdirectory in the plug-in installation directory.</li>
+<li>Use the <span class="btn">[Change dir...]</span> button to select a template from another directory. The default directory for templates is the <em>template</em> subdirectory in the plugin installation directory.</li>
 <li>In the scale list the previously set scale also appears beside some predefined scales. You can also give a new scale manually but it must be a positive integer value. The default scale is <em>&lt;extent&gt;</em> which means that the scale will be adjusted to the map view extent.</li>
 <li>You can give a name to the composition optionally. If you leave blank QGIS will generate a name automatically.</li>
 </ol>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u26.png"><img alt="_images/u26.png" src="_images/u26.png" style="width: 936.8px; height: 528.8px;" /></a>
-<p class="caption"><em>(26.) Plot by Template</em></p>
+<a class="reference internal image-reference" href="_images/u26.png"><img alt="_images/u26.png" src="_images/u26.png" style="width: 585.5px; height: 330.5px;" /></a>
+<p class="caption"><em>(Figure 26) Plot by Template</em></p>
 </div>
 <p>In the end a composer window will appear with the map composition and it can be printed to a system printer or exported to PDF file.</p>
 </div>
 <div class="section" id="batch-plotting">
-<h3>Batch plotting<a class="headerlink" href="#batch-plotting" title="Permalink to this headline">¶</a></h3>
+<h3>5.2 Batch plotting<a class="headerlink" href="#batch-plotting" title="Permalink to this headline">¶</a></h3>
 <p>With the &#8220;Batch plotting&#8221; command you can plot selected polygons from one layer using a composer template file. <em>Batch plotting</em> creates a QGIS atlas composition, which is a multi-page composition. One polygon will be on one page. In the dialog you can choose the output of the plot.</p>
 <ol class="arabic simple">
 <li>This utility needs at least one polygon type layer open.</li>
 <li>Select the polygons you want to plot, they must be on the same layer.</li>
-<li>Click on the <em>Batch plotting</em> button in the toolbar to open the <em>Batch Plotting</em> dialog.</li>
+<li>Click on the <span class="btn">[Batch plotting]</span> button in the toolbar to open the <em>Batch Plotting</em> dialog.</li>
 <li>In the dialog select the layer which contains the selected polygons.</li>
-<li>Select the composer template from the list. Use the <em>Change dir...</em> button to select a template from another directory. The default directory for templates is the <em>template</em> subdirectory in the plug-in installation directory.</li>
+<li>Select the composer template from the list. Use the <span class="btn">[Change dir...]</span> button to select a template from another directory. The default directory for templates is the <em>template</em> subdirectory in the plugin installation directory.</li>
 <li>From the scale list you can choose from predefined scales or give a new scale manually. It has to be a positive integer value.</li>
 </ol>
 <p>There are three possible outputs of batch plot:</p>
@@ -794,21 +916,64 @@ The plugin offers two ways to achieve this:</p>
 </ul>
 <dl class="docutils">
 <dt>Export to pdf</dt>
-<dd>You can export the composition to a single multi-page PDF file or to separate files (individual single page PDF file for each selected polygons). In the first case give the PDF file after pressing the Plot button. In the second case you have to fill the <em>Output filename pattern</em> field according to the <em>Output filename expression</em> of QGIS. After pressing the Plot button, select the directory where you want to save the PDF files to.</dd>
+<dd>You can export the composition to a single multi-page PDF file or to separate files (individual single page PDF file for each selected polygons). In the first case give the PDF file after pressing the <span class="btn">[Plot]</span> button. In the second case you have to fill the <em>Output filename pattern</em> field according to the <em>Output filename expression</em> of QGIS. After pressing the <span class="btn">[Plot]</span> button, select the directory where you want to save the PDF files to.</dd>
 </dl>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u27.png"><img alt="_images/u27.png" src="_images/u27.png" style="width: 936.8px; height: 529.6px;" /></a>
-<p class="caption"><em>(27.) Batch plotting - Export to pdf</em></p>
+<a class="reference internal image-reference" href="_images/u27.png"><img alt="_images/u27.png" src="_images/u27.png" style="width: 585.5px; height: 331.0px;" /></a>
+<p class="caption"><em>(Figure 27) Batch plotting - Export to pdf</em></p>
 </div>
 <dl class="docutils">
 <dt>Plot to the system printer</dt>
-<dd>It is possible to send the composition directly to the printer. After pushing the Plot button the Print settings dialog will be shown. At this point you can select the printer and the number of copies. You can&#8217;t change the other settings, because the page order is not known. Push the <em>Print</em> button and the composition will be printed.</dd>
+<dd>It is possible to send the composition directly to the printer. After pushing the <span class="btn">[Plot]</span> button the Print settings dialog will be shown. At this point you can select the printer and the number of copies. You can&#8217;t change the other settings, because the page order is not known. Push the <span class="btn">[Print]</span> button and the composition will be printed.</dd>
 <dt>Open in composer view</dt>
 <dd>The third option is to view the composition in composer view. This is very similar to the <em>Plot by template</em> function. Since it is an atlas composition, in the composer view you can look at each page separately. Use the arrows in the toolbar to move to the previous/next page. In the <em>Atlas generation</em> panel the settings of the atlas composition can be modified. From the composer view you can print either a single page or all pages or export them to a PDF file.</dd>
 </dl>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/u28.png"><img alt="_images/u28.png" src="_images/u28.png" style="width: 936.0px; height: 529.6px;" /></a>
-<p class="caption"><em>(28.) Batch plotting - Open in composer view</em></p>
+<a class="reference internal image-reference" href="_images/u28.png"><img alt="_images/u28.png" src="_images/u28.png" style="width: 585.0px; height: 331.0px;" /></a>
+<p class="caption"><em>(Figure 28) Batch plotting - Open in composer view</em></p>
+</div>
+</div>
+</div>
+<div class="section" id="localization">
+<h2>6 Localization<a class="headerlink" href="#localization" title="Permalink to this headline">¶</a></h2>
+<p>The messages, the text labels of the dialog can be translated to your language.
+You can use Qt Linguist program for translation. It is a free software, that
+you can download from here
+<a class="reference external" href="http://qt-apps.org/content/show.php/Qt+Linguist+Download?content=89360">http://qt-apps.org/content/show.php/Qt+Linguist+Download?content=89360</a>
+The localized message files are stored in the <em>i18n</em> directory of the plugin.
+The name of the file is the two character language code (e.g. en for English,
+hu for Hungarian).
+Files with .ts ans .qm extensions can be found there. The .ts files are the
+editable XML message files (edit it with Qt Linguist). The .qm files are binary
+files used by QGIS.</p>
+<p>The plugin will use the language set in QGIS or the English messages if the
+language in not available for the plugin. You cannot change the language in the plugin, only in QGIS. The QGIS language can be changed from the menu
+<span class="mnu">Settings/Options</span>, select the <em>Locale</em> tab.</p>
+<div class="section" id="add-a-new-language-to-the-plugin">
+<h3>6.1 Add a new language to the plugin<a class="headerlink" href="#add-a-new-language-to-the-plugin" title="Permalink to this headline">¶</a></h3>
+<p>If you cannot find the message file of your language in the <em>i18n</em> directory,
+then make a copy of the en.ts to a new file with a name of the new language
+code. For example for French use the following command in a Linux Bash
+window (the actual directory have to be <em>i18n</em>)</p>
+<div class="highlight-python"><pre>cp en.ts fr.ts</pre>
+</div>
+</div>
+<div class="section" id="translation">
+<h3>6.2 Translation<a class="headerlink" href="#translation" title="Permalink to this headline">¶</a></h3>
+<p>Open the prepared new message file with Qt Linguist (Figure 29).
+Select a group of messages from the left side list, Click on a message in the
+right side window and write your translation in the translation field.
+If you finished the translation of the message click on the checkmark button
+in the toolbar. For further details read the Qt Linguist documentation
+(<a class="reference external" href="http://doc.qt.io/qt-4.8/linguist-manual.html">http://doc.qt.io/qt-4.8/linguist-manual.html</a>).</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/qt_linguist.png"><img alt="_images/qt_linguist.png" src="_images/qt_linguist.png" style="width: 585.5px; height: 338.0px;" /></a>
+<p class="caption"><em>(Figure 29) Translation in Qt Linguist</em></p>
+</div>
+<p>The .ts file have to be translated into a .qm file before you can test it in
+QGIS. Use the <span class="mnu">File/Release</span> menu from the Qt Linguist or use the
+<em>lrelease</em> Qt command line utility.</p>
+<div class="highlight-python"><pre>lrelease fr.ts</pre>
 </div>
 </div>
 </div>
@@ -822,35 +987,65 @@ The plugin offers two ways to achieve this:</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">User&#8217;s Guide for SurveyingCalculation plugin for QGIS 2.x</a><ul>
-<li><a class="reference internal" href="#hardware-and-software-requirements">Hardware and software requirements</a></li>
-<li><a class="reference internal" href="#installation-of-the-surveyingcalculation-plugin">Installation of the SurveyingCalculation plugin</a></li>
-<li><a class="reference internal" href="#settings-before-use">Settings before use</a></li>
-<li><a class="reference internal" href="#importing-fieldbooks">Importing fieldbooks</a><ul>
-<li><a class="reference internal" href="#leica-gsi">Leica GSI</a></li>
-<li><a class="reference internal" href="#geodimeter-job-are">Geodimeter JOB/ARE</a></li>
-<li><a class="reference internal" href="#sokkia-crd">Sokkia CRD</a></li>
-<li><a class="reference internal" href="#survce-rw5">SurvCE RW5</a></li>
-<li><a class="reference internal" href="#stonex-dat">STONEX DAT</a></li>
+<li><a class="reference internal" href="#">User&#8217;s Guide for SurveyingCalculation plugin for QGIS 2</a><ul>
+<li><a class="reference internal" href="#introduction">1 Introduction</a><ul>
+<li><a class="reference internal" href="#hardware-and-software-requirements">1.1 Hardware and software requirements</a></li>
+<li><a class="reference internal" href="#installation-of-the-surveyingcalculation-plugin">1.2 Installation of the SurveyingCalculation plugin</a><ul>
+<li><a class="reference internal" href="#installing-from-qgis-plugin-repo">1.2.1 Installing from QGIS Plugin repo</a></li>
+<li><a class="reference internal" href="#installing-from-github">1.2.2 Installing from GitHub</a></li>
+<li><a class="reference internal" href="#gnu-gama-project-gama-local">1.2.3 GNU Gama project: gama-local</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#using-fieldbook-data">Using fieldbook data</a></li>
-<li><a class="reference internal" href="#add-new-point-to-the-coordinate-list">Add new point to the Coordinate list</a></li>
-<li><a class="reference internal" href="#single-point-calculations">Single Point Calculations</a><ul>
-<li><a class="reference internal" href="#orientation">Orientation</a></li>
-<li><a class="reference internal" href="#radial-survey-polar-point">Radial Survey (Polar Point)</a></li>
-<li><a class="reference internal" href="#intersection">Intersection</a></li>
-<li><a class="reference internal" href="#resection">Resection</a></li>
-<li><a class="reference internal" href="#free-station">Free Station</a></li>
+<li><a class="reference internal" href="#settings-before-use">1.3 Settings before use</a></li>
+<li><a class="reference internal" href="#data-sets-used-by-the-plugin">1.4 Data sets used by the plugin</a><ul>
+<li><a class="reference internal" href="#coordinate-lists">1.4.1 Coordinate lists</a></li>
+<li><a class="reference internal" href="#fieldbooks">1.4.2 Fieldbooks</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#traverse-calculations">Traverse Calculations</a></li>
-<li><a class="reference internal" href="#network-adjustment">Network adjustment</a></li>
-<li><a class="reference internal" href="#coordinate-transformation">Coordinate transformation</a></li>
-<li><a class="reference internal" href="#polygon-division">Polygon division</a></li>
-<li><a class="reference internal" href="#plot">Plot</a><ul>
-<li><a class="reference internal" href="#plot-by-template">Plot by Template</a></li>
-<li><a class="reference internal" href="#batch-plotting">Batch plotting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-and-loading-data-sets">2 Creating and loading data sets</a><ul>
+<li><a class="reference internal" href="#working-with-coordinate-list">2.1 Working with coordinate list</a><ul>
+<li><a class="reference internal" href="#add-new-point-to-the-coordinate-list">2.1.1 Add new point to the Coordinate list</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#working-with-fieldbooks">2.2 Working with fieldbooks</a><ul>
+<li><a class="reference internal" href="#importing-fieldbooks">2.2.1 Importing fieldbooks</a><ul>
+<li><a class="reference internal" href="#leica-gsi">2.2.1.1 Leica GSI</a></li>
+<li><a class="reference internal" href="#geodimeter-job-are">2.2.1.2 Geodimeter JOB/ARE</a></li>
+<li><a class="reference internal" href="#sokkia-crd">2.2.1.3 Sokkia CRD</a></li>
+<li><a class="reference internal" href="#survce-rw5">2.2.1.4 SurvCE RW5</a></li>
+<li><a class="reference internal" href="#stonex-dat">2.2.1.5 STONEX DAT</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-fieldbook-data">2.2.2 Using fieldbook data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#surveying-calculations">3 Surveying Calculations</a><ul>
+<li><a class="reference internal" href="#single-point-calculations">3.1 Single Point Calculations</a><ul>
+<li><a class="reference internal" href="#orientation">3.1.1 Orientation</a></li>
+<li><a class="reference internal" href="#radial-survey-polar-point">3.1.2 Radial Survey (Polar Point)</a></li>
+<li><a class="reference internal" href="#intersection">3.1.2 Intersection</a></li>
+<li><a class="reference internal" href="#resection">3.1.4 Resection</a></li>
+<li><a class="reference internal" href="#free-station">3.1.5 Free Station</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#traverse-calculations">3.2 Traverse Calculations</a></li>
+<li><a class="reference internal" href="#network-adjustment">3.3 Network adjustment</a></li>
+<li><a class="reference internal" href="#coordinate-transformation">3.4 Coordinate transformation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#polygon-division">4 Polygon division</a></li>
+<li><a class="reference internal" href="#plot">5 Plot</a><ul>
+<li><a class="reference internal" href="#plot-by-template">5.1 Plot by Template</a></li>
+<li><a class="reference internal" href="#batch-plotting">5.2 Batch plotting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#localization">6 Localization</a><ul>
+<li><a class="reference internal" href="#add-a-new-language-to-the-plugin">6.1 Add a new language to the plugin</a></li>
+<li><a class="reference internal" href="#translation">6.2 Translation</a></li>
 </ul>
 </li>
 </ul>
@@ -893,7 +1088,7 @@ The plugin offers two ways to achieve this:</p>
     </div>
     <div class="footer">
         &copy; Copyright 2014, DigiKom Ltd.
-      Last updated on Jan 05, 2015.
+      Last updated on Jun 02, 2015.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
     </div>
   </body>
