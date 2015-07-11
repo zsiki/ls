@@ -8,7 +8,7 @@
 
 """
 from math import fabs, atan2, atan, sin, cos, pi
-from PyQt4.QtCore import Qt, SIGNAL
+from PyQt4.QtCore import Qt, SIGNAL, QSettings
 from PyQt4.QtGui import QMessageBox
 from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand, QgsMapTool
 from qgis.core import *
@@ -60,7 +60,8 @@ class LineMapTool(QgsMapToolEmitPoint):
         self.layer = al
         self.startPoint = self.toMapCoordinates(e.pos())
         # snap to point on active layer
-        self.layer.snapPoint(self.startPoint, config.line_tolerance)
+        line_tolerance = float( QSettings().value("SurveyingCalculation/line_tolerance",config.line_tolerance) )
+        self.layer.snapPoint(self.startPoint, line_tolerance)
         self.endPoint = self.startPoint
         self.isEmittingPoint = True
         self.showLine()
@@ -84,8 +85,10 @@ class LineMapTool(QgsMapToolEmitPoint):
         if not self.isEmittingPoint:
             return
 
+        line_tolerance = float( QSettings().value("SurveyingCalculation/line_tolerance",config.line_tolerance) )
+
         self.endPoint = self.toMapCoordinates(e.pos())
-        self.layer.snapPoint(self.endPoint, config.line_tolerance)
+        self.layer.snapPoint(self.endPoint, line_tolerance)
         self.showLine()
 
     def showLine(self):
@@ -179,11 +182,15 @@ class LineMapTool(QgsMapToolEmitPoint):
         if save_geom.area() <= area:
             QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Area of polygon is smaller then requested area"))
             return
+        
+        area_tolerance = float( QSettings().value("SurveyingCalculation/area_tolerance",config.area_tolerance) )
+        max_iteration = int( QSettings().value("SurveyingCalculation/max_iteration",config.max_iteration) )
+
         i = 0
         #l = ((point2.x() - point1.x())**2 + (point2.y() - point1.y())**2)**0.5
         while True:
             da = geom.area() - area
-            if fabs(da) <= config.area_tolerance:
+            if fabs(da) <= area_tolerance:
                 break;               # area OK exit loop
             # length of intersection
             geom_line = QgsGeometry.fromPolyline([point1, point2])
@@ -206,7 +213,7 @@ class LineMapTool(QgsMapToolEmitPoint):
                 point2 = QgsPoint(point2.x() + sin(dir) * b, \
                     point2.y() + cos(dir) * b)
             i += 1
-            if i > config.max_iteration:
+            if i > max_iteration:
                 QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("Area division not finished after max iteration") + str(result))
                 return
             geom = QgsGeometry(save_geom)     # continue from original geomerty

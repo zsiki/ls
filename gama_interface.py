@@ -13,7 +13,7 @@ import config
 from base_classes import *
 from surveying_util import *
 from PyQt4.QtCore import QDir, QFile, QFileInfo, QIODevice, QTemporaryFile, \
-                        QProcess
+                        QProcess, QSettings
 from PyQt4.QtXml import QDomDocument, QXmlSimpleReader, QXmlInputSource
 
 class GamaInterface(object):
@@ -35,11 +35,9 @@ class GamaInterface(object):
         self.stdev_dist1 = stdev_dist1
         self.points = []
         self.observations = []
-        if hasattr(config, 'gama_path'):
-            if QFileInfo(config.gama_path).exists():
-                gama_prog = config.gama_path
-            else:
-                gama_prog = None
+        gama_path = QSettings().value("SurveyingCalculation/gama_path",config.gama_path)
+        if QFileInfo(gama_path).exists():
+            gama_prog = gama_path
         else:
             # get operating system dependent file name of gama_local
             plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )

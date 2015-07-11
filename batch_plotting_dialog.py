@@ -8,13 +8,15 @@
 """
 import ctypes, sys
 from PyQt4.QtCore import QCoreApplication, QDir, QFile, QFileInfo, QIODevice, \
-                        QSizeF, Qt
+                        QSizeF, Qt, QSettings
 from PyQt4.QtGui import QDialog, QFileDialog, QListWidgetItem, QMessageBox, \
                         QPrintDialog, QPrinter, QAbstractPrintDialog, QPainter, \
                         QProgressDialog, QApplication
 from PyQt4.QtXml import QDomDocument
 from batch_plotting import Ui_BatchPlottingDialog
 from qgis.core import *
+
+import config
 from surveying_util import get_vector_layers_by_type, get_features
 from base_classes import tr
 
@@ -44,8 +46,6 @@ class BatchPlottingDialog(QDialog):
         self.ui.TemplateList.setSortingEnabled(True)
 
         # set paths        
-        self.plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
-        self.templatepath = QDir(self.plugin_dir).absoluteFilePath("template")
         self.pdfpath = ""
         
         if self.batch_plotting:
@@ -62,6 +62,7 @@ class BatchPlottingDialog(QDialog):
     def showEvent(self, event):
         """ Reset dialog when receives a show event.
         """
+        self.templatepath = QSettings().value("SurveyingCalculation/template_dir",config.template_dir)
         self.fillLayersCombo()
         self.fillTemplateList()
 
@@ -120,6 +121,8 @@ class BatchPlottingDialog(QDialog):
                         QFileDialog.ShowDirsOnly)
         if templatepath!="":
             self.templatepath = templatepath
+            QSettings().setValue("SurveyingCalculation/template_dir",templatepath)
+            QSettings().sync()
         self.fillTemplateList()
         
     def changedSingleFileCheckbox(self, state):

@@ -24,14 +24,17 @@ class ResultLog(object):
             :param repeat_count: retry count on fail accessing log file
         """
         self.repeat_count = repeat_count   # retry count for i/o operations
+        self.set_log_path(logfile)
+
+    def set_log_path(self, log_path):
         for i in range(self.repeat_count * 2):
-            f = QFile( logfile )
+            f = QFile( log_path )
             if not f.open(QIODevice.Append | QIODevice.Text):
                 f = None
                 if i == self.repeat_count:
-                    logfile = QDir.temp().absoluteFilePath("SurveyingCalculation.log")
+                    log_path = QDir.temp().absoluteFilePath("SurveyingCalculation.log")
         f.close()
-        self.logfile = logfile
+        self.logfile = log_path
 
     def reset(self):
         """ Delete content of log file

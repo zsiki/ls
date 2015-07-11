@@ -10,7 +10,7 @@
 import platform
 import webbrowser
 from PyQt4.QtGui import QDialog, QFileDialog, QFont, QMessageBox
-from PyQt4.QtCore import SIGNAL, QCoreApplication
+from PyQt4.QtCore import SIGNAL, QCoreApplication, QSettings
 
 import config
 from transformation_calc import Ui_TransformationCalcDialog
@@ -28,9 +28,6 @@ class TransformationDialog(QDialog):
         self.ui = Ui_TransformationCalcDialog()
         self.ui.setupUi(self)
         self.log = log
-        if platform.system() == 'Linux':
-            # change font
-            self.ui.ResultTextBrowser.setFont(QFont(config.fontname, config.fontsize))
         self.from_points = []
         self.common = []
         self.used = []
@@ -49,6 +46,13 @@ class TransformationDialog(QDialog):
 
             :param event: NOT USED
         """
+        if platform.system() == 'Linux':
+            # change font
+            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
+            fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
+            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
+        log_path = QSettings().value("SurveyingCalculation/log_path",config.log_path)
+        self.log.set_log_path(log_path)
         self.reset()
 
     def reset(self):

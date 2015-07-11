@@ -8,7 +8,7 @@
 
 """
 # generic python modules
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant, \
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, \
                         QDir, QFileInfo, QRegExp, Qt
 from PyQt4.QtGui import QAction, QIcon, QMenu, QMessageBox, QFileDialog, QDialog
 from qgis.core import *
@@ -32,7 +32,6 @@ from surveying_util import *
 from calculation import *
 from resultlog import *
 from line_tool import LineMapTool
-
 
 class SurveyingCalculation:
     """SurveyingCalculation QGIS Plugin Implementation."""
@@ -61,8 +60,10 @@ class SurveyingCalculation:
                 QCoreApplication.installTranslator(self.translator)
 
         # init result log
-        if hasattr(config, 'log_path') and len(config.log_path) > 0:
-            log_path = config.log_path
+        log_path_2 = QSettings().value("SurveyingCalculation/log_path",config.log_path)
+        
+        if len(log_path_2) > 0:
+            log_path = log_path_2
         else:
             log_path = QDir.cleanPath(self.plugin_dir + QDir.separator() + 'log' + 
                                       QDir.separator() + 'log.txt')
@@ -247,8 +248,9 @@ class SurveyingCalculation:
         """
         if get_coordlist() is None:
             QMessageBox.warning(self.iface.mainWindow(), tr("Warning"), tr("No coordinate list is opened, coordinates will be lost from the fieldbook"))
+        homedir = QSettings().value("SurveyingCalculation/homedir",config.homedir)
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(), \
-            tr('Electric fieldbook'), config.homedir, \
+            tr('Electric fieldbook'), homedir, \
             filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat)'))
         if fname:
             # file selected
@@ -262,7 +264,9 @@ class SurveyingCalculation:
                 if not ofname:
                     return
                 # remember last input dir
-                config.homedir = QFileInfo(fname).absolutePath()
+                QSettings().setValue("SurveyingCalculation/homedir",QFileInfo(fname).absolutePath())
+                QSettings().sync()
+                
                 if QRegExp('fb_').indexIn(QFileInfo(ofname).baseName()):
                     ofname = QDir.cleanPath(QFileInfo(ofname).absolutePath() + 
                                     QDir().separator() + 'fb_' + QFileInfo(ofname).fileName())
@@ -459,6 +463,9 @@ class SurveyingCalculation:
         """
         settings_dlg = PluginSettingsDialog()
         result = settings_dlg.exec_()
+        if result == QDialog.Accepted:
+            log_path = QSettings().value("SurveyingCalculation/log_path",config.log_path)
+            self.log.set_log_path(log_path)
     
     def about(self):
         """ About box of the plugin

@@ -9,6 +9,7 @@
 import platform
 import webbrowser
 from PyQt4.QtGui import QDialog, QFont, QMessageBox
+from PyQt4.QtCore import QSettings
 
 import config
 from network_calc import Ui_NetworkCalcDialog
@@ -28,9 +29,6 @@ class NetworkDialog(QDialog):
         self.log = log
         self.ui = Ui_NetworkCalcDialog()
         self.ui.setupUi(self)
-        if platform.system() == 'Linux':
-            # change font
-            self.ui.ResultTextBrowser.setFont(QFont(config.fontname, config.fontsize))
         self.points = []
         self.fix = []
         self.adj = []
@@ -49,6 +47,13 @@ class NetworkDialog(QDialog):
 
             :param event: NOT USED
         """
+        if platform.system() == 'Linux':
+            # change font
+            fontname = QSettings().value("SurveyingCalculation/fontname",config.fontname)
+            fontsize = int(QSettings().value("SurveyingCalculation/fontsize",config.fontsize))
+            self.ui.ResultTextBrowser.setFont(QFont(fontname, fontsize))
+        log_path = QSettings().value("SurveyingCalculation/log_path",config.log_path)
+        self.log.set_log_path(log_path)
         self.reset()
 
     def reset(self):
