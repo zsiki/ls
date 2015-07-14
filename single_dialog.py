@@ -274,11 +274,11 @@ class SingleDialog(QDialog):
                 set_orientationangle(stn1[0], stn1[1], stn1[2], z.get_angle("GON"))
                 self.ui.ResultTextBrowser.append("\n" + tr("Orientation") + " - %s" % s.p.id)
                 self.ui.ResultTextBrowser.append(
-                    tr("Point num  Code         Direction    Bearing   Orient ang   Distance   e\"    E(m)"))
+                    tr("Point num  Code         Direction    Bearing   Orient ang   Distance   e(cc) E(m)"))
                 self.ui.ResultTextBrowser.append(ResultLog.resultlog_message)
                 self.log.write()
                 self.log.write_log(tr("Orientation") + " - %s" % s.p.id)
-                self.log.write(tr("Point num  Code         Direction    Bearing   Orient ang   Distance   e\"    E(m)"))
+                self.log.write(tr("Point num  Code         Direction    Bearing   Orient ang   Distance   e(cc) E(m)"))
                 self.log.write(ResultLog.resultlog_message)
             else:
                 QMessageBox.warning(self, tr("Warning"), tr("Orientation angle cannot be calculated!"))
