@@ -8,68 +8,68 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="447"/>
+        <location filename="surveying_calculation.py" line="451"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="252"/>
+        <location filename="traverse_dialog.py" line="256"/>
         <source>Select the type of traverse line!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="258"/>
+        <location filename="traverse_dialog.py" line="262"/>
         <source>Select start point!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="263"/>
+        <location filename="traverse_dialog.py" line="267"/>
         <source>Select end point!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="318"/>
+        <location filename="traverse_dialog.py" line="322"/>
         <source>Question</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="318"/>
+        <location filename="traverse_dialog.py" line="322"/>
         <source>End point has coordinates.
 Are you sure you want to calculate an open traverse?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="341"/>
+        <location filename="traverse_dialog.py" line="345"/>
         <source>Traversing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="342"/>
+        <location filename="traverse_dialog.py" line="346"/>
         <source>            bearing    bw dist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="343"/>
+        <location filename="traverse_dialog.py" line="347"/>
         <source>Point        angle     distance  (dE)     (dN)       dE         dN</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="344"/>
+        <location filename="traverse_dialog.py" line="348"/>
         <source>           correction  fw dist    corrections      Easting    Northing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="348"/>
+        <location filename="traverse_dialog.py" line="352"/>
         <source>Traverse line cannot be calculated!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="138"/>
+        <location filename="batch_plotting_dialog.py" line="141"/>
         <source>Select a composer template!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="133"/>
+        <location filename="batch_plotting_dialog.py" line="136"/>
         <source>Select a layer!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -119,247 +119,242 @@ Are you sure you want to calculate an open traverse?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="93"/>
+        <location filename="transformation_dialog.py" line="97"/>
         <source>Coordinate list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="93"/>
+        <location filename="transformation_dialog.py" line="97"/>
         <source>Coordinate list file (*.shp);;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="transformation_dialog.py" line="203"/>
-        <source>
-Orthogonal transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="transformation_dialog.py" line="207"/>
         <source>
-Affine transformation</source>
+Orthogonal transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="transformation_dialog.py" line="211"/>
         <source>
-3rd order polynomial transformation</source>
+Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="transformation_dialog.py" line="215"/>
         <source>
-4th order polynomial transformation</source>
+3rd order polynomial transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="transformation_dialog.py" line="219"/>
         <source>
+4th order polynomial transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="transformation_dialog.py" line="223"/>
+        <source>
 5th order polynomial transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="229"/>
+        <location filename="transformation_dialog.py" line="233"/>
         <source>Point num                E from       N from       E to         N to      dE     dN</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="240"/>
+        <location filename="single_dialog.py" line="244"/>
         <source>Select the type of calculation!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="246"/>
+        <location filename="single_dialog.py" line="250"/>
         <source>Select station point 1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="251"/>
+        <location filename="single_dialog.py" line="255"/>
         <source>Select station point 2!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="255"/>
+        <location filename="single_dialog.py" line="259"/>
         <source>Add points to Used Points list!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="276"/>
+        <location filename="single_dialog.py" line="280"/>
         <source>Orientation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="277"/>
-        <source>Point num  Code         Direction    Bearing   Orient ang   Distance   e&quot;    E(m)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="single_dialog.py" line="280"/>
+        <location filename="single_dialog.py" line="284"/>
         <source>Orientation angle cannot be calculated!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="297"/>
+        <location filename="single_dialog.py" line="301"/>
         <source>Radial Survey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="298"/>
+        <location filename="single_dialog.py" line="302"/>
         <source>Point num  Code              E            N        Z     Bearing  H.Distance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="316"/>
+        <location filename="single_dialog.py" line="320"/>
         <source>Radial survey on %s cannot be calculated!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="323"/>
+        <location filename="single_dialog.py" line="327"/>
         <source>Station 1 and station 2 are the same!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="342"/>
+        <location filename="single_dialog.py" line="346"/>
         <source>Intersection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="343"/>
+        <location filename="single_dialog.py" line="347"/>
         <source>Point num  Code              E            N     Bearing1 Bearing2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="357"/>
+        <location filename="single_dialog.py" line="361"/>
         <source>Intersecion on %s cannot be calculated!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="363"/>
+        <location filename="single_dialog.py" line="367"/>
         <source>Select exactly 3 used points for resection!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="382"/>
+        <location filename="single_dialog.py" line="386"/>
         <source>Resection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="383"/>
+        <location filename="single_dialog.py" line="387"/>
         <source>Point num  Code                E            N      Direction  Angle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="single_dialog.py" line="400"/>
+        <location filename="single_dialog.py" line="404"/>
         <source>gama-local not installed or other runtime error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="196"/>
+        <location filename="surveying_calculation.py" line="197"/>
         <source>&amp;SurveyingCalculation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="139"/>
+        <location filename="surveying_calculation.py" line="140"/>
         <source>New coordinate list ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="140"/>
+        <location filename="surveying_calculation.py" line="141"/>
         <source>New fieldbook ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="143"/>
+        <location filename="surveying_calculation.py" line="144"/>
         <source>Single point calculations ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="144"/>
+        <location filename="surveying_calculation.py" line="145"/>
         <source>Traverse calculations ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="145"/>
+        <location filename="surveying_calculation.py" line="146"/>
         <source>Network adjustment ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="146"/>
+        <location filename="surveying_calculation.py" line="147"/>
         <source>Coordinate transformation ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="149"/>
+        <location filename="surveying_calculation.py" line="150"/>
         <source>Batch plotting ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="151"/>
+        <location filename="surveying_calculation.py" line="152"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="466"/>
+        <location filename="surveying_calculation.py" line="473"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="206"/>
+        <location filename="surveying_calculation.py" line="207"/>
         <source>QGIS co-ordinate list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="206"/>
+        <location filename="surveying_calculation.py" line="207"/>
         <source>Shape file (*.shp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="227"/>
+        <location filename="surveying_calculation.py" line="228"/>
         <source>New fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="227"/>
+        <location filename="surveying_calculation.py" line="228"/>
         <source>Fieldbook file (*.dbf)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="250"/>
+        <location filename="surveying_calculation.py" line="252"/>
         <source>Electric fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="258"/>
+        <location filename="surveying_calculation.py" line="260"/>
         <source>QGIS fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="258"/>
+        <location filename="surveying_calculation.py" line="260"/>
         <source>DBF file (*.dbf)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="288"/>
+        <location filename="surveying_calculation.py" line="292"/>
         <source>File warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="288"/>
+        <location filename="surveying_calculation.py" line="292"/>
         <source>Unknown fieldbook type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="288"/>
+        <location filename="surveying_calculation.py" line="292"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="447"/>
+        <location filename="surveying_calculation.py" line="451"/>
         <source>This utility needs at least one polygon type layer!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="466"/>
+        <location filename="surveying_calculation.py" line="473"/>
         <source>Surveying Calculation Plugin
 
  (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu
@@ -393,72 +388,72 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="142"/>
+        <location filename="surveying_calculation.py" line="143"/>
         <source>Add new point ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="167"/>
+        <location filename="batch_plotting_dialog.py" line="170"/>
         <source>Select at least one polygon on layer &apos;%s&apos;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="184"/>
+        <location filename="transformation_dialog.py" line="188"/>
         <source>Select from layer!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="190"/>
+        <location filename="transformation_dialog.py" line="194"/>
         <source>Select to shape file!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="221"/>
+        <location filename="transformation_dialog.py" line="225"/>
         <source>Select transformation type!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_dialog.py" line="209"/>
+        <location filename="network_dialog.py" line="214"/>
         <source>Network adjustment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="141"/>
+        <location filename="surveying_calculation.py" line="142"/>
         <source>Import fieldbook ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="147"/>
+        <location filename="surveying_calculation.py" line="148"/>
         <source>Polygon division ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="148"/>
+        <location filename="surveying_calculation.py" line="149"/>
         <source>Plot by template ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="249"/>
+        <location filename="surveying_calculation.py" line="250"/>
         <source>No coordinate list is opened, coordinates will be lost from the fieldbook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="367"/>
+        <location filename="surveying_calculation.py" line="371"/>
         <source>Fieldbook loaded: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="375"/>
+        <location filename="surveying_calculation.py" line="379"/>
         <source>A coordinate list must be opened!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="427"/>
+        <location filename="surveying_calculation.py" line="431"/>
         <source>Actual layer contains no polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="430"/>
+        <location filename="surveying_calculation.py" line="434"/>
         <source>Not a single polygon is selected in active layer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -473,147 +468,142 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="180"/>
+        <location filename="line_tool.py" line="183"/>
         <source>Area of polygon is smaller then requested area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="171"/>
+        <location filename="line_tool.py" line="174"/>
         <source>Area division failed </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="250"/>
+        <location filename="surveying_calculation.py" line="252"/>
         <source>Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="361"/>
+        <location filename="surveying_calculation.py" line="365"/>
         <source>Neither coordinates nor observations found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="364"/>
+        <location filename="surveying_calculation.py" line="368"/>
         <source>No observations found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="152"/>
+        <location filename="line_tool.py" line="155"/>
         <source>Line does not intersects polygon, line will be shifted into the polygon. Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="line_tool.py" line="210"/>
+        <location filename="line_tool.py" line="217"/>
         <source>Area division not finished after max iteration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="36"/>
+        <location filename="batch_plotting_dialog.py" line="38"/>
         <source>Plot by Template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="75"/>
+        <location filename="batch_plotting_dialog.py" line="76"/>
         <source>&lt;Map view&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="117"/>
+        <location filename="batch_plotting_dialog.py" line="118"/>
         <source>Select Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="155"/>
+        <location filename="batch_plotting_dialog.py" line="158"/>
         <source>Scale must be a positive integer value!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="175"/>
+        <location filename="batch_plotting_dialog.py" line="178"/>
         <source>The filename pattern is empty. A default one will be used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="244"/>
+        <location filename="batch_plotting_dialog.py" line="247"/>
         <source>Choose a file name to save the map as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="244"/>
+        <location filename="batch_plotting_dialog.py" line="247"/>
         <source>PDF Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="255"/>
+        <location filename="batch_plotting_dialog.py" line="258"/>
         <source>Directory where to save PDF files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="263"/>
+        <location filename="batch_plotting_dialog.py" line="266"/>
         <source>Unable to write into the directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="263"/>
+        <location filename="batch_plotting_dialog.py" line="266"/>
         <source>The given output directory is not writable. Cancelling.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="381"/>
+        <location filename="batch_plotting_dialog.py" line="384"/>
         <source>Atlas processing error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="366"/>
+        <location filename="batch_plotting_dialog.py" line="369"/>
         <source>Feature filter parser error: %s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="313"/>
+        <location filename="batch_plotting_dialog.py" line="316"/>
         <source>Error creating %s.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="372"/>
+        <location filename="batch_plotting_dialog.py" line="375"/>
         <source>Rendering maps...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="batch_plotting_dialog.py" line="372"/>
+        <location filename="batch_plotting_dialog.py" line="375"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="traverse_dialog.py" line="267"/>
+        <location filename="traverse_dialog.py" line="271"/>
         <source>Add points to point list!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings_dialog.py" line="47"/>
+        <location filename="plugin_settings_dialog.py" line="58"/>
         <source>Select Home Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings_dialog.py" line="57"/>
-        <source>Select Log Directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="plugin_settings_dialog.py" line="75"/>
+        <location filename="plugin_settings_dialog.py" line="105"/>
         <source>Snap tolerance must be a positive float value in layer units!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings_dialog.py" line="85"/>
+        <location filename="plugin_settings_dialog.py" line="115"/>
         <source>Area tolerance must be a positive float value in layer units!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings_dialog.py" line="95"/>
+        <location filename="plugin_settings_dialog.py" line="125"/>
         <source>Maximum iteration must be a positive integer value!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="150"/>
+        <location filename="surveying_calculation.py" line="151"/>
         <source>Settings ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -623,18 +613,38 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="163"/>
+        <location filename="transformation_dialog.py" line="167"/>
         <source>No points with coordinates in source coordinate list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="166"/>
+        <location filename="transformation_dialog.py" line="170"/>
         <source>No points with coordinates in target coordinate list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformation_dialog.py" line="175"/>
+        <location filename="transformation_dialog.py" line="179"/>
         <source>No common points in coordinate lists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings_dialog.py" line="68"/>
+        <source>Select Log File Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings_dialog.py" line="78"/>
+        <source>Select Path to GNU Gama Executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings_dialog.py" line="87"/>
+        <source>Select Plot Template Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="single_dialog.py" line="281"/>
+        <source>Point num  Code         Direction    Bearing   Orient ang   Distance   e(cc) E(m)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -923,137 +933,137 @@ Version 0.1a</source>
 <context>
     <name>NetworkCalcDialog</name>
     <message>
-        <location filename="network_calc.ui" line="56"/>
+        <location filename="network_calc.py" line="38"/>
         <source>Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="93"/>
+        <location filename="network_calc.py" line="56"/>
         <source>Add &gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="169"/>
+        <location filename="network_calc.py" line="92"/>
         <source>&lt; Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="131"/>
+        <location filename="network_calc.py" line="74"/>
         <source>List of Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="150"/>
+        <location filename="network_calc.py" line="83"/>
         <source>Fix Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="188"/>
+        <location filename="network_calc.py" line="101"/>
         <source>Adjusted Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="265"/>
+        <location filename="network_calc.py" line="137"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="284"/>
+        <location filename="network_calc.py" line="146"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="303"/>
+        <location filename="network_calc.py" line="155"/>
         <source>Result of Calculations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="344"/>
+        <location filename="network_calc.py" line="176"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="363"/>
+        <location filename="network_calc.py" line="185"/>
         <source>Calculate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="382"/>
+        <location filename="network_calc.py" line="194"/>
         <source>Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="401"/>
+        <location filename="network_calc.py" line="205"/>
         <source>0.95</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="406"/>
+        <location filename="network_calc.py" line="207"/>
         <source>0.997</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="426"/>
+        <location filename="network_calc.py" line="215"/>
         <source>Confidence Level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="659"/>
+        <location filename="network_calc.py" line="285"/>
         <source>1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="649"/>
+        <location filename="network_calc.py" line="319"/>
         <source>2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="654"/>
+        <location filename="network_calc.py" line="287"/>
         <source>3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="585"/>
+        <location filename="network_calc.py" line="289"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="481"/>
+        <location filename="network_calc.py" line="240"/>
         <source>Distance standard deviation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="536"/>
+        <location filename="network_calc.py" line="265"/>
         <source>[mm]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="555"/>
+        <location filename="network_calc.py" line="274"/>
         <source>[mm/km]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="590"/>
+        <location filename="network_calc.py" line="291"/>
         <source>7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="610"/>
+        <location filename="network_calc.py" line="299"/>
         <source>Angle standard deviation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="629"/>
+        <location filename="network_calc.py" line="308"/>
         <source>[cc]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="679"/>
+        <location filename="network_calc.py" line="327"/>
         <source>Dimension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.ui" line="32"/>
+        <location filename="network_calc.py" line="28"/>
         <source>Network Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1076,13 +1086,8 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="116"/>
+        <location filename="plugin_settings.ui" line="206"/>
         <source>Directory for log file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="plugin_settings.ui" line="61"/>
-        <source>Log directory:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1091,58 +1096,103 @@ Version 0.1a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="103"/>
+        <location filename="plugin_settings.ui" line="193"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="125"/>
+        <location filename="plugin_settings.ui" line="215"/>
         <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="137"/>
+        <location filename="plugin_settings.ui" line="227"/>
         <source>Monospace font used in the calculation results widgets on Linux. On Windows it is courier font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="156"/>
+        <location filename="plugin_settings.ui" line="246"/>
         <source>Font name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="190"/>
+        <location filename="plugin_settings.ui" line="280"/>
         <source>Font size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="206"/>
+        <location filename="plugin_settings.ui" line="296"/>
         <source>Area division</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="218"/>
+        <location filename="plugin_settings.ui" line="308"/>
         <source>Snap tolerance:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="241"/>
+        <location filename="plugin_settings.ui" line="334"/>
         <source>Area tolerance:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="264"/>
+        <location filename="plugin_settings.ui" line="360"/>
         <source>Max. iterations:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="295"/>
+        <location filename="plugin_settings.ui" line="394"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="plugin_settings.ui" line="314"/>
+        <location filename="plugin_settings.ui" line="413"/>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="61"/>
+        <source>Path to Log File:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="116"/>
+        <source>Path for log file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="135"/>
+        <source>Path to GNU Gama executable:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="148"/>
+        <source>Full path to gama-local executable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="177"/>
+        <source>Path to template files for batch plotting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="209"/>
+        <source>Plot Template directory:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="321"/>
+        <source>Snapping tolerance to line tool.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="347"/>
+        <source>Area tolerance for area division.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="plugin_settings.ui" line="373"/>
+        <source>Maximal number of iterations for area division.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
