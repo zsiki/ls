@@ -8,9 +8,10 @@
 
 [general]
 name=SurveyingCalculation
+about=Extend QGIS functionality to make land surveying calculations as traversing, resection, free station, network adjustment and area division and print by templates.
 qgisMinimumVersion=2.0
 description=To solve surveying calculations
-version=0.1
+version=0.2
 author=DigiKom Kft.
 email=mail@digikom.hu
 

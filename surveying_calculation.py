@@ -472,7 +472,7 @@ class SurveyingCalculation:
         """
         QMessageBox.information(self.iface.mainWindow(),
             tr('About'),    
-            tr('Surveying Calculation Plugin\n\n (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu\nVersion 0.1a'))
+            tr('Surveying Calculation Plugin\n\n (c) DigiKom Ltd 2014- http://digikom.hu, mail (at) digikom.hu\nVersion 0.2'))
 
     def help(self):
         """ Open user's guide of the plugin in the default web browser.

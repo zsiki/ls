@@ -354,14 +354,6 @@ Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="473"/>
-        <source>Surveying Calculation Plugin
-
- (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu
-Version 0.1a</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="new_point_dialog.py" line="64"/>
         <source>Please fill point ID
 </source>
@@ -645,6 +637,14 @@ Version 0.1a</source>
     <message>
         <location filename="single_dialog.py" line="281"/>
         <source>Point num  Code         Direction    Bearing   Orient ang   Distance   e(cc) E(m)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="surveying_calculation.py" line="473"/>
+        <source>Surveying Calculation Plugin
+
+ (c) DigiKom Ltd 2014- http://digikom.hu, mail (at) digikom.hu
+Version 0.2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
