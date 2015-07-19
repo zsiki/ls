@@ -45,7 +45,7 @@ users.
 ++++++++++++++++++++++++++++++++++++++
 
 #. Start QGIS on your machine.
-#. In the plugin dialog enable experimental plugins (after evaluating the plugin by the QGIS community it will be changed to standard - non experimental - plugin). To open the plugin dialog select :mnu:`Plugins/Manage and install plugins` from the menu then select *Settings* tab to see the checkbox of experimental plugins.
+#. Open the plugin dialog select :mnu:`Plugins/Manage and install plugins` from the menu.
 #. Look for SurveyingCalculation plugin in the list on the *All* or the *Not installed* tab, select the SurveyingCalculation plugin and press the :btn:`[Install]` button.
 
 .. figure:: images/u01.png
