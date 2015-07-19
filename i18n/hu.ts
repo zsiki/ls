@@ -77,7 +77,7 @@ Are you sure you want to calculate an open traverse?</source>
     <message>
         <location filename="calculation.py" line="76"/>
         <source>Average orientation angle</source>
-        <translation type="unfinished">Középtájékozási szög</translation>
+        <translation>Középtájékozási szög</translation>
     </message>
     <message>
         <location filename="calculation.py" line="216"/>
@@ -360,14 +360,6 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
         <translation>Ehhez a művelethez legalább egy polygon típusú rétegre van szükség!</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="473"/>
-        <source>Surveying Calculation Plugin
-
- (c) DigiKom Ltd 2014 http://digikom.hu mail (at) digikom.hu
-Version 0.1a</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="new_point_dialog.py" line="64"/>
         <source>Please fill point ID
 </source>
@@ -636,22 +628,33 @@ Version 0.1a</source>
     <message>
         <location filename="plugin_settings_dialog.py" line="68"/>
         <source>Select Log File Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Log fájl útvonal</translation>
     </message>
     <message>
         <location filename="plugin_settings_dialog.py" line="78"/>
         <source>Select Path to GNU Gama Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>GNU Gama program elérési útja</translation>
     </message>
     <message>
         <location filename="plugin_settings_dialog.py" line="87"/>
         <source>Select Plot Template Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyomtatási sablon könyvtár</translation>
     </message>
     <message>
         <location filename="single_dialog.py" line="281"/>
         <source>Point num  Code         Direction    Bearing   Orient ang   Distance   e(cc) E(m)</source>
-        <translation type="unfinished">Pontszám   Pontkód      Irányérték   Iránysszög Táj.szög    Távolság   e(cc) E(m)</translation>
+        <translation>Pontszám   Pontkód      Irányérték   Iránysszög Táj.szög    Távolság   e(cc) E(m)</translation>
+    </message>
+    <message>
+        <location filename="surveying_calculation.py" line="473"/>
+        <source>Surveying Calculation Plugin
+
+ (c) DigiKom Ltd 2014- http://digikom.hu, mail (at) digikom.hu
+Version 0.2</source>
+        <translation>Geodéziai számítások modul
+
+ (c) DigiKom Kft. 2014- http://digikom.hu, mail (at) digikom.hu
+0.2 verzió</translation>
     </message>
 </context>
 <context>
@@ -1159,47 +1162,47 @@ Version 0.1a</source>
     <message>
         <location filename="plugin_settings.ui" line="61"/>
         <source>Path to Log File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Log fájl útvonal</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="116"/>
         <source>Path for log file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Log fájl útvonal.</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="135"/>
         <source>Path to GNU Gama executable:</source>
-        <translation type="unfinished"></translation>
+        <translation>GNU Gama program elérési útja:</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="148"/>
         <source>Full path to gama-local executable.</source>
-        <translation type="unfinished"></translation>
+        <translation>GNU Gama program elérési útja.</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="177"/>
         <source>Path to template files for batch plotting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyomtatási sablon könyvtár elérési útja.</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="209"/>
         <source>Plot Template directory:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyomtatási sablon könyvtár:</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="321"/>
         <source>Snapping tolerance to line tool.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ráugrási tolerancia a vonal eszközhöz.</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="347"/>
         <source>Area tolerance for area division.</source>
-        <translation type="unfinished"></translation>
+        <translation>Terület tolerancia a területosztáshoz.</translation>
     </message>
     <message>
         <location filename="plugin_settings.ui" line="373"/>
         <source>Maximal number of iterations for area division.</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. iteráció szám a területosztáshoz.</translation>
     </message>
 </context>
 <context>
