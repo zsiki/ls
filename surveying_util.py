@@ -102,11 +102,7 @@ def get_fieldlist(vlayer):
         :param vlayer: vector layer
         :returns: list of fields
     """
-    vprovider = vlayer.dataProvider()
-    allAttrs = vprovider.attributeIndexes()
-    vprovider.select(allAttrs)
-    myFields = vprovider.fields()
-    return myFields
+    return vlayer.pendingFields()
 
 def get_fieldnames(vlayer):
     """ Create a list from column names of a vector layer.
@@ -114,11 +110,8 @@ def get_fieldnames(vlayer):
         :param vlayer: vector layer
         :returns: sorted list of field names
     """
-    fieldmap = get_fieldlist(vlayer)
-    fieldlist = []
-    for name, field in fieldmap.iteritems():
-        if not field.name() in fieldlist:
-            fieldlist.append(unicode(field.name()))
+    fields = get_fieldlist(vlayer)
+    fieldlist = [field.name() for field in fields]
     return sorted(fieldlist)
 
 def get_coord(p, clist=None):
