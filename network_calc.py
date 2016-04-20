@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'network_calc.ui'
 #
-# Created: Thu Jun 18 21:29:21 2015
+# Created: Wed Apr 20 22:37:23 2016
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -286,9 +286,13 @@ class Ui_NetworkCalcDialog(object):
         self.AngleDevComboBox.addItem(_fromUtf8(""))
         self.AngleDevComboBox.setItemText(1, QtGui.QApplication.translate("NetworkCalcDialog", "3", None, QtGui.QApplication.UnicodeUTF8))
         self.AngleDevComboBox.addItem(_fromUtf8(""))
-        self.AngleDevComboBox.setItemText(2, QtGui.QApplication.translate("NetworkCalcDialog", "5", None, QtGui.QApplication.UnicodeUTF8))
+        self.AngleDevComboBox.setItemText(2, QtGui.QApplication.translate("NetworkCalcDialog", "6", None, QtGui.QApplication.UnicodeUTF8))
         self.AngleDevComboBox.addItem(_fromUtf8(""))
-        self.AngleDevComboBox.setItemText(3, QtGui.QApplication.translate("NetworkCalcDialog", "7", None, QtGui.QApplication.UnicodeUTF8))
+        self.AngleDevComboBox.setItemText(3, QtGui.QApplication.translate("NetworkCalcDialog", "9", None, QtGui.QApplication.UnicodeUTF8))
+        self.AngleDevComboBox.addItem(_fromUtf8(""))
+        self.AngleDevComboBox.setItemText(4, QtGui.QApplication.translate("NetworkCalcDialog", "15", None, QtGui.QApplication.UnicodeUTF8))
+        self.AngleDevComboBox.addItem(_fromUtf8(""))
+        self.AngleDevComboBox.setItemText(5, QtGui.QApplication.translate("NetworkCalcDialog", "21", None, QtGui.QApplication.UnicodeUTF8))
         self.ZenitDevLabel = QtGui.QLabel(self.ParametersGroup)
         self.ZenitDevLabel.setGeometry(QtCore.QRect(10, 100, 181, 16))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
@@ -317,6 +321,8 @@ class Ui_NetworkCalcDialog(object):
         self.DimensionComboBox.setObjectName(_fromUtf8("DimensionComboBox"))
         self.DimensionComboBox.addItem(_fromUtf8(""))
         self.DimensionComboBox.setItemText(0, QtGui.QApplication.translate("NetworkCalcDialog", "2", None, QtGui.QApplication.UnicodeUTF8))
+        self.DimensionComboBox.addItem(_fromUtf8(""))
+        self.DimensionComboBox.setItemText(1, QtGui.QApplication.translate("NetworkCalcDialog", "3", None, QtGui.QApplication.UnicodeUTF8))
         self.ZenitDevLabel_2 = QtGui.QLabel(self.ParametersGroup)
         self.ZenitDevLabel_2.setGeometry(QtCore.QRect(10, 40, 181, 16))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
