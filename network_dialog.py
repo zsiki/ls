@@ -187,7 +187,7 @@ class NetworkDialog(QDialog):
                             if dimension in [2, 3] and (type(feat['hz']) is float or \
                                 type(feat['v']) is float and type(feat['sd']) is float) or \
                                 dimension == 1 and type(feat['v']) is float and \
-                                type(feat['sd']):
+                                type(feat['sd']) is float:
                                 o = PolarObservation(pid, None)
                                 o.hz = Angle(feat['hz'], 'GON') if type(feat['hz']) is float else None
                                 o.v = Angle(feat['v'], 'GON') if type(feat['v']) is float else None

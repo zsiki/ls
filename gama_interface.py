@@ -180,7 +180,10 @@ class GamaInterface(object):
                 # station record
                 sta = doc.createElement('obs')
                 sta.setAttribute('from', o.point_id)
-                ih = o.th
+                if o.th is None:
+                    ih = 0
+                else:
+                    ih = o.th
                 points_observations.appendChild(sta)
             else:
                 # observation
@@ -204,7 +207,33 @@ class GamaInterface(object):
                     pass
                 elif self.dimension == 3:
                     # 3d
-                    pass
+                    if o.th is None:
+                        th = o.th
+                    else:
+                        th = 0
+                    if o.hz is not None:
+                        tmp = doc.createElement('direction')
+                        tmp.setAttribute('to', o.point_id)
+                        tmp.setAttribute('val', str(o.hz.get_angle('GON')))
+                        sta.appendChild(tmp)
+                    if o.d is not None:
+                        if o.d.mode == 'SD':
+                            tmp = doc.createElement('s-distance')
+                            tmp.setAttribute('val', str(o.d.d))
+                            tmp.setAttribute('from_dh', str(ih))
+                            tmp.setAttribute('to_dh', str(th))
+                        else:
+                            tmp = doc.createElement('distance')
+                            tmp.setAttribute('val', str(o.d.d))
+                        tmp.setAttribute('to', o.point_id)
+                        sta.appendChild(tmp)
+                    if o.v is not None:
+                        tmp = doc.createElement('z-angle')
+                        tmp.setAttribute('to', o.point_id)
+                        tmp.setAttribute('val', str(o.v.get_angle('GON')))
+                        tmp.setAttribute('from_dh', str(ih))
+                        tmp.setAttribute('to_dh', str(th))
+                        sta.appendChild(tmp)
                 else:
                     # unknown dimension
                     return None
