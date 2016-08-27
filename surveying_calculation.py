@@ -266,16 +266,30 @@ class SurveyingCalculation:
                 # remember last input dir
                 QSettings().setValue("SurveyingCalculation/homedir",QFileInfo(fname).absolutePath())
                 QSettings().sync()
-                
+                # start with 'fb_'?
                 if QRegExp('fb_').indexIn(QFileInfo(ofname).baseName()):
                     ofname = QDir.cleanPath(QFileInfo(ofname).absolutePath() + 
                                     QDir().separator() + 'fb_' + QFileInfo(ofname).fileName())
-
+                # extension is .dbf?
+                if QRegExp('\.dbf$', Qt.CaseInsensitive).indexIn(ofname) == -1:
+                    ofname += '.dbf'
+                print ofname
                 tempname = QDir.cleanPath(self.plugin_dir + QDir().separator() + 
                                 'template' + QDir().separator() + 'fb_template.dbf')
-                QFile(tempname).copy(ofname)
-                
+                print tempname
+                if not QFile(tempname).copy(ofname):
+                    QMessageBox.warning(self.iface.mainWindow(),
+                        tr('File warning'),
+                        tr('Error copying fieldbook template'),
+                        tr('OK'))
+                    return
                 fb_dbf = QgsVectorLayer(ofname, QFileInfo(ofname).baseName(), "ogr")
+                if not fb_dbf or not fb_dbf.isValid():
+                    QMessageBox.warning(self.iface.mainWindow(),
+                        tr('File warning'),
+                        tr('Fieldbook loading error'),
+                        tr('OK'))
+                    return
                 QgsMapLayerRegistry.instance().addMapLayer(fb_dbf)
             if QRegExp('\.gsi$', Qt.CaseInsensitive).indexIn(fname) > -1:
                 fb = LeicaGsi(fname)
@@ -304,7 +318,7 @@ class SurveyingCalculation:
                 r = fb.parse_next()
                 if r is None:
                     break    # end of file
-                if 'station' in r:
+                if 'point_id' in r:
                     # add row to fieldbook table
                     record = QgsFeature()
                     # add & initialize attributes
@@ -316,7 +330,13 @@ class SurveyingCalculation:
                         j = fb_dbf.dataProvider().fieldNameIndex(key)
                         if j != -1:
                             record.setAttribute(j, r[key])
-                    fb_dbf.dataProvider().addFeatures([record])
+                    (xxx, yyy) = fb_dbf.dataProvider().addFeatures([record])
+                    if not xxx:
+                        QMessageBox.warning(self.iface.mainWindow(),
+                            tr('File warning'),
+                            tr('Fieldbook record creation error'),
+                            tr('OK'))
+                        return
                     n_fb += 1
                 if 'station_e' in r or 'station_z' in r:
                     # store station coordinates too
