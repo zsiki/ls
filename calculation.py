@@ -137,7 +137,7 @@ class Calculation(object):
         pp.id = obs1.point_id
         pp.pc = pc
         ResultLog.resultlog_message += u"%-10s %-10s %12.3f %12.3f %8.4f %8.4f" % \
-                  (pp.id, (pp.pc if pp.pc is not None else "-"), pp.e, pp.n, b1, b2)
+            (pp.id, (pp.pc if pp.pc is not None else "-"), pp.e, pp.n, Angle(b1).get_angle('GON'), Angle(b2).get_angle('GON'))
         return pp
 
     @staticmethod
