@@ -318,7 +318,7 @@ class SurveyingCalculation:
                 r = fb.parse_next()
                 if r is None:
                     break    # end of file
-                if 'point_id' in r:
+                if 'station' in r:
                     # add row to fieldbook table
                     record = QgsFeature()
                     # add & initialize attributes
