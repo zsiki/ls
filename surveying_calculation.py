@@ -273,14 +273,12 @@ class SurveyingCalculation:
                 # extension is .dbf?
                 if QRegExp('\.dbf$', Qt.CaseInsensitive).indexIn(ofname) == -1:
                     ofname += '.dbf'
-                print ofname
                 tempname = QDir.cleanPath(self.plugin_dir + QDir().separator() + 
                                 'template' + QDir().separator() + 'fb_template.dbf')
-                print tempname
                 if not QFile(tempname).copy(ofname):
                     QMessageBox.warning(self.iface.mainWindow(),
                         tr('File warning'),
-                        tr('Error copying fieldbook template'),
+                        tr('Error copying fieldbook template, target file exists?'),
                         tr('OK'))
                     return
                 fb_dbf = QgsVectorLayer(ofname, QFileInfo(ofname).baseName(), "ogr")
