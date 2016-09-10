@@ -9,7 +9,7 @@
         <translation>Jó reggelt</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="471"/>
+        <location filename="surveying_calculation.py" line="469"/>
         <source>Warning</source>
         <translation>Figyelmeztetés</translation>
     </message>
@@ -300,7 +300,7 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
         <translation>Súgó</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="493"/>
+        <location filename="surveying_calculation.py" line="491"/>
         <source>About</source>
         <translation>Névjegy</translation>
     </message>
@@ -340,22 +340,22 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="335"/>
+        <location filename="surveying_calculation.py" line="333"/>
         <source>File warning</source>
         <translation>Hibás file</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="306"/>
+        <location filename="surveying_calculation.py" line="304"/>
         <source>Unknown fieldbook type</source>
         <translation>Ismeretlen jegyzőkönyv típus</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="335"/>
+        <location filename="surveying_calculation.py" line="333"/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="471"/>
+        <location filename="surveying_calculation.py" line="469"/>
         <source>This utility needs at least one polygon type layer!</source>
         <translation>Ehhez a művelethez legalább egy polygon típusú rétegre van szükség!</translation>
     </message>
@@ -411,7 +411,7 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
         <translation>Válassza ki a transzformáció típusát!</translation>
     </message>
     <message>
-        <location filename="network_dialog.py" line="214"/>
+        <location filename="network_dialog.py" line="218"/>
         <source>Network adjustment</source>
         <translation>Hálózatkiegyenlítés</translation>
     </message>
@@ -436,22 +436,22 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
         <translation>Nincs megnyitott koordinátajegyzék, a jegyzőkönyvben szereplő koordináták elvesznek</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="391"/>
+        <location filename="surveying_calculation.py" line="389"/>
         <source>Fieldbook loaded: </source>
         <translation>Mérési jegyzőkönyv betöltve:</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="399"/>
+        <location filename="surveying_calculation.py" line="397"/>
         <source>A coordinate list must be opened!</source>
         <translation>Legalább egy koordinátajegyzék megnyitása szükséges!</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="451"/>
+        <location filename="surveying_calculation.py" line="449"/>
         <source>Actual layer contains no polygons</source>
         <translation>Az aktuális réteg nem tartalmaz polygonokat</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="454"/>
+        <location filename="surveying_calculation.py" line="452"/>
         <source>Not a single polygon is selected in active layer</source>
         <translation>Nem egy elem van szelektálva az aktív rétegen</translation>
     </message>
@@ -481,12 +481,12 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
         <translation></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="385"/>
+        <location filename="surveying_calculation.py" line="383"/>
         <source>Neither coordinates nor observations found</source>
         <translation>Nincs sem koordináta, sem mérés</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="388"/>
+        <location filename="surveying_calculation.py" line="386"/>
         <source>No observations found</source>
         <translation>Nincs mérés</translation>
     </message>
@@ -646,7 +646,7 @@ Pontszám   Pontkód         Kelet        Észak      M   irányérték  távols
         <translation>Pontszám   Pontkód      Irányérték   Iránysszög Táj.szög    Távolság   e(cc) E(m)</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="493"/>
+        <location filename="surveying_calculation.py" line="491"/>
         <source>Surveying Calculation Plugin
 
  (c) DigiKom Ltd 2014- http://digikom.hu, mail (at) digikom.hu
@@ -657,19 +657,29 @@ Version 0.2</source>
 0.2 verzió</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="288"/>
+        <location filename="surveying_calculation.py" line="286"/>
         <source>Fieldbook loading error</source>
         <translation>Hiba a jegyzőkönyv betöltése során</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="335"/>
+        <location filename="surveying_calculation.py" line="333"/>
         <source>Fieldbook record creation error</source>
         <translation>Hiba a jegyzőkönyv rekord létrehozása során</translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="281"/>
+        <location filename="surveying_calculation.py" line="279"/>
         <source>Error copying fieldbook template, target file exists?</source>
-        <translation type="unfinished">Hiba a jegyzőkönyv sablon másolása közben, a cél fájl már létezik?</translation>
+        <translation>Hiba a jegyzőkönyv sablon másolása közben, a cél fájl már létezik?</translation>
+    </message>
+    <message>
+        <location filename="network_dialog.py" line="143"/>
+        <source>Invalid standard deviation value</source>
+        <translation>Hibás középhiba érték</translation>
+    </message>
+    <message>
+        <location filename="network_dialog.py" line="221"/>
+        <source>No points to adjust</source>
+        <translation type="unfinished">Nincs kiegyenlítendő pont</translation>
     </message>
 </context>
 <context>
@@ -1032,52 +1042,37 @@ Version 0.2</source>
         <translation>Konfidencia szint</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="285"/>
-        <source>1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="323"/>
+        <location filename="network_calc.py" line="271"/>
         <source>2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="325"/>
+        <location filename="network_calc.py" line="293"/>
         <source>3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="257"/>
-        <source>5</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="240"/>
+        <location filename="network_calc.py" line="224"/>
         <source>Distance standard deviation</source>
         <translation>Távmérési középhiba</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="265"/>
-        <source>[mm]</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="274"/>
+        <location filename="network_calc.py" line="242"/>
         <source>[mm/km]</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="303"/>
+        <location filename="network_calc.py" line="251"/>
         <source>Angle standard deviation</source>
         <translation>Szögmérési középhiba</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="312"/>
+        <location filename="network_calc.py" line="260"/>
         <source>[cc]</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="333"/>
+        <location filename="network_calc.py" line="281"/>
         <source>Dimension</source>
         <translation>Dimenzió</translation>
     </message>
@@ -1087,24 +1082,9 @@ Version 0.2</source>
         <translation>Hálózatkiegyenlítés</translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="289"/>
-        <source>6</source>
-        <translation>6</translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="291"/>
-        <source>9</source>
-        <translation>9</translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="293"/>
-        <source>15</source>
-        <translation>15</translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="295"/>
-        <source>21</source>
-        <translation>21</translation>
+        <location filename="network_calc.py" line="233"/>
+        <source>[mm] +</source>
+        <translation>[mm] +</translation>
     </message>
 </context>
 <context>

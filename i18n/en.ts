@@ -8,7 +8,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="471"/>
+        <location filename="surveying_calculation.py" line="469"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
@@ -294,7 +294,7 @@ Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="493"/>
+        <location filename="surveying_calculation.py" line="491"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -334,22 +334,22 @@ Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="335"/>
+        <location filename="surveying_calculation.py" line="333"/>
         <source>File warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="306"/>
+        <location filename="surveying_calculation.py" line="304"/>
         <source>Unknown fieldbook type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="335"/>
+        <location filename="surveying_calculation.py" line="333"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="471"/>
+        <location filename="surveying_calculation.py" line="469"/>
         <source>This utility needs at least one polygon type layer!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -405,7 +405,7 @@ Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_dialog.py" line="214"/>
+        <location filename="network_dialog.py" line="218"/>
         <source>Network adjustment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -430,22 +430,22 @@ Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="391"/>
+        <location filename="surveying_calculation.py" line="389"/>
         <source>Fieldbook loaded: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="399"/>
+        <location filename="surveying_calculation.py" line="397"/>
         <source>A coordinate list must be opened!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="451"/>
+        <location filename="surveying_calculation.py" line="449"/>
         <source>Actual layer contains no polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="454"/>
+        <location filename="surveying_calculation.py" line="452"/>
         <source>Not a single polygon is selected in active layer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -475,12 +475,12 @@ Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="385"/>
+        <location filename="surveying_calculation.py" line="383"/>
         <source>Neither coordinates nor observations found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="388"/>
+        <location filename="surveying_calculation.py" line="386"/>
         <source>No observations found</source>
         <translation type="unfinished"></translation>
     </message>
@@ -640,7 +640,7 @@ Affine transformation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="493"/>
+        <location filename="surveying_calculation.py" line="491"/>
         <source>Surveying Calculation Plugin
 
  (c) DigiKom Ltd 2014- http://digikom.hu, mail (at) digikom.hu
@@ -648,18 +648,28 @@ Version 0.2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="288"/>
+        <location filename="surveying_calculation.py" line="286"/>
         <source>Fieldbook loading error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="335"/>
+        <location filename="surveying_calculation.py" line="333"/>
         <source>Fieldbook record creation error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="surveying_calculation.py" line="281"/>
+        <location filename="surveying_calculation.py" line="279"/>
         <source>Error copying fieldbook template, target file exists?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="network_dialog.py" line="143"/>
+        <source>Invalid standard deviation value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="network_dialog.py" line="221"/>
+        <source>No points to adjust</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1023,52 +1033,37 @@ Version 0.2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="285"/>
-        <source>1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="323"/>
+        <location filename="network_calc.py" line="271"/>
         <source>2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="325"/>
+        <location filename="network_calc.py" line="293"/>
         <source>3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="257"/>
-        <source>5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="240"/>
+        <location filename="network_calc.py" line="224"/>
         <source>Distance standard deviation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="265"/>
-        <source>[mm]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="274"/>
+        <location filename="network_calc.py" line="242"/>
         <source>[mm/km]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="303"/>
+        <location filename="network_calc.py" line="251"/>
         <source>Angle standard deviation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="312"/>
+        <location filename="network_calc.py" line="260"/>
         <source>[cc]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="333"/>
+        <location filename="network_calc.py" line="281"/>
         <source>Dimension</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1078,23 +1073,8 @@ Version 0.2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="network_calc.py" line="289"/>
-        <source>6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="291"/>
-        <source>9</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="293"/>
-        <source>15</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="network_calc.py" line="295"/>
-        <source>21</source>
+        <location filename="network_calc.py" line="233"/>
+        <source>[mm] +</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -135,9 +135,13 @@ class NetworkDialog(QDialog):
         if len(self.adj):
             dimension = int(self.ui.DimensionComboBox.currentText())
             conf = float(self.ui.ConfidenceComboBox.currentText())
-            stda = float(self.ui.AngleDevComboBox.currentText())
-            stdd = float(self.ui.DistDevMMComboBox.currentText())
-            stdd1 = float(self.ui.DistDevMMKMComboBox.currentText())
+            try:
+                stda = float(self.ui.AngleDevLineEdit.text())
+                stdd = float(self.ui.DistDevMMLineEdit.text())
+                stdd1 = float(self.ui.DistDevMMKMLineEdit.text())
+            except ValueError:
+                QMessageBox.warning(self, tr("Warning"), tr("Invalid standard deviation value"))
+                return
             g = GamaInterface(dimension, conf, stda, stdd, stdd1)
             # add points to adjustment
             fix_names = []
@@ -213,6 +217,9 @@ class NetworkDialog(QDialog):
                 self.ui.ResultTextBrowser.append(t)
                 self.log.write_log(tr("Network adjustment"))
                 self.log.write(t)
+        else:
+            QMessageBox.warning(self, tr("Warning"),
+                tr('No points to adjust'))
 
     def onHelpButton(self):
         """ Open user's guide at Network Adjustment in the default web browser.
