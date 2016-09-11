@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'network_calc.ui'
 #
-# Created: Sat Sep 10 20:00:41 2016
+# Created: Sat Sep 10 21:40:20 2016
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -270,7 +270,9 @@ class Ui_NetworkCalcDialog(object):
         self.DimensionComboBox.addItem(_fromUtf8(""))
         self.DimensionComboBox.setItemText(0, QtGui.QApplication.translate("NetworkCalcDialog", "2", None, QtGui.QApplication.UnicodeUTF8))
         self.DimensionComboBox.addItem(_fromUtf8(""))
-        self.DimensionComboBox.setItemText(1, QtGui.QApplication.translate("NetworkCalcDialog", "3", None, QtGui.QApplication.UnicodeUTF8))
+        self.DimensionComboBox.setItemText(1, QtGui.QApplication.translate("NetworkCalcDialog", "1", None, QtGui.QApplication.UnicodeUTF8))
+        self.DimensionComboBox.addItem(_fromUtf8(""))
+        self.DimensionComboBox.setItemText(2, QtGui.QApplication.translate("NetworkCalcDialog", "3", None, QtGui.QApplication.UnicodeUTF8))
         self.ZenitDevLabel_2 = QtGui.QLabel(self.ParametersGroup)
         self.ZenitDevLabel_2.setGeometry(QtCore.QRect(10, 40, 181, 16))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)

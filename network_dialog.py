@@ -172,7 +172,7 @@ class NetworkDialog(QDialog):
                 for feat in sorted_features:
                     pid = feat['point_id']
                     if feat['station'] == 'station':
-                        if st is not None:
+                        if st is not None and dimension in [2, 3]:
                             if (n_ori + n_adj == 0) or \
                                 (st in fix_names and n_adj == 0):
                                 # no adjusted point on known station, remove it
@@ -195,13 +195,18 @@ class NetworkDialog(QDialog):
                                 o = PolarObservation(pid, None)
                                 o.hz = Angle(feat['hz'], 'GON') if type(feat['hz']) is float else None
                                 o.v = Angle(feat['v'], 'GON') if type(feat['v']) is float else None
+                                if type(feat['v']) is float and \
+                                    (st in adj_names or pid in adj_names):
+                                    # add zenith if one end is unknown
+                                    o.v = Angle(feat['v'], 'GON')
                                 if type(feat['sd']) is float and \
                                     (st in adj_names or pid in adj_names):
                                     # add distance if one end is unknown
                                     o.d = Distance(feat['sd'], 'SD')
                                 o.th = feat['th'] if type(feat['th']) is float else None
                                 o.pc = feat['pc'] if type(feat['pc']) is str else None
-                                if o.hz is not None or o.d is not None:
+                                if dimension in [2, 3] and (o.hz is not None or o.d is not None) or \
+                                    dimension == 1 and o.v is not None:
                                     # direction or distance given
                                     g.add_observation(o)
                                     if pid in fix_names:

@@ -8,6 +8,7 @@
 .. moduleauthor::Zoltan Siki <siki@agt.bme.hu>
 """
 
+import math
 # surveying calculation modules
 import config
 from base_classes import *
@@ -101,7 +102,7 @@ class GamaInterface(object):
             return None
         
         doc = QDomDocument()
-        doc.appendChild(doc.createComment('Gama XML created by Land Surveying plugin for QGIS'))
+        doc.appendChild(doc.createComment('Gama XML created by SurveyingCalculation plugin for QGIS'))
         gama_local = doc.createElement('gama-local')
         gama_local.setAttribute('version', '2.0')
         doc.appendChild(gama_local)
@@ -175,16 +176,21 @@ class GamaInterface(object):
                     else:
                         tmp.setAttribute('adj', 'xyz')
                 points_observations.appendChild(tmp)
+        if self.dimension == 1:
+            hd = doc.createElement('height-differences')
+            points_observations.appendChild(hd)
         for o in self.observations:
             if o.station == 'station':
                 # station record
-                sta = doc.createElement('obs')
-                sta.setAttribute('from', o.point_id)
+                st_id = o.point_id
                 if o.th is None:
                     ih = 0
                 else:
                     ih = o.th
-                points_observations.appendChild(sta)
+                if self.dimension in [2, 3]:
+                    sta = doc.createElement('obs')
+                    sta.setAttribute('from', o.point_id)
+                    points_observations.appendChild(sta)
             else:
                 # observation
                 if self.dimension == 2:
@@ -203,14 +209,35 @@ class GamaInterface(object):
                             tmp.setAttribute('val', str(hd))
                             sta.appendChild(tmp)
                 elif self.dimension == 1:
-                    # elevations only
-                    pass
+                    # elevations only 1d
+                    if o.th is None:
+                        th = 0
+                    else:
+                        th = o.th
+                    if o.d is not None and o.v is not None:
+                        tmp = doc.createElement('dh')
+                        tmp.setAttribute('from', st_id)
+                        tmp.setAttribute('to', o.point_id)
+						# TODO hibaterjedes
+                        tmp.setAttribute('stdev', '1')
+                        sz = math.sin(o.v.get_angle())
+                        w = self.stdev_dist + self.stdev_dist1 * o.d.d / 1000
+                        ro_cc = 200 * 100 * 100 /math.pi
+                        if o.d.mode == 'SD':
+                            cz = math.cos(o.v.get_angle())
+                            tmp.setAttribute('val', str(o.d.d * cz + ih -th))
+                            tmp.setAttribute('stdev', str(math.sqrt(cz ** 2 * w ** 2 + (o.d.d * 1000) ** 2 * sz ** 2 * (self.stdev_angle / RO_CC) ** 2)))
+                        else:
+                            tz = math.tan(o.v.get_angle())
+                            tmp.setAttribute('val', str(o.d.d / math.tan(o.v.get_angle()) + ih -th))
+                            tmp.setAttribute('stdev', str(math.sqrt((1 / tz) ** 2 * w ** 2 + (o.d.d * 1000) ** 2 * (o.d.d * 1000) ** 2 * (1 / sz ** 2) ** 2 * (self.stdev_angle / RO_CC) ** 2)))
+                        hd.appendChild(tmp)
                 elif self.dimension == 3:
                     # 3d
                     if o.th is None:
-                        th = o.th
-                    else:
                         th = 0
+                    else:
+                        th = o.th
                     if o.hz is not None:
                         tmp = doc.createElement('direction')
                         tmp.setAttribute('to', o.point_id)
@@ -237,7 +264,6 @@ class GamaInterface(object):
                 else:
                     # unknown dimension
                     return None
-        #print doc.toprettyxml(indent="  ")
         # generate temp file name
         tmpf = QTemporaryFile( QDir.temp().absoluteFilePath('w') )
         tmpf.open(QIODevice.WriteOnly)
@@ -251,8 +277,6 @@ class GamaInterface(object):
         # run gama-local
         if self.gama_prog is None:
             return None
-#        status = call([str(self.gama_prog), str(tmp_name) + '.xml', '--text',
-#            str(tmp_name) + '.txt', '--xml', str(tmp_name) + 'out.xml'])
         status = QProcess.execute(self.gama_prog, [ tmp_name+'.xml', '--text',
             tmp_name+'.txt', '--xml', tmp_name+'out.xml'])
         if status != 0:
