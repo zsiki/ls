@@ -15,6 +15,7 @@ import math
 from PyQt4.QtGui import QApplication
 
 RO = 180 * 60 * 60 / math.pi
+RO_CC = 200 * 100 * 100 / math.pi
 PISEC = 180 * 60 * 60
 FOOT2M = 0.3048
 
