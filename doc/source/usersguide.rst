@@ -300,13 +300,14 @@ before you can use them in the plugin. Different fieldbook types are supported:
 - Sokkia CRD
 - SurvCE RW5
 - STONEX DAT
+- Text dump
 
 Any number of electric fieldbooks can be opened/loaded into a QGIS project.
 You can even create a new empty fieldbook and fill it manually.
 
 #. There must be an open coordinate list in your actual project (a point layer whose name starts with *coord\_*). Otherwise coordinates read from the filedbook will be lost
-#. Click on the Load fieldbook icon or select it from the :mnu:SurveyingCalculation` menu
-#. Choose the type of the fieldbook (Geodimeter JOB/ARE, Leica GSI, Sokkia CRD, SurvCE RW5, STONEX DAT)
+#. Click on the Load fieldbook icon or select it from the :mnu:`SurveyingCalculation` menu
+#. Choose the type of the fieldbook (Geodimeter JOB/ARE, Leica GSI, Sokkia CRD, SurvCE RW5, STONEX DAT, Dump)
 #. Select the output DBF file where your observations will be stored, the name will start with *fb_*, the program will add it to the name automatically if you forget it
 #. After giving the path to the DBF file the new fieldbook will be added to your QGIS project.
 
@@ -448,6 +449,40 @@ Data records handled, loaded from DAT:
     :E: observation record
     :B/C: coordinate record
     :L: orientation direction record
+
+2.2.1.6 Text dump
+-----------------
+
+This is a general text format for observations only. Each line contains seven
+fields:
+
+	:station id: name of the station
+	:target id: name of the observed point
+	:horizontal angle: horizontal direction of the observed point
+	:zenith angle: vertical direction of the observed point
+	:distance: slope distance of the observes point
+	:target height: target height at the observed point
+	:instrument height: instrument height at the station
+
+The first two columns are obligatory. Use semicolon, tabulator or space to 
+separate fields. Angles must be in radians or DMS (23-34-45).
+
+.. code:: 
+
+	5001;sz;175-34-56;;;;
+	5001;k;224-29-01;;;;
+	5001;o;265-25-02;;;;
+	5001;231;330-11-39;;;;
+	5001;232;358-30-20;;;;
+	5001;g;26-17-24;;;;
+	5001;sz;175-34-58;;;;
+	5003;sz;99-10-24;89-45-23;;;1.34
+	5003;k;140-58-30;90-12-45;;;1.34
+	5003;o;187-53-01;;;;1.34
+	5003;231;291-20-12;;;;1.34
+	5003;232;348-21-01;;;;1.34
+	5003;g;335-34-21;;;;1.34
+	5003;sz;99-10-18;;;;1.34
 
 2.2.2 Using fieldbook data
 ++++++++++++++++++++++++++
