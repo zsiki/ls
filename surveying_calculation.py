@@ -7,6 +7,9 @@
 .. moduleauthor: Zoltan Siki <siki@agt.bme.hu>
 
 """
+# Use pdb for debugging
+#import pdb
+#from PyQt4.QtCore import pyqtRemoveInputHook
 # generic python modules
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, \
                         QDir, QFileInfo, QRegExp, Qt
@@ -47,7 +50,6 @@ class SurveyingCalculation:
         self.plugin_dir = QDir().cleanPath( QFileInfo(__file__).absolutePath() )
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
-        print locale
         locale_path = QDir.cleanPath(self.plugin_dir + QDir.separator() + 'i18n' +
                                      QDir.separator() + '{}.qm'.format(locale))
         print locale_path
@@ -251,7 +253,7 @@ class SurveyingCalculation:
         homedir = QSettings().value("SurveyingCalculation/homedir",config.homedir)
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(), \
             tr('Electric fieldbook'), homedir, \
-            filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat)'))
+            filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat);;Text dump (*.dmp)'))
         if fname:
             # file selected
             # make a copy of dbf template if not are is loaded
@@ -300,6 +302,8 @@ class SurveyingCalculation:
                 fb = SurvCE(fname)
             elif QRegExp('\.dat$', Qt.CaseInsensitive).indexIn(fname) > -1:
                 fb = Stonex(fname)
+            elif QRegExp('\.dmp$', Qt.CaseInsensitive).indexIn(fname) > -1:
+				fb = Dump(fname)
             else:
                 QMessageBox.warning(self.iface.mainWindow(),
                     tr('File warning'),

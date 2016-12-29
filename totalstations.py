@@ -166,6 +166,7 @@ class LeicaGsi(TotalStation):
             elif item_code == '33':
                 # vertical distance
                 res['vd'] = self.convert(float(self.trim_left(val[7:], '0')), int(val[5]))
+                res['station'] = None
             elif item_code == '41':
                 # new station
                 pass
@@ -691,11 +692,97 @@ class Stonex(TotalStation):
             if len(last_res):
                 return last_res
 
+class Dump(TotalStation):
+    """ Class to import geoeasy dump ascii file
+    """
+    def __init__(self, fname, separator='[;\t ]'):
+        """ Initialize a new instance
+
+            :param fname: input file name (string)
+            :param separator: field separator in input (string/regexp)
+        """
+        super(Dump, self).__init__(fname, separator)
+        self.last_station = ""    #stores last used station
+        self.stack = None
+
+    def convAngle(self, val):
+        """ Convert angle from DMS to radians if necessary
+
+            :param val: angle value (string) radian or DMS (e.g. 12-23-34)
+            :returns: angle in GON (float)
+        """
+        ret = None
+        val = val.strip()
+        if len(val):
+            try:
+                ret = Angle(float(val)).get_angle('GON')
+            except ValueError, TypeError:
+                ret = Angle(val, 'DMS').get_angle('GON')
+        return ret
+
+    def convDist(self, val):
+        """ Convert angle from DMS to radians if necessary
+
+            :param val: angle value (string) radian or DMS (e.g. 12-23-34)
+            :returns: angle in radians (float)
+        """
+        ret = None
+        val = val.strip()
+        if len(val):
+            try:
+                ret = float(val)
+            except ValueError:
+                pass
+        return ret
+
+    def parse_next(self):
+        """ Load next observation, station
+
+            :returns: observation data
+        """
+        res = {}
+        if self.stack:
+            w = self.stack
+            self.stack = None
+            return w
+        if self.fp is None:
+            return None
+        while True:
+            buf = self.get_line()
+            if buf is None:
+                return None
+            if len(buf) == 0:
+                continue
+            station_id = buf[0].strip()
+            if station_id != self.last_station:
+                # new station starts
+                self.last_station = station_id
+                res['point_id'] = station_id
+                res['station'] = 'station'
+                res['ih'] = self.convDist(buf[6])
+                # save observation
+                self.stack = {}
+                self.stack['point_id'] = buf[1].strip()
+                self.stack['hz'] = self.convAngle(buf[2])
+                self.stack['v'] = self.convAngle(buf[3])
+                self.stack['sd'] = self.convDist(buf[4])
+                self.stack['th'] = self.convDist(buf[5])
+            else:
+                # observation from the same station
+                res['point_id'] = buf[1].strip()
+                res['station'] = ''
+                res['hz'] = self.convAngle(buf[2])
+                res['v'] = self.convAngle(buf[3])
+                res['sd'] = self.convDist(buf[4])
+                res['th'] = self.convDist(buf[5])
+            return res
+
 if __name__ == "__main__":
     """
         unit test
     """
-    ts = SurvCE('samples/EBO-1739.rw5')
+    ts = Dump('samples/xxx.dmp')
+    #ts = SurvCE('samples/EBO-1739.rw5')
     #ts = Stonex('samples/PAJE2OB.DAT')
     #ts = LeicaGsi('samples/tata3.gsi', ' ')
     #ts = JobAre('samples/test1.job', '=')
