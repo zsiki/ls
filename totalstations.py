@@ -44,12 +44,12 @@ class TotalStation(object):
     def close(self):
         """ Close dataset
         """
-        if not self.fp is None:
+        if self.fp is not None:
             try:
                 self.fp.close()
             except IOError:
-                self.fp = None
                 pass
+            self.fp = None
 
     def get_line(self):
         """ Read & split a single line
@@ -82,7 +82,7 @@ class TotalStation(object):
 class LeicaGsi(TotalStation):
     """ Class to read leica GSI 8/16 data
     """
-    
+ 
     def __init__(self, fname, separator=' '):
         """ Initialize a new instance
 
@@ -127,7 +127,7 @@ class LeicaGsi(TotalStation):
             # meter, 5 decimals
             res = val / 100000.0
         return res
-            
+ 
     def parse_next(self):
         """ Parse single line from input
 
@@ -175,7 +175,7 @@ class LeicaGsi(TotalStation):
                 res['point_id'] = self.trim_left(val[7:], '0')
                 res['station'] = 'station'
             elif item_code == '43':
-                # station height
+                # instument height
                 res['ih'] = self.convert(float(self.trim_left(val[7:], '0')), 0)
             elif item_code == '71':
                 # code (first remark)
@@ -294,13 +294,13 @@ class JobAre(TotalStation):
                 # vertical distance
                 self.res['vd'] = self.dist_conv(float(buf[1].strip()))
             elif item_code == '11':
-                # horizontal distance stored as slope 
+                # horizontal distance stored as slope
                 self.res['sd'] = self.dist_conv(float(buf[1].strip()))
                 self.res['v'] = Angle(90, 'DEG').get_angle('GON')
             elif item_code == '23':
                 # units
-                self.angle_unit = { '1': 'GON', '2': 'DMS', '3': 'DEG', '4': 'MIL'}[buf[3]]
-                self.distance_unit = { '1': 'm', '2': 'f'}[buf[2:3]]
+                self.angle_unit = {'1': 'GON', '2': 'DMS', '3': 'DEG', '4': 'MIL'}[buf[3]]
+                self.distance_unit = {'1': 'm', '2': 'f'}[buf[2:3]]
             elif item_code == '37':
                 # northing
                 self.res['station_n'] = self.dist_conv(float(buf[1].strip()))
@@ -338,7 +338,7 @@ class Sdr(TotalStation):
         if self.distance_unit == 2:
             return value * FOOT2M
         return value
-    
+ 
     def angle(self, value):
         """ Convert angle to Gon
 
@@ -424,7 +424,7 @@ class Sdr(TotalStation):
                 return res
             elif line_code == '03':
                 # target height
-                self.th =  float(self.dist(buf[4:].strip()))
+                self.th = float(self.dist(buf[4:].strip()))
             elif line_code == '07':
                 # orientation
                 pass
@@ -513,7 +513,7 @@ class SurvCE(TotalStation):
         while True:
             buf = self.get_line()
             if buf is None:
-                    return None
+                return None
             line_code = buf[0]
             if line_code == 'GPS':            # log, lan
                 for field in buf[1:]:
@@ -650,7 +650,7 @@ class Stonex(TotalStation):
                     return last_res
                 else:
                     return None
-            if not buf[0] in ('K', 'E', 'B', 'C', 'L'):
+            if buf[0] not in ('K', 'E', 'B', 'C', 'L'):
                 continue    # skip unknown/job lines
             point_id = buf[1].strip()
             if 'point_id' in self.res.keys() and self.res['point_id'] != point_id:
@@ -687,7 +687,7 @@ class Stonex(TotalStation):
                 self.res['e'] = float(buf[3].strip())
                 self.res['z'] = float(buf[4].strip())
                 self.res['hz'] = Angle(float(buf[5].strip()) / 10000.0, self.angle_unit).get_angle('GON')
-                self.res['th'] = float(buf[6].strip()) 
+                self.res['th'] = float(buf[6].strip())
                 self.res['station'] = None
             if len(last_res):
                 return last_res
@@ -716,7 +716,7 @@ class Dump(TotalStation):
         if len(val):
             try:
                 ret = Angle(float(val)).get_angle('GON')
-            except ValueError, TypeError:
+            except (ValueError, TypeError):
                 ret = Angle(val, 'DMS').get_angle('GON')
         return ret
 
@@ -777,11 +777,151 @@ class Dump(TotalStation):
                 res['th'] = self.convDist(buf[5])
             return res
 
+class Idex(TotalStation):
+    """ Class to import Leica IDEX format
+    """
+    def __init__(self, fname, separator=r'[,\(\)]'):
+        """ Initialize a new instance
+
+            :param fname: input file name (string)
+            :param separator: field separator in input (string/regexp)
+        """
+        super(Idex, self).__init__(fname, separator)
+        # block status flags
+        self.header = False
+        self.units = False
+        self.project = False
+        self.database = False
+        self.points = False
+        self.theminfo = False
+        self.annotations = False
+        self.meteo = False
+        self.theodolite = False
+        self.instrument = False
+        self.configs = False
+        self.setup = False
+        self.slope = False
+        self.angular = "PDEG"
+        self.linear = "METRE"
+        # process header (units)
+        self.open()
+        while True:
+            buf = self.get_line()
+            if buf is None:
+                return None
+            buf = self.buf_strip(buf)
+            if len(buf) == 0:
+                continue
+            if buf[0] == "HEADER":
+                self.header = True
+            elif buf[0] == "UNITS":
+                self.units = True
+            elif re.match("ANGULAR", buf[0]) and self.header and self.units:
+                w = re.split(r'\W+', buf[0])[-1]
+                if w == "DMS":
+                    self.angular = "PDEG"
+            elif re.match("LINEAR", buf[0]) and self.header and self.units:
+                self.linear = re.split(r'\W+', buf[0])[-1]
+            elif buf[0] == "END UNITS":
+                self.units = False
+            elif buf[0] == "END HEADER":
+                self.header = False
+                break
+ 
+    def buf_strip(self, buf, keep_empty=False):
+        """ Strip list items & remove empty items
+
+            :param buf: input list
+            :return: list with stipped items
+        """
+        return [x.strip(' \t";\'') for x in buf \
+                if keep_empty or len(x.strip(' \t";\''))]
+
+    def parse_next(self):
+        """ Load next observation, station
+
+            :returns: observation data
+        """
+        res = {}
+        if self.fp is None:
+            return None
+        while True:
+            buf = self.get_line()
+            if buf is None:
+                return None
+            buf = self.buf_strip(buf, True) # keep empty items
+            if len(buf) == 0:
+                continue
+            if buf[0] == "DATABASE":
+                self.database = True
+            elif buf[0] == "POINTS":
+                self.points = True
+            elif buf[0] == "THEMINFO":
+                self.theminfo = True
+            elif buf[0] == "ANNOTATIONS":
+                self.annotations = True
+            elif buf[0] == "END ANNOTATIONS":
+                self.annotations = False
+            elif buf[0] == "END THEMINFO":
+                self.theminfo = False
+            elif buf[0] == "END POINTS":
+                self.points = False
+            elif buf[0] == "END DATABASE":
+                self.database = False
+            elif buf[0] == "METEO":
+                self.meteo = True
+            elif buf[0] == "END METEO":
+                self.meteo = False
+            elif buf[0] == "THEODOLITE":
+                self.theodolite = True
+            elif buf[0] == "SETUP":
+                self.setup = True
+            elif buf[0] == "SLOPE":
+                self.slope = True
+            elif buf[0] == "END SLOPE":
+                self.slope = False
+            elif buf[0] == "END SETUP":
+                self.setup = False
+                return res
+            elif buf[0] == "END THEODOLITE":
+                self.theodolite = False
+            elif buf[0][:6] == "STN_ID":
+                if self.setup:
+                    res["point_id"] = re.split(r'\W+', buf[0])[-1]
+                    res['station'] = 'station'
+            elif buf[0][:7] == "INST_HT":
+                if self.setup:
+                    res["ih"] = float(re.split(r'\W+', buf[0])[-1])
+            elif buf[0] == "SLOPE":
+                self.slope = True
+            elif buf[0] == "END SLOPE":
+                self.slope = False
+            elif self.database and self.points and not self.theminfo and not self.annotations:
+                # point coordinate record
+                if buf[1] and ((buf[2] and buf[3]) or buf[4]):
+                    res['point_id'] = buf[1]
+                    res['e'] = float(buf[2]) if len(buf[2]) else None
+                    res['n'] = float(buf[3]) if len(buf[3]) else None
+                    res['z'] = float(buf[4]) if len(buf[4]) else None
+                    res['pcode'] = buf[5] if len(buf[5]) else None
+                    return res
+            elif self.theodolite and self.slope:
+                res['point_id'] = buf[1]
+                res['station'] = ''
+                res['hz'] = Angle(float(buf[3]), self.angular).get_angle('GON') \
+                            if len(buf[3]) else None
+                res['v'] = Angle(float(buf[4]), self.angular).get_angle('GON') \
+                           if len(buf[4]) else None
+                res['sd'] = float(buf[5]) if len(buf[5]) else None
+                res['th'] = float(buf[6]) if len(buf[6]) else None
+                return res
+                
 if __name__ == "__main__":
     """
         unit test
     """
-    ts = Dump('samples/xxx.dmp')
+    ts = Idex('samples/test.idx')
+    #ts = Dump('samples/xxx.dmp')
     #ts = SurvCE('samples/EBO-1739.rw5')
     #ts = Stonex('samples/PAJE2OB.DAT')
     #ts = LeicaGsi('samples/tata3.gsi', ' ')
@@ -796,10 +936,3 @@ if __name__ == "__main__":
         if len(r) > 0:
             print r
     ts.close()
-    #ts.open()
-    #while True:
-    #    r = ts.parse_next()
-    #    if r is None:
-    #        break
-    #    if len(r) > 0:
-    #        print r

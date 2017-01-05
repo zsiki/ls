@@ -253,7 +253,7 @@ class SurveyingCalculation:
         homedir = QSettings().value("SurveyingCalculation/homedir",config.homedir)
         fname = QFileDialog.getOpenFileName(self.iface.mainWindow(), \
             tr('Electric fieldbook'), homedir, \
-            filter = tr('Leica GSI (*.gsi);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat);;Text dump (*.dmp)'))
+            filter = tr('Leica GSI (*.gsi);;Leica IDX (*.idx);;Geodimeter JOB/ARE (*.job *.are);;Sokkia CRD (*.crd);;SurvCE RW5 (*.rw5);;STONEX DAT (*.dat);;Text dump (*.dmp)'))
         if fname:
             # file selected
             # make a copy of dbf template if not are is loaded
@@ -304,6 +304,8 @@ class SurveyingCalculation:
                 fb = Stonex(fname)
             elif QRegExp('\.dmp$', Qt.CaseInsensitive).indexIn(fname) > -1:
 				fb = Dump(fname)
+            elif QRegExp('\.idx$', Qt.CaseInsensitive).indexIn(fname) > -1:
+				fb = Idex(fname)
             else:
                 QMessageBox.warning(self.iface.mainWindow(),
                     tr('File warning'),
