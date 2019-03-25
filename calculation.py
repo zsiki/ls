@@ -412,11 +412,11 @@ class Calculation(object):
             if i > 0:
                 if beta[i] is None:
                     ResultLog.resultlog_message += u"%-10s %10s %8.3f %8.3f %8.3f %10.3f %10.3f\n" % \
-                             (trav_obs[i][0].p.id, "", t[i].d, \
+                             ((trav_obs[i][0].p.id if trav_obs[i][0].p is not None else "-") , "", t[i].d, \
                              de[i], dn[i], de[i]+ve[i],dn[i]+vn[i])
                 else:
                     ResultLog.resultlog_message += u"%-10s %10.4f %8.3f %8.3f %8.3f %10.3f %10.3f\n" % \
-                             (trav_obs[i][0].p.id, beta[i].get_angle('GON'), t[i].d, \
+                             ((trav_obs[i][0].p.id if trav_obs[i][0].p is not None else "-"), beta[i].get_angle('GON'), t[i].d, \
                              de[i], dn[i], de[i]+ve[i],dn[i]+vn[i])
             else:
                 if beta[i] is None:
