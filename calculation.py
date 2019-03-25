@@ -404,7 +404,7 @@ class Calculation(object):
             nn[i] = nn[i-1] + dn[i] + vn[i]
 
         for i in range(0,n):
-            pcode = (trav_obs[i][0].p.pc if trav_obs[i][0].p.pc is not None else "-")
+            pcode = (trav_obs[i][0].p.pc if trav_obs[i][0].p is not None and trav_obs[i][0].p.pc is not None else "-")
             t_1 = "%8.3f" % t1[i].d if t1[i] is not None else "-"
             t_2 = "%8.3f" % t2[i].d if t2[i] is not None else "-"
             ResultLog.resultlog_message += "           %10.4f %8s\n" % (delta[i]*200/math.pi, t_1)
