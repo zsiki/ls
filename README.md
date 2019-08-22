@@ -7,4 +7,4 @@ Surveying Calculation plug-in for QGIS 2.x
 * Tutorial:  http://digikom.hu/SurveyingCalculation/tutorial.pdf
 * Developers' guide: http://digikom.hu/SurveyingCalculation/devdoc.html
 
-There is an other project [GeoEasy](https://github.co/zsiki/GeoEasy) which has wider functionality but not from QGIS.
+There is an other project [GeoEasy](https://github.com/zsiki/GeoEasy) which has wider functionality but not from QGIS.
